@@ -1,0 +1,159 @@
+[tool.poetry]
+name = "mtbls-mhd-integration"
+version = "v0.1.0"
+description = "MetaboLights = Metabolomics Hub Integration"
+authors = ["MetaboLights Team <metabolights-help@ebi.ac.uk>"]
+license = "Apache-2.0"
+readme = "README.md"
+packages = [{include = "mtbls2mhd,scripts", format = "wheel"}]
+
+[tool.poetry.dependencies]
+python = ">=3.12,<4"
+
+charset-normalizer = "3.4.1"
+metabolights-utils = "^1.4.3"
+sqlalchemy = ">=2.0.28"
+psycopg2 = "^2.9.10"
+asyncpg = ">=0.29.0"
+pydantic = "^2.11.5"
+pydantic-settings = "^2.9.1"
+mhd-model = {path = "../mhd-model"}
+
+
+[tool.poetry.group.dev.dependencies]
+mkdocs-material = "^9.5.49"
+import-linter = "^2.1"
+ruff = "^0.8.3"
+commitizen = "^4.1.0"
+pre-commit = "^4.0.1"
+
+[tool.coverage.run]
+omit = [
+  ".*",
+  "*/tests/*",
+  "*/site-packages/*",
+  "*/docs/*",
+  "*/site/*",
+  "*/dist/*",
+  ".*/*",
+  "dist*/",
+  "scripts*/",
+]
+
+[tool.coverage.report]
+# fail_under = 80
+
+[tool.coverage.html]
+directory = ".coverage_html_report"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[tool.poetry.group.test.dependencies]
+pytest = ">=8.3.4"
+pytest-asyncio = "^0.24.0"
+pytest-cov = "^6.0.0"
+aiosqlite = "^0.20.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "3.3.0"
+tag_format = "v$major.$minor.$patch"
+version_files = [
+
+    "pyproject.toml:version",
+    "mtbls2mhd/__init__.py:__version__",
+]
+bump_message = "bump: version $current_version -> $new_version"
+update_changelog_on_bump = true
+
+[tool.pytest.ini_options]
+addopts = "-ra -q -v"
+testpaths = [
+    "tests"
+]
+asyncio_default_fixture_loop_scope = "function"
+
+
+[tool.ruff.lint]
+extend-select = ["E4", "E7", "E9", "F", "I", "G", "SLF", "PTH", "Q"]
+fixable = ["ALL"]
+
+
+[tool.importlinter]
+include_external_packages = true
+root_packages = ["mtbls2mhd"]
+
+[[tool.importlinter.contracts]]
+name = "Announcement File Layer Dependencies"
+type = "layers"
+layers = [
+    "mhd.model.v0_1.announcement.profiles.ms",
+    "mhd.model.v0_1.announcement.profiles.legacy",
+    "mhd.model.v0_1.announcement.profiles.base",
+    "mhd.shared",
+]
+
+[[tool.importlinter.contracts]]
+name = "MHD Common Model File Layer Dependencies"
+type = "layers"
+layers = [
+    "mhd.model.v0_1.dataset.profiles.ms",
+    "mhd.model.v0_1.dataset.profiles.legacy",
+    "mhd.model.v0_1.dataset.profiles.base",
+    "mhd.shared",
+]
+
+[[tool.importlinter.contracts]]
+name = "Annoucement Base Profile Dependencies)"
+type = "forbidden"
+source_modules = [
+   "mhd.model.v0_1.announcement.profiles.base",
+]
+forbidden_modules = [
+   "mhd.model.v0_1.announcement.profiles.ms",
+   "mhd.model.v0_1.announcement.profiles.legacy",
+   "mhd.model.v0_1.dataset",
+]
+ignore_imports = [
+]
+
+
+[[tool.importlinter.contracts]]
+name = "Annoucement MS Profile Dependencies)"
+type = "forbidden"
+source_modules = [
+   "mhd.model.v0_1.announcement.profiles.ms",
+]
+forbidden_modules = [
+   "mhd.model.mhd"
+]
+ignore_imports = [
+]
