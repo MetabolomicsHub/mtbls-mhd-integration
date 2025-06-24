@@ -21,6 +21,7 @@ class Mtbls2MhdConfiguration(BaseSettings):
     default_dataset_licence_url: str = (
         "https://creativecommons.org/publicdomain/zero/1.0"
     )
+    mtbls_studies_root_path: str
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
 

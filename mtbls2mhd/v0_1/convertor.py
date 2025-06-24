@@ -1,13 +1,9 @@
-import glob
 import json
 import logging
-import os
 import re
-import subprocess
 from pathlib import Path
-from typing import Dict, List, OrderedDict, Tuple, Union
+from typing import OrderedDict
 
-from metabolights_utils.models.common import GenericMessage, InfoMessage, WarningMessage
 from metabolights_utils.models.isa.assay_file import AssayFile
 from metabolights_utils.models.isa.common import IsaTableColumn
 from metabolights_utils.models.isa.enums import ColumnsStructure
@@ -15,21 +11,19 @@ from metabolights_utils.models.isa.investigation_file import Assay, Study
 from metabolights_utils.models.isa.samples_file import SamplesFile
 from metabolights_utils.models.metabolights.model import (
     MetabolightsStudyModel,
-    StudyFileDescriptor,
-    StudyFolderMetadata,
     UserStatus,
 )
-from metabolights_utils.provider import definitions
 from metabolights_utils.provider.study_provider import (
-    AbstractFolderMetadataCollector,
     MetabolightsStudyProvider,
 )
-from mhd.model.v0_1.dataset.profiles.base import graph_nodes as mhd_domain
-from mhd.model.v0_1.dataset.profiles.base.base import KeyValue
-from mhd.model.v0_1.dataset.profiles.base.dataset_builder import MhDatasetBuilder
-from mhd.model.v0_1.dataset.profiles.base.profile import MhDatasetBaseProfile
-from mhd.model.v0_1.dataset.profiles.base.relationships import Relationship
-from mhd.model.v0_1.rules.managed_cv_terms import (
+from mhd_model.model.v0_1.dataset.profiles.base import graph_nodes as mhd_domain
+from mhd_model.model.v0_1.dataset.profiles.base.base import KeyValue
+from mhd_model.model.v0_1.dataset.profiles.base.dataset_builder import MhDatasetBuilder
+from mhd_model.model.v0_1.dataset.profiles.base.profile import (
+    MhDatasetBaseProfile,
+)
+from mhd_model.model.v0_1.dataset.profiles.base.relationships import Relationship
+from mhd_model.model.v0_1.rules.managed_cv_terms import (
     COMMON_ANALYSIS_TYPES,
     COMMON_CHARACTERISTIC_DEFINITIONS,
     COMMON_MEASUREMENT_METHODOLOGIES,
@@ -39,14 +33,15 @@ from mhd.model.v0_1.rules.managed_cv_terms import (
     COMMON_URI_TYPES,
     REQUIRED_COMMON_PARAMETER_DEFINITIONS,
 )
-from mhd.shared.model import CvTerm, UnitCvTerm
-from pydantic import BaseModel
+from mhd_model.shared.model import CvTerm, UnitCvTerm
+from pydantic import BaseModel, ValidationError
 
 from mtbls2mhd.config import Mtbls2MhdConfiguration
 from mtbls2mhd.v0_1.db_metadata_collector import (
     DbMetadataCollector,
     create_postgresql_connection,
 )
+from mtbls2mhd.v0_1.folder_metadata_collector import LocalFolderMetadataCollector
 
 logger = logging.getLogger(__name__)
 
@@ -178,175 +173,6 @@ class ProtocolRunSummary(BaseModel):
     )
 
 
-class LocalFolderMetadataCollector(AbstractFolderMetadataCollector):
-    def __init__(self):
-        pass
-
-    def visit_folder(
-        self,
-        directory: str,
-        study_path: str,
-        metadata: Dict[str, StudyFileDescriptor],
-        messages: List[GenericMessage],
-    ):
-        try:
-            dir_relative_path = str(directory).replace(
-                f"{str(study_path).rstrip(os.sep)}", ""
-            )
-            dir_relative_path = dir_relative_path.lstrip("/")
-            skip_content = False
-            for pattern in definitions.skip_folder_content_patterns:
-                if pattern.match(dir_relative_path):
-                    skip_content = True
-                    break
-            if skip_content:
-                messages.append(
-                    InfoMessage(
-                        short=f"{dir_relative_path} directory is in content ignore list. SKIPPED"
-                    )
-                )
-                return
-            dir_path = Path(directory)
-            # entries = os.listdir(directory)
-            for entry in dir_path.iterdir():
-                full_path: Path = entry
-                relative_path = Path(dir_relative_path) / Path(entry.name)
-                base_name = relative_path.name
-                parent_directory = ""
-                if str(relative_path.parent) != ".":
-                    parent_directory = str(relative_path.parent)
-
-                in_ignore_list = False
-                for pattern in definitions.ignore_file_patterns:
-                    if pattern.match(str(relative_path)):
-                        in_ignore_list = True
-                        break
-                if in_ignore_list:
-                    messages.append(
-                        InfoMessage(
-                            short=f"{str(relative_path)} is in ignore list. SKIPPED."
-                        )
-                    )
-                    continue
-
-                descriptor = StudyFileDescriptor()
-
-                for tag in definitions.TAG_PATTERNS:
-                    for pattern in definitions.TAG_PATTERNS[tag]:
-                        if re.match(pattern, base_name, re.IGNORECASE):
-                            descriptor.tags.append(tag)
-
-                ext = relative_path.suffix
-                descriptor.extension = ext
-                descriptor.base_name = base_name
-                descriptor.parent_directory = parent_directory
-                descriptor.file_path = str(relative_path)
-                descriptor.is_directory = full_path.is_dir()
-                descriptor.is_link = full_path.is_symlink()
-                if full_path.exists():
-                    stats = full_path.stat()
-                    if descriptor.is_directory:
-                        descriptor.size_in_bytes = 0
-                    else:
-                        descriptor.size_in_bytes = stats.st_size
-                    descriptor.created_at = int(stats.st_ctime)
-                    descriptor.modified_at = int(stats.st_mtime)
-                    descriptor.mode = oct(stats.st_mode & 0o777).replace("0o", "")
-                metadata[str(relative_path)] = descriptor
-
-                if full_path.is_dir():
-                    self.visit_folder(
-                        full_path, study_path, metadata=metadata, messages=messages
-                    )
-
-        except PermissionError as ex:
-            messages.append(
-                WarningMessage(
-                    short=f"{directory} directory permission error {str(ex)}"
-                )
-            )
-        except Exception as exc:
-            messages.append(
-                WarningMessage(short=f"{directory} directory error {str(exc)}")
-            )
-
-    def get_folder_metadata(
-        self,
-        study_path,
-        calculate_data_folder_size: bool = False,
-        calculate_metadata_size: bool = False,
-    ) -> Tuple[Union[None, StudyFolderMetadata], List[GenericMessage]]:
-        messages: List[GenericMessage] = []
-        study_folder_metadata = StudyFolderMetadata()
-        metadata: Dict[str, StudyFileDescriptor] = {}
-        self.visit_folder(study_path, study_path, metadata=metadata, messages=messages)
-        study_folder_metadata.folders = {
-            x: metadata[x] for x in metadata if metadata[x].is_directory
-        }
-        study_folder_metadata.files = {
-            x: metadata[x] for x in metadata if not metadata[x].is_directory
-        }
-        data_folder_size = 0
-        if calculate_data_folder_size:
-            files_folder_path = os.path.join(study_path, "FILES")  # noqa: PTH118
-            size = self.folder_size(files_folder_path)
-            data_folder_size = size if size else 0
-
-            study_folder_metadata.folder_size_in_bytes = data_folder_size
-
-        if calculate_metadata_size:
-            metadata_size = 0
-            metadata_files = glob.glob(f"{study_path}/[asi]_*.txt")  # noqa: PTH207
-            metadata_files = [x for x in metadata_files]
-            maf_files = glob.glob(f"{study_path}/m_*.tsv")  # noqa: PTH207
-            metadata_files.extend([x for x in maf_files])
-
-            for item in metadata_files:
-                stats = os.stat(item)  # noqa: PTH116
-                metadata_size += stats.st_size
-
-            if study_folder_metadata.folder_size_in_bytes >= 0:
-                study_folder_metadata.folder_size_in_bytes += metadata_size
-            else:
-                study_folder_metadata.folder_size_in_bytes = metadata_size
-
-        total_size = study_folder_metadata.folder_size_in_bytes
-        if total_size > -1:
-            if total_size / (1024**3) >= 1:
-                study_folder_metadata.folder_size_in_str = (
-                    str(round(total_size / (1024**3), 2)) + "GB"
-                )
-            else:
-                study_folder_metadata.folder_size_in_str = (
-                    str(round(total_size / (1024**2), 2)) + "MB"
-                )
-
-        return study_folder_metadata, messages
-
-    def folder_size(self, directory: str) -> Union[int, None]:
-        try:
-            # Run the 'du' command to get the size of the directory in bytes
-            directory = os.path.realpath(directory)
-            result = subprocess.run(
-                ["du", "-s", directory],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
-            )
-            if result.returncode == 0:
-                size_str = result.stdout.split()[0]
-                return int(size_str) * 1000
-            else:
-                print(f"Error: {result.stderr.strip()}")
-                return None
-        except FileNotFoundError as e:
-            print(f"An error occurred: {e}")
-            return None
-        except Exception as e:
-            print(f"An error occurred: {e}")
-            return None
-
-
 class Mtbs2MhdConvertor:
     def convert_to_curie(self, source_ref: str, uri: str) -> str:
         if not uri:
@@ -380,7 +206,49 @@ class Mtbs2MhdConvertor:
         contacts: dict[str, mhd_domain.Person] = {}
         organizations = {}
         contributers = {}
-        for contact in study.study_contacts.people:
+        for idx, contact in enumerate(study.study_contacts.people, start=1):
+            mhd_contact = None
+            try:
+                mhd_contact = mhd_domain.Person(
+                    full_name=" ".join(
+                        [
+                            x
+                            for x in (
+                                contact.first_name,
+                                contact.mid_initials,
+                                contact.last_name,
+                            )
+                            if x
+                        ]
+                    ),
+                    emails=[contact.email] if contact.email else None,
+                    addresses=[contact.address] if contact.address else None,
+                    phones=[contact.phone] if contact.phone else None,
+                )
+            except ValidationError as e:
+                logger.error(
+                    "%s study %s. contact email format is not valid. Contact will be ignored. '%s' %s",
+                    mhd_study.repository_identifier,
+                    idx,
+                    contact.email,
+                    e,
+                )
+                continue
+
+            if not mhd_contact.full_name:
+                logger.warning(
+                    "%s study %s. contact's name is empty",
+                    mhd_study.repository_identifier,
+                    idx,
+                )
+            if not mhd_contact.emails:
+                logger.error(
+                    "%s study %s. contact's ('%s') email is empty. Contact will be ignored.",
+                    mhd_study.repository_identifier,
+                    idx,
+                    mhd_contact.full_name,
+                )
+                continue
             affiliation = contact.affiliation or None
             organization = None
             if affiliation:
@@ -390,14 +258,7 @@ class Mtbs2MhdConvertor:
                     organizations[affiliation] = organization
                 organization = organizations[affiliation]
 
-            mhd_contact = mhd_domain.Person(
-                first_name=contact.first_name or None,
-                last_name=contact.last_name or None,
-                email=contact.email or None,
-                address=contact.address or None,
-                phone=contact.phone or None,
-            )
-            contacts[mhd_contact.email] = mhd_contact
+            contacts[mhd_contact.emails[0]] = mhd_contact
             mhd_builder.add(mhd_contact)
             if organization:
                 mhd_builder.link(
@@ -469,7 +330,7 @@ class Mtbs2MhdConvertor:
                         reverse_relationship_name="submitted-by",
                     )
 
-                if mhd_contact.email not in contributers:
+                if mhd_contact.emails[0] not in contributers:
                     mhd_builder.link(
                         mhd_contact,
                         "contributes",
@@ -485,41 +346,52 @@ class Mtbs2MhdConvertor:
         mhd_study: mhd_domain.Study,
     ):
         study = data.investigation.studies[0]
-
+        mhd_publications = []
         for publication in study.study_publications.publications:
-            status_ref = None
-            if publication.status:
-                publication_status = mhd_domain.CvTermObject(
-                    type_="descriptor",
-                    source=publication.status.term_source_ref,
-                    accession=self.convert_to_curie(
-                        publication.status.term_source_ref,
-                        publication.status.term_accession_number,
-                    ),
-                    name=publication.status.term,
-                )
-                mhd_builder.add(publication_status)
-                status_ref = publication_status.id_
             doi = None
             if publication.doi:
                 match = re.match(r"(.*doi.org/)?(.+)", publication.doi)
                 if match:
                     doi = match.groups()[1]
+            if doi:
+                mhd_publication = mhd_domain.Publication(
+                    title=publication.title or "",
+                    doi=doi,
+                    pub_med_id=publication.pub_med_id or None,
+                    authors=(
+                        [
+                            x.strip()
+                            for x in publication.author_list.split(",")
+                            if x.strip()
+                        ]
+                        if publication.author_list
+                        else None
+                    ),
+                )
+                mhd_builder.add(mhd_publication)
+                mhd_publications.append(mhd_publication)
+                mhd_builder.link(
+                    mhd_study,
+                    "has-publication",
+                    mhd_publication,
+                    reverse_relationship_name="describes",
+                )
+                mhd_builder.link(mhd_publication, "describes", mhd_study)
 
-            mhd_publication = mhd_domain.Publication(
-                title=publication.title,
-                doi=doi,
-                pub_med_id=publication.pub_med_id or None,
-                authors=(
-                    [x.strip() for x in publication.author_list.split(",") if x.strip()]
-                    if publication.author_list
-                    else None
-                ),
-                status_ref=status_ref,
+        if not mhd_publications:
+            pending_publication = mhd_domain.CvTermObject(
+                type="descriptor",
+                accession="MS:1002858",
+                source="MS",
+                name="Dataset with its publication pending",
             )
-            mhd_builder.add(mhd_publication)
-            mhd_builder.link(mhd_study, "has-publication", mhd_publication)
-            mhd_builder.link(mhd_publication, "describes", mhd_study)
+            mhd_builder.add(pending_publication)
+            mhd_builder.link(
+                mhd_study,
+                "defined-as",
+                pending_publication,
+                reverse_relationship_name="publication-status-of",
+            )
 
     def add_metadata_files(
         self,
@@ -729,6 +601,7 @@ class Mtbs2MhdConvertor:
         mhd_study: mhd_domain.Study,
         sample_file: SamplesFile,
     ):
+        characteristics_map: dict[str, mhd_domain.CvTermObject] = {}
         for item in sample_file.table.headers:
             if item.column_header.startswith("Characteristics["):
                 name = (
@@ -756,7 +629,18 @@ class Mtbs2MhdConvertor:
                         accession=cv_term.accession,
                         source=cv_term.source,
                     )
-                mhd_builder.add(characteristic_type)
+                key = characteristic_type.accession or characteristic_type.name
+                if key not in characteristics_map:
+                    characteristics_map[key] = characteristic_type
+
+                    mhd_builder.add(characteristic_type)
+                    mhd_builder.link(
+                        mhd_study,
+                        "defines",
+                        characteristic_type,
+                        reverse_relationship_name="defined-in",
+                    )
+                characteristic_type = characteristics_map.get(key)
                 characteristic = mhd_domain.CharacteristicDefinition(
                     characteristic_type_ref=characteristic_type.id_,
                     name=name,
@@ -1212,7 +1096,7 @@ class Mtbs2MhdConvertor:
                         # term_name = (
                         #     definition.name.lower().replace("   ", " ").replace(" ", "-")
                         # )
-                        if self.is_common_parameter_cv(protocol_name, parameter):
+                        if cv and cv.accession in COMMON_PARAMETER_DEFINITIONS:
                             object_name = "parameter-value"
 
                         item = None
@@ -1288,8 +1172,8 @@ class Mtbs2MhdConvertor:
                                 item,
                                 reverse_relationship_name="instance-of",
                             )
-                            if hasattr(definition, "definition_type_ref"):
-                                val = getattr(definition, "definition_type_ref")
+                            if hasattr(definition, "parameter_type_ref"):
+                                val = getattr(definition, "parameter_type_ref")
                                 node_type = mhd_builder.objects.get(val)
                                 if node_type:
                                     mhd_builder.link(
@@ -1378,18 +1262,10 @@ class Mtbs2MhdConvertor:
                 return params[parameter_name]
         return None
 
-    def is_common_parameter_cv(
-        self, protocol_name: str, parameter_name: str
-    ) -> CvTerm | None:
-        if protocol_name in REQUIRED_PROTOCOL_PARAMETER_VALUE_MAP:
-            params = REQUIRED_PROTOCOL_PARAMETER_VALUE_MAP[protocol_name]
-            if parameter_name in params and params[parameter_name]:
-                return True
-        return False
-
     def add_protocols(
         self, mhd_builder: MhDatasetBuilder, mhd_study: mhd_domain.Study, study: Study
     ) -> dict[str, mhd_domain.Protocol]:
+        parameters_map: dict[str, mhd_domain.CvTermObject] = {}
         protocols: dict[str, mhd_domain.Protocol] = {}
         for protocol in study.study_protocols.protocols:
             name = protocol.name
@@ -1408,7 +1284,7 @@ class Mtbs2MhdConvertor:
                             source=x.term_source_ref or "",
                         )
                     else:
-                        if self.is_common_parameter_cv(protocol.name, x.term):
+                        if param_cv.accession in COMMON_PARAMETER_DEFINITIONS:
                             definition_type = "parameter-type"
                         definition_type = mhd_domain.CvTermObject(
                             type_=definition_type,
@@ -1416,7 +1292,17 @@ class Mtbs2MhdConvertor:
                             accession=param_cv.accession,
                             source=param_cv.source,
                         )
-                    mhd_builder.add(definition_type)
+                    key = definition_type.accession or definition_type.name
+                    if key not in parameters_map:
+                        parameters_map[key] = definition_type
+                        mhd_builder.add(definition_type)
+                        mhd_builder.link(
+                            mhd_study,
+                            "defines",
+                            definition_type,
+                            reverse_relationship_name="defined-in",
+                        )
+                    definition_type = parameters_map.get(key)
                     definition = mhd_domain.ParameterDefinition(
                         parameter_type_ref=definition_type.id_, name=x.term
                     )
@@ -1932,6 +1818,10 @@ class Mtbs2MhdConvertor:
                     json.load(fr)
                 )
         if not data.investigation.studies:
+            logger.warning(
+                "%s file does not have any study. Skipping...",
+                data.investigation_file_path,
+            )
             return
         selected_assays: list[Assay] = []
         study = data.investigation.studies[0]
@@ -1957,16 +1847,16 @@ class Mtbs2MhdConvertor:
         # TODO get revision, dataset_licence from study
         mhd_builder = MhDatasetBuilder(
             repository_name=dataset_provider.value,
+            mhd_identifier=mhd_id,
+            repository_identifier=study.identifier,
             schema_name=target_mhd_model_schema_uri,
             profile_uri=target_mhd_model_profile_uri,
             repository_revision=1,  # TODO get revision from study
         )
+
         mhd_builder.add_node(dataset_provider)
         mhd_builder.add_node(external_http_uri_cv)
 
-        mtbls_studies = data.investigation.studies
-        if not mtbls_studies:
-            return
         if data.study_db_metadata.submission_date != study.submission_date:
             logger.warning(
                 "Submission date is not valid in metadata file: Actual: %s, Expected: %s",
@@ -2033,12 +1923,14 @@ class Mtbs2MhdConvertor:
         )
         # mhd_dataset.created_by_ref = dataset_provider.id_
         mhd_dataset.name = f"{mhd_id} MetabolomicsHub dataset"
-        output_path = Path(f"data/mhd_data/mtbls/{mhd_id}.mhd.json")
-        output_path.parent.mkdir(parents=True, exist_ok=True)
+        mhd_output_path.mkdir(parents=True, exist_ok=True)
+        output_path = mhd_output_path / Path(f"{mhd_id}.mhd.json")
         output_path.open("w").write(
             mhd_dataset.model_dump_json(
                 indent=2, by_alias=True, exclude_none=True, serialize_as_any=True
             )
         )
-        print(mtbls_study_id)
+        logger.info(
+            "%s study MHD file is created with name: %s", mtbls_study_id, output_path
+        )
         return mhd_dataset

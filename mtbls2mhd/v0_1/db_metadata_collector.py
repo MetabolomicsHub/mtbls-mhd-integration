@@ -94,8 +94,8 @@ def create_postgresql_connection():
         )
         return connection
     except psycopg2.Error as e:
-        print(f"Error connecting to PostgreSQL: {e}")
-        raise
+        logger.exception(e)
+        raise e
 
 
 class DbMetadataCollector(AbstractDbMetadataCollector):
@@ -304,4 +304,4 @@ class DbMetadataCollector(AbstractDbMetadataCollector):
 if __name__ == "__main__":
     db = DbMetadataCollector()
     _result = asyncio.run(db.get_all_public_and_review_study_ids_from_db())
-    print(_result)
+    logger.info(_result)
