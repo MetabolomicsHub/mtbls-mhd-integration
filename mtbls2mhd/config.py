@@ -8,8 +8,9 @@ class Mtbls2MhdConfiguration(BaseSettings):
     database_host: str
     database_host_port: int = 5432
 
-    target_mhd_model_schema_uri: str = "https://www.metabolomicshub.org/schemas/v0.1/common-data-model-v0.1.schema.json"
-    target_mhd_model_profile_uri: str = "https://www.metabolomicshub.org/schemas/v0.1/common-data-model-v0.1.ms-profile.json"
+    target_mhd_model_schema_uri: str = "https://metabolomicshub.github.io/mhd-model/schemas/v0_1/common-data-model-v0.1.schema.json"
+    target_mhd_model_ms_profile_uri: str = "https://metabolomicshub.github.io/mhd-model/schemas/v0_1/common-data-model-v0.1.ms-profile.json"
+    target_mhd_model_legacy_profile_uri: str = "https://metabolomicshub.github.io/mhd-model/schemas/v0_1/common-data-model-v0.1.legacy-profile.json"
 
     public_ftp_base_url: str = (
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public"

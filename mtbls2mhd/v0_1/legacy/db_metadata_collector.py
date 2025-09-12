@@ -21,7 +21,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 
 from mtbls2mhd.config import mtbls2mhd_config
-from mtbls2mhd.v0_1.mtbls_study_schema import Study
+from mtbls2mhd.v0_1.legacy.mtbls_study_schema import Study
 
 logger = getLogger(__file__)
 
@@ -29,7 +29,20 @@ logger = getLogger(__file__)
 @lru_cache(1)
 def get_session_factory():
     db = mtbls2mhd_config
-    url = f"postgresql+asyncpg://{db.database_user}:{db.database_user_password}@{db.database_host}:{db.database_host_port}/{db.database_name}"
+    url = "".join(
+        [
+            "postgresql+asyncpg://",
+            db.database_user,
+            ":",
+            db.database_user_password,
+            "@",
+            db.database_host,
+            ":",
+            str(db.database_host_port),
+            "/",
+            db.database_name,
+        ]
+    )
     engine = create_async_engine(
         url,
         future=True,
@@ -303,5 +316,5 @@ class DbMetadataCollector(AbstractDbMetadataCollector):
 
 if __name__ == "__main__":
     db = DbMetadataCollector()
-    _result = asyncio.run(db.get_all_public_and_review_study_ids_from_db())
-    logger.info(_result)
+    result = asyncio.run(db.get_all_public_study_ids_from_db())
+    logger.info(result)
