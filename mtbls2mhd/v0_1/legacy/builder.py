@@ -59,7 +59,7 @@ MTBLS_MEASUREMENT_TYPES = {
     "untargeted": COMMON_MEASUREMENT_TYPES["MSIO:0000101"],
 }
 
-DEFAULT_MEASUREMENT_TYPE = COMMON_MEASUREMENT_TYPES["OBI:0000366"]
+DEFAULT_MEASUREMENT_TYPE = COMMON_MEASUREMENT_TYPES["MSIO:0000101"]
 
 DEFAULT_OMICS_TYPE = COMMON_OMICS_TYPES["EDAM:3172"]
 
@@ -201,7 +201,7 @@ def create_cv_term_value_object(
         if unit.source and unit.source.lower().startswith("mtbls"):
             unit.source = ""
         if not source or not accession:
-            unit_cv = UnitCvTerm() if unit else None
+            unit_cv = UnitCvTerm(name=unit.name) if unit else None
 
     if not source or not accession:
         return mhd_domain.CvTermValueObject(
@@ -297,9 +297,9 @@ class MhdLegacyDatasetBuilder:
                                 if x
                             ]
                         ),
-                        emails=[contact.email] if contact.email else None,
-                        addresses=[contact.address] if contact.address else None,
-                        phones=[contact.phone] if contact.phone else None,
+                        email_list=[contact.email] if contact.email else None,
+                        address_list=[contact.address] if contact.address else None,
+                        phone_list=[contact.phone] if contact.phone else None,
                     )
                 except ValidationError as e:
                     logger.error(
@@ -318,7 +318,7 @@ class MhdLegacyDatasetBuilder:
                         idx,
                     )
                     continue
-                if not mhd_contact.emails:
+                if not mhd_contact.email_list:
                     logger.warning(
                         "%s study %s. contact's ('%s') email is empty. Contact will be ignored.",
                         mhd_study.repository_identifier,
@@ -327,7 +327,7 @@ class MhdLegacyDatasetBuilder:
                     )
                     # continue
                 else:
-                    contacts[mhd_contact.emails[0]] = mhd_contact
+                    contacts[mhd_contact.email_list[0]] = mhd_contact
                 mhd_builder.add(mhd_contact)
                 affiliation = contact.affiliation or None
                 organization = None
@@ -397,10 +397,10 @@ class MhdLegacyDatasetBuilder:
                                     if x
                                 ]
                             ),
-                            emails=[submitter.user_name]
+                            email_list=[submitter.user_name]
                             if submitter.user_name
                             else None,
-                            addresses=[submitter.address]
+                            address_list=[submitter.address]
                             if submitter.address
                             else None,
                             orcid=submitter.orcid or None,
@@ -426,7 +426,7 @@ class MhdLegacyDatasetBuilder:
                             reverse_relationship_name="submitted-by",
                         )
 
-                    if mhd_contact.emails[0] not in contributers:
+                    if mhd_contact.email_list[0] not in contributers:
                         mhd_builder.link(
                             mhd_contact,
                             "contributes",
@@ -671,8 +671,13 @@ class MhdLegacyDatasetBuilder:
         protocols = {}
         for protocol_key in mhd_study.protocol_refs:
             protocol = mhd_builder.objects[protocol_key]
-            protocols[protocol.type_] = protocol
-            if protocol.type_ == "sample-collection-protocol":
+            protocols[protocol.name] = protocol
+            protocol_type = mhd_builder.objects.get(protocol.protocol_type_ref)
+            if (
+                protocol_type
+                and protocol_type.accession
+                == "EFO:0005518"  # sample collection protocol
+            ):
                 if not mhd_assay.protocol_refs:
                     mhd_assay.protocol_refs = []
                 mhd_assay.protocol_refs.append(protocol_key)
@@ -690,15 +695,19 @@ class MhdLegacyDatasetBuilder:
             if protocol_name in COMMON_PROTOCOLS_MAP:
                 protocol_type = COMMON_PROTOCOLS_MAP[protocol_name]
             else:
-                pass  # TODO
+                protocol_type = CvTerm(
+                    source="",
+                    accession="",
+                    name=protocol_name,
+                )
 
-            if protocol_type and protocol_type in protocols:
-                ref = protocols[protocol_type].id_
+            if protocol_name and protocol_name in protocols:
+                ref = protocols[protocol_name].id_
                 if not mhd_assay.protocol_refs:
                     mhd_assay.protocol_refs = []
                 mhd_assay.protocol_refs.append(ref)
-                mhd_builder.link(mhd_assay, "follows", protocols[protocol_type])
-                mhd_builder.link(protocol, "used-in", mhd_assay)
+                mhd_builder.link(mhd_assay, "follows", protocols[protocol_name])
+                mhd_builder.link(protocols[protocol_name], "used-in", mhd_assay)
 
     def add_characteristic_definitions(
         self,
@@ -1682,8 +1691,9 @@ class MhdLegacyDatasetBuilder:
         metadata_files: dict[str, mhd_domain.CvTermObject],
         samples: dict[str, mhd_domain.Sample],
         files_map,
-    ):
+    ) -> mhd_domain.Assay:
         protocol_summaries: OrderedDict[str, ProtocolRunSummary] = OrderedDict()
+        assays: list[mhd_domain.Assay] = []
         for assay in selected_assays:
             if assay.file_name not in data.assays:
                 continue
@@ -1697,6 +1707,7 @@ class MhdLegacyDatasetBuilder:
             )
 
             mhd_builder.add(mhd_assay)
+            assays.append(mhd_assay)
             mhd_builder.link(
                 mhd_study, "has-assay", mhd_assay, reverse_relationship_name="part-of"
             )
@@ -1806,10 +1817,14 @@ class MhdLegacyDatasetBuilder:
                 protocol_summaries,
             )
 
+        for mhd_assay in assays:
+            self.add_assay_protocols(mhd_builder, mhd_study, data, mhd_assay)
+        return assays
+
     def build(
         self,
         mhd_id: str,
-        mhd_output_path: Path,
+        mhd_output_folder_path: Path,
         mtbls_study_id: str,
         mtbls_study_path: Path,
         mtbls_study_repository_url: str,
@@ -1820,7 +1835,9 @@ class MhdLegacyDatasetBuilder:
         cached_mtbls_model_file_path: None | Path = None,
         revision: None | Revision = None,
         build_type: BuildType = BuildType.FULL,
+        **kwargs,
     ) -> MhDatasetLegacyProfile:
+        mhd_output_filename = kwargs.get("mhd_output_filename", None)
         dataset_provider = create_cv_term_value_object(
             type_="data-provider",
             source="NCIT",
@@ -1857,11 +1874,10 @@ class MhdLegacyDatasetBuilder:
                     json.load(fr)
                 )
         if not data.investigation.studies:
-            logger.warning(
-                "%s file does not have any study. Skipping...",
-                data.investigation_file_path,
-            )
-            return
+            error = f"{data.investigation_file_path} file does not have any study. Skipping..."
+            logger.warning(error)
+            return False, error
+
         selected_assays: list[Assay] = []
         study = data.investigation.studies[0]
 
@@ -1883,15 +1899,13 @@ class MhdLegacyDatasetBuilder:
                     )
         # Check if all assays are supported
         if not selected_assays:
-            logger.error("Study %s does not have any assay in scope.", study.identifier)
-            return
+            error = f"Study {study.identifier} does not have any assay in scope."
+            logger.error(error)
+            return False, error
         if unsupported_assays:
-            logger.error(
-                "Study %s has unsupported assays: %s",
-                study.identifier,
-                unsupported_assays,
-            )
-            return
+            error = f"Study {study.identifier} has unsupported assays: {str(unsupported_assays)}"
+            logger.error(error)
+            return False, error
         # TODO get revision, dataset_licence from study
         mhd_builder = MhDatasetBuilder(
             repository_name=repository_name,
@@ -1995,8 +2009,10 @@ class MhdLegacyDatasetBuilder:
         # mhd_dataset.created_by_ref = dataset_provider.id_
         filename = mhd_id if mhd_id else study.identifier
         mhd_dataset.name = f"{filename} MetabolomicsHub Legacy Dataset"
-        mhd_output_path.mkdir(parents=True, exist_ok=True)
-        output_path = mhd_output_path / Path(f"{filename}.mhd.json")
+        mhd_output_folder_path.mkdir(parents=True, exist_ok=True)
+        output_path = mhd_output_folder_path / Path(f"{filename}.mhd.json")
+        if mhd_output_filename:
+            output_path = Path(mhd_output_folder_path) / Path(mhd_output_filename)
         output_path.open("w").write(
             mhd_dataset.model_dump_json(
                 indent=2, by_alias=True, exclude_none=True, serialize_as_any=True
@@ -2005,4 +2021,4 @@ class MhdLegacyDatasetBuilder:
         logger.info(
             "%s study MHD file is created with name: %s", mtbls_study_id, output_path
         )
-        return mhd_dataset
+        return True, str(output_path)

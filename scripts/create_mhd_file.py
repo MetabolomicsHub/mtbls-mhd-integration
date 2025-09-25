@@ -58,4 +58,5 @@ if __name__ == "__main__":
             repository_identifier=mtbls_study_id,
             mhd_identifier=None,
             mhd_output_folder_path=mhd_output_root_path,
+            mhd_output_filename=None,
         )

@@ -21,7 +21,6 @@ class LegacyProfileV01Convertor(BaseMhdConvertor):
         repository_name: str,
         repository_identifier: str,
         mhd_identifier: None | str,
-        mhd_output_folder_path: Path,
         repository_revision: None | Revision = None,
         **kwargs,
     ):
@@ -40,17 +39,24 @@ class LegacyProfileV01Convertor(BaseMhdConvertor):
         cached_mtbls_model_file_path = cached_mtbls_model_files_root_path / Path(
             cache_file_name
         )
-        mhd_dataset_builder.build(
-            mhd_id=mhd_identifier,
-            mhd_output_path=mhd_output_folder_path,
-            mtbls_study_id=repository_identifier,
-            mtbls_study_path=mtbls_study_path,
-            mtbls_study_repository_url=mtbls_study_repository_url,
-            target_mhd_model_schema_uri=self.target_mhd_model_schema_uri,
-            target_mhd_model_profile_uri=self.target_mhd_model_profile_uri,
-            config=mtbls2mhd_config,
-            cached_mtbls_model_file_path=cached_mtbls_model_file_path,
-            revision=repository_revision,
-            repository_name=repository_name,
-            build_type=BuildType.FULL_AND_CUSTOM_NODES,
-        )
+        try:
+            success, message = mhd_dataset_builder.build(
+                mhd_id=mhd_identifier,
+                mtbls_study_id=repository_identifier,
+                mtbls_study_path=mtbls_study_path,
+                mtbls_study_repository_url=mtbls_study_repository_url,
+                target_mhd_model_schema_uri=self.target_mhd_model_schema_uri,
+                target_mhd_model_profile_uri=self.target_mhd_model_profile_uri,
+                config=mtbls2mhd_config,
+                cached_mtbls_model_file_path=cached_mtbls_model_file_path,
+                revision=repository_revision,
+                repository_name=repository_name,
+                build_type=BuildType.FULL_AND_CUSTOM_NODES,
+                **kwargs,
+            )
+            return success, message
+        except Exception as ex:
+            import traceback
+
+            traceback.print_exc()
+            return False, str(ex)

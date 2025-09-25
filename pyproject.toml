@@ -5,11 +5,11 @@ description = "MetaboLights = Metabolomics Hub Integration"
 authors = [{"name" = "MetaboLights Team", "email" = "metabolights-help@ebi.ac.uk"}]
 license = "Apache-2.0"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.12"
 dependencies = [
     "asyncpg>=0.30.0",
     "metabolights-utils>=1.4.3",
-    "mhd-model>=0.1.15",
+    "mhd-model>=0.1.31",
     "psycopg2>=2.9.10",
     "pydantic>=2.11.7",
     "pydantic-settings>=2.10.1",
@@ -29,6 +29,21 @@ test = [
     "pytest>=8.4.1",
     "pytest-cov>=6.2.1",
 ]
+
+[project.scripts]
+mtbls-mhd-cli = "mtbls2mhd.commands.cli:cli"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["mtbls2mhd*"]
+exclude = ["tests*", "docs*"]
+
+[tool.setuptools.package-data]
+"mtbls2mhd" = ["**/*.json"]
 
 
 [tool.commitizen]
