@@ -1,4 +1,5 @@
 import sys
+import warnings
 from pathlib import Path
 
 import click
@@ -6,6 +7,8 @@ from mhd_model import __version__
 
 from mtbls2mhd.commands.create import creation_cli
 from mtbls2mhd.commands.validate import validation_cli
+
+warnings.filterwarnings("ignore", category=UserWarning)
 
 
 @click.group(context_settings={"help_option_names": ["-h", "--help"]})

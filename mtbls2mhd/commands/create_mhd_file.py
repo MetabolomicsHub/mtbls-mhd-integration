@@ -51,10 +51,10 @@ def create_mhd_file_task(
 
     Args:
 
-        mtbls_study_id (str): mtbls study accession id. e.g, ST0000001.
+        mtbls_study_id (str): mtbls study accession id. e.g, MTBLS2.
 
         mhd_identifier (str): MHD accession number.
-        Use same value of mtbls_study_id if study profile is legacy. e.g., ST0000001.
+        Use same value of mtbls_study_id if study profile is legacy. e.g., MTBLS2.
 
     """
 

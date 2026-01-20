@@ -1468,8 +1468,8 @@ class MhdLegacyDatasetBuilder:
             folder = data.study_folder_metadata.files[file].is_directory
         elif file in data.study_folder_metadata.folders:
             folder = data.study_folder_metadata.folders[file].is_directory
-        else:
-            return None, None, None
+        # else:
+        #     return None, None, None
 
         data_format = FILE_EXTENSIONS.get((suffix.lower(), folder))
         if not data_format:
