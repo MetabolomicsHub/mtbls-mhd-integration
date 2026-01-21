@@ -1,7 +1,7 @@
 import logging
 from pathlib import Path
 
-from mtbls2mhd.config import Mtbls2MhdConfiguration, mtbls2mhd_config
+from mtbls2mhd.config import get_default_config
 from mtbls2mhd.convertor_factory import Mtbls2MhdConvertorFactory
 from scripts.utils import setup_basic_logging_config
 
@@ -32,13 +32,13 @@ if __name__ == "__main__":
     # study_ids = [x for x in study_ids if int(x.replace("MTBLS", "")) <= 35]
 
     # METADATA FILES path
-    config = Mtbls2MhdConfiguration()
+    config = get_default_config()
     root_path = config.mtbls_studies_root_path
     count = 0
     factory = Mtbls2MhdConvertorFactory()
     convertor = factory.get_convertor(
-        target_mhd_model_schema_uri=mtbls2mhd_config.target_mhd_model_schema_uri,
-        target_mhd_model_profile_uri=mtbls2mhd_config.target_mhd_model_legacy_profile_uri,
+        target_mhd_model_schema_uri=config.selected_schema_uri,
+        target_mhd_model_profile_uri=config.selected_profile_uri,
     )
     for mtbls_study_id in study_ids:
         mtbls_study_path = Path(root_path) / Path(mtbls_study_id)
@@ -59,4 +59,5 @@ if __name__ == "__main__":
             mhd_identifier=None,
             mhd_output_folder_path=mhd_output_root_path,
             mhd_output_filename=None,
+            config=config,
         )

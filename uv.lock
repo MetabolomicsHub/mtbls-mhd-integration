@@ -876,7 +876,7 @@ wheels = [
 
 [[package]]
 name = "metabolights-utils"
-version = "1.4.15"
+version = "1.4.16"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "beautifulsoup4" },
@@ -888,9 +888,9 @@ dependencies = [
     { name = "pydantic-settings" },
     { name = "unidecode" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/eb/85/fa0167b32a772d5a6d76ae1980742be9bb09db85a814ab63e6f24e595212/metabolights_utils-1.4.15.tar.gz", hash = "sha256:9bc85bb95cb64149136a87f8beaa57283fc26b6813d6ff632608472651cb000b", size = 158521, upload-time = "2025-11-25T10:48:53.789Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/db/1a/775e278eb6b01891f15a301730e5560795580b86dccf9e87512499e13900/metabolights_utils-1.4.16.tar.gz", hash = "sha256:037e1ed6badb22c3290a91cecd41b150b248293bfde3b4e4f5b96689c085e6d7", size = 158910, upload-time = "2026-01-21T00:50:15.153Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f4/9f/26473990de384cb5b839c2a66131afa9bccb9f841c42a6d5b9d60e6bf685/metabolights_utils-1.4.15-py3-none-any.whl", hash = "sha256:fc92c3792798660f6e4ddccc594214f0a35858206b29d6c66c5895ac4d514dcb", size = 190224, upload-time = "2025-11-25T10:48:52.585Z" },
+    { url = "https://files.pythonhosted.org/packages/45/0a/84a3d66a3c4449a0fe2c03ee035e56d2cc9dfb755dfe25ebfe46155c0d7d/metabolights_utils-1.4.16-py3-none-any.whl", hash = "sha256:8a95f2e85c28c16bdda2077457b1cc72ee6568e2c9cc23e7da61f921a4bd03bd", size = 190614, upload-time = "2026-01-21T00:50:16.524Z" },
 ]
 
 [[package]]
@@ -1026,6 +1026,7 @@ dependencies = [
     { name = "psycopg2" },
     { name = "pydantic" },
     { name = "pydantic-settings" },
+    { name = "pyyaml" },
     { name = "sqlalchemy" },
 ]
 
@@ -1045,11 +1046,12 @@ test = [
 [package.metadata]
 requires-dist = [
     { name = "asyncpg", specifier = ">=0.30.0" },
-    { name = "metabolights-utils", specifier = ">=1.4.15" },
+    { name = "metabolights-utils", specifier = ">=1.4.16" },
     { name = "mhd-model", specifier = ">=0.1.34" },
     { name = "psycopg2", specifier = ">=2.9.11" },
     { name = "pydantic", specifier = ">=2.12.4" },
     { name = "pydantic-settings", specifier = ">=2.10.1" },
+    { name = "pyyaml", specifier = ">=6.0.3" },
     { name = "sqlalchemy", specifier = ">=2.0.41" },
 ]
 

@@ -1,0 +1,15 @@
+db:
+  host: ""
+  port: 5432
+  name: ""
+  user: ""
+  password: ""
+urls:
+  public_ftp_base_url: "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public"
+  public_http_base_url: "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public"
+  study_http_base_url: "https://www.ebi.ac.uk/metabolights"
+license:
+  name: "CC0 1.0 Universal"
+  url: "https://creativecommons.org/publicdomain/zero/1.0/"
+folders:
+  mtbls_studies_root_path: ""

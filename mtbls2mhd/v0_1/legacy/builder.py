@@ -1850,8 +1850,8 @@ class MhdLegacyDatasetBuilder:
             not cached_mtbls_model_file_path
             or not cached_mtbls_model_file_path.exists()
         ):
-            connection = create_postgresql_connection()
-            db_collector = DbMetadataCollector()
+            connection = create_postgresql_connection(config)
+            db_collector = DbMetadataCollector(config)
             provider = MetabolightsStudyProvider(
                 db_metadata_collector=db_collector,
                 folder_metadata_collector=LocalFolderMetadataCollector(),

@@ -2,11 +2,13 @@ import logging
 from pathlib import Path
 
 import click
+import yaml
 from mhd_model.model.definitions import (
     MHD_MODEL_V0_1_DEFAULT_SCHEMA_NAME,
     MHD_MODEL_V0_1_LEGACY_PROFILE_NAME,
 )
 
+from mtbls2mhd.config import ConfigurationFile, Mtbls2MhdConfiguration
 from mtbls2mhd.convertor_factory import Mtbls2MhdConvertorFactory
 
 logger = logging.getLogger(__name__)
@@ -26,16 +28,22 @@ logger = logging.getLogger(__name__)
     help="MHD filename (e.g., MHD000001_mhd.json, ST000001_mhd.json)",
 )
 @click.option(
-    "--schema_uri",
+    "--selected_schema_uri",
     default=MHD_MODEL_V0_1_DEFAULT_SCHEMA_NAME,
     show_default=True,
     help="Target MHD model schema. It defines format of MHD model structure.",
 )
 @click.option(
-    "--profile_uri",
+    "--selected_profile_uri",
     default=MHD_MODEL_V0_1_LEGACY_PROFILE_NAME,
     show_default=True,
     help="Target MHD model profile. It is used to validate MHD model",
+)
+@click.option(
+    "--config_file",
+    default="config.yaml",
+    show_default=True,
+    help="MetaboLights MHD convertor config file.",
 )
 @click.argument("mtbls_study_id")
 @click.argument("mhd_identifier")
@@ -44,8 +52,9 @@ def create_mhd_file_task(
     mhd_identifier: str,
     output_dir: str,
     output_filename: str,
-    schema_uri: str,
-    profile_uri: str,
+    selected_schema_uri: str,
+    selected_profile_uri: str,
+    config_file: str,
 ):
     """Convert a MetaboLights study to MHD file format.
 
@@ -56,14 +65,39 @@ def create_mhd_file_task(
         mhd_identifier (str): MHD accession number.
         Use same value of mtbls_study_id if study profile is legacy. e.g., MTBLS2.
 
-    """
 
+    """
+    config: ConfigurationFile = None
+    if not config_file:
+        click.echo("config file is not defined")
+        exit(1)
+        try:
+            with Path("config.yaml").open() as f:
+                data: dict = yaml.safe_load(f)
+                config = ConfigurationFile.model_validate(data)
+        except Exception as ex:
+            click.echo(f"error while parsing config file {ex}")
+            click.echo("config file is not defined")
+        exit(1)
     if mhd_identifier == mtbls_study_id:
         mhd_identifier = None
     factory = Mtbls2MhdConvertorFactory()
+    mtbls2mhd_config = Mtbls2MhdConfiguration(
+        database_host=config.db.host,
+        database_user=config.db.user,
+        database_user_password=config.db.password,
+        database_name=config.db.name,
+        mtbls_studies_root_path=config.folders.mtbls_studies_root_path,
+        selected_schema_uri=selected_schema_uri,
+        selected_profile_uri=selected_profile_uri,
+        public_http_base_url=config.urls.public_http_base_url,
+        public_ftp_base_url=config.urls.public_ftp_base_url,
+        study_http_base_url=config.urls.study_http_base_url,
+        default_dataset_licence_url=config.license.url,
+    )
     convertor = factory.get_convertor(
-        target_mhd_model_schema_uri=schema_uri,
-        target_mhd_model_profile_uri=profile_uri,
+        target_mhd_model_schema_uri=selected_schema_uri,
+        target_mhd_model_profile_uri=selected_profile_uri,
     )
     mhd_output_root_path = Path(output_dir)
     mhd_output_root_path.mkdir(exist_ok=True, parents=True)
@@ -74,6 +108,7 @@ def create_mhd_file_task(
             mhd_identifier=mhd_identifier,
             mhd_output_folder_path=mhd_output_root_path,
             mhd_output_filename=output_filename,
+            config=mtbls2mhd_config,
         )
         if success:
             click.echo(f"{mtbls_study_id} is converted successfully. {result}")

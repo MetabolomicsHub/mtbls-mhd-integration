@@ -20,14 +20,14 @@ from sqlalchemy import or_, select
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 
-from mtbls2mhd.config import mtbls2mhd_config
+from mtbls2mhd.config import Mtbls2MhdConfiguration
 from mtbls2mhd.v0_1.legacy.mtbls_study_schema import Study
 
 logger = getLogger(__file__)
 
 
-@lru_cache(1)
-def get_session_factory():
+@lru_cache(10)
+def get_session_factory(mtbls2mhd_config: Mtbls2MhdConfiguration):
     db = mtbls2mhd_config
     url = "".join(
         [
@@ -93,7 +93,7 @@ SUBMITTER_FIELDS = [
 logger = getLogger(__file__)
 
 
-def create_postgresql_connection():
+def create_postgresql_connection(mtbls2mhd_config: Mtbls2MhdConfiguration):
     """
     Creates and returns a PostgreSQL connection.
     """
@@ -112,8 +112,8 @@ def create_postgresql_connection():
 
 
 class DbMetadataCollector(AbstractDbMetadataCollector):
-    def __init__(self):
-        pass
+    def __init__(self, mtbls2mhd_config: Mtbls2MhdConfiguration):
+        self.mtbls2mhd_config = mtbls2mhd_config
 
     def get_study_metadata_from_db(self, study_id: str, connection):
         try:
@@ -127,7 +127,7 @@ class DbMetadataCollector(AbstractDbMetadataCollector):
             ]
 
     async def get_all_public_and_review_study_ids_from_db(self):
-        AsyncSessionFactory = get_session_factory()
+        AsyncSessionFactory = get_session_factory(self.mtbls2mhd_config)
         async with AsyncSessionFactory() as db_session:
             stmt = select(Study.acc, Study.status).where(
                 or_(
@@ -146,7 +146,7 @@ class DbMetadataCollector(AbstractDbMetadataCollector):
             return study_ids
 
     async def get_all_public_study_ids_from_db(self):
-        AsyncSessionFactory = get_session_factory()
+        AsyncSessionFactory = get_session_factory(self.mtbls2mhd_config)
         async with AsyncSessionFactory() as db_session:
             stmt = select(Study.acc, Study.updatedate, Study.status).where(
                 Study.status == StudyStatus.PUBLIC.value
@@ -187,7 +187,7 @@ class DbMetadataCollector(AbstractDbMetadataCollector):
             raise ex
 
     async def get_all_study_ids_from_db(self, connection):
-        AsyncSessionFactory = get_session_factory()
+        AsyncSessionFactory = get_session_factory(self.mtbls2mhd_config)
         async with AsyncSessionFactory() as db_session:
             stmt = select(Study.acc, Study.status)
             result = await db_session.execute(stmt)
