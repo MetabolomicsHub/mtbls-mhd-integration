@@ -1400,7 +1400,7 @@ class MhdLegacyDatasetBuilder:
                     mhd_protocol,
                     "has-parameter-definition",
                     param,
-                    reverse_relationship_name="defined-in",
+                    reverse_relationship_name="used-in",
                 )
             protocols[name] = mhd_protocol
             if mhd_study.protocol_refs is None:
