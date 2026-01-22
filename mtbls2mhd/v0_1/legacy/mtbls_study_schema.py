@@ -9,11 +9,12 @@ from sqlalchemy import (
     Text,
     text,
 )
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
+from sqlalchemy.ext.asyncio import AsyncAttrs
+from sqlalchemy.orm import DeclarativeBase, relationship
 
-Base = declarative_base()
-metadata = Base.metadata
+
+class Base(AsyncAttrs, DeclarativeBase):
+    __none_set__ = frozenset()
 
 
 class StudyRevision(Base):
@@ -33,7 +34,7 @@ class StudyRevision(Base):
 
 t_study_user = Table(
     "study_user",
-    metadata,
+    Base.metadata,
     Column("userid", ForeignKey("users.id"), primary_key=True, nullable=False),
     Column("studyid", ForeignKey("studies.id"), primary_key=True, nullable=False),
 )
