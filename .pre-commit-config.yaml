@@ -32,10 +32,6 @@ repos:
   rev: v0.13.0
   hooks:
   - id: ruff-check
-    args:
-    - --fix
-    - --extend-select
-    - I
   - id: ruff-format
 - repo: https://github.com/commitizen-tools/commitizen
   rev: v4.9.0
