@@ -8,6 +8,7 @@ import psycopg2
 from metabolights_utils.models.common import ErrorMessage
 from metabolights_utils.models.metabolights.model import (
     CurationRequest,
+    StudyCategory,
     StudyDBMetadata,
     StudyStatus,
     Submitter,
@@ -59,22 +60,6 @@ def get_session_factory(mtbls2mhd_config: Mtbls2MhdConfiguration):
     return AsyncSessionFactory
 
 
-STUDY_FIELDS = [
-    "id",
-    "acc",
-    "obfuscationcode",
-    "submissiondate",
-    "releasedate",
-    "updatedate",
-    "studysize",
-    "status_date",
-    "studytype",
-    "status",
-    "override",
-    "comment",
-    "curation_request",
-]
-
 SUBMITTER_FIELDS = [
     "id",
     "orcid",
@@ -118,10 +103,18 @@ class DbMetadataCollector(AbstractDbMetadataCollector):
     def get_study_metadata_from_db(self, study_id: str, connection):
         try:
             study = self._get_study_from_db(study_id, connection)
+            revision = None
+            if study["revision_number"] and study["revision_number"] > 0:
+                revision = self._get_study_revision_from_db(
+                    study_id, study["revision_number"], connection
+                )
             submitters = self._get_study_submitters_from_db(study_id, connection)
-            study_db_metadata = self._create_study_db_metadata(study, submitters)
+            study_db_metadata = self._create_study_db_metadata(
+                study, revision, submitters
+            )
             return study_db_metadata, []
         except Exception as ex:
+            logger.exception(ex)
             return StudyDBMetadata(), [
                 ErrorMessage(short="Error while loading db metadata", detail=str(ex))
             ]
@@ -201,12 +194,21 @@ class DbMetadataCollector(AbstractDbMetadataCollector):
             return study_ids
 
     def _get_study_from_db(self, study_id: str, connection):
-        _input = (
-            f"select {', '.join(STUDY_FIELDS)} from studies where acc = %(study_id)s;"
-        )
+        _input = "select * from studies where acc = %(study_id)s;"
         try:
             cursor = connection.cursor(cursor_factory=DictCursor)
             cursor.execute(_input, {"study_id": study_id})
+            data = cursor.fetchone()
+            return data
+
+        except Exception as ex:
+            raise ex
+
+    def _get_study_revision_from_db(self, study_id: str, revision: int, connection):
+        _input = "select * from study_revisions where accession_number = %(study_id)s and revision_number = %(revision)s;"
+        try:
+            cursor = connection.cursor(cursor_factory=DictCursor)
+            cursor.execute(_input, {"study_id": study_id, "revision": revision})
             data = cursor.fetchone()
             return data
 
@@ -229,8 +231,19 @@ class DbMetadataCollector(AbstractDbMetadataCollector):
         except Exception as ex:
             raise ex
 
+    LICENSE_URLS = {
+        (
+            "CC0 1.0 UNIVERSAL",
+            "1.0",
+        ): "https://creativecommons.org/publicdomain/zero/1.0/",
+        (
+            "EMBL-EBI TERMS OF USE",
+            "5TH FEBRUARY 2024",
+        ): "https://www.ebi.ac.uk/about/terms-of-use/",
+    }
+
     def _create_study_db_metadata(
-        self, study, submitters: List[Dict[str, Any]]
+        self, study, revision, submitters: List[Dict[str, Any]]
     ) -> StudyDBMetadata:
         study_db_metadata: StudyDBMetadata = StudyDBMetadata()
         study_db_metadata.db_id = study["id"] or -1
@@ -248,26 +261,49 @@ class DbMetadataCollector(AbstractDbMetadataCollector):
         if study["studytype"] and len(study["studytype"].strip()) > 0:
             study_db_metadata.study_types = study["studytype"].strip().split(";")
 
-        if study["override"] and len(study["override"].strip()) > 0:
-            override_list = study["override"].strip().split("|")
-            overrides = {}
-            for item in override_list:
-                if item:
-                    key_value = item.split(":")
-                    if len(key_value) > 1:
-                        overrides[key_value[0]] = key_value[1] or ""
-            study_db_metadata.overrides = overrides
         study_db_metadata.study_size = int(study["studysize"])
-        study_db_metadata.submission_date = self._get_date_string(
-            study["submissiondate"]
+
+        study_db_metadata.first_private_date = self._get_date_string(
+            study["first_private_date"]
         )
+        study_db_metadata.submission_date = study_db_metadata.first_private_date
+
         study_db_metadata.curation_request = CurationRequest.get_from_int(
             study["curation_request"]
         )
-        study_db_metadata.release_date = self._get_date_string(study["releasedate"])
+        study_db_metadata.first_public_date = self._get_date_string(
+            study["first_public_date"]
+        )
+        study_db_metadata.release_date = study_db_metadata.first_public_date
         study_db_metadata.update_date = self._get_date_time_string(study["updatedate"])
         study_db_metadata.status_date = self._get_date_time_string(study["status_date"])
         study_db_metadata.submitters = self._create_submitters(submitters)
+        if revision:
+            study_db_metadata.revision_number = revision.get("revision_number", 0)
+            study_db_metadata.revision_comment = revision.get("revision_comment", "")
+            study_db_metadata.revision_date = self._get_date_string(
+                revision.get("revision_datetime", "")
+            )
+        study_db_metadata.dataset_license = study["dataset_license"] or ""
+        study_db_metadata.dataset_license_version = (
+            study["dataset_license_version"] or ""
+        )
+        study_db_metadata.dataset_license_url = self.LICENSE_URLS.get(
+            (
+                study_db_metadata.dataset_license.upper(),
+                study_db_metadata.dataset_license_version.upper(),
+            ),
+        )
+        study_db_metadata.study_category = StudyCategory(study["study_category"])
+        study_db_metadata.mhd_model_version = study["mhd_model_version"]
+        study_db_metadata.reserved_mhd_accession = study["mhd_accession"] or ""
+        study_db_metadata.created_at = (
+            self._get_date_time_string(study["created_at"]) or ""
+        )
+        study_db_metadata.study_template = study["study_template"] or ""
+        study_db_metadata.sample_template = study["sample_type"] or ""
+        study_db_metadata.template_version = study["template_version"] or ""
+
         return study_db_metadata
 
     def _create_submitters(self, submitters: List[Dict[str, Any]]) -> List[Submitter]:

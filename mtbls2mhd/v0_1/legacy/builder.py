@@ -1,3 +1,4 @@
+import datetime
 import enum
 import json
 import logging
@@ -52,7 +53,16 @@ logger = logging.getLogger(__name__)
 MTBLS_ASSAY_TYPES = {
     "LC-MS": COMMON_ASSAY_TYPES["OBI:0003097S"],
     "GC-MS": COMMON_ASSAY_TYPES["OBI:0003110"],
-    # TODO: Add CE-MS, FIA-MS, DI-MS for MetaboLights
+    "CE-MS": CvTerm(
+        source="OBI",
+        accession="OBI:0003741",
+        name="capillary electrophoresis mass spectrometry assay",
+    ),
+    "GCxGC-MS": COMMON_ASSAY_TYPES["OBI:0003110"],
+    "FIA-MS": COMMON_ASSAY_TYPES["OBI:0000470"],
+    "MALDI-MS": COMMON_ASSAY_TYPES["OBI:0000470"],
+    "DI-MS": COMMON_ASSAY_TYPES["OBI:0000470"],
+    "MS": COMMON_ASSAY_TYPES["OBI:0000470"],
 }
 MTBLS_MEASUREMENT_TYPES = {
     "targeted": COMMON_MEASUREMENT_TYPES["MSIO:0000100"],
@@ -73,13 +83,20 @@ COMMON_PROTOCOLS_MAP = {
     "Treatment": COMMON_PROTOCOLS["EFO:0003969"],
     "Flow Injection Analysis": COMMON_PROTOCOLS["MS:1000058"],
     "Capillary Electrophoresis": COMMON_PROTOCOLS["CHMO:0001024"],
-    "Direct infusion": COMMON_PROTOCOLS.get(
-        "CHMO:0001024"
-    ),  # TODO: Update after adding to managed CV terms
+    # TODO: Update after adding to managed CV terms
 }
 
 MTBLS_PROTOCOLS_MAP = COMMON_PROTOCOLS_MAP.copy()
 
+MTBLS_PROTOCOLS_MAP.update(
+    {
+        "Direct infusion": CvTerm(
+            source="MS",
+            accession="MS:1000060",
+            name="infusion",
+        ),
+    }
+)
 MANAGED_CHARACTERISTICS_MAP = {
     "organism": COMMON_CHARACTERISTIC_DEFINITIONS["NCIT:C14250"],
     "organism part": COMMON_CHARACTERISTIC_DEFINITIONS["NCIT:C103199"],
@@ -1877,7 +1894,23 @@ class MhdLegacyDatasetBuilder:
             error = f"{data.investigation_file_path} file does not have any study. Skipping..."
             logger.warning(error)
             return False, error
-
+        if not revision:
+            db_metadata = data.study_db_metadata
+            revision_date = (
+                datetime.datetime.strptime(db_metadata.revision_date, "%Y-%m-%d")
+                if db_metadata and db_metadata.revision_date
+                else None
+            )
+            if revision_date:
+                revision = Revision(
+                    revision_datetime=revision_date,
+                    revision=db_metadata.revision_number
+                    if db_metadata.revision_number
+                    else 0,
+                    comment=db_metadata.revision_comment
+                    if db_metadata.revision_comment
+                    else "",
+                )
         selected_assays: list[Assay] = []
         study = data.investigation.studies[0]
 
@@ -1913,9 +1946,14 @@ class MhdLegacyDatasetBuilder:
             repository_identifier=study.identifier,
             schema_name=target_mhd_model_schema_uri,
             profile_uri=target_mhd_model_profile_uri,
-            repository_revision=revision.revision if revision else 1,
+            repository_revision=revision.revision
+            if revision and revision and revision.revision
+            else 0,
             repository_revision_datetime=revision.revision_datetime
-            if revision
+            if revision and revision.revision_datetime
+            else None,
+            repository_revision_comment=revision.comment
+            if revision and revision.comment
             else None,
             change_log=[revision] if revision else None,
         )
@@ -1970,11 +2008,9 @@ class MhdLegacyDatasetBuilder:
         self.add_study_factor_definitions(mhd_builder, mhd_study, data, build_type)
         samples = self.add_samples(mhd_builder, mhd_study, sample_file, build_type)
         if build_type in (BuildType.FULL, BuildType.FULL_AND_CUSTOM_NODES):
-            mhd_study.license = (
-                HttpUrl(config.default_dataset_licence_url)
-                if config.default_dataset_licence_url
-                else None
-            )
+            mhd_study.license = data.study_db_metadata.dataset_license_url
+            if not mhd_study.license:
+                mhd_study.license = HttpUrl(config.default_dataset_licence_url) or ""
 
             self.add_publications(data, mhd_builder, mhd_study)
             self.add_protocols(mhd_builder, mhd_study, study)
