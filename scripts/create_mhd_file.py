@@ -12,24 +12,6 @@ logger = logging.getLogger(__name__)
 if __name__ == "__main__":
     setup_basic_logging_config()
     study_ids = ["MTBLS3107"]
-    # if not study_ids:
-    #     connection = None
-    #     try:
-    #         connection = create_postgresql_connection()
-    #         cursor = connection.cursor()
-    #         query = "SELECT acc FROM studies WHERE status = 3;"
-    #         cursor.execute(query)
-    #         results = cursor.fetchall()
-    #         for item in results:
-    #             study_ids.append(item[0])
-    #         study_ids.sort(key=lambda x: int(x.replace("MTBLS", "")), reverse=True)
-    #     except Exception as ex:
-    #         logger.exception(ex, stack_info=True)
-    #         exit(1)
-    #     finally:
-    #         if connection:
-    #             connection.close()
-    # study_ids = [x for x in study_ids if int(x.replace("MTBLS", "")) <= 35]
 
     # METADATA FILES path
     config = get_default_config()
@@ -52,7 +34,6 @@ if __name__ == "__main__":
         file_path = Path(f"tests/mtbls_dataset/{mtbls_study_id}.json")
         mtbls_study_id.removeprefix("MTBLS").removeprefix("REQ")
         mhd_numeric_id = mtbls_study_id.removeprefix("MTBLS").removeprefix("REQ")
-        # mhd_identifier = "MHDL" + mhd_numeric_id.zfill(6)
         convertor.convert(
             repository_name="MetaboLights",
             repository_identifier=mtbls_study_id,

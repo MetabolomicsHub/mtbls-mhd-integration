@@ -1840,7 +1840,7 @@ class MhdLegacyDatasetBuilder:
 
     def build(
         self,
-        mhd_id: str,
+        mhd_id: None | str,
         mhd_output_folder_path: Path,
         mtbls_study_id: str,
         mtbls_study_path: Path,
@@ -1942,7 +1942,7 @@ class MhdLegacyDatasetBuilder:
         # TODO get revision, dataset_licence from study
         mhd_builder = MhDatasetBuilder(
             repository_name=repository_name,
-            mhd_identifier=mhd_id,
+            mhd_identifier=None,
             repository_identifier=study.identifier,
             schema_name=target_mhd_model_schema_uri,
             profile_uri=target_mhd_model_profile_uri,

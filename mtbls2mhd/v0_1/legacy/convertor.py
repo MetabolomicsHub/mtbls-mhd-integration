@@ -36,14 +36,6 @@ class LegacyProfileV01Convertor(BaseMhdConvertor):
         mtbls_study_path = Path(config.mtbls_studies_root_path) / Path(
             repository_identifier
         )
-        # cached_mtbls_model_files_root_path = Path("/tmp/mtbls2mhd") / Path(
-        #     ".mtbls_model_cache"
-        # )
-        # cached_mtbls_model_files_root_path.mkdir(parents=True, exist_ok=True)
-        # cache_file_name = mhd_identifier or repository_identifier
-        # cached_mtbls_model_file_path = cached_mtbls_model_files_root_path / Path(
-        #     cache_file_name
-        # )
         try:
             success, message = mhd_dataset_builder.build(
                 mhd_id=mhd_identifier,
