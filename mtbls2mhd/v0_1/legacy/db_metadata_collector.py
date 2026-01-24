@@ -4,7 +4,7 @@ from functools import lru_cache
 from logging import getLogger
 from typing import Any, Dict, List
 
-import psycopg2
+import psycopg
 from metabolights_utils.models.common import ErrorMessage
 from metabolights_utils.models.metabolights.model import (
     CurationRequest,
@@ -16,7 +16,7 @@ from metabolights_utils.models.metabolights.model import (
     UserStatus,
 )
 from metabolights_utils.provider.study_provider import AbstractDbMetadataCollector
-from psycopg2.extras import DictCursor
+from psycopg.rows import dict_row
 from sqlalchemy import or_, select
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
@@ -83,15 +83,16 @@ def create_postgresql_connection(mtbls2mhd_config: Mtbls2MhdConfiguration):
     Creates and returns a PostgreSQL connection.
     """
     try:
-        connection = psycopg2.connect(
+        connection = psycopg.connect(
             dbname=mtbls2mhd_config.database_name,
             user=mtbls2mhd_config.database_user,
             password=mtbls2mhd_config.database_user_password,
             host=mtbls2mhd_config.database_host,
             port=mtbls2mhd_config.database_host_port,
+            row_factory=dict_row,
         )
         return connection
-    except psycopg2.Error as e:
+    except psycopg.Error as e:
         logger.exception(e)
         raise e
 
@@ -171,7 +172,7 @@ class DbMetadataCollector(AbstractDbMetadataCollector):
         where_clause = " and ".join(_filter)
         _input = f"select acc from studies where {where_clause};"
         try:
-            cursor = connection.cursor(cursor_factory=DictCursor)
+            cursor = connection.cursor()
             cursor.execute(_input)
             data = cursor.fetchall()
             return data
@@ -196,7 +197,7 @@ class DbMetadataCollector(AbstractDbMetadataCollector):
     def _get_study_from_db(self, study_id: str, connection):
         _input = "select * from studies where acc = %(study_id)s;"
         try:
-            cursor = connection.cursor(cursor_factory=DictCursor)
+            cursor = connection.cursor()
             cursor.execute(_input, {"study_id": study_id})
             data = cursor.fetchone()
             return data
@@ -207,7 +208,7 @@ class DbMetadataCollector(AbstractDbMetadataCollector):
     def _get_study_revision_from_db(self, study_id: str, revision: int, connection):
         _input = "select * from study_revisions where accession_number = %(study_id)s and revision_number = %(revision)s;"
         try:
-            cursor = connection.cursor(cursor_factory=DictCursor)
+            cursor = connection.cursor()
             cursor.execute(_input, {"study_id": study_id, "revision": revision})
             data = cursor.fetchone()
             return data
@@ -221,7 +222,7 @@ class DbMetadataCollector(AbstractDbMetadataCollector):
         _input = f"select {', '.join(submitter_fields)} from studies as s, study_user as su, \
             users as u where su.userid = u.id and su.studyid = s.id and s.acc = %(study_id)s;"
         try:
-            cursor = connection.cursor(cursor_factory=DictCursor)
+            cursor = connection.cursor()
             cursor.execute(_input, {"study_id": study_id})
             data = cursor.fetchall()
             if data:
