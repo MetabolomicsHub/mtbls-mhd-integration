@@ -1976,7 +1976,7 @@ class MhdLegacyDatasetBuilder:
             else None
         )
         submission_date = (
-            datetime.datetime.strptime(db_metadata.first_public_date, "%Y-%m-%d")
+            datetime.datetime.strptime(db_metadata.first_private_date, "%Y-%m-%d")
             if db_metadata and db_metadata.first_private_date
             else None
         )
