@@ -1894,8 +1894,8 @@ class MhdLegacyDatasetBuilder:
             error = f"{data.investigation_file_path} file does not have any study. Skipping..."
             logger.warning(error)
             return False, error
+        db_metadata = data.study_db_metadata
         if not revision:
-            db_metadata = data.study_db_metadata
             revision_date = (
                 datetime.datetime.strptime(db_metadata.revision_date, "%Y-%m-%d")
                 if db_metadata and db_metadata.revision_date
@@ -1970,6 +1970,16 @@ class MhdLegacyDatasetBuilder:
                 study.public_release_date,
                 data.study_db_metadata.release_date,
             )
+        public_release_date = (
+            datetime.datetime.strptime(db_metadata.first_public_date, "%Y-%m-%d")
+            if db_metadata and db_metadata.revision_date
+            else None
+        )
+        submission_date = (
+            datetime.datetime.strptime(db_metadata.first_public_date, "%Y-%m-%d")
+            if db_metadata and db_metadata.first_private_date
+            else None
+        )
 
         mhd_study = mhd_domain.Study(
             repository_identifier=study.identifier,
@@ -1977,8 +1987,8 @@ class MhdLegacyDatasetBuilder:
             mhd_identifier=mhd_id,
             title=study.title,
             description=study.description,
-            submission_date=data.study_db_metadata.submission_date,
-            public_release_date=data.study_db_metadata.release_date,
+            submission_date=submission_date,
+            public_release_date=public_release_date,
             dataset_url_list=[mtbls_study_repository_url],
         )
 
