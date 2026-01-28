@@ -1,3 +1,9 @@
+## v0.0.11 (2026-01-28)
+
+### Fix
+
+- dataset license and public release date errors
+
 ## v0.0.10 (2026-01-28)
 
 ### Fix
