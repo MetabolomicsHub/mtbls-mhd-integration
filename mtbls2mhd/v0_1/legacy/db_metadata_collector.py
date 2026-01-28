@@ -266,7 +266,9 @@ class DbMetadataCollector(AbstractDbMetadataCollector):
         study_db_metadata.first_private_date = self._get_date_string(
             study["first_private_date"]
         )
-        study_db_metadata.submission_date = self.get_date(study["submissiondate"])
+        study_db_metadata.submission_date = self._get_date_string(
+            study["submissiondate"]
+        )
 
         study_db_metadata.curation_request = CurationRequest.get_from_int(
             study["curation_request"]
@@ -274,7 +276,7 @@ class DbMetadataCollector(AbstractDbMetadataCollector):
         study_db_metadata.first_public_date = self._get_date_string(
             study["first_public_date"]
         )
-        study_db_metadata.release_date = self.get_date(study["releasedate"])
+        study_db_metadata.release_date = self._get_date_string(study["releasedate"])
         study_db_metadata.update_date = self._get_date_time_string(study["updatedate"])
         study_db_metadata.status_date = self._get_date_time_string(study["status_date"])
         study_db_metadata.submitters = self._create_submitters(submitters)
@@ -294,6 +296,7 @@ class DbMetadataCollector(AbstractDbMetadataCollector):
                 study_db_metadata.dataset_license_version.upper(),
             ),
         )
+
         study_db_metadata.study_category = StudyCategory(study["study_category"])
         study_db_metadata.mhd_model_version = study["mhd_model_version"]
         study_db_metadata.reserved_mhd_accession = study["mhd_accession"] or ""

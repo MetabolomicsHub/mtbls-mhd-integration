@@ -118,6 +118,8 @@ class LocalFolderMetadataCollector(AbstractFolderMetadataCollector):
         study_path,
         calculate_data_folder_size: bool = False,
         calculate_metadata_size: bool = False,
+        data_files_path: str = "FILES",
+        data_files_mapping_folder_name: None | str = None,
     ) -> Tuple[Union[None, StudyFolderMetadata], List[GenericMessage]]:
         messages: List[GenericMessage] = []
         study_folder_metadata = StudyFolderMetadata()
