@@ -1970,9 +1970,13 @@ class MhdLegacyDatasetBuilder:
                 study.public_release_date,
                 data.study_db_metadata.release_date,
             )
+        # actual or estimated
+        public_release_date_str = (
+            db_metadata.first_public_date or db_metadata.release_date or None
+        )
         public_release_date = (
-            datetime.datetime.strptime(db_metadata.first_public_date, "%Y-%m-%d")
-            if db_metadata and db_metadata.revision_date
+            datetime.datetime.strptime(public_release_date_str, "%Y-%m-%d")
+            if public_release_date_str
             else None
         )
         submission_date = (

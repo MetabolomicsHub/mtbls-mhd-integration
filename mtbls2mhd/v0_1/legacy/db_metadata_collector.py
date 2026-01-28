@@ -1,4 +1,3 @@
-import asyncio
 from datetime import datetime, timezone
 from functools import lru_cache
 from logging import getLogger
@@ -267,7 +266,7 @@ class DbMetadataCollector(AbstractDbMetadataCollector):
         study_db_metadata.first_private_date = self._get_date_string(
             study["first_private_date"]
         )
-        study_db_metadata.submission_date = study_db_metadata.first_private_date
+        study_db_metadata.submission_date = study["created_at"]
 
         study_db_metadata.curation_request = CurationRequest.get_from_int(
             study["curation_request"]
@@ -275,7 +274,7 @@ class DbMetadataCollector(AbstractDbMetadataCollector):
         study_db_metadata.first_public_date = self._get_date_string(
             study["first_public_date"]
         )
-        study_db_metadata.release_date = study_db_metadata.first_public_date
+        study_db_metadata.release_date = study["releasedate"]
         study_db_metadata.update_date = self._get_date_time_string(study["updatedate"])
         study_db_metadata.status_date = self._get_date_time_string(study["status_date"])
         study_db_metadata.submitters = self._create_submitters(submitters)
@@ -349,9 +348,3 @@ class DbMetadataCollector(AbstractDbMetadataCollector):
         return datetime.fromtimestamp(
             date_value.timestamp(), tz=timezone.utc
         ).isoformat()
-
-
-if __name__ == "__main__":
-    db = DbMetadataCollector()
-    result = asyncio.run(db.get_all_public_study_ids_from_db())
-    logger.info(result)
