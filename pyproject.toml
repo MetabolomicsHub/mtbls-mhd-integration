@@ -5,7 +5,7 @@ description = "MetaboLights - MetabolomicsHub Integration"
 authors = [{"name" = "MetaboLights Team", "email" = "metabolights-help@ebi.ac.uk"}]
 license = "Apache-2.0"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.12,<4.0"
 dependencies = [
     "asyncpg>=0.30.0",
     "metabolights-utils>=1.4.16",
