@@ -9,7 +9,7 @@ requires-python = ">=3.12,<4.0"
 dependencies = [
     "asyncpg>=0.30.0",
     "metabolights-utils>=1.4.16",
-    "mhd-model>=0.1.39",
+    "mhd-model>=0.1.41",
     "psycopg[binary,pool]>=3.3.2",
     "pydantic>=2.12.4",
     "pydantic-settings>=2.10.1",
@@ -30,6 +30,10 @@ test = [
     "pytest>=8.4.1",
     "pytest-cov>=6.2.1",
 ]
+
+[tool.uv]
+default-groups = []
+
 
 [project.scripts]
 mtbls-mhd-cli = "mtbls2mhd.commands.cli:cli"

@@ -594,7 +594,7 @@ class MhdLegacyDatasetBuilder:
         data: MetabolightsStudyModel,
         config: Mtbls2MhdConfiguration,
     ):
-        result_file_map = {}
+        result_file_map: dict[str, mhd_domain.ResultFile] = {}
         tsv_format = create_cv_term_object(
             type_="descriptor", accession="EDAM:3475", source="EDAM", name="TSV"
         )
@@ -1650,54 +1650,103 @@ class MhdLegacyDatasetBuilder:
         mhd_builder: MhDatasetBuilder,
         mhd_study: mhd_domain.Study,
         data: MetabolightsStudyModel,
+        result_files: dict[str, mhd_domain.ResultFile],
     ):
-        for file_name, maf_file in data.metabolite_assignments.items():
-            if maf_file.table.data.get("metabolite_identification"):
-                identifiers = maf_file.table.data.get("database_identifier")
-                for idx, name in enumerate(
-                    maf_file.table.data["metabolite_identification"]
-                ):
-                    if not name:
-                        continue
-                    met = mhd_domain.Metabolite(
-                        name=name,
-                    )
-                    if identifiers and identifiers[idx]:
-                        value = identifiers[idx]
-                        identifier = None
-                        if value.startswith("CHEBI"):
-                            identifier = create_cv_term_value_object(
-                                type_="metabolite-identifier",
-                                source="CHEMINF",
-                                accession="CHEMINF:000407",
-                                name="ChEBI identifier",
-                                value=value,
-                            )
-                        elif value.startswith("HMDB"):
-                            identifier = create_cv_term_value_object(
-                                type_="metabolite-identifier",
-                                source="CHEMINF",
-                                accession="CHEMINF:000408",
-                                name="HMDB identifier",
-                                value=value.replace(":", ""),
-                            )
+        for maf_filename, maf_file in data.metabolite_assignments.items():
+            if not maf_file.table.data.get("metabolite_identification"):
+                continue
+            result_file = result_files.get(maf_filename)
+            for idx, name in enumerate(
+                maf_file.table.data["metabolite_identification"]
+            ):
+                if not name or not name.strip():
+                    continue
+                met = mhd_domain.Metabolite(name=name)
+                assignments = {}
+                data: dict[str, str] = maf_file.table.data
+                submitted_identifiers = []
+                assigned_chebi_identifiers = []
+                assigned_refmet_identifiers = []
+                if maf_file.table.data.get("database_identifier"):
+                    submitted_identifiers = [
+                        x.strip()
+                        for x in data["database_identifier"][idx].split("|")
+                        if x
+                    ]
+                if maf_file.table.data.get("assigned_chebi_identifier"):
+                    assigned_chebi_identifiers = [
+                        x.strip()
+                        for x in data["assigned_chebi_identifier"][idx].split("|")
+                        if x
+                    ]
+                if maf_file.table.data.get("assigned_refmet_identifier"):
+                    assigned_refmet_identifiers = [
+                        x.strip()
+                        for x in data["assigned_refmet_identifier"][idx].split("|")
+                        if x
+                    ]
 
-                        if identifier:
-                            mhd_builder.add(identifier)
-                            # met.identifier_refs = [identifier.id_]
-                            mhd_builder.link(
-                                met,
-                                "identified-as",
-                                identifier,
-                                reverse_relationship_name="reported-identifier-of",
-                            )
-                    mhd_builder.add(met)
+                for identifiers in [
+                    (submitted_identifiers, ""),
+                    (assigned_chebi_identifiers, "CHEBI"),
+                    (assigned_refmet_identifiers, "REFMET"),
+                ]:
+                    for identifiers, compound_source in assignments:
+                        if not identifiers:
+                            continue
+                        for identifier_value in identifiers:
+                            identifier = None
+                            if (
+                                compound_source == "CHEBI"
+                                or identifier_value.upper().startswith("CHEBI")
+                            ):
+                                identifier = create_cv_term_value_object(
+                                    type_="metabolite-identifier",
+                                    source="CHEMINF",
+                                    accession="CHEMINF:000407",
+                                    name="ChEBI identifier",
+                                    value=identifier_value,
+                                )
+                            elif identifier_value.upper().startswith("HMDB"):
+                                identifier = create_cv_term_value_object(
+                                    type_="metabolite-identifier",
+                                    source="CHEMINF",
+                                    accession="CHEMINF:000408",
+                                    name="HMDB identifier",
+                                    value=identifier_value,
+                                )
+                            elif compound_source == "REFMET":
+                                identifier = create_cv_term_value_object(
+                                    type_="metabolite-identifier",
+                                    source="REFMET",
+                                    accession="",
+                                    name="RefMet identifier",
+                                    value=identifier_value,
+                                )
+
+                            if identifier:
+                                mhd_builder.add(identifier)
+                                mhd_builder.link(
+                                    met,
+                                    "identified-as",
+                                    identifier,
+                                    reverse_relationship_name="reported-identifier-of",
+                                )
+                mhd_builder.add(met)
+                if result_file:
                     mhd_builder.link(
-                        mhd_study,
+                        result_file,
                         "reports",
                         met,
                         reverse_relationship_name="reported-in",
                     )
+                result_file
+                mhd_builder.link(
+                    mhd_study,
+                    "reports",
+                    met,
+                    reverse_relationship_name="reported-in",
+                )
 
     def add_assays(
         self,
@@ -2030,11 +2079,12 @@ class MhdLegacyDatasetBuilder:
             self.add_protocols(mhd_builder, mhd_study, study)
 
             self.add_keywords(mhd_builder, mhd_study, study)
-            self.add_reported_metabolites(mhd_builder, mhd_study, data)
 
             result_files = self.add_result_files(
                 mhd_builder, mhd_study, data, config=config
             )
+            self.add_reported_metabolites(mhd_builder, mhd_study, data, result_files)
+
             files_map = self.add_data_files(
                 mhd_builder,
                 mhd_study,

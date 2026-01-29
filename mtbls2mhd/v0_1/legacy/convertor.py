@@ -38,7 +38,7 @@ class LegacyProfileV01Convertor(BaseMhdConvertor):
         )
         try:
             success, message = mhd_dataset_builder.build(
-                mhd_id=mhd_identifier,
+                mhd_id=None,
                 mtbls_study_id=repository_identifier,
                 mtbls_study_path=mtbls_study_path,
                 mtbls_study_repository_url=mtbls_study_repository_url,
