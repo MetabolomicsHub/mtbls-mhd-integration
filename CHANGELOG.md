@@ -1,3 +1,9 @@
+## v0.0.12 (2026-01-29)
+
+### Fix
+
+- update metabolite identifier
+
 ## v0.0.11 (2026-01-28)
 
 ### Fix
