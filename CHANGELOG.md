@@ -1,3 +1,9 @@
+## v0.0.13 (2026-02-02)
+
+### Fix
+
+- submission and public release date conversion error
+
 ## v0.0.12 (2026-01-29)
 
 ### Fix
