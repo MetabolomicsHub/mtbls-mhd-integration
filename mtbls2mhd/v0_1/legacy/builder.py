@@ -1808,7 +1808,7 @@ class MhdLegacyDatasetBuilder:
         files_map,
     ) -> dict[str, mhd_domain.Assay]:
         protocol_summaries: OrderedDict[str, ProtocolRunSummary] = OrderedDict()
-        assays = dict[str, mhd_domain.Assay] = OrderedDict()
+        assays: OrderedDict[str, mhd_domain.Assay] = OrderedDict()
         for assay in selected_assays:
             if assay.file_name not in data.assays:
                 continue
