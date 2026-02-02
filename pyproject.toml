@@ -9,7 +9,7 @@ requires-python = ">=3.12,<4.0"
 dependencies = [
     "asyncpg>=0.30.0",
     "metabolights-utils>=1.4.16",
-    "mhd-model>=0.1.41",
+    "mhd-model>=0.1.43",
     "psycopg[binary,pool]>=3.3.2",
     "pydantic>=2.12.4",
     "pydantic-settings>=2.10.1",

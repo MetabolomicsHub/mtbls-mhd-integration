@@ -53,11 +53,7 @@ logger = logging.getLogger(__name__)
 MTBLS_ASSAY_TYPES = {
     "LC-MS": COMMON_ASSAY_TYPES["OBI:0003097S"],
     "GC-MS": COMMON_ASSAY_TYPES["OBI:0003110"],
-    "CE-MS": CvTerm(
-        source="OBI",
-        accession="OBI:0003741",
-        name="capillary electrophoresis mass spectrometry assay",
-    ),
+    "CE-MS": COMMON_ASSAY_TYPES["OBI:0003741"],
     "GCxGC-MS": COMMON_ASSAY_TYPES["OBI:0003110"],
     "FIA-MS": COMMON_ASSAY_TYPES["OBI:0000470"],
     "MALDI-MS": COMMON_ASSAY_TYPES["OBI:0000470"],
@@ -1433,7 +1429,10 @@ class MhdLegacyDatasetBuilder:
         return protocols
 
     def add_keywords(
-        self, mhd_builder: MhDatasetBuilder, mhd_study: mhd_domain.Study, study: Study
+        self,
+        mhd_builder: MhDatasetBuilder,
+        mhd_study: mhd_domain.Study,
+        study: Study,
     ):
         for item in study.study_design_descriptors.design_types:
             keyword = create_cv_term_object(
@@ -1447,12 +1446,62 @@ class MhdLegacyDatasetBuilder:
                 name=item.term or "",
             )
             mhd_builder.add_node(keyword)
-            mhd_builder.link(
-                mhd_study,
-                "has-submitter-keyword",
-                keyword,
-                reverse_relationship_name="keyword-of",
-            )
+
+            if item.source and item.source.lower() in ("data-curation", "workflows"):
+                mhd_builder.link(
+                    mhd_study,
+                    "has-repository-keyword",
+                    keyword,
+                    reverse_relationship_name="keyword-of",
+                )
+            else:
+                mhd_builder.link(
+                    mhd_study,
+                    "has-submitter-keyword",
+                    keyword,
+                    reverse_relationship_name="keyword-of",
+                )
+
+    def add_assay_keywords(
+        self,
+        mhd_builder: MhDatasetBuilder,
+        assays: dict[str, mhd_domain.Assay],
+        study: Study,
+    ):
+        for assay in study.study_assays.assays:
+            mhd_assay = assays.get(assay.file_name)
+            if not mhd_assay:
+                continue
+            for item in assay.assay_descriptors:
+                keyword = create_cv_term_object(
+                    type_="descriptor",
+                    source=item.term_source_ref or "",
+                    accession=self.convert_to_curie(
+                        item.term_source_ref,
+                        item.term_accession_number,
+                    )
+                    or "",
+                    name=item.term or "",
+                )
+                mhd_builder.add_node(keyword)
+
+                if item.source and item.source.lower() in (
+                    "data-curation",
+                    "workflows",
+                ):
+                    mhd_builder.link(
+                        mhd_assay,
+                        "has-repository-keyword",
+                        keyword,
+                        reverse_relationship_name="keyword-of",
+                    )
+                else:
+                    mhd_builder.link(
+                        mhd_assay,
+                        "has-submitter-keyword",
+                        keyword,
+                        reverse_relationship_name="keyword-of",
+                    )
 
     def find_file_format(
         self,
@@ -1757,9 +1806,9 @@ class MhdLegacyDatasetBuilder:
         metadata_files: dict[str, mhd_domain.CvTermObject],
         samples: dict[str, mhd_domain.Sample],
         files_map,
-    ) -> mhd_domain.Assay:
+    ) -> dict[str, mhd_domain.Assay]:
         protocol_summaries: OrderedDict[str, ProtocolRunSummary] = OrderedDict()
-        assays: list[mhd_domain.Assay] = []
+        assays = dict[str, mhd_domain.Assay] = OrderedDict()
         for assay in selected_assays:
             if assay.file_name not in data.assays:
                 continue
@@ -1773,7 +1822,7 @@ class MhdLegacyDatasetBuilder:
             )
 
             mhd_builder.add(mhd_assay)
-            assays.append(mhd_assay)
+            assays[assay.file_name] = mhd_assay
             mhd_builder.link(
                 mhd_study, "has-assay", mhd_assay, reverse_relationship_name="part-of"
             )
@@ -1882,8 +1931,7 @@ class MhdLegacyDatasetBuilder:
                 samples,
                 protocol_summaries,
             )
-
-        for mhd_assay in assays:
+        for _, mhd_assay in assays.items():
             self.add_assay_protocols(mhd_builder, mhd_study, data, mhd_assay)
         return assays
 
@@ -2020,20 +2068,28 @@ class MhdLegacyDatasetBuilder:
                 data.study_db_metadata.release_date,
             )
         # actual or estimated
-        public_release_date_str = (
-            db_metadata.first_public_date or db_metadata.release_date or None
-        )
+        submission_date_str = None
+        public_release_date_str = None
+        if db_metadata:
+            if db_metadata.first_private_date:
+                submission_date_str = db_metadata.first_private_date
+            elif db_metadata.submission_date:
+                submission_date_str = db_metadata.submission_date
+            if db_metadata.first_public_date:
+                public_release_date_str = db_metadata.first_public_date
+            elif db_metadata.release_date:
+                public_release_date_str = db_metadata.release_date
+
         public_release_date = (
             datetime.datetime.strptime(public_release_date_str, "%Y-%m-%d")
             if public_release_date_str
             else None
         )
         submission_date = (
-            datetime.datetime.strptime(db_metadata.first_private_date, "%Y-%m-%d")
-            if db_metadata and db_metadata.first_private_date
+            datetime.datetime.strptime(submission_date_str, "%Y-%m-%d")
+            if submission_date_str
             else None
         )
-
         mhd_study = mhd_domain.Study(
             repository_identifier=study.identifier,
             created_by_ref=dataset_provider.id_,
@@ -2078,8 +2134,6 @@ class MhdLegacyDatasetBuilder:
             self.add_publications(data, mhd_builder, mhd_study)
             self.add_protocols(mhd_builder, mhd_study, study)
 
-            self.add_keywords(mhd_builder, mhd_study, study)
-
             result_files = self.add_result_files(
                 mhd_builder, mhd_study, data, config=config
             )
@@ -2093,7 +2147,7 @@ class MhdLegacyDatasetBuilder:
                 result_files,
                 config=config,
             )
-            self.add_assays(
+            mhd_assays = self.add_assays(
                 mhd_builder,
                 mhd_study,
                 data,
@@ -2102,6 +2156,8 @@ class MhdLegacyDatasetBuilder:
                 samples,
                 files_map,
             )
+            self.add_keywords(mhd_builder, mhd_study, study)
+            self.add_assay_keywords(mhd_builder, mhd_assays, study)
 
         mhd_dataset: MhDatasetBaseProfile = mhd_builder.create_dataset(
             start_item_refs=[mhd_study.id_], dataset_class=MhDatasetLegacyProfile
