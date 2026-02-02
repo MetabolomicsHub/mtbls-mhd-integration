@@ -6,6 +6,7 @@ from mhd_model.model.definitions import (
 )
 
 from mtbls2mhd.v0_1.legacy.convertor import LegacyProfileV01Convertor
+from mtbls2mhd.v0_1.ms.convertor import MsProfileConvertor
 
 
 class Mtbls2MhdConvertorFactory(BaseMhdConvertorFactory):
@@ -21,7 +22,10 @@ class Mtbls2MhdConvertorFactory(BaseMhdConvertorFactory):
                     target_mhd_model_profile_uri=target_mhd_model_profile_uri,
                 )
             elif target_mhd_model_profile_uri == MHD_MODEL_V0_1_MS_PROFILE_NAME:
-                raise NotImplementedError()
+                return MsProfileConvertor(
+                    target_mhd_model_schema_uri=target_mhd_model_schema_uri,
+                    target_mhd_model_profile_uri=target_mhd_model_profile_uri,
+                )
             raise NotImplementedError()
         else:
             raise NotImplementedError()
