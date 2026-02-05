@@ -361,14 +361,14 @@ class MhdLegacyDatasetBuilder:
                     reverse_relationship_name="affiliates",
                 )
                 for role in contact.roles:
-                    if role.term == "principal investigator":
+                    if role.term.lower() == "principal investigator":
                         mhd_builder.link(
                             mhd_contact,
                             "principal-investigator-of",
                             mhd_study,
                             reverse_relationship_name="has-principal-investigator",
                         )
-                    elif role.term == "submitter":
+                    elif role.term.lower() == "submitter":
                         mhd_builder.link(
                             mhd_contact,
                             "submits",
@@ -448,6 +448,46 @@ class MhdLegacyDatasetBuilder:
                         )
 
         return organizations
+
+    def add_funders(
+        self,
+        data: MetabolightsStudyModel,
+        mhd_builder: MhDatasetBuilder,
+        mhd_study: mhd_domain.Study,
+        organizations: dict[str, mhd_domain.Organization],
+        build_type: BuildType = BuildType.FULL,
+    ):
+        if build_type == build_type.MINIMUM:
+            return
+        study: Study = data.investigation.studies[0]
+        comments = {x.name: x for x in study.comments if x and x.name}
+        grant_ids = []
+        if comments.get("Funder") and comments["Funder"].value:
+            if isinstance(comments["Funder"].value, str):
+                funders = comments["Funder"].value.split(";") or []
+            else:
+                funders = comments["Funder"].value[0].split(";") or []
+            for funder in funders:
+                organization = organizations.get(funder)
+                if not organization:
+                    organization = mhd_domain.Organization(name=funder)
+                    mhd_builder.add(organization)
+                    organizations[funder] = organization
+            mhd_builder.link(
+                mhd_study,
+                "funded-by",
+                organization,
+                reverse_relationship_name="funds",
+            )
+        grants = comments.get("Grant Identifier")
+        if grants and grants.value:
+            if isinstance(grants.value, str):
+                identifiers = grants.value.split(";")
+            else:
+                identifiers = grants.value[0].split(";")
+            if identifiers:
+                grant_ids.extend(identifiers)
+        mhd_study.grant_identifier_list = grant_ids
 
     def add_publications(
         self,
@@ -1864,28 +1904,32 @@ class MhdLegacyDatasetBuilder:
                 )
                 mhd_builder.add(assay_type)
                 mhd_assay.assay_type_ref = assay_type.id_
+            omics_types: list[mhd_domain.CvTermObject] = []
+            measurement_types: list[mhd_domain.CvTermObject] = []
+            measurement = None
+            if "untargeted" in assay.measurement_type.term.lower():
+                measurement = MTBLS_MEASUREMENT_TYPES["untargeted"]
+            elif "targeted" in assay.measurement_type.term.lower():
+                measurement = MTBLS_MEASUREMENT_TYPES["targeted"]
 
             inv_study = data.investigation.studies[0]
             design_types = inv_study.study_design_descriptors.design_types
 
-            omics_types: list[mhd_domain.CvTermObject] = []
-            measurement_types: list[mhd_domain.CvTermObject] = []
             for descriptor in design_types:
-                measurement = None
-                if "untargeted" in descriptor.term.lower():
-                    measurement = MTBLS_MEASUREMENT_TYPES["untargeted"]
-                elif "targeted" in descriptor.term.lower():
-                    measurement = MTBLS_MEASUREMENT_TYPES["targeted"]
+                if not measurement:
+                    if "untargeted" in descriptor.term.lower():
+                        measurement = MTBLS_MEASUREMENT_TYPES["untargeted"]
+                    elif "targeted" in descriptor.term.lower():
+                        measurement = MTBLS_MEASUREMENT_TYPES["targeted"]
 
-                if measurement:
-                    measurement_type = create_cv_term_object(
-                        type_="descriptor",
-                        source=measurement.source,
-                        accession=measurement.accession,
-                        name=measurement.name,
-                    )
-                    measurement_types.append(measurement_type)
-
+                    if measurement:
+                        measurement_type = create_cv_term_object(
+                            type_="descriptor",
+                            source=measurement.source,
+                            accession=measurement.accession,
+                            name=measurement.name,
+                        )
+                        measurement_types.append(measurement_type)
                 for v in COMMON_OMICS_TYPES.values():
                     if descriptor.term.lower() == v.name.lower():
                         omics_type = create_cv_term_object(
@@ -2110,7 +2154,9 @@ class MhdLegacyDatasetBuilder:
             reverse_relationship_name="provided-by",
         )
 
-        self.add_contacts(data, mhd_builder, mhd_study, build_type)
+        organizations = self.add_contacts(data, mhd_builder, mhd_study, build_type)
+        self.add_funders(data, mhd_builder, mhd_study, organizations, build_type)
+
         metadata_files = self.add_metadata_files(
             mhd_builder,
             mhd_study,

@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 if __name__ == "__main__":
     setup_basic_logging_config()
-    study_ids = ["MTBLS3107"]
+    study_ids = ["MTBLS30008978"]
 
     # METADATA FILES path
     config = get_default_config()

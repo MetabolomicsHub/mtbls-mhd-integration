@@ -877,7 +877,7 @@ wheels = [
 
 [[package]]
 name = "mhd-model"
-version = "0.1.43"
+version = "0.1.44"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "bioregistry" },
@@ -894,9 +894,9 @@ dependencies = [
     { name = "pyyaml" },
     { name = "reachable" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/a3/70/c2ea78a9cbd81bb9196306a8e794872a8e68095be35fe7b9ae6e9da73388/mhd_model-0.1.43.tar.gz", hash = "sha256:13133c8299dcc0bc22da87e73abfef3739930bfa493e2ee9be39bb0f2374667d", size = 105229, upload-time = "2026-01-30T09:10:12.976Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/8d/fd/026d5beb8f661211bfb9af58b2f1ee6590643d07dde676d29b37f50d04e4/mhd_model-0.1.44.tar.gz", hash = "sha256:eae16d6af310b9bb336d1e2dff303a0afb132333ba806b24fa5a54461ffc0896", size = 105280, upload-time = "2026-02-05T09:41:31.901Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/97/fa/f5e3409c7489130cd502a49c22023bd2634fa0274e48451aa5ad88d62178/mhd_model-0.1.43-py3-none-any.whl", hash = "sha256:6b4be62d087a12c6d15eba685111cb380e57ff448112cf0162981032f27ad380", size = 136816, upload-time = "2026-01-30T09:10:13.944Z" },
+    { url = "https://files.pythonhosted.org/packages/9c/42/7c99fc2aa9ba66632efb6a747f4870ee8e7d848476ebb559eaa6e07d8453/mhd_model-0.1.44-py3-none-any.whl", hash = "sha256:dbe7c7a2ca4e72f1419a937c4f14506b23df0c4087ba518bf5a31c8386ab2046", size = 136814, upload-time = "2026-02-05T09:41:30.883Z" },
 ]
 
 [[package]]
@@ -1011,8 +1011,8 @@ test = [
 [package.metadata]
 requires-dist = [
     { name = "asyncpg", specifier = ">=0.30.0" },
-    { name = "metabolights-utils", specifier = ">=1.4.16" },
-    { name = "mhd-model", specifier = ">=0.1.43" },
+    { name = "metabolights-utils", specifier = ">=1.4.18" },
+    { name = "mhd-model", specifier = ">=0.1.44" },
     { name = "psycopg", extras = ["binary", "pool"], specifier = ">=3.3.2" },
     { name = "pydantic", specifier = ">=2.12.4" },
     { name = "pydantic-settings", specifier = ">=2.10.1" },
