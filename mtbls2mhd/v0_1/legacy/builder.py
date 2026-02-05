@@ -283,6 +283,7 @@ class MhdLegacyDatasetBuilder:
                                 if x
                             ]
                         ),
+                        email_list=[submitter.user_name],
                     )
                     mhd_builder.add(mhd_contact)
                     mhd_builder.link(
@@ -331,6 +332,11 @@ class MhdLegacyDatasetBuilder:
                         idx,
                     )
                     continue
+                if contact.additional_emails:
+                    if mhd_contact.email_list:
+                        mhd_contact.email_list.extend(contact.additional_emails)
+                    else:
+                        mhd_contact.email_list = contact.additional_emails
                 if not mhd_contact.email_list:
                     logger.warning(
                         "%s study %s. contact's ('%s') email is empty. Contact will be ignored.",
@@ -360,7 +366,11 @@ class MhdLegacyDatasetBuilder:
                     organization,
                     reverse_relationship_name="affiliates",
                 )
+                roles = set()
                 for role in contact.roles:
+                    if role.term.lower() in roles:
+                        continue
+                    roles.add(role.term.lower())
                     if role.term.lower() == "principal investigator":
                         mhd_builder.link(
                             mhd_contact,
@@ -429,7 +439,7 @@ class MhdLegacyDatasetBuilder:
                     else:
                         mhd_contact = contacts[submitter.user_name]
                     submitter_roles = [
-                        x for x in contact.roles if x.term == "submitter"
+                        x for x in contact.roles if x.term.lower() == "submitter"
                     ]
                     if not submitter_roles:
                         mhd_builder.link(
@@ -1487,17 +1497,17 @@ class MhdLegacyDatasetBuilder:
             )
             mhd_builder.add_node(keyword)
 
-            if item.source and item.source.lower() in ("data-curation", "workflows"):
+            if not item.source or item.source.lower() in ("submitter",):
                 mhd_builder.link(
                     mhd_study,
-                    "has-repository-keyword",
+                    "has-submitter-keyword",
                     keyword,
                     reverse_relationship_name="keyword-of",
                 )
             else:
                 mhd_builder.link(
                     mhd_study,
-                    "has-submitter-keyword",
+                    "has-repository-keyword",
                     keyword,
                     reverse_relationship_name="keyword-of",
                 )
@@ -1525,20 +1535,17 @@ class MhdLegacyDatasetBuilder:
                 )
                 mhd_builder.add_node(keyword)
 
-                if item.source and item.source.lower() in (
-                    "data-curation",
-                    "workflows",
-                ):
+                if not item.source or item.source.lower() in ("submitter",):
                     mhd_builder.link(
                         mhd_assay,
-                        "has-repository-keyword",
+                        "has-submitter-keyword",
                         keyword,
                         reverse_relationship_name="keyword-of",
                     )
                 else:
                     mhd_builder.link(
                         mhd_assay,
-                        "has-submitter-keyword",
+                        "has-repository-keyword",
                         keyword,
                         reverse_relationship_name="keyword-of",
                     )
