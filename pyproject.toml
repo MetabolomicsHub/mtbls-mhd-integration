@@ -1,6 +1,6 @@
 [project]
 name = "mtbls-mhd-integration"
-version = "0.0.15"
+version = "0.0.16"
 description = "MetaboLights - MetabolomicsHub Integration"
 authors = [{"name" = "MetaboLights Team", "email" = "metabolights-help@ebi.ac.uk"}]
 license = "Apache-2.0"
@@ -54,7 +54,7 @@ exclude = ["tests*", "docs*"]
 [tool.commitizen]
 name = "cz_conventional_commits"
 version_provider = "uv"
-version = "0.0.153"
+version = "0.0.163"
 tag_format = "v$major.$minor.$patch"
 version_files = [
     "pyproject.toml:version",

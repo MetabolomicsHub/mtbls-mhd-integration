@@ -1,3 +1,9 @@
+## v0.0.16 (2026-02-05)
+
+### Fix
+
+- missing contact email and affiliation list convertion
+
 ## v0.0.15 (2026-02-05)
 
 ### Fix
