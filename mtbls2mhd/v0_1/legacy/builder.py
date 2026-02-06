@@ -492,12 +492,21 @@ class MhdLegacyDatasetBuilder:
         grants = comments.get("Grant Identifier")
         if grants and grants.value:
             if isinstance(grants.value, str):
-                identifiers = grants.value.split(";")
+                identifiers = [
+                    x.strip()
+                    for x in grants.value.split(";")
+                    if x and len(x.strip()) > 1
+                ]
             else:
-                identifiers = grants.value[0].split(";")
+                identifiers = [
+                    x.strip()
+                    for x in grants.value[0].split(";")
+                    if x and len(x.strip()) > 1
+                ]
             if identifiers:
                 grant_ids.extend(identifiers)
-        mhd_study.grant_identifier_list = grant_ids
+        if grant_ids:
+            mhd_study.grant_identifier_list = grant_ids
 
     def add_publications(
         self,
