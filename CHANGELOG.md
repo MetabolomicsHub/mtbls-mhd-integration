@@ -1,3 +1,9 @@
+## v0.0.18 (2026-02-06)
+
+### Fix
+
+- grant identifier conversion update
+
 ## v0.0.17 (2026-02-06)
 
 ### Fix
