@@ -1,3 +1,9 @@
+## v0.0.17 (2026-02-06)
+
+### Fix
+
+- measurement conversion error
+
 ## v0.0.16 (2026-02-05)
 
 ### Fix
