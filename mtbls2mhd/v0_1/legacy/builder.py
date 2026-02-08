@@ -26,7 +26,7 @@ from mhd_model.model.v0_1.dataset.profiles.legacy.profile import MhDatasetLegacy
 from mhd_model.model.v0_1.rules.managed_cv_terms import (
     COMMON_ASSAY_TYPES,
     COMMON_CHARACTERISTIC_DEFINITIONS,
-    COMMON_MEASUREMENT_TYPES_MAP,
+    COMMON_MEASUREMENT_TYPES,
     COMMON_OMICS_TYPES,
     COMMON_PARAMETER_DEFINITIONS,
     COMMON_PROTOCOLS,
@@ -61,11 +61,12 @@ MTBLS_ASSAY_TYPES = {
     "MS": COMMON_ASSAY_TYPES["OBI:0000470"],
 }
 MTBLS_MEASUREMENT_TYPES = {
-    "targeted": COMMON_MEASUREMENT_TYPES_MAP["MSIO:0000100"],
-    "untargeted": COMMON_MEASUREMENT_TYPES_MAP["MSIO:0000101"],
+    "targeted": COMMON_MEASUREMENT_TYPES["MS:1003905"],
+    "untargeted": COMMON_MEASUREMENT_TYPES["MS:1003904"],
+    "semi-targeted": COMMON_MEASUREMENT_TYPES["MS:1003906"],
 }
 
-DEFAULT_MEASUREMENT_TYPE = COMMON_MEASUREMENT_TYPES_MAP["MSIO:0000101"]
+DEFAULT_MEASUREMENT_TYPE = COMMON_MEASUREMENT_TYPES["MS:1003904"]
 
 DEFAULT_OMICS_TYPE = COMMON_OMICS_TYPES["EDAM:3172"]
 
@@ -132,18 +133,18 @@ MTBLS_PROTOCOL_PARAMETER_DEFINITION_MAP.update(
             "Ion source": COMMON_PARAMETER_DEFINITIONS["CHMO:0000960"],
             "Mass analyzer": COMMON_PARAMETER_DEFINITIONS["OBI:0000345"],
             "CE instrument": COMMON_PARAMETER_DEFINITIONS["OBI:0001132"],
-            "Scan m/z range": COMMON_PARAMETER_DEFINITIONS["MTBLS:50020"],
-            "FIA instrument": COMMON_PARAMETER_DEFINITIONS["MTBLS:50021"],
+            # "Scan m/z range": COMMON_PARAMETER_DEFINITIONS["MTBLS:50020"],
+            # "FIA instrument": COMMON_PARAMETER_DEFINITIONS["MTBLS:50021"],
         },
         "Chromatography": {
-            "Column model": COMMON_PARAMETER_DEFINITIONS["MTBLS:50001"],
-            "Column type": COMMON_PARAMETER_DEFINITIONS["MTBLS:50002"],
-            "Guard column": COMMON_PARAMETER_DEFINITIONS["MTBLS:50003"],
-            "Autosampler model": COMMON_PARAMETER_DEFINITIONS["MTBLS:50004"],
+            # "Column model": COMMON_PARAMETER_DEFINITIONS["MTBLS:50001"],
+            # "Column type": COMMON_PARAMETER_DEFINITIONS["MTBLS:50002"],
+            # "Guard column": COMMON_PARAMETER_DEFINITIONS["MTBLS:50003"],
+            # "Autosampler model": COMMON_PARAMETER_DEFINITIONS["MTBLS:50004"],
         },
         "Extraction": {
-            "Post Extraction": COMMON_PARAMETER_DEFINITIONS["MTBLS:50010"],
-            "Derivatization": COMMON_PARAMETER_DEFINITIONS["MTBLS:50011"],
+            # "Post Extraction": COMMON_PARAMETER_DEFINITIONS["MTBLS:50010"],
+            # "Derivatization": COMMON_PARAMETER_DEFINITIONS["MTBLS:50011"],
         },
     }
 )
@@ -2099,7 +2100,7 @@ class MhdLegacyDatasetBuilder:
         # TODO get revision, dataset_licence from study
         mhd_builder = MhDatasetBuilder(
             repository_name=repository_name,
-            mhd_identifier=None,
+            mhd_identifier=mhd_id if mhd_id and mhd_id.startswith("MHD") else None,
             repository_identifier=study.identifier,
             schema_name=target_mhd_model_schema_uri,
             profile_uri=target_mhd_model_profile_uri,
@@ -2153,7 +2154,7 @@ class MhdLegacyDatasetBuilder:
         mhd_study = mhd_domain.Study(
             repository_identifier=study.identifier,
             created_by_ref=dataset_provider.id_,
-            mhd_identifier=mhd_id,
+            mhd_identifier=mhd_id if mhd_id and mhd_id.startswith("MHD") else None,
             title=study.title,
             description=study.description,
             submission_date=submission_date,
@@ -2225,8 +2226,11 @@ class MhdLegacyDatasetBuilder:
             start_item_refs=[mhd_study.id_], dataset_class=MhDatasetLegacyProfile
         )
         # mhd_dataset.created_by_ref = dataset_provider.id_
-        filename = mhd_id if mhd_id else study.identifier
-        mhd_dataset.name = f"{filename} MetabolomicsHub Legacy Dataset"
+        filename = study.identifier
+        if mhd_id:
+            mhd_dataset.name = f"{mhd_id} ({study.identifier}) MetabolomicsHub Dataset"
+        else:
+            mhd_dataset.name = f"{study.identifier} Dataset"
         mhd_output_folder_path.mkdir(parents=True, exist_ok=True)
         output_path = mhd_output_folder_path / Path(f"{filename}.mhd.json")
         if mhd_output_filename:
