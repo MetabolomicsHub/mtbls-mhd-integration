@@ -51,7 +51,7 @@ logger = logging.getLogger(__name__)
 ## MTBLS RELATED CONFIGURATION ###
 ##############################################################################################################
 MTBLS_ASSAY_TYPES = {
-    "LC-MS": COMMON_ASSAY_TYPES["OBI:0003097S"],
+    "LC-MS": COMMON_ASSAY_TYPES["OBI:0003097"],
     "GC-MS": COMMON_ASSAY_TYPES["OBI:0003110"],
     "CE-MS": COMMON_ASSAY_TYPES["OBI:0003741"],
     "GCxGC-MS": COMMON_ASSAY_TYPES["OBI:0003110"],

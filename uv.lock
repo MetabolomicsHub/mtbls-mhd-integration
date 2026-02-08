@@ -904,7 +904,7 @@ wheels = [
 
 [[package]]
 name = "mhd-model"
-version = "0.1.47"
+version = "0.1.50"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "bioregistry" },
@@ -921,9 +921,9 @@ dependencies = [
     { name = "pyyaml" },
     { name = "reachable" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/de/da/88e334a13317ba7da4f2dcf65bd7b3f1829643a304da61a75403ce05746f/mhd_model-0.1.47.tar.gz", hash = "sha256:a6ec672f25bf81cc4c1d3863fbf954af786f321b61cab217bae0456901bb8ef5", size = 105806, upload-time = "2026-02-08T16:55:39.094Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/76/c7/fddd9426c43c8deb8e17ca24bf1c8f32d8075d4d8a29965caf51acba412a/mhd_model-0.1.50.tar.gz", hash = "sha256:9bd5d68a82f958323fc32a618249cbdd8872dae0466ba211eccdc188c576268e", size = 106094, upload-time = "2026-02-08T20:29:05.245Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/4b/fa/4143cb00d514b1c583109430a2796efdb7be9bec07aab14d60b4742382f6/mhd_model-0.1.47-py3-none-any.whl", hash = "sha256:28d917836aeaa585850220bbf704e03d3f91fa9c6fa86c7e8ddc39ee1d08fc68", size = 137342, upload-time = "2026-02-08T16:55:38.008Z" },
+    { url = "https://files.pythonhosted.org/packages/9e/18/b651e7c6bd020ed173971c7ade7cf36aea1345a19004e5a8bd4791e3c73a/mhd_model-0.1.50-py3-none-any.whl", hash = "sha256:cd9726ae2a7c4ced1d55e50448fa737a2c92cd9f5dedcb84327fb75eb316ef76", size = 137400, upload-time = "2026-02-08T20:29:06.317Z" },
 ]
 
 [[package]]
@@ -1039,7 +1039,7 @@ test = [
 requires-dist = [
     { name = "asyncpg", specifier = ">=0.30.0" },
     { name = "metabolights-utils", specifier = ">=1.4.18" },
-    { name = "mhd-model", specifier = ">=0.1.47" },
+    { name = "mhd-model", specifier = ">=0.1.50" },
     { name = "psycopg", extras = ["binary", "pool"], specifier = ">=3.3.2" },
     { name = "pydantic", specifier = ">=2.12.4" },
     { name = "pydantic-settings", specifier = ">=2.10.1" },
