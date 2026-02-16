@@ -27,12 +27,12 @@ from mhd_model.model.v0_1.rules.managed_cv_terms import (
     COMMON_ASSAY_TYPES,
     COMMON_CHARACTERISTIC_DEFINITIONS,
     COMMON_MEASUREMENT_TYPES,
+    COMMON_MISSING_DATA_TERMS,
     COMMON_OMICS_TYPES,
     COMMON_PARAMETER_DEFINITIONS,
     COMMON_PROTOCOLS,
     COMMON_STUDY_FACTOR_DEFINITIONS,
     COMMON_TECHNOLOGY_TYPES,
-    REQUIRED_COMMON_PARAMETER_DEFINITIONS,
 )
 from mhd_model.shared.fields import DOI
 from mhd_model.shared.model import CvTerm, Revision, UnitCvTerm
@@ -43,7 +43,9 @@ from mtbls2mhd.v0_1.legacy.db_metadata_collector import (
     DbMetadataCollector,
     create_postgresql_connection,
 )
-from mtbls2mhd.v0_1.legacy.folder_metadata_collector import LocalFolderMetadataCollector
+from mtbls2mhd.v0_1.legacy.folder_metadata_collector import (
+    LocalFolderMetadataCollector,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -51,36 +53,31 @@ logger = logging.getLogger(__name__)
 ## MTBLS RELATED CONFIGURATION ###
 ##############################################################################################################
 MTBLS_ASSAY_TYPES = {
-    "LC-MS": COMMON_ASSAY_TYPES["OBI:0003097"],
-    "GC-MS": COMMON_ASSAY_TYPES["OBI:0003110"],
-    "CE-MS": COMMON_ASSAY_TYPES["OBI:0003741"],
-    "GCxGC-MS": COMMON_ASSAY_TYPES["OBI:0003110"],
-    "FIA-MS": COMMON_ASSAY_TYPES["OBI:0000470"],
-    "MALDI-MS": COMMON_ASSAY_TYPES["OBI:0000470"],
-    "DI-MS": COMMON_ASSAY_TYPES["OBI:0000470"],
-    "MS": COMMON_ASSAY_TYPES["OBI:0000470"],
+    "LC-MS": COMMON_ASSAY_TYPES["lc-ms"],
+    "GC-MS": COMMON_ASSAY_TYPES["gc-ms"],
+    "CE-MS": COMMON_ASSAY_TYPES["ce-ms"],
+    "GCxGC-MS": COMMON_ASSAY_TYPES["gc-ms"],
+    "FIA-MS": COMMON_ASSAY_TYPES["ms"],
+    "MALDI-MS": COMMON_ASSAY_TYPES["ms"],
+    "DI-MS": COMMON_ASSAY_TYPES["ms"],
+    "MS": COMMON_ASSAY_TYPES["ms"],
 }
 MTBLS_MEASUREMENT_TYPES = {
-    "targeted": COMMON_MEASUREMENT_TYPES["MS:1003905"],
-    "untargeted": COMMON_MEASUREMENT_TYPES["MS:1003904"],
-    "semi-targeted": COMMON_MEASUREMENT_TYPES["MS:1003906"],
+    "targeted": COMMON_MEASUREMENT_TYPES["targeted"],
+    "untargeted": COMMON_MEASUREMENT_TYPES["untargeted"],
+    "semi-targeted": COMMON_MEASUREMENT_TYPES["semi-targeted"],
 }
 
-DEFAULT_MEASUREMENT_TYPE = COMMON_MEASUREMENT_TYPES["MS:1003904"]
+DEFAULT_MEASUREMENT_TYPE = COMMON_MEASUREMENT_TYPES["untargeted"]
 
-DEFAULT_OMICS_TYPE = COMMON_OMICS_TYPES["EDAM:3172"]
+DEFAULT_OMICS_TYPE = COMMON_OMICS_TYPES["metabolomics"]
 
 COMMON_PROTOCOLS_MAP = {
-    "Sample collection": COMMON_PROTOCOLS["EFO:0005518"],
-    "Extraction": COMMON_PROTOCOLS["MS:1000831"],
-    "Mass spectrometry": COMMON_PROTOCOLS["CHMO:0000470"],
-    "Data transformation": COMMON_PROTOCOLS["OBI:0200000"],
-    "Metabolite identification": COMMON_PROTOCOLS["MI:2131"],
-    "Chromatography": COMMON_PROTOCOLS["CHMO:0001000"],
-    "Treatment": COMMON_PROTOCOLS["EFO:0003969"],
-    "Flow Injection Analysis": COMMON_PROTOCOLS["MS:1000058"],
-    "Capillary Electrophoresis": COMMON_PROTOCOLS["CHMO:0001024"],
-    # TODO: Update after adding to managed CV terms
+    "Mass spectrometry": COMMON_PROTOCOLS["mass spectrometry"],
+    "Chromatography": COMMON_PROTOCOLS["chromatography"],
+    "Sample collection": COMMON_PROTOCOLS["sample collection"],
+    "Extraction": COMMON_PROTOCOLS["sample preparation"],
+    "Treatment": COMMON_PROTOCOLS["treatment"],
 }
 
 MTBLS_PROTOCOLS_MAP = COMMON_PROTOCOLS_MAP.copy()
@@ -92,53 +89,95 @@ MTBLS_PROTOCOLS_MAP.update(
             accession="MS:1000060",
             name="infusion",
         ),
+        "Data transformation": CvTerm(
+            source="OBI",
+            accession="OBI:0200000",
+            name="data transformation",
+        ),
+        "Metabolite identification": CvTerm(
+            source="MI",
+            accession="MI:2131",
+            name="metabolite identification",
+        ),
+        "Flow Injection Analysis": CvTerm(
+            source="CHMO",
+            accession="CHMO:0002891",
+            name="flow-injection analysis",
+        ),
+        "Capillary Electrophoresis": CvTerm(
+            source="CHMO",
+            accession="CHMO:0001024",
+            name="capillary electrophoresis",
+        ),
     }
 )
 MANAGED_CHARACTERISTICS_MAP = {
-    "organism": COMMON_CHARACTERISTIC_DEFINITIONS["NCIT:C14250"],
-    "organism part": COMMON_CHARACTERISTIC_DEFINITIONS["NCIT:C103199"],
-    "disease": COMMON_CHARACTERISTIC_DEFINITIONS["EFO:0000408"],
-    "cell type": COMMON_CHARACTERISTIC_DEFINITIONS["EFO:0000324"],
+    "organism": COMMON_CHARACTERISTIC_DEFINITIONS["organism"],
+    "organism part": COMMON_CHARACTERISTIC_DEFINITIONS["organism part"],
+    "disease": COMMON_CHARACTERISTIC_DEFINITIONS["disease"],
+    "cell type": COMMON_CHARACTERISTIC_DEFINITIONS["cell type"],
     # "geographic location": COMMON_CHARACTERISTIC_DEFINITIONS["GAZ:00000448"],
 }
 
 MTBLS_CHARACTERISTICS_MAP = MANAGED_CHARACTERISTICS_MAP.copy()
 MTBLS_CHARACTERISTICS_MAP.update(
     {
+        "sample type": CvTerm(
+            source="NCIT", accession="NCIT:C210102", name="Sample Type"
+        ),
+        "variant": CvTerm(source="ENVO", accession="PATO:0001227", name="variant"),
         "phenotype": CvTerm(source="EFO", accession="EFO:0000651", name="phenotype"),
+        "cell line": CvTerm(source="CLO", accession="CLO:0000031", name="cell line"),
     }
 )
 
 MANAGED_STUDY_FACTOR_MAP = {
-    "disease": COMMON_STUDY_FACTOR_DEFINITIONS["EFO:0000408"],
+    "disease": COMMON_STUDY_FACTOR_DEFINITIONS["disease"],
     "treatment": CvTerm(source="EFO", accession="EFO:0000727", name="treatment"),
 }
 MTBLS_STUDY_FACTOR_MAP = MANAGED_STUDY_FACTOR_MAP.copy()
 MTBLS_STUDY_FACTOR_MAP.update({})
 
 
-REQUIRED_PROTOCOL_PARAMETER_VALUE_MAP = {
+COMMON_PROTOCOL_PARAMETER_VALUE_MAP = {
     "Mass spectrometry": {
-        "Instrument": REQUIRED_COMMON_PARAMETER_DEFINITIONS["MSIO:0000171"],
+        "Instrument": COMMON_PARAMETER_DEFINITIONS["mass spectrometry instrument"],
+        "Scan polarity": COMMON_PARAMETER_DEFINITIONS["acquisition polarity"],
+        "Ion source": COMMON_PARAMETER_DEFINITIONS["ionization type"],
+        "Mass analyzer": COMMON_PARAMETER_DEFINITIONS["instrument class"],
+        # "Inlet type": COMMON_PARAMETER_DEFINITIONS["inlet type"],
+    },
+    "Chromatography": {
+        "Chromatography Instrument": COMMON_PARAMETER_DEFINITIONS[
+            "chromatography instrument"
+        ],
+        "Column model": COMMON_PARAMETER_DEFINITIONS["chromatography column"],
+        "Column type": COMMON_PARAMETER_DEFINITIONS["chromatography separation"],
+        # "Solvent": COMMON_PARAMETER_DEFINITIONS["solvent"],
+        # "Chromatographic additive": COMMON_PARAMETER_DEFINITIONS["chromatographic additive"],
     },
 }
+ALL_COMMON_PROTOCOL_PARAMETERS = {}
+for _, items in COMMON_PROTOCOL_PARAMETER_VALUE_MAP.items():
+    for name, term in items.items():
+        ALL_COMMON_PROTOCOL_PARAMETERS[name] = term
 
 MTBLS_PROTOCOL_PARAMETER_DEFINITION_MAP = {}
 
 MTBLS_PROTOCOL_PARAMETER_DEFINITION_MAP.update(
     {
         "Mass spectrometry": {
-            **REQUIRED_PROTOCOL_PARAMETER_VALUE_MAP["Mass spectrometry"],
-            "Scan polarity": COMMON_PARAMETER_DEFINITIONS["MS:1000465"],
-            "Ion source": COMMON_PARAMETER_DEFINITIONS["CHMO:0000960"],
-            "Mass analyzer": COMMON_PARAMETER_DEFINITIONS["OBI:0000345"],
-            "CE instrument": COMMON_PARAMETER_DEFINITIONS["OBI:0001132"],
+            **COMMON_PROTOCOL_PARAMETER_VALUE_MAP["Mass spectrometry"],
+            "CE instrument": CvTerm(
+                source="OBI",
+                accession="OBI:0001132",
+                name="capillary electrophoresis instrument",
+            ),
             # "Scan m/z range": COMMON_PARAMETER_DEFINITIONS["MTBLS:50020"],
             # "FIA instrument": COMMON_PARAMETER_DEFINITIONS["MTBLS:50021"],
         },
         "Chromatography": {
-            # "Column model": COMMON_PARAMETER_DEFINITIONS["MTBLS:50001"],
-            # "Column type": COMMON_PARAMETER_DEFINITIONS["MTBLS:50002"],
+            **COMMON_PROTOCOL_PARAMETER_VALUE_MAP["Chromatography"],
             # "Guard column": COMMON_PARAMETER_DEFINITIONS["MTBLS:50003"],
             # "Autosampler model": COMMON_PARAMETER_DEFINITIONS["MTBLS:50004"],
         },
@@ -154,13 +193,23 @@ FILE_EXTENSIONS: dict[tuple[str, bool], CvTerm] = {
     (".d", True): CvTerm(
         source="MS", accession="MS:1002302", name="Bruker Container format"
     ),
-    (".raw", False): CvTerm(source="EDAM", accession="EDAM:3712", name="Thermo RAW"),
-    (".raw", True): CvTerm(source="EDAM", accession="EDAM:3858", name="Waters RAW"),
-    (".wiff", False): CvTerm(source="EFO", accession="EDAM:3710", name="WIFF format"),
-    (".mzml", False): CvTerm(source="EDAM", accession="EDAM:3244", name="mzML"),
-    (".mzdata", False): CvTerm(source="EFO", accession="EDAM:3834", name="mzData"),
-    (".mzxml", False): CvTerm(source="EDAM", accession="EDAM:3654", name="mzXML"),
-    (".ibd", False): CvTerm(source="EDAM", accession="EDAM:3839", name="ibd"),
+    (".raw", False): CvTerm(
+        source="EDAM", accession="EDAM:format_3712", name="Thermo RAW"
+    ),
+    (".raw", True): CvTerm(
+        source="EDAM", accession="EDAM:format_3858", name="Waters RAW"
+    ),
+    (".wiff", False): CvTerm(
+        source="EDAM", accession="EDAM:format_3710", name="WIFF format"
+    ),
+    (".mzml", False): CvTerm(source="EDAM", accession="EDAM:format_3244", name="mzML"),
+    (".mzdata", False): CvTerm(
+        source="EDAM", accession="EDAM:format_3834", name="mzData"
+    ),
+    (".mzxml", False): CvTerm(
+        source="EDAM", accession="EDAM:format_3654", name="mzXML"
+    ),
+    (".ibd", False): CvTerm(source="EDAM", accession="EDAM:format_3839", name="ibd"),
 }
 
 # DEFAULT_RAW_DATA_FILE_FORMAT = CvTerm(
@@ -204,6 +253,8 @@ def create_cv_term_value_object(
     value: None | str = None,
     unit: None | UnitCvTerm = None,
 ) -> mhd_domain.CvTermValueObject:
+    # Remove accession and source if they start with MTBLS.
+    # they are placeholders and do not have meaning outside of MTBLS context.
     if accession and accession.lower().startswith("mtbls"):
         accession = ""
     if source and source.lower().startswith("mtbls"):
@@ -596,7 +647,10 @@ class MhdLegacyDatasetBuilder:
         build_type: BuildType = BuildType.FULL,
     ):
         isa_tab_format = create_cv_term_object(
-            type_="descriptor", accession="EDAM:3687", source="EDAM", name="ISA-TAB"
+            type_="descriptor",
+            accession="EDAM:format_3687",
+            source="EDAM",
+            name="ISA-TAB",
         )
         study_id = ""
         metadata_files = []
@@ -652,7 +706,7 @@ class MhdLegacyDatasetBuilder:
     ):
         result_file_map: dict[str, mhd_domain.ResultFile] = {}
         tsv_format = create_cv_term_object(
-            type_="descriptor", accession="EDAM:3475", source="EDAM", name="TSV"
+            type_="descriptor", accession="EDAM:format_3475", source="EDAM", name="TSV"
         )
         study_id = mhd_study.repository_identifier
 
@@ -790,6 +844,7 @@ class MhdLegacyDatasetBuilder:
         build_type: BuildType = BuildType.FULL,
     ):
         characteristics_map: dict[str, mhd_domain.CvTermObject] = {}
+        created_characteristics = {}
         for item in sample_file.table.headers:
             if item.column_header.startswith("Characteristics["):
                 name = (
@@ -822,6 +877,7 @@ class MhdLegacyDatasetBuilder:
                         accession=cv_term.accession,
                         source=cv_term.source,
                     )
+                created_characteristics[name] = characteristic_type
                 key = characteristic_type.accession or characteristic_type.name
                 if key not in characteristics_map:
                     characteristics_map[key] = characteristic_type
@@ -845,6 +901,52 @@ class MhdLegacyDatasetBuilder:
                     "has-characteristic-definition",
                     characteristic,
                     reverse_relationship_name="used-in",
+                )
+        for name, term in MANAGED_CHARACTERISTICS_MAP.items():
+            if name not in created_characteristics:
+                characteristic_type = create_cv_term_object(
+                    type_="characteristic-type",
+                    name=term.name,
+                    accession=term.accession,
+                    source=term.source,
+                )
+                characteristics_map[term.accession or term.name] = characteristic_type
+                mhd_builder.add(characteristic_type)
+                characteristic = mhd_domain.CharacteristicDefinition(
+                    characteristic_type_ref=characteristic_type.id_,
+                    name=name,
+                )
+                mhd_builder.link(
+                    characteristic,
+                    "has-type",
+                    characteristic_type,
+                    reverse_relationship_name="type-of",
+                )
+                mhd_builder.add(characteristic)
+                mhd_builder.link(
+                    mhd_study,
+                    "has-characteristic-definition",
+                    characteristic,
+                    reverse_relationship_name="used-in",
+                )
+                missing_data = COMMON_MISSING_DATA_TERMS["not applicable"]
+                characteristic_value = mhd_domain.CvTermObject(
+                    type_="characteristic-value",
+                    name=missing_data.name,
+                    accession=missing_data.accession,
+                    source=missing_data.source,
+                )
+                mhd_builder.link(
+                    characteristic,
+                    "has-instance",
+                    characteristic_value,
+                    reverse_relationship_name="instance-of",
+                )
+                mhd_builder.link(
+                    characteristic_value,
+                    "has-type",
+                    characteristic_type,
+                    reverse_relationship_name="type-of",
                 )
 
     def add_samples(
@@ -978,6 +1080,37 @@ class MhdLegacyDatasetBuilder:
                     )
                 # sample.factor_values = factor_values
 
+        missing_data = COMMON_MISSING_DATA_TERMS["not applicable"]
+        characteristic_value = mhd_domain.CvTermObject(
+            type_="characteristic-value",
+            name=missing_data.name,
+            accession=missing_data.accession,
+            source=missing_data.source,
+        )
+        characteristic_labels: dict[str, mhd_domain.CvTermObject] = {
+            x.name.lower(): x for x in characteristics
+        }
+        missing_added = False
+        for k, v in MANAGED_CHARACTERISTICS_MAP.items():
+            if k not in characteristic_values_map:
+                if not missing_added:
+                    mhd_builder.add(characteristic_value)
+                    missing_added = True
+                mhd_builder.link(
+                    characteristic_labels[k],
+                    "has-instance",
+                    characteristic_value,
+                    reverse_relationship_name="instance-of",
+                )
+                char_type = mhd_builder.objects.get(
+                    characteristic_labels[k].characteristic_type_ref
+                )
+                mhd_builder.link(
+                    char_type,
+                    "type-of",
+                    characteristic_value,
+                    reverse_relationship_name="has-type",
+                )
         return samples_map
 
     def sanitize_string(self, input_string: str) -> str:
@@ -1251,7 +1384,7 @@ class MhdLegacyDatasetBuilder:
                         # term_name = (
                         #     definition.name.lower().replace("   ", " ").replace(" ", "-")
                         # )
-                        if cv and cv.accession in COMMON_PARAMETER_DEFINITIONS:
+                        if parameter in ALL_COMMON_PROTOCOL_PARAMETERS:
                             object_name = "parameter-value"
 
                         item = None
@@ -1393,8 +1526,10 @@ class MhdLegacyDatasetBuilder:
             parameters: list[mhd_domain.CvTermObject] = []
             for x in protocol.parameters:
                 if x.term:
-                    param_cv = self.get_parameter_cv(protocol.name, x.term)
                     definition_type = "x-mtbls-parameter-type"
+                    if x.term in ALL_COMMON_PROTOCOL_PARAMETERS:
+                        definition_type = "parameter-type"
+                    param_cv = self.get_parameter_cv(protocol.name, x.term)
                     if not param_cv:
                         definition_type = create_cv_term_object(
                             type_=definition_type,
@@ -1403,8 +1538,6 @@ class MhdLegacyDatasetBuilder:
                             source=x.term_source_ref or "",
                         )
                     else:
-                        if param_cv.accession in COMMON_PARAMETER_DEFINITIONS:
-                            definition_type = "parameter-type"
                         definition_type = create_cv_term_object(
                             type_=definition_type,
                             name=param_cv.name,
@@ -1441,12 +1574,20 @@ class MhdLegacyDatasetBuilder:
                     protocol_type = MTBLS_PROTOCOLS_MAP[name]
                 else:
                     protocol_type = CvTerm(name=protocol.name)
-
+            protocol_type_name = (
+                "protocol-type"
+                if name in COMMON_PROTOCOLS_MAP
+                else "x-mtbls-protocol-type"
+            )
+            if protocol_type_name == "x-mtbls-protocol-type":
+                pass
+            else:
+                pass
             definition_refs = None
             if parameters:
                 definition_refs = [x.id_ for x in parameters]
             protocol_type_obj = create_cv_term_object(
-                type_="protocol-type",
+                type_=protocol_type_name,
                 source=protocol_type.source or "",
                 accession=self.convert_to_curie(
                     protocol_type.source,
@@ -1528,37 +1669,95 @@ class MhdLegacyDatasetBuilder:
         assays: dict[str, mhd_domain.Assay],
         study: Study,
     ):
-        for assay in study.study_assays.assays:
+        assay_comments = {x.name: x for x in study.study_assays.comments}
+        for idx, assay in enumerate(study.study_assays.assays):
             mhd_assay = assays.get(assay.file_name)
             if not mhd_assay:
                 continue
-            for item in assay.assay_descriptors:
-                keyword = create_cv_term_object(
-                    type_="descriptor",
-                    source=item.term_source_ref or "",
-                    accession=self.convert_to_curie(
-                        item.term_source_ref,
-                        item.term_accession_number,
-                    )
-                    or "",
-                    name=item.term or "",
+            assay_descriptors = assay_comments.get("Assay Descriptor", [])
+            assay_descriptor_term_sources = assay_comments.get(
+                "Assay Descriptor Term Source REF", []
+            )
+            assay_descriptor_accessions = assay_comments.get(
+                "Assay Descriptor Term Accession Number", []
+            )
+            if (
+                assay_descriptors
+                and isinstance(assay_descriptors.value, list)
+                and idx < len(assay_descriptors.value)
+            ):
+                terms = assay_descriptors.value[idx]
+                if not terms or not terms.strip():
+                    continue
+                term_sources = (
+                    assay_descriptor_term_sources.value[idx]
+                    if idx < len(assay_descriptor_term_sources.value)
+                    else ""
                 )
-                mhd_builder.add_node(keyword)
+                accessions = (
+                    assay_descriptor_accessions.value[idx]
+                    if idx < len(assay_descriptor_accessions.value)
+                    else ""
+                )
+                term_list = terms.split(";") if terms else []
+                term_sources_list = term_sources.split(";") if term_sources else []
+                term_accessions_list = accessions.split(";") if accessions else []
 
-                if not item.source or item.source.lower() in ("submitter",):
+                for desc_idx, term in enumerate(term_list):
+                    if not term:
+                        continue
+                    keyword = create_cv_term_object(
+                        type_="descriptor",
+                        source=term_sources_list[desc_idx]
+                        if desc_idx < len(term_sources_list)
+                        else "",
+                        accession=self.convert_to_curie(
+                            term_sources_list[desc_idx]
+                            if desc_idx < len(term_sources_list)
+                            else "",
+                            term_accessions_list[desc_idx]
+                            if desc_idx < len(term_accessions_list)
+                            else "",
+                        )
+                        or "",
+                        name=term or "",
+                    )
+                    mhd_builder.add_node(keyword)
                     mhd_builder.link(
                         mhd_assay,
                         "has-submitter-keyword",
                         keyword,
                         reverse_relationship_name="keyword-of",
                     )
-                else:
-                    mhd_builder.link(
-                        mhd_assay,
-                        "has-repository-keyword",
-                        keyword,
-                        reverse_relationship_name="keyword-of",
-                    )
+            # for item in assay.assay_descriptors:
+            #     if not item or not item.term:
+            #         continue
+            #     keyword = create_cv_term_object(
+            #         type_="descriptor",
+            #         source=item.term_source_ref or "",
+            #         accession=self.convert_to_curie(
+            #             item.term_source_ref,
+            #             item.term_accession_number,
+            #         )
+            #         or "",
+            #         name=item.term or "",
+            #     )
+            #     mhd_builder.add_node(keyword)
+
+            #     if not item.source or item.source.lower() in ("submitter",):
+            #         mhd_builder.link(
+            #             mhd_assay,
+            #             "has-submitter-keyword",
+            #             keyword,
+            #             reverse_relationship_name="keyword-of",
+            #         )
+            #     else:
+            #         mhd_builder.link(
+            #             mhd_assay,
+            #             "has-repository-keyword",
+            #             keyword,
+            #             reverse_relationship_name="keyword-of",
+            #         )
 
     def find_file_format(
         self,
@@ -1624,7 +1823,7 @@ class MhdLegacyDatasetBuilder:
         result_file_format = create_cv_term_object(
             type_="descriptor",
             source="EDAM",
-            accession="EDAM:3475",
+            accession="EDAM:format_3475",
             name="TSV",
         )
 

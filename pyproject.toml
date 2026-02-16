@@ -9,7 +9,7 @@ requires-python = ">=3.12,<4.0"
 dependencies = [
     "asyncpg>=0.30.0",
     "metabolights-utils>=1.4.18",
-    "mhd-model>=0.1.50",
+    "mhd-model",
     "psycopg[binary,pool]>=3.3.2",
     "pydantic>=2.12.4",
     "pydantic-settings>=2.10.1",
@@ -34,6 +34,9 @@ test = [
 [tool.uv]
 default-groups = []
 
+[tool.uv.sources]
+mhd-model = { git = "https://github.com/MetabolomicsHub/mhd-model.git", rev = "dev" }
+
 
 [project.scripts]
 mtbls-mhd-cli = "mtbls2mhd.commands.cli:cli"
@@ -48,7 +51,7 @@ include = ["mtbls2mhd*"]
 exclude = ["tests*", "docs*"]
 
 [tool.setuptools.package-data]
-"mtbls2mhd" = ["**/*.json"]
+"mtbls2mhd" = ["**/*.json", "**/*.tsv"]
 
 
 [tool.commitizen]
