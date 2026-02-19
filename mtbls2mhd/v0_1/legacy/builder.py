@@ -1,8 +1,10 @@
+import csv
 import datetime
 import enum
 import json
 import logging
 import re
+from importlib import resources
 from pathlib import Path
 from typing import OrderedDict
 
@@ -38,6 +40,7 @@ from mhd_model.shared.fields import DOI
 from mhd_model.shared.model import CvTerm, Revision, UnitCvTerm
 from pydantic import BaseModel, HttpUrl, ValidationError
 
+import mtbls2mhd
 from mtbls2mhd.config import Mtbls2MhdConfiguration
 from mtbls2mhd.v0_1.legacy.db_metadata_collector import (
     DbMetadataCollector,
@@ -48,6 +51,68 @@ from mtbls2mhd.v0_1.legacy.folder_metadata_collector import (
 )
 
 logger = logging.getLogger(__name__)
+
+
+def load_mtbls_terms_mapping() -> dict[str, dict[str, CvTerm]]:
+    """loads MTBLS term 2 MS ontology term mappings file
+
+    Returns:
+        dict[str, dict[str, CvTerm]]: dictionary of MTBLS term name (lowercase)
+        to a CvTerm object grouped by MHD common parameter definition
+    """
+    with (
+        resources.files(mtbls2mhd.__name__)
+        .joinpath("cv_mappings.csv")
+        .open("r", encoding="utf-8") as f
+    ):
+        # MAP TO MHD common parameter definition
+        paramter_value_definition_mappings = {
+            "Mass spectrometry instrument": "mass spectrometry instrument",
+            "Liquid chromatography instrument": "chromatography instrument",
+            "Gas chromatography instrument": "chromatography instrument",
+            # TODO: Define mappings for the following parameters.
+            # "Ionization type": "ionization type",
+            # "Instrument class": "instrument class",
+            # "Chromatography separation": "chromatography separation",
+            # "Instrument class": "chromatography separation",
+        }
+        # Column names and their index in the cv_mappings.csv file.
+        HEADERS = {
+            "REF_ACCESSION": 0,
+            "REF_TERM": 1,
+            "MTBLS_CV_NAMES": 2,
+            "MTBLS_ACCESSION": 3,
+            "INSTANCE": 6,
+        }
+
+        reader = csv.reader(f)
+        mtbls_term_mappings = {}
+        for idx, row in enumerate(reader):
+            if idx == 0:
+                continue
+            accession = row[HEADERS["REF_ACCESSION"]].replace("_", ":")
+            source = accession.split(":")[0]
+            term = row[HEADERS["REF_TERM"]]
+            mtbls_cv_names = [
+                name.strip()
+                for name in row[HEADERS["MTBLS_CV_NAMES"]].split(";")
+                if name and name.strip()
+            ]
+            instance = row[HEADERS["INSTANCE"]]
+
+            for mtbls_cv_name in mtbls_cv_names:
+                parameter_definition = paramter_value_definition_mappings.get(instance)
+                if parameter_definition not in mtbls_term_mappings:
+                    mtbls_term_mappings[parameter_definition] = {}
+                mtbls_term_mappings[parameter_definition][mtbls_cv_name.lower()] = (
+                    CvTerm(
+                        source=source,
+                        accession=accession,
+                        name=term,
+                    )
+                )
+
+    return mtbls_term_mappings
 
 
 ## MTBLS RELATED CONFIGURATION ###
@@ -1235,6 +1300,7 @@ class MhdLegacyDatasetBuilder:
         samples: dict[str, mhd_domain.Sample],
         protocol_summaries: OrderedDict[str, ProtocolRunSummary],
     ) -> dict[str, OrderedDict[str, str]]:
+        mtbls_cv_terms_mappings = load_mtbls_terms_mapping()
         assay_table = assay_file.table
         if "Sample Name" not in assay_table.data or not assay_table.data["Sample Name"]:
             return
@@ -1386,6 +1452,28 @@ class MhdLegacyDatasetBuilder:
                         # )
                         if parameter in ALL_COMMON_PROTOCOL_PARAMETERS:
                             object_name = "parameter-value"
+
+                        term = ALL_COMMON_PROTOCOL_PARAMETERS.get(parameter, None)
+                        if values and term and term.name in mtbls_cv_terms_mappings:
+                            mapping = mtbls_cv_terms_mappings[term.name]
+                            mapped_value = mapping.get(values[0].lower())
+                            # CONVERT TO REFERENCE TERM
+                            if mapped_value:
+                                if len(values) == 1:
+                                    values = (mapped_value.name,)
+                                elif len(values) == 3:
+                                    values = (
+                                        mapped_value.name,
+                                        mapped_value.source,
+                                        mapped_value.accession,
+                                    )
+                                elif len(values) == 4:
+                                    values = (
+                                        mapped_value.name,
+                                        values[1],
+                                        values[2],
+                                        values[3],
+                                    )
 
                         item = None
                         if len(values) == 1:
