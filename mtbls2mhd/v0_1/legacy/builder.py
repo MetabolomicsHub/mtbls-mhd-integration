@@ -71,10 +71,11 @@ def load_mtbls_terms_mapping() -> dict[str, dict[str, CvTerm]]:
             "Liquid chromatography instrument": "chromatography instrument",
             "Gas chromatography instrument": "chromatography instrument",
             # TODO: Define mappings for the following parameters.
+            # "Ionization polarity": "ionization polarity",
             # "Ionization type": "ionization type",
             # "Instrument class": "instrument class",
             # "Chromatography separation": "chromatography separation",
-            # "Instrument class": "chromatography separation",
+            # "Chromatography column": "chromatography column?",
         }
         # Column names and their index in the cv_mappings.csv file.
         HEADERS = {
@@ -99,11 +100,21 @@ def load_mtbls_terms_mapping() -> dict[str, dict[str, CvTerm]]:
                 if name and name.strip()
             ]
             instance = row[HEADERS["INSTANCE"]]
-
+            if not mtbls_cv_names or not term or not accession:
+                continue
+            if not instance:
+                logger.warning(
+                    "MTBLS term mapping file row %s with accession %s and term '%s' "
+                    "does not have an instance value. Row will be ignored.",
+                    idx + 1,
+                    accession,
+                    term,
+                )
+                continue
+            parameter_definition = paramter_value_definition_mappings.get(instance)
+            if parameter_definition not in mtbls_term_mappings:
+                mtbls_term_mappings[parameter_definition] = {}
             for mtbls_cv_name in mtbls_cv_names:
-                parameter_definition = paramter_value_definition_mappings.get(instance)
-                if parameter_definition not in mtbls_term_mappings:
-                    mtbls_term_mappings[parameter_definition] = {}
                 mtbls_term_mappings[parameter_definition][mtbls_cv_name.lower()] = (
                     CvTerm(
                         source=source,
