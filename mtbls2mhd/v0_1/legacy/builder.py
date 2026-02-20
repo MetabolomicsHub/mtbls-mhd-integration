@@ -1895,17 +1895,16 @@ class MhdLegacyDatasetBuilder:
         data_format = FILE_EXTENSIONS.get((suffix.lower(), folder))
         if not data_format:
             data_format = default_format
-        if not default_format:
-            return None, None, None
         data_format_node = None
-        if data_format is None or cv_nodes.get(data_format.accession) is None:
-            data_format_node = create_cv_term_object(
-                type_="descriptor",
-                accession=data_format.accession,
-                source=data_format.source,
-                name=data_format.name,
-            )
-            cv_nodes[data_format_node.accession] = data_format_node
+        if data_format:
+            if not cv_nodes.get(data_format.accession):
+                data_format_node = create_cv_term_object(
+                    type_="descriptor",
+                    accession=data_format.accession,
+                    source=data_format.source,
+                    name=data_format.name,
+                )
+                cv_nodes[data_format_node.accession] = data_format_node
 
         data_format_node = cv_nodes[data_format.accession]
         return zip_file_format_node, data_format_node, file_extension
