@@ -1895,6 +1895,8 @@ class MhdLegacyDatasetBuilder:
         data_format = FILE_EXTENSIONS.get((suffix.lower(), folder))
         if not data_format:
             data_format = default_format
+        if not default_format:
+            return None, None, None
         data_format_node = None
         if data_format is None or cv_nodes.get(data_format.accession) is None:
             data_format_node = create_cv_term_object(
