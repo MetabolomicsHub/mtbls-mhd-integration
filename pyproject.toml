@@ -51,7 +51,7 @@ include = ["mtbls2mhd*"]
 exclude = ["tests*", "docs*"]
 
 [tool.setuptools.package-data]
-"mtbls2mhd" = ["**/*.json", "**/*.tsv"]
+"mtbls2mhd" = ["**/*.json", "**/*.tsv", "**/*.csv"]
 
 
 [tool.commitizen]
