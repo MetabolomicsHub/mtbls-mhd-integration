@@ -9,3 +9,4 @@ def setup_basic_logging_config():
         datefmt="%d/%b/%Y %H:%M:%S",
         stream=sys.stdout,
     )
+    logging.getLogger("httpx").setLevel(logging.WARNING)

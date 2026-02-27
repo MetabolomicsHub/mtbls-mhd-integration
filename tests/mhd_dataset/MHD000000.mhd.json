@@ -1,0 +1,2896 @@
+{
+  "repository_name": "MetaboLights",
+  "mhd_identifier": "MHD000000",
+  "repository_identifier": "REQ202602083000317",
+  "repository_revision": 0,
+  "$schema": "https://metabolomicshub.github.io/mhd-model/schemas/v0_1/common-data-model-v0.1.schema.json",
+  "profile_uri": "https://metabolomicshub.github.io/mhd-model/schemas/v0_1/common-data-model-v0.1.ms-profile.json",
+  "cv_definitions": [
+    {
+      "label": "BTO",
+      "name": "The BRENDA Tissue Ontology (BTO)",
+      "uri": "http://purl.obolibrary.org/obo/bto.owl",
+      "prefix": "http://purl.obolibrary.org/obo/BTO_"
+    },
+    {
+      "label": "CHMO",
+      "name": "Chemical Methods Ontology",
+      "uri": "http://purl.obolibrary.org/obo/chmo.owl",
+      "prefix": "http://purl.obolibrary.org/obo/CHMO_"
+    },
+    {
+      "label": "CL",
+      "name": "The Cell Ontology is a structured controlled vocabulary for cell types in animals.",
+      "uri": "http://purl.obolibrary.org/obo/cl.owl",
+      "prefix": ""
+    },
+    {
+      "label": "EDAM",
+      "name": "The ontology of data analysis and management",
+      "uri": "http://edamontology.org",
+      "prefix": "http://edamontology.org/format_"
+    },
+    {
+      "label": "EFO",
+      "name": "Experimental Factor Ontology",
+      "uri": "http://www.ebi.ac.uk/efo/efo.owl",
+      "prefix": "http://www.ebi.ac.uk/efo/EFO_"
+    },
+    {
+      "label": "HGNC",
+      "name": "The HGNC (HUGO Gene Nomenclature Committee) provides an approved gene name and symbol (short-form abbreviation) for each known human gene.  All approved symbols are stored in the HGNC database, and each symbol is unique. HGNC identifiers refer to records in the HGNC symbol database.",
+      "uri": "https://w3id.org/biopragmatics/resources/hgnc/hgnc.ofn",
+      "prefix": "https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/"
+    },
+    {
+      "label": "MI",
+      "name": "Molecular Interactions Controlled Vocabulary",
+      "uri": " http://purl.obolibrary.org/obo/mi.owl",
+      "prefix": "http://purl.obolibrary.org/obo/MI_"
+    },
+    {
+      "label": "MONDO",
+      "name": "A global community effort to harmonize multiple disease resources to yield a coherent merged ontology.",
+      "uri": "http://purl.obolibrary.org/obo/mondo/mondo-international.owl",
+      "prefix": ""
+    },
+    {
+      "label": "MS",
+      "name": "MS",
+      "uri": "http://purl.obolibrary.org/obo/ms.owl",
+      "prefix": "http://purl.obolibrary.org/obo/MS_"
+    },
+    {
+      "label": "MSIO",
+      "name": "Metabolomics Standards Initiative Ontology (MSIO)",
+      "uri": "http://purl.obolibrary.org/obo/msio.owl",
+      "prefix": "http://purl.obolibrary.org/obo/MSIO_"
+    },
+    {
+      "label": "NCBITAXON",
+      "name": "National Center for Biotechnology Information (NCBI) Organismal Classification",
+      "uri": "http://purl.obolibrary.org/obo/ncbitaxon.owl",
+      "prefix": "http://purl.obolibrary.org/obo/NCBITaxon_"
+    },
+    {
+      "label": "NCIT",
+      "name": "NCI Thesaurus OBO Edition",
+      "uri": "http://purl.obolibrary.org/obo/ncit.owl",
+      "prefix": "http://purl.obolibrary.org/obo/NCIT_"
+    },
+    {
+      "label": "OBI",
+      "name": "Ontology for Biomedical Investigations",
+      "uri": "http://purl.obolibrary.org/obo/obi.owl",
+      "prefix": "http://purl.obolibrary.org/obo/OBI_"
+    },
+    {
+      "label": "ROR",
+      "name": "ROR (Research Organization Registry) is a global, community-led registry\nof open persistent identifiers for research organizations. ROR is jointly\noperated by California Digital Library, Crossref, and Datacite.",
+      "uri": "https://w3id.org/biopragmatics/resources/ror/ror.ofn",
+      "prefix": "https://ror.org/"
+    }
+  ],
+  "type": "legacy-dataset",
+  "name": "MHD000000 MetabolomicsHub Legacy Dataset",
+  "graph": {
+    "start_item_refs": [
+      "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+    ],
+    "nodes": [
+      {
+        "id": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "type": "study",
+        "created_by_ref": "cv-value--data-provider--4375660c-3282-52a9-b68d-9054d463fc1d",
+        "mhd_identifier": "MHD000000",
+        "repository_identifier": "REQ202602083000317",
+        "title": "Test MS Enabled study with new template",
+        "description": "Test MS Enabled study with new templateTest MS Enabled study with new templateTest MS Enabled study with new templateTest MS Enabled study with new templateTest MS Enabled study with new templateTest MS Enabled study with new templateTest MS Enabled study with new template",
+        "submission_date": "2026-02-08T00:00:00",
+        "public_release_date": "2027-02-08T00:00:00",
+        "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "grant_identifier_list": [
+          "EMBL12345"
+        ],
+        "dataset_url_list": [
+          "https://www.ebi.ac.uk/metabolights/REQ202602083000317"
+        ],
+        "protocol_refs": [
+          "mhd--protocol--1e12ca74-8286-431d-b5d9-bdde686e0bfc",
+          "mhd--protocol--8cc273c4-7205-458b-9f13-7bfec0929865",
+          "mhd--protocol--ddda4fe4-d2f4-4c6b-8973-a17df620e947",
+          "mhd--protocol--623b90d5-1422-487a-be5f-6d3c332de783",
+          "mhd--protocol--2d68db08-0ac9-408f-930a-055a36e499b2",
+          "mhd--protocol--fa79ab5b-0472-4f21-b1c9-00976b1cec60"
+        ]
+      },
+      {
+        "id": "mhd--assay--09e57e2a-08a1-497e-858c-81f3ea87a2a5",
+        "type": "assay",
+        "repository_identifier": "a_REQ202602083000317_LC-MS_negative_reverse-phase.txt",
+        "name": "a_REQ202602083000317_LC-MS_negative_reverse-phase.txt",
+        "metadata_file_ref": "mhd--metadata-file--5a6679a4-cc8b-4afb-9e4a-5e8d584e3212",
+        "technology_type_ref": "cv--descriptor--cb4e5111-954c-5796-a910-c3802470e0e5",
+        "assay_type_ref": "cv--descriptor--77eb2604-2191-5703-b0ed-3b157a86b37d",
+        "measurement_type_ref": "cv--descriptor--fc77d56c-2320-5d4d-9ea7-5488e65b4b0a",
+        "omics_type_ref": "cv--descriptor--88143624-2f94-5ff1-93f4-9e277307e104",
+        "protocol_refs": [
+          "mhd--protocol--fa79ab5b-0472-4f21-b1c9-00976b1cec60",
+          "mhd--protocol--ddda4fe4-d2f4-4c6b-8973-a17df620e947",
+          "mhd--protocol--1e12ca74-8286-431d-b5d9-bdde686e0bfc",
+          "mhd--protocol--623b90d5-1422-487a-be5f-6d3c332de783",
+          "mhd--protocol--8cc273c4-7205-458b-9f13-7bfec0929865",
+          "mhd--protocol--2d68db08-0ac9-408f-930a-055a36e499b2"
+        ],
+        "sample_run_refs": [
+          "mhd--sample-run--426e99c3-95c1-40d5-a3e1-4fb1a556a073",
+          "mhd--sample-run--ce6f0530-72df-48eb-86e7-4fc39efe0ca7"
+        ]
+      },
+      {
+        "id": "mhd--characteristic-definition--669ea0fb-8762-41b5-93b0-d179a9d12ba0",
+        "type": "characteristic-definition",
+        "name": "cell type",
+        "characteristic_type_ref": "cv--characteristic-type--220a2993-b1bd-51ba-adaf-82047671859d"
+      },
+      {
+        "id": "mhd--characteristic-definition--f9a193f8-e7ae-4180-9a3b-34d459b218fb",
+        "type": "characteristic-definition",
+        "name": "disease",
+        "characteristic_type_ref": "cv--characteristic-type--d474b94d-69ec-50e1-b4c8-c2aaeba80cf4"
+      },
+      {
+        "id": "mhd--characteristic-definition--7b63c277-c8b7-4d35-98f1-a5a7f3e8a044",
+        "type": "characteristic-definition",
+        "name": "organism",
+        "characteristic_type_ref": "cv--characteristic-type--53caec3d-a05b-537d-96de-cc914a2bc680"
+      },
+      {
+        "id": "mhd--characteristic-definition--eaa2b455-fa85-4f76-9f77-62f149c49c63",
+        "type": "characteristic-definition",
+        "name": "organism part",
+        "characteristic_type_ref": "cv--characteristic-type--06e4cc5e-6267-5808-8da5-9a410f09b0fd"
+      },
+      {
+        "id": "mhd--characteristic-definition--a287bed5-09d7-404a-9403-e6dd965d9274",
+        "type": "characteristic-definition",
+        "name": "sample type",
+        "characteristic_type_ref": "cv--x-mtbls-characteristic-type--98d4cda7-1d7c-51b0-97f1-0ef31b56b833"
+      },
+      {
+        "id": "mhd--characteristic-definition--8a459da9-8e74-45ed-91b2-062e8db808c2",
+        "type": "characteristic-definition",
+        "name": "variant",
+        "characteristic_type_ref": "cv--x-mtbls-characteristic-type--bf74113d-7334-5151-bba3-0a490eb43919"
+      },
+      {
+        "id": "mhd--factor-definition--632143a8-ed04-4df2-8c3b-c833b3056b8f",
+        "type": "factor-definition",
+        "name": "Dose",
+        "factor_type_ref": "cv--x-mtbls-factor-type--ecb89696-89e1-578f-8c6a-eb150c57c84c"
+      },
+      {
+        "id": "mhd--metabolite--df86dd11-0ab5-411f-bd6d-c73b3a0525c6",
+        "type": "metabolite",
+        "name": "Bufferin"
+      },
+      {
+        "id": "mhd--metabolite--7f234e9b-36be-4790-85dc-aabd6b488331",
+        "type": "metabolite",
+        "name": "caffeine"
+      },
+      {
+        "id": "mhd--metabolite--59ed15c7-958d-49e7-a802-b7b98d706d1e",
+        "type": "metabolite",
+        "name": "water"
+      },
+      {
+        "id": "mhd--metadata-file--5a6679a4-cc8b-4afb-9e4a-5e8d584e3212",
+        "type": "metadata-file",
+        "url_list": [
+          "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/REQ202602083000317/a_REQ202602083000317_LC-MS_negative_reverse-phase.txt",
+          "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/REQ202602083000317/a_REQ202602083000317_LC-MS_negative_reverse-phase.txt"
+        ],
+        "name": "a_REQ202602083000317_LC-MS_negative_reverse-phase.txt",
+        "format_ref": "cv--descriptor--66842b57-4655-55a5-85e1-23a9c29c04d5",
+        "extension": ".txt"
+      },
+      {
+        "id": "mhd--metadata-file--0d86c680-1dd7-425a-b934-61e7a910325b",
+        "type": "metadata-file",
+        "url_list": [
+          "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/REQ202602083000317/i_Investigation.txt",
+          "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/REQ202602083000317/i_Investigation.txt"
+        ],
+        "name": "i_Investigation.txt",
+        "format_ref": "cv--descriptor--66842b57-4655-55a5-85e1-23a9c29c04d5",
+        "extension": ".txt"
+      },
+      {
+        "id": "mhd--metadata-file--abb68799-0924-4a45-b2c3-3a3e8b60985e",
+        "type": "metadata-file",
+        "url_list": [
+          "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/REQ202602083000317/s_REQ202602083000317.txt",
+          "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/REQ202602083000317/s_REQ202602083000317.txt"
+        ],
+        "name": "s_REQ202602083000317.txt",
+        "format_ref": "cv--descriptor--66842b57-4655-55a5-85e1-23a9c29c04d5",
+        "extension": ".txt"
+      },
+      {
+        "id": "mhd--organization--2f1768a7-fb05-4302-9ee6-4295cb594bce",
+        "type": "organization",
+        "name": "European Molecular Biology Laboratory"
+      },
+      {
+        "id": "mhd--organization--5d246686-8d47-472b-bee3-469a5f7444a5",
+        "type": "organization",
+        "name": "Wellcome Trust",
+        "address": "Wellcome Genome Campus, Hinxton"
+      },
+      {
+        "id": "mhd--organization--6a9e4369-dacf-489d-ba71-03112e6a241e",
+        "type": "organization",
+        "name": "European Bioinformatics Institute",
+        "address": "Wellcome Genome Campus, Hinxton"
+      },
+      {
+        "id": "mhd--organization--752617f3-27ba-4461-aee7-6cb18d2f08bd",
+        "type": "organization",
+        "name": "NHS England"
+      },
+      {
+        "id": "mhd--parameter-definition--673223fc-78fe-40b5-8308-b737e5df835e",
+        "type": "parameter-definition",
+        "name": "Autosampler model",
+        "parameter_type_ref": "cv--x-mtbls-parameter-type--775a670c-0648-5e32-acfd-bdcc8b9ed699"
+      },
+      {
+        "id": "mhd--parameter-definition--59f7b9fe-45f7-49e7-bf4e-68d31a23b51c",
+        "type": "parameter-definition",
+        "name": "Chromatography Instrument",
+        "parameter_type_ref": "cv--x-mtbls-parameter-type--109082f6-139e-5232-916c-4b3e28897a06"
+      },
+      {
+        "id": "mhd--parameter-definition--746ca488-43a3-4d0b-b618-77beda4a4678",
+        "type": "parameter-definition",
+        "name": "Column model",
+        "parameter_type_ref": "cv--x-mtbls-parameter-type--87727b9f-c5eb-51f4-a154-82e5a8170b14"
+      },
+      {
+        "id": "mhd--parameter-definition--708b129f-1cea-4847-9507-ac782caa2c59",
+        "type": "parameter-definition",
+        "name": "Column type",
+        "parameter_type_ref": "cv--x-mtbls-parameter-type--dc5b8f19-60a5-508b-bd7f-5b3a8cd09867"
+      },
+      {
+        "id": "mhd--parameter-definition--e782e277-4a89-434c-8e6e-73f5386a5b28",
+        "type": "parameter-definition",
+        "name": "Derivatization",
+        "parameter_type_ref": "cv--x-mtbls-parameter-type--72a9f0f7-258d-5c36-b12f-8ac7193dad12"
+      },
+      {
+        "id": "mhd--parameter-definition--908ae168-b44f-4f23-a5b8-1263150aaaff",
+        "type": "parameter-definition",
+        "name": "Guard column",
+        "parameter_type_ref": "cv--x-mtbls-parameter-type--f20e0e93-9f01-5ba8-a25d-b44ac65cd5fe"
+      },
+      {
+        "id": "mhd--parameter-definition--dae41d31-370e-4087-8f12-26cd1337bf18",
+        "type": "parameter-definition",
+        "name": "Instrument",
+        "parameter_type_ref": "cv--parameter-type--f75219a7-b7e5-50a4-93eb-747034f72b37"
+      },
+      {
+        "id": "mhd--parameter-definition--d126875f-cdf1-48d4-98a5-c0d56ac211b0",
+        "type": "parameter-definition",
+        "name": "Ion source",
+        "parameter_type_ref": "cv--parameter-type--f875b274-26fa-5405-a3ae-d392bbecd567"
+      },
+      {
+        "id": "mhd--parameter-definition--eef6e4a7-67b8-4a84-8a08-19b7bf2f5116",
+        "type": "parameter-definition",
+        "name": "Mass analyzer",
+        "parameter_type_ref": "cv--parameter-type--7f6783b7-b1b5-553a-b21b-444617680b6c"
+      },
+      {
+        "id": "mhd--parameter-definition--037ce9d7-f20b-4066-be14-f00043120140",
+        "type": "parameter-definition",
+        "name": "Post Extraction",
+        "parameter_type_ref": "cv--x-mtbls-parameter-type--d6f09e04-7283-5587-afad-16f7c3dcef32"
+      },
+      {
+        "id": "mhd--parameter-definition--c282eeb9-3099-4862-949f-575c91689047",
+        "type": "parameter-definition",
+        "name": "Scan m/z range",
+        "parameter_type_ref": "cv--x-mtbls-parameter-type--51529a95-306c-5ae8-a222-20ce4b3163fe"
+      },
+      {
+        "id": "mhd--parameter-definition--b4dc5b7e-b99b-45b7-acfa-e5cbfe53c482",
+        "type": "parameter-definition",
+        "name": "Scan polarity",
+        "parameter_type_ref": "cv--parameter-type--3043a1d7-a8cb-5429-99a5-d6185ed474f3"
+      },
+      {
+        "id": "mhd--person--0fdd3f54-34ea-41b3-96f9-842d2d217a62",
+        "type": "person",
+        "full_name": "Ozgur Yurekten",
+        "email_list": [
+          "ozgur.yurekten@gmail.com"
+        ],
+        "address_list": [
+          "Wellcome Genome Campus, Hinxton"
+        ]
+      },
+      {
+        "id": "mhd--person--6a94da1e-93c0-483e-9f8a-cbf960410bb4",
+        "type": "person",
+        "full_name": "User Test",
+        "email_list": [
+          "ozgury@ebi.ac.uk"
+        ],
+        "address_list": [
+          "Wellcome Genome Campus, Hinxton"
+        ]
+      },
+      {
+        "id": "mhd--protocol--1e12ca74-8286-431d-b5d9-bdde686e0bfc",
+        "type": "protocol",
+        "name": "Chromatography",
+        "protocol_type_ref": "cv--protocol-type--6dc3a063-6cac-5cb1-880c-2ec34014e872",
+        "description": "<p>Describe the origin of samples, any relevant treatment, time points etc. and the collection and storage procedure. Describe the origin of samples, any relevant treatment, time points etc. and the collection and storage procedureDescribe the origin of samples, any relevant treatment, time points etc. and the collection and storage procedure Describe the origin of samples, any relevant treatment, time points etc. and the collection and storage procedure Describe the origin of samples, any relevant treatment, time points etc. and the collection and storage procedure</p>",
+        "parameter_definition_refs": [
+          "mhd--parameter-definition--59f7b9fe-45f7-49e7-bf4e-68d31a23b51c",
+          "mhd--parameter-definition--673223fc-78fe-40b5-8308-b737e5df835e",
+          "mhd--parameter-definition--746ca488-43a3-4d0b-b618-77beda4a4678",
+          "mhd--parameter-definition--708b129f-1cea-4847-9507-ac782caa2c59",
+          "mhd--parameter-definition--908ae168-b44f-4f23-a5b8-1263150aaaff"
+        ]
+      },
+      {
+        "id": "mhd--protocol--8cc273c4-7205-458b-9f13-7bfec0929865",
+        "type": "protocol",
+        "name": "Data transformation",
+        "protocol_type_ref": "cv--protocol-type--ffbd9ded-cb98-577e-887a-4d3075adc2aa",
+        "description": "<p>Describe the origin of samples, any relevant treatment, time points etc. and the collection and storage procedure. Describe the origin of samples, any relevant treatment, time points etc. and the collection and storage procedureDescribe the origin of samples, any relevant treatment, time points etc. and the collection and storage procedure Describe the origin of samples, any relevant treatment, time points etc. and the collection and storage procedure Describe the origin of samples, any relevant treatment, time points etc. and the collection and storage procedure</p>"
+      },
+      {
+        "id": "mhd--protocol--ddda4fe4-d2f4-4c6b-8973-a17df620e947",
+        "type": "protocol",
+        "name": "Extraction",
+        "protocol_type_ref": "cv--protocol-type--b344f6f5-a7dc-5d48-8e55-3e174b559a26",
+        "description": "<p>Describe the origin of samples, any relevant treatment, time points etc. and the collection and storage procedure. Describe the origin of samples, any relevant treatment, time points etc. and the collection and storage procedureDescribe the origin of samples, any relevant treatment, time points etc. and the collection and storage procedure Describe the origin of samples, any relevant treatment, time points etc. and the collection and storage procedure Describe the origin of samples, any relevant treatment, time points etc. and the collection and storage procedure</p>",
+        "parameter_definition_refs": [
+          "mhd--parameter-definition--037ce9d7-f20b-4066-be14-f00043120140",
+          "mhd--parameter-definition--e782e277-4a89-434c-8e6e-73f5386a5b28"
+        ]
+      },
+      {
+        "id": "mhd--protocol--623b90d5-1422-487a-be5f-6d3c332de783",
+        "type": "protocol",
+        "name": "Mass spectrometry",
+        "protocol_type_ref": "cv--protocol-type--c53ad940-5e8f-52d7-82c8-460a64e03ca3",
+        "description": "<p>Describe the origin of samples, any relevant treatment, time points etc. and the collection and storage procedure. Describe the origin of samples, any relevant treatment, time points etc. and the collection and storage procedureDescribe the origin of samples, any relevant treatment, time points etc. and the collection and storage procedure Describe the origin of samples, any relevant treatment, time points etc. and the collection and storage procedure Describe the origin of samples, any relevant treatment, time points etc. and the collection and storage procedure</p>",
+        "parameter_definition_refs": [
+          "mhd--parameter-definition--b4dc5b7e-b99b-45b7-acfa-e5cbfe53c482",
+          "mhd--parameter-definition--c282eeb9-3099-4862-949f-575c91689047",
+          "mhd--parameter-definition--dae41d31-370e-4087-8f12-26cd1337bf18",
+          "mhd--parameter-definition--d126875f-cdf1-48d4-98a5-c0d56ac211b0",
+          "mhd--parameter-definition--eef6e4a7-67b8-4a84-8a08-19b7bf2f5116"
+        ]
+      },
+      {
+        "id": "mhd--protocol--2d68db08-0ac9-408f-930a-055a36e499b2",
+        "type": "protocol",
+        "name": "Metabolite identification",
+        "protocol_type_ref": "cv--protocol-type--160cd136-e23d-5b4c-b594-a0828d5845f4",
+        "description": "<p>Describe the origin of samples, any relevant treatment, time points etc. and the collection and storage procedure. Describe the origin of samples, any relevant treatment, time points etc. and the collection and storage procedureDescribe the origin of samples, any relevant treatment, time points etc. and the collection and storage procedure Describe the origin of samples, any relevant treatment, time points etc. and the collection and storage procedure Describe the origin of samples, any relevant treatment, time points etc. and the collection and storage procedure</p>"
+      },
+      {
+        "id": "mhd--protocol--fa79ab5b-0472-4f21-b1c9-00976b1cec60",
+        "type": "protocol",
+        "name": "Sample collection",
+        "protocol_type_ref": "cv--protocol-type--78066266-234c-5e2d-92d0-69a5372762f9",
+        "description": "<p>Describe the origin of samples, any relevant treatment, time points etc. and the collection and storage procedure. Describe the origin of samples, any relevant treatment, time points etc. and the collection and storage procedureDescribe the origin of samples, any relevant treatment, time points etc. and the collection and storage procedure Describe the origin of samples, any relevant treatment, time points etc. and the collection and storage procedure Describe the origin of samples, any relevant treatment, time points etc. and the collection and storage procedure</p>"
+      },
+      {
+        "id": "mhd--publication--7ac16918-7d10-404a-80f1-c5303c078a0d",
+        "type": "publication",
+        "title": "Test MS Enabled study with new template",
+        "doi": "10.1111/111122"
+      },
+      {
+        "id": "mhd--raw-data-file--27bcac7e-20bc-4e1f-ba34-e39de69a56db",
+        "type": "raw-data-file",
+        "url_list": [
+          "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/REQ202602083000317/FILES/RAW_FILES/Test1.raw"
+        ],
+        "name": "FILES/RAW_FILES/Test1.raw",
+        "format_ref": "cv--descriptor--724c8417-1a74-513a-98f5-ce10585e354a",
+        "extension": ".raw"
+      },
+      {
+        "id": "mhd--raw-data-file--ce10bc3e-8415-4a7d-949b-fb3ec98fee22",
+        "type": "raw-data-file",
+        "url_list": [
+          "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/REQ202602083000317/FILES/RAW_FILES/Test2.raw"
+        ],
+        "name": "FILES/RAW_FILES/Test2.raw",
+        "format_ref": "cv--descriptor--724c8417-1a74-513a-98f5-ce10585e354a",
+        "extension": ".raw"
+      },
+      {
+        "id": "mhd--result-file--b28a3d4a-6726-4518-9c43-415d4ec5efcf",
+        "type": "result-file",
+        "url_list": [
+          "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/REQ202602083000317/m_REQ202602083000317_LC-MS_negative_reverse-phase_v2_maf.tsv",
+          "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/REQ202602083000317/m_REQ202602083000317_LC-MS_negative_reverse-phase_v2_maf.tsv"
+        ],
+        "name": "m_REQ202602083000317_LC-MS_negative_reverse-phase_v2_maf.tsv",
+        "format_ref": "cv--descriptor--a78aa3c5-f92d-5be5-8404-1f7bcef5275b",
+        "extension": ".tsv"
+      },
+      {
+        "id": "mhd--sample--0608d2be-83b8-4f4c-8549-7e30e5a23585",
+        "type": "sample",
+        "name": "Sample1",
+        "repository_identifier": "Sample1"
+      },
+      {
+        "id": "mhd--sample--d8b73da9-a4db-4004-b03b-8bcadd9b8fbf",
+        "type": "sample",
+        "name": "Sample2",
+        "repository_identifier": "Sample2"
+      },
+      {
+        "id": "mhd--sample-run--426e99c3-95c1-40d5-a3e1-4fb1a556a073",
+        "type": "sample-run",
+        "name": "Sample1",
+        "sample_ref": "mhd--sample--0608d2be-83b8-4f4c-8549-7e30e5a23585",
+        "sample_run_configuration_refs": [
+          "mhd--sample-run-configuration--f80cf90c-c4d7-4bea-8d4e-0c183e460207",
+          "mhd--sample-run-configuration--c8616655-0367-4340-a266-80b18272083a"
+        ],
+        "raw_data_file_refs": [
+          "mhd--raw-data-file--27bcac7e-20bc-4e1f-ba34-e39de69a56db"
+        ]
+      },
+      {
+        "id": "mhd--sample-run--ce6f0530-72df-48eb-86e7-4fc39efe0ca7",
+        "type": "sample-run",
+        "name": "Sample2",
+        "sample_ref": "mhd--sample--d8b73da9-a4db-4004-b03b-8bcadd9b8fbf",
+        "sample_run_configuration_refs": [
+          "mhd--sample-run-configuration--f80cf90c-c4d7-4bea-8d4e-0c183e460207",
+          "mhd--sample-run-configuration--c8616655-0367-4340-a266-80b18272083a"
+        ],
+        "raw_data_file_refs": [
+          "mhd--raw-data-file--ce10bc3e-8415-4a7d-949b-fb3ec98fee22"
+        ]
+      },
+      {
+        "id": "mhd--sample-run-configuration--c8616655-0367-4340-a266-80b18272083a",
+        "type": "sample-run-configuration",
+        "protocol_ref": "mhd--protocol--623b90d5-1422-487a-be5f-6d3c332de783",
+        "parameter_value_refs": [
+          "cv-value--parameter-value--63a8ca09-5fce-525e-988c-9bcb7cdc6bcc",
+          "cv-value--x-mtbls-parameter-value--9162552b-e122-5c3c-8aaf-b296fab713d0",
+          "cv-value--parameter-value--60ed851c-aa43-576b-8080-067a7946216a",
+          "cv-value--parameter-value--44daa711-99db-564b-9f0c-7ea1a7868b68",
+          "cv-value--parameter-value--c89f18e7-b3b2-5fbd-af92-a5d6f292f9cd"
+        ]
+      },
+      {
+        "id": "mhd--sample-run-configuration--f80cf90c-c4d7-4bea-8d4e-0c183e460207",
+        "type": "sample-run-configuration",
+        "protocol_ref": "mhd--protocol--1e12ca74-8286-431d-b5d9-bdde686e0bfc",
+        "parameter_value_refs": [
+          "cv-value--x-mtbls-parameter-value--14779f7e-cadc-58d9-8c50-28cb567e9a11",
+          "cv-value--x-mtbls-parameter-value--a3b22647-8da4-5018-907e-c4bcf205084e",
+          "cv-value--x-mtbls-parameter-value--dbc8f9f1-3d5f-502d-94f7-ffe6e6d74e75",
+          "cv-value--x-mtbls-parameter-value--5de2519c-0e9b-5204-88b6-4fb9f2bc2c19"
+        ]
+      },
+      {
+        "id": "mhd--subject--7ab92676-f454-4be9-941f-f4ea9a66c5db",
+        "type": "subject",
+        "name": "Sample1",
+        "repository_identifier": "Sample1"
+      },
+      {
+        "id": "mhd--subject--52b206e1-e312-4d3e-9052-90fb1635c2aa",
+        "type": "subject",
+        "name": "Sample2",
+        "repository_identifier": "Sample2"
+      },
+      {
+        "id": "cv--characteristic-type--220a2993-b1bd-51ba-adaf-82047671859d",
+        "type": "characteristic-type",
+        "source": "EFO",
+        "accession": "EFO:0000324",
+        "name": "cell type"
+      },
+      {
+        "id": "cv--characteristic-type--d474b94d-69ec-50e1-b4c8-c2aaeba80cf4",
+        "type": "characteristic-type",
+        "source": "EFO",
+        "accession": "EFO:0000408",
+        "name": "disease"
+      },
+      {
+        "id": "cv--characteristic-type--53caec3d-a05b-537d-96de-cc914a2bc680",
+        "type": "characteristic-type",
+        "source": "NCIT",
+        "accession": "NCIT:C14250",
+        "name": "organism"
+      },
+      {
+        "id": "cv--characteristic-type--06e4cc5e-6267-5808-8da5-9a410f09b0fd",
+        "type": "characteristic-type",
+        "source": "NCIT",
+        "accession": "NCIT:C103199",
+        "name": "organism part"
+      },
+      {
+        "id": "cv-value--characteristic-value--1eb87855-0d2b-5060-89c5-5ae6fbfdb18b",
+        "type": "characteristic-value",
+        "source": "NCBITaxon",
+        "accession": "NCBITaxon:10090",
+        "name": "Mus musculus"
+      },
+      {
+        "id": "cv-value--characteristic-value--ee6a826f-e407-51b9-8a0a-4f9ed3615511",
+        "type": "characteristic-value",
+        "source": "BTO",
+        "accession": "BTO:0000133",
+        "name": "blood serum"
+      },
+      {
+        "id": "cv-value--data-provider--4375660c-3282-52a9-b68d-9054d463fc1d",
+        "type": "data-provider",
+        "value": "MetaboLights",
+        "source": "NCIT",
+        "accession": "NCIT:C189151",
+        "name": "Study Data Repository"
+      },
+      {
+        "id": "cv--descriptor--c70b2bb7-d486-5559-aea9-9e3361f243c9",
+        "type": "descriptor",
+        "source": "MS",
+        "accession": "MS:1002578",
+        "name": "2500 QTRAP"
+      },
+      {
+        "id": "cv--descriptor--892ce271-ecdd-5d78-8386-247f00bb5205",
+        "type": "descriptor",
+        "source": "MONDO",
+        "accession": "MONDO:0004975",
+        "name": "Alzheimer disease"
+      },
+      {
+        "id": "cv--descriptor--66842b57-4655-55a5-85e1-23a9c29c04d5",
+        "type": "descriptor",
+        "source": "EDAM",
+        "accession": "EDAM:3687",
+        "name": "ISA-TAB"
+      },
+      {
+        "id": "cv--descriptor--88143624-2f94-5ff1-93f4-9e277307e104",
+        "type": "descriptor",
+        "source": "EDAM",
+        "accession": "EDAM:0153",
+        "name": "Lipidomics"
+      },
+      {
+        "id": "cv--descriptor--8ae9918a-a743-548d-b39b-7e35375c6f4d",
+        "type": "descriptor",
+        "source": "EDAM",
+        "accession": "topic:0153",
+        "name": "Lipidomics"
+      },
+      {
+        "id": "cv--descriptor--3e61cef2-12e9-56f1-90bc-5864e8ac4012",
+        "type": "descriptor",
+        "source": "NCBITaxon",
+        "accession": "NCBITaxon:10090",
+        "name": "Mus musculus"
+      },
+      {
+        "id": "cv--descriptor--4de01e27-9fef-5def-9243-570f08a47bb3",
+        "type": "descriptor",
+        "source": "CL",
+        "accession": "CL:0000084",
+        "name": "T cell"
+      },
+      {
+        "id": "cv--descriptor--a78aa3c5-f92d-5be5-8404-1f7bcef5275b",
+        "type": "descriptor",
+        "source": "EDAM",
+        "accession": "EDAM:3475",
+        "name": "TSV"
+      },
+      {
+        "id": "cv--descriptor--724c8417-1a74-513a-98f5-ce10585e354a",
+        "type": "descriptor",
+        "source": "EDAM",
+        "accession": "EDAM:3712",
+        "name": "Thermo RAW"
+      },
+      {
+        "id": "cv--descriptor--80540dcf-d83e-5810-beee-699615afa7b9",
+        "type": "descriptor",
+        "source": "ror",
+        "accession": "ror:029chgv08",
+        "name": "Wellcome Trust"
+      },
+      {
+        "id": "cv--descriptor--b94f9d42-452c-5d47-ab15-4dce32ced19e",
+        "type": "descriptor",
+        "source": "BTO",
+        "accession": "BTO:0000133",
+        "name": "blood serum"
+      },
+      {
+        "id": "cv--descriptor--a00d8694-a24b-5b32-8fc6-f777991744ce",
+        "type": "descriptor",
+        "source": "",
+        "accession": "",
+        "name": ""
+      },
+      {
+        "id": "cv--descriptor--77eb2604-2191-5703-b0ed-3b157a86b37d",
+        "type": "descriptor",
+        "source": "OBI",
+        "accession": "OBI:0003097",
+        "name": "liquid chromatography mass spectrometry assay"
+      },
+      {
+        "id": "cv--descriptor--cb4e5111-954c-5796-a910-c3802470e0e5",
+        "type": "descriptor",
+        "source": "OBI",
+        "accession": "OBI:0000470",
+        "name": "mass spectrometry assay"
+      },
+      {
+        "id": "cv--descriptor--1e86ee7d-4789-5501-b242-ccf6d6f096f3",
+        "type": "descriptor",
+        "source": "CHMO",
+        "accession": "CHMO:0000575",
+        "name": "tandem mass spectrometry"
+      },
+      {
+        "id": "cv--descriptor--24f6ef0f-cd6e-5803-9e2d-4ba884190b2b",
+        "type": "descriptor",
+        "source": "",
+        "accession": "",
+        "name": "untargeted analysis"
+      },
+      {
+        "id": "cv--descriptor--fc77d56c-2320-5d4d-9ea7-5488e65b4b0a",
+        "type": "descriptor",
+        "source": "MS",
+        "accession": "MS:1003904",
+        "name": "untargeted analysis"
+      },
+      {
+        "id": "cv--parameter-type--f875b274-26fa-5405-a3ae-d392bbecd567",
+        "type": "parameter-type",
+        "source": "CHMO",
+        "accession": "CHMO:0000960",
+        "name": "ion source"
+      },
+      {
+        "id": "cv--parameter-type--7f6783b7-b1b5-553a-b21b-444617680b6c",
+        "type": "parameter-type",
+        "source": "OBI",
+        "accession": "OBI:0000345",
+        "name": "mass analyzer"
+      },
+      {
+        "id": "cv--parameter-type--f75219a7-b7e5-50a4-93eb-747034f72b37",
+        "type": "parameter-type",
+        "source": "MSIO",
+        "accession": "MSIO:0000171",
+        "name": "mass spectrometry instrument"
+      },
+      {
+        "id": "cv--parameter-type--3043a1d7-a8cb-5429-99a5-d6185ed474f3",
+        "type": "parameter-type",
+        "source": "MS",
+        "accession": "MS:1000465",
+        "name": "scan polarity"
+      },
+      {
+        "id": "cv-value--parameter-value--60ed851c-aa43-576b-8080-067a7946216a",
+        "type": "parameter-value",
+        "source": "MS",
+        "accession": "MS:1002578",
+        "name": "2500 QTRAP"
+      },
+      {
+        "id": "cv-value--parameter-value--44daa711-99db-564b-9f0c-7ea1a7868b68",
+        "type": "parameter-value",
+        "source": "MS",
+        "accession": "MS:1000073",
+        "name": "electrospray ionization"
+      },
+      {
+        "id": "cv-value--parameter-value--63a8ca09-5fce-525e-988c-9bcb7cdc6bcc",
+        "type": "parameter-value",
+        "source": "MS",
+        "accession": "MS:1000076",
+        "name": "negative polarity acquisition"
+      },
+      {
+        "id": "cv-value--parameter-value--c89f18e7-b3b2-5fbd-af92-a5d6f292f9cd",
+        "type": "parameter-value",
+        "source": "MS",
+        "accession": "MS:1000484",
+        "name": "orbitrap"
+      },
+      {
+        "id": "cv--protocol-type--6dc3a063-6cac-5cb1-880c-2ec34014e872",
+        "type": "protocol-type",
+        "source": "CHMO",
+        "accession": "CHMO:0001000",
+        "name": "chromatography"
+      },
+      {
+        "id": "cv--protocol-type--ffbd9ded-cb98-577e-887a-4d3075adc2aa",
+        "type": "protocol-type",
+        "source": "OBI",
+        "accession": "OBI:0200000",
+        "name": "data transform"
+      },
+      {
+        "id": "cv--protocol-type--c53ad940-5e8f-52d7-82c8-460a64e03ca3",
+        "type": "protocol-type",
+        "source": "CHMO",
+        "accession": "CHMO:0000470",
+        "name": "mass spectrometry"
+      },
+      {
+        "id": "cv--protocol-type--160cd136-e23d-5b4c-b594-a0828d5845f4",
+        "type": "protocol-type",
+        "source": "MI",
+        "accession": "MI:2131",
+        "name": "metabolite identification"
+      },
+      {
+        "id": "cv--protocol-type--78066266-234c-5e2d-92d0-69a5372762f9",
+        "type": "protocol-type",
+        "source": "EFO",
+        "accession": "EFO:0005518",
+        "name": "sample collection protocol"
+      },
+      {
+        "id": "cv--protocol-type--b344f6f5-a7dc-5d48-8e55-3e174b559a26",
+        "type": "protocol-type",
+        "source": "MS",
+        "accession": "MS:1000831",
+        "name": "sample preparation"
+      },
+      {
+        "id": "cv--x-mtbls-characteristic-type--98d4cda7-1d7c-51b0-97f1-0ef31b56b833",
+        "type": "x-mtbls-characteristic-type",
+        "source": "",
+        "accession": "",
+        "name": "sample type"
+      },
+      {
+        "id": "cv--x-mtbls-characteristic-type--bf74113d-7334-5151-bba3-0a490eb43919",
+        "type": "x-mtbls-characteristic-type",
+        "source": "",
+        "accession": "",
+        "name": "variant"
+      },
+      {
+        "id": "cv-value--x-mtbls-characteristic-value--4680f044-1959-5df9-9943-07bf305c023e",
+        "type": "x-mtbls-characteristic-value",
+        "source": "CHMO",
+        "accession": "CHMO:0002746",
+        "name": "experimental sample"
+      },
+      {
+        "id": "cv--x-mtbls-factor-type--ecb89696-89e1-578f-8c6a-eb150c57c84c",
+        "type": "x-mtbls-factor-type",
+        "source": "",
+        "accession": "",
+        "name": "dose"
+      },
+      {
+        "id": "cv-value--x-mtbls-factor-value--56b69acd-727c-5cf8-a683-f5bd069c344f",
+        "type": "x-mtbls-factor-value",
+        "source": "",
+        "accession": "",
+        "name": "1"
+      },
+      {
+        "id": "cv-value--x-mtbls-factor-value--439f0d42-7d15-5021-a737-194e7367eb9a",
+        "type": "x-mtbls-factor-value",
+        "source": "",
+        "accession": "",
+        "name": "2"
+      },
+      {
+        "id": "cv--x-mtbls-parameter-type--775a670c-0648-5e32-acfd-bdcc8b9ed699",
+        "type": "x-mtbls-parameter-type",
+        "source": "",
+        "accession": "",
+        "name": "autosampler model"
+      },
+      {
+        "id": "cv--x-mtbls-parameter-type--109082f6-139e-5232-916c-4b3e28897a06",
+        "type": "x-mtbls-parameter-type",
+        "source": "",
+        "accession": "",
+        "name": "chromatography instrument"
+      },
+      {
+        "id": "cv--x-mtbls-parameter-type--87727b9f-c5eb-51f4-a154-82e5a8170b14",
+        "type": "x-mtbls-parameter-type",
+        "source": "",
+        "accession": "",
+        "name": "column model"
+      },
+      {
+        "id": "cv--x-mtbls-parameter-type--dc5b8f19-60a5-508b-bd7f-5b3a8cd09867",
+        "type": "x-mtbls-parameter-type",
+        "source": "",
+        "accession": "",
+        "name": "column type"
+      },
+      {
+        "id": "cv--x-mtbls-parameter-type--72a9f0f7-258d-5c36-b12f-8ac7193dad12",
+        "type": "x-mtbls-parameter-type",
+        "source": "",
+        "accession": "",
+        "name": "derivatization"
+      },
+      {
+        "id": "cv--x-mtbls-parameter-type--f20e0e93-9f01-5ba8-a25d-b44ac65cd5fe",
+        "type": "x-mtbls-parameter-type",
+        "source": "",
+        "accession": "",
+        "name": "guard column"
+      },
+      {
+        "id": "cv--x-mtbls-parameter-type--d6f09e04-7283-5587-afad-16f7c3dcef32",
+        "type": "x-mtbls-parameter-type",
+        "source": "",
+        "accession": "",
+        "name": "post extraction"
+      },
+      {
+        "id": "cv--x-mtbls-parameter-type--51529a95-306c-5ae8-a222-20ce4b3163fe",
+        "type": "x-mtbls-parameter-type",
+        "source": "",
+        "accession": "",
+        "name": "scan m/z range"
+      },
+      {
+        "id": "cv-value--x-mtbls-parameter-value--9162552b-e122-5c3c-8aaf-b296fab713d0",
+        "type": "x-mtbls-parameter-value",
+        "value": "10-1000",
+        "unit": {
+          "source": "",
+          "accession": "",
+          "name": ""
+        },
+        "source": "",
+        "accession": "",
+        "name": ""
+      },
+      {
+        "id": "cv-value--x-mtbls-parameter-value--a3b22647-8da4-5018-907e-c4bcf205084e",
+        "type": "x-mtbls-parameter-value",
+        "source": "hgnc",
+        "accession": "hgnc:1100",
+        "name": "1100"
+      },
+      {
+        "id": "cv-value--x-mtbls-parameter-value--14779f7e-cadc-58d9-8c50-28cb567e9a11",
+        "type": "x-mtbls-parameter-value",
+        "source": "MS",
+        "accession": "MS:1002578",
+        "name": "2500 QTRAP"
+      },
+      {
+        "id": "cv-value--x-mtbls-parameter-value--dbc8f9f1-3d5f-502d-94f7-ffe6e6d74e75",
+        "type": "x-mtbls-parameter-value",
+        "source": "MS",
+        "accession": "MS:1001762",
+        "name": "ACQUITY UPLC H-Class"
+      },
+      {
+        "id": "cv-value--x-mtbls-parameter-value--5de2519c-0e9b-5204-88b6-4fb9f2bc2c19",
+        "type": "x-mtbls-parameter-value",
+        "source": "",
+        "accession": "",
+        "name": "reverse phase"
+      }
+    ],
+    "relationships": [
+      {
+        "id": "rel--relationship--30a641e2-98ec-5342-b842-17045783bc9b",
+        "type": "relationship",
+        "source_ref": "cv--characteristic-type--06e4cc5e-6267-5808-8da5-9a410f09b0fd",
+        "relationship_name": "type-of",
+        "target_ref": "cv-value--characteristic-value--ee6a826f-e407-51b9-8a0a-4f9ed3615511"
+      },
+      {
+        "id": "rel--relationship--13a582b6-4671-5d53-9f41-6f13ef8f9aff",
+        "type": "relationship",
+        "source_ref": "cv--characteristic-type--06e4cc5e-6267-5808-8da5-9a410f09b0fd",
+        "relationship_name": "type-of",
+        "target_ref": "mhd--characteristic-definition--eaa2b455-fa85-4f76-9f77-62f149c49c63"
+      },
+      {
+        "id": "rel--relationship--4af253c3-5259-5a1c-8918-5a2ed16e38f4",
+        "type": "relationship",
+        "source_ref": "cv--characteristic-type--220a2993-b1bd-51ba-adaf-82047671859d",
+        "relationship_name": "type-of",
+        "target_ref": "mhd--characteristic-definition--669ea0fb-8762-41b5-93b0-d179a9d12ba0"
+      },
+      {
+        "id": "rel--relationship--5d7e9758-0b66-580b-b6a8-b4f3e3cfafd6",
+        "type": "relationship",
+        "source_ref": "cv--characteristic-type--53caec3d-a05b-537d-96de-cc914a2bc680",
+        "relationship_name": "type-of",
+        "target_ref": "cv-value--characteristic-value--1eb87855-0d2b-5060-89c5-5ae6fbfdb18b"
+      },
+      {
+        "id": "rel--relationship--9120a595-aeb1-57d8-88a9-74bb0c2f5271",
+        "type": "relationship",
+        "source_ref": "cv--characteristic-type--53caec3d-a05b-537d-96de-cc914a2bc680",
+        "relationship_name": "type-of",
+        "target_ref": "mhd--characteristic-definition--7b63c277-c8b7-4d35-98f1-a5a7f3e8a044"
+      },
+      {
+        "id": "rel--relationship--3a48f01d-109e-53a5-8455-e5afd56ada8b",
+        "type": "relationship",
+        "source_ref": "cv--characteristic-type--d474b94d-69ec-50e1-b4c8-c2aaeba80cf4",
+        "relationship_name": "type-of",
+        "target_ref": "mhd--characteristic-definition--f9a193f8-e7ae-4180-9a3b-34d459b218fb"
+      },
+      {
+        "id": "rel--relationship--face2253-3f86-575f-a272-6411c2c0ec93",
+        "type": "relationship",
+        "source_ref": "cv--descriptor--1e86ee7d-4789-5501-b242-ccf6d6f096f3",
+        "relationship_name": "keyword-of",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--95590f71-1659-5da9-a9a3-e8e8cdfbd347",
+        "type": "relationship",
+        "source_ref": "cv--descriptor--24f6ef0f-cd6e-5803-9e2d-4ba884190b2b",
+        "relationship_name": "keyword-of",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--ee58a0d7-e67d-507d-871a-0303ace11436",
+        "type": "relationship",
+        "source_ref": "cv--descriptor--3e61cef2-12e9-56f1-90bc-5864e8ac4012",
+        "relationship_name": "keyword-of",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--1b706461-3dcb-552e-ab1c-d9fce9c9d8ae",
+        "type": "relationship",
+        "source_ref": "cv--descriptor--4de01e27-9fef-5def-9243-570f08a47bb3",
+        "relationship_name": "keyword-of",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--99dc88c3-6fdf-564f-ae37-e3717f4f4d0c",
+        "type": "relationship",
+        "source_ref": "cv--descriptor--80540dcf-d83e-5810-beee-699615afa7b9",
+        "relationship_name": "keyword-of",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--5189d160-ed5c-52c7-bc06-2358d52c6610",
+        "type": "relationship",
+        "source_ref": "cv--descriptor--892ce271-ecdd-5d78-8386-247f00bb5205",
+        "relationship_name": "keyword-of",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--9d305c08-20e8-586d-a92b-00e539d07f87",
+        "type": "relationship",
+        "source_ref": "cv--descriptor--8ae9918a-a743-548d-b39b-7e35375c6f4d",
+        "relationship_name": "keyword-of",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--5935dd72-fadf-55ea-8ff9-80de55102621",
+        "type": "relationship",
+        "source_ref": "cv--descriptor--a00d8694-a24b-5b32-8fc6-f777991744ce",
+        "relationship_name": "keyword-of",
+        "target_ref": "mhd--assay--09e57e2a-08a1-497e-858c-81f3ea87a2a5"
+      },
+      {
+        "id": "rel--relationship--15dbdd0c-01de-5b9b-9b6b-945033a94377",
+        "type": "relationship",
+        "source_ref": "cv--descriptor--b94f9d42-452c-5d47-ab15-4dce32ced19e",
+        "relationship_name": "keyword-of",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--d0cb71f8-aefd-5ccd-8218-38bf99c9c593",
+        "type": "relationship",
+        "source_ref": "cv--descriptor--c70b2bb7-d486-5559-aea9-9e3361f243c9",
+        "relationship_name": "keyword-of",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--f591a3c4-14a4-5002-9534-04e9e877b076",
+        "type": "relationship",
+        "source_ref": "cv--parameter-type--3043a1d7-a8cb-5429-99a5-d6185ed474f3",
+        "relationship_name": "defined-in",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--02d932a3-d2a1-5445-aa35-8bc08f742d00",
+        "type": "relationship",
+        "source_ref": "cv--parameter-type--3043a1d7-a8cb-5429-99a5-d6185ed474f3",
+        "relationship_name": "type-of",
+        "target_ref": "cv-value--parameter-value--63a8ca09-5fce-525e-988c-9bcb7cdc6bcc"
+      },
+      {
+        "id": "rel--relationship--fee24059-965d-5063-ba41-9906d53958cd",
+        "type": "relationship",
+        "source_ref": "cv--parameter-type--3043a1d7-a8cb-5429-99a5-d6185ed474f3",
+        "relationship_name": "type-of",
+        "target_ref": "mhd--parameter-definition--b4dc5b7e-b99b-45b7-acfa-e5cbfe53c482"
+      },
+      {
+        "id": "rel--relationship--6443701a-b23b-5a1d-bd83-d7b06f9ce525",
+        "type": "relationship",
+        "source_ref": "cv--parameter-type--7f6783b7-b1b5-553a-b21b-444617680b6c",
+        "relationship_name": "defined-in",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--6015284a-6ef1-5fc2-94ce-8114949ca059",
+        "type": "relationship",
+        "source_ref": "cv--parameter-type--7f6783b7-b1b5-553a-b21b-444617680b6c",
+        "relationship_name": "type-of",
+        "target_ref": "cv-value--parameter-value--c89f18e7-b3b2-5fbd-af92-a5d6f292f9cd"
+      },
+      {
+        "id": "rel--relationship--6c668cb7-2c91-5b6a-bc29-55316e5aba24",
+        "type": "relationship",
+        "source_ref": "cv--parameter-type--7f6783b7-b1b5-553a-b21b-444617680b6c",
+        "relationship_name": "type-of",
+        "target_ref": "mhd--parameter-definition--eef6e4a7-67b8-4a84-8a08-19b7bf2f5116"
+      },
+      {
+        "id": "rel--relationship--d5f6e531-cc75-5e35-958f-128323cec852",
+        "type": "relationship",
+        "source_ref": "cv--parameter-type--f75219a7-b7e5-50a4-93eb-747034f72b37",
+        "relationship_name": "defined-in",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--9728607b-ab6c-5f9c-bf1a-cf40f9f26e32",
+        "type": "relationship",
+        "source_ref": "cv--parameter-type--f75219a7-b7e5-50a4-93eb-747034f72b37",
+        "relationship_name": "type-of",
+        "target_ref": "cv-value--parameter-value--60ed851c-aa43-576b-8080-067a7946216a"
+      },
+      {
+        "id": "rel--relationship--1401b946-c2f9-54b2-8aca-099085cbd079",
+        "type": "relationship",
+        "source_ref": "cv--parameter-type--f75219a7-b7e5-50a4-93eb-747034f72b37",
+        "relationship_name": "type-of",
+        "target_ref": "mhd--parameter-definition--dae41d31-370e-4087-8f12-26cd1337bf18"
+      },
+      {
+        "id": "rel--relationship--b0f58a8c-8856-5b5d-a628-9bb42d39870f",
+        "type": "relationship",
+        "source_ref": "cv--parameter-type--f875b274-26fa-5405-a3ae-d392bbecd567",
+        "relationship_name": "defined-in",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--d6f7ce87-dcd9-5a6f-ac49-3af89556c5f3",
+        "type": "relationship",
+        "source_ref": "cv--parameter-type--f875b274-26fa-5405-a3ae-d392bbecd567",
+        "relationship_name": "type-of",
+        "target_ref": "cv-value--parameter-value--44daa711-99db-564b-9f0c-7ea1a7868b68"
+      },
+      {
+        "id": "rel--relationship--1f2a60c1-0a20-5985-8a81-47ca70e95295",
+        "type": "relationship",
+        "source_ref": "cv--parameter-type--f875b274-26fa-5405-a3ae-d392bbecd567",
+        "relationship_name": "type-of",
+        "target_ref": "mhd--parameter-definition--d126875f-cdf1-48d4-98a5-c0d56ac211b0"
+      },
+      {
+        "id": "rel--relationship--15ca9862-1183-54a7-8cc3-d86a64934280",
+        "type": "relationship",
+        "source_ref": "cv--protocol-type--160cd136-e23d-5b4c-b594-a0828d5845f4",
+        "relationship_name": "type-of",
+        "target_ref": "mhd--protocol--2d68db08-0ac9-408f-930a-055a36e499b2"
+      },
+      {
+        "id": "rel--relationship--9cda702e-cd5b-55d8-95b9-a3d245934c7a",
+        "type": "relationship",
+        "source_ref": "cv--protocol-type--6dc3a063-6cac-5cb1-880c-2ec34014e872",
+        "relationship_name": "type-of",
+        "target_ref": "mhd--protocol--1e12ca74-8286-431d-b5d9-bdde686e0bfc"
+      },
+      {
+        "id": "rel--relationship--c2aed97e-78f6-5c39-b7f2-368250618692",
+        "type": "relationship",
+        "source_ref": "cv--protocol-type--78066266-234c-5e2d-92d0-69a5372762f9",
+        "relationship_name": "type-of",
+        "target_ref": "mhd--protocol--fa79ab5b-0472-4f21-b1c9-00976b1cec60"
+      },
+      {
+        "id": "rel--relationship--b8b9eae8-8da5-560a-beef-9d19ca3320aa",
+        "type": "relationship",
+        "source_ref": "cv--protocol-type--b344f6f5-a7dc-5d48-8e55-3e174b559a26",
+        "relationship_name": "type-of",
+        "target_ref": "mhd--protocol--ddda4fe4-d2f4-4c6b-8973-a17df620e947"
+      },
+      {
+        "id": "rel--relationship--1475cf7f-dd0b-5b38-9c20-1521b81556bb",
+        "type": "relationship",
+        "source_ref": "cv--protocol-type--c53ad940-5e8f-52d7-82c8-460a64e03ca3",
+        "relationship_name": "type-of",
+        "target_ref": "mhd--protocol--623b90d5-1422-487a-be5f-6d3c332de783"
+      },
+      {
+        "id": "rel--relationship--34d7eb85-36d5-575a-80f3-064659d4de22",
+        "type": "relationship",
+        "source_ref": "cv--protocol-type--ffbd9ded-cb98-577e-887a-4d3075adc2aa",
+        "relationship_name": "type-of",
+        "target_ref": "mhd--protocol--8cc273c4-7205-458b-9f13-7bfec0929865"
+      },
+      {
+        "id": "rel--relationship--7042a8ff-9b5e-5196-93bc-68a622eabce2",
+        "type": "relationship",
+        "source_ref": "cv--x-mtbls-characteristic-type--98d4cda7-1d7c-51b0-97f1-0ef31b56b833",
+        "relationship_name": "type-of",
+        "target_ref": "cv-value--x-mtbls-characteristic-value--4680f044-1959-5df9-9943-07bf305c023e"
+      },
+      {
+        "id": "rel--relationship--0a769fee-620a-5bcd-9390-985ffc665239",
+        "type": "relationship",
+        "source_ref": "cv--x-mtbls-characteristic-type--98d4cda7-1d7c-51b0-97f1-0ef31b56b833",
+        "relationship_name": "type-of",
+        "target_ref": "mhd--characteristic-definition--a287bed5-09d7-404a-9403-e6dd965d9274"
+      },
+      {
+        "id": "rel--relationship--a7ccb016-71ff-5c21-89ef-cc651bf6be30",
+        "type": "relationship",
+        "source_ref": "cv--x-mtbls-characteristic-type--bf74113d-7334-5151-bba3-0a490eb43919",
+        "relationship_name": "type-of",
+        "target_ref": "mhd--characteristic-definition--8a459da9-8e74-45ed-91b2-062e8db808c2"
+      },
+      {
+        "id": "rel--relationship--3ae6f763-27b4-5baa-8e1c-1026fe11b186",
+        "type": "relationship",
+        "source_ref": "cv--x-mtbls-factor-type--ecb89696-89e1-578f-8c6a-eb150c57c84c",
+        "relationship_name": "type-of",
+        "target_ref": "cv-value--x-mtbls-factor-value--439f0d42-7d15-5021-a737-194e7367eb9a"
+      },
+      {
+        "id": "rel--relationship--7dd3509a-34df-55c7-96a5-23a891f8e87d",
+        "type": "relationship",
+        "source_ref": "cv--x-mtbls-factor-type--ecb89696-89e1-578f-8c6a-eb150c57c84c",
+        "relationship_name": "type-of",
+        "target_ref": "cv-value--x-mtbls-factor-value--56b69acd-727c-5cf8-a683-f5bd069c344f"
+      },
+      {
+        "id": "rel--relationship--79dd8d42-213e-5d77-9ed2-c151a9d58716",
+        "type": "relationship",
+        "source_ref": "cv--x-mtbls-factor-type--ecb89696-89e1-578f-8c6a-eb150c57c84c",
+        "relationship_name": "type-of",
+        "target_ref": "mhd--factor-definition--632143a8-ed04-4df2-8c3b-c833b3056b8f"
+      },
+      {
+        "id": "rel--relationship--eb7037e8-7ad1-5519-8af7-81fa169df71a",
+        "type": "relationship",
+        "source_ref": "cv--x-mtbls-parameter-type--109082f6-139e-5232-916c-4b3e28897a06",
+        "relationship_name": "defined-in",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--aeea642a-4f5f-5b6a-8713-44ba528c1bc2",
+        "type": "relationship",
+        "source_ref": "cv--x-mtbls-parameter-type--109082f6-139e-5232-916c-4b3e28897a06",
+        "relationship_name": "type-of",
+        "target_ref": "cv-value--x-mtbls-parameter-value--14779f7e-cadc-58d9-8c50-28cb567e9a11"
+      },
+      {
+        "id": "rel--relationship--3e5f9e9a-a7a8-56e2-a6b4-89df639f9a63",
+        "type": "relationship",
+        "source_ref": "cv--x-mtbls-parameter-type--109082f6-139e-5232-916c-4b3e28897a06",
+        "relationship_name": "type-of",
+        "target_ref": "mhd--parameter-definition--59f7b9fe-45f7-49e7-bf4e-68d31a23b51c"
+      },
+      {
+        "id": "rel--relationship--2b0c9b10-149f-5e0d-8d36-592383efb5d1",
+        "type": "relationship",
+        "source_ref": "cv--x-mtbls-parameter-type--51529a95-306c-5ae8-a222-20ce4b3163fe",
+        "relationship_name": "defined-in",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--0357823b-2098-5fe6-9fde-79763dbae905",
+        "type": "relationship",
+        "source_ref": "cv--x-mtbls-parameter-type--51529a95-306c-5ae8-a222-20ce4b3163fe",
+        "relationship_name": "type-of",
+        "target_ref": "cv-value--x-mtbls-parameter-value--9162552b-e122-5c3c-8aaf-b296fab713d0"
+      },
+      {
+        "id": "rel--relationship--6cc8cee2-1616-528a-b673-e1c5246716c8",
+        "type": "relationship",
+        "source_ref": "cv--x-mtbls-parameter-type--51529a95-306c-5ae8-a222-20ce4b3163fe",
+        "relationship_name": "type-of",
+        "target_ref": "mhd--parameter-definition--c282eeb9-3099-4862-949f-575c91689047"
+      },
+      {
+        "id": "rel--relationship--4d09f795-512a-5072-9932-6b13ca169ea7",
+        "type": "relationship",
+        "source_ref": "cv--x-mtbls-parameter-type--72a9f0f7-258d-5c36-b12f-8ac7193dad12",
+        "relationship_name": "defined-in",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--31dbae00-bf4e-5129-900a-53445400d5dd",
+        "type": "relationship",
+        "source_ref": "cv--x-mtbls-parameter-type--72a9f0f7-258d-5c36-b12f-8ac7193dad12",
+        "relationship_name": "type-of",
+        "target_ref": "mhd--parameter-definition--e782e277-4a89-434c-8e6e-73f5386a5b28"
+      },
+      {
+        "id": "rel--relationship--cde06e53-1e6a-5063-9659-28ddf6e5962c",
+        "type": "relationship",
+        "source_ref": "cv--x-mtbls-parameter-type--775a670c-0648-5e32-acfd-bdcc8b9ed699",
+        "relationship_name": "defined-in",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--16e93e56-bf1f-5863-85cf-8622e6290f47",
+        "type": "relationship",
+        "source_ref": "cv--x-mtbls-parameter-type--775a670c-0648-5e32-acfd-bdcc8b9ed699",
+        "relationship_name": "type-of",
+        "target_ref": "cv-value--x-mtbls-parameter-value--a3b22647-8da4-5018-907e-c4bcf205084e"
+      },
+      {
+        "id": "rel--relationship--ff344453-07ad-5ee4-90cc-df4d2aab0d9b",
+        "type": "relationship",
+        "source_ref": "cv--x-mtbls-parameter-type--775a670c-0648-5e32-acfd-bdcc8b9ed699",
+        "relationship_name": "type-of",
+        "target_ref": "mhd--parameter-definition--673223fc-78fe-40b5-8308-b737e5df835e"
+      },
+      {
+        "id": "rel--relationship--b0241d9f-5086-5bd9-b99d-36c76735396e",
+        "type": "relationship",
+        "source_ref": "cv--x-mtbls-parameter-type--87727b9f-c5eb-51f4-a154-82e5a8170b14",
+        "relationship_name": "defined-in",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--edfddd51-eaef-5750-b37d-33ab4e1ccd14",
+        "type": "relationship",
+        "source_ref": "cv--x-mtbls-parameter-type--87727b9f-c5eb-51f4-a154-82e5a8170b14",
+        "relationship_name": "type-of",
+        "target_ref": "cv-value--x-mtbls-parameter-value--dbc8f9f1-3d5f-502d-94f7-ffe6e6d74e75"
+      },
+      {
+        "id": "rel--relationship--b410e8c1-3e81-5b67-a313-e4689365b30f",
+        "type": "relationship",
+        "source_ref": "cv--x-mtbls-parameter-type--87727b9f-c5eb-51f4-a154-82e5a8170b14",
+        "relationship_name": "type-of",
+        "target_ref": "mhd--parameter-definition--746ca488-43a3-4d0b-b618-77beda4a4678"
+      },
+      {
+        "id": "rel--relationship--52192236-e45d-57e0-b188-32a6d1a4db46",
+        "type": "relationship",
+        "source_ref": "cv--x-mtbls-parameter-type--d6f09e04-7283-5587-afad-16f7c3dcef32",
+        "relationship_name": "defined-in",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--72652fec-9bd9-5d55-b689-37d0a441726b",
+        "type": "relationship",
+        "source_ref": "cv--x-mtbls-parameter-type--d6f09e04-7283-5587-afad-16f7c3dcef32",
+        "relationship_name": "type-of",
+        "target_ref": "mhd--parameter-definition--037ce9d7-f20b-4066-be14-f00043120140"
+      },
+      {
+        "id": "rel--relationship--d43be937-1853-5c79-b43b-a084ae2a677a",
+        "type": "relationship",
+        "source_ref": "cv--x-mtbls-parameter-type--dc5b8f19-60a5-508b-bd7f-5b3a8cd09867",
+        "relationship_name": "defined-in",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--c37c9d7f-3199-5969-81b2-ccc2c73314f4",
+        "type": "relationship",
+        "source_ref": "cv--x-mtbls-parameter-type--dc5b8f19-60a5-508b-bd7f-5b3a8cd09867",
+        "relationship_name": "type-of",
+        "target_ref": "cv-value--x-mtbls-parameter-value--5de2519c-0e9b-5204-88b6-4fb9f2bc2c19"
+      },
+      {
+        "id": "rel--relationship--bdfa2c3c-07d3-5e42-aa71-b3e527c874bd",
+        "type": "relationship",
+        "source_ref": "cv--x-mtbls-parameter-type--dc5b8f19-60a5-508b-bd7f-5b3a8cd09867",
+        "relationship_name": "type-of",
+        "target_ref": "mhd--parameter-definition--708b129f-1cea-4847-9507-ac782caa2c59"
+      },
+      {
+        "id": "rel--relationship--93b174a8-71bf-50a0-b69b-37b57efc62eb",
+        "type": "relationship",
+        "source_ref": "cv--x-mtbls-parameter-type--f20e0e93-9f01-5ba8-a25d-b44ac65cd5fe",
+        "relationship_name": "defined-in",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--5fe1d20d-67eb-5f30-b0a9-f5787ffa6dab",
+        "type": "relationship",
+        "source_ref": "cv--x-mtbls-parameter-type--f20e0e93-9f01-5ba8-a25d-b44ac65cd5fe",
+        "relationship_name": "type-of",
+        "target_ref": "mhd--parameter-definition--908ae168-b44f-4f23-a5b8-1263150aaaff"
+      },
+      {
+        "id": "rel--relationship--1aaee8ee-ae72-55fb-9536-5db9e6e84277",
+        "type": "relationship",
+        "source_ref": "cv-value--characteristic-value--1eb87855-0d2b-5060-89c5-5ae6fbfdb18b",
+        "relationship_name": "has-type",
+        "target_ref": "cv--characteristic-type--53caec3d-a05b-537d-96de-cc914a2bc680"
+      },
+      {
+        "id": "rel--relationship--3420736f-72c9-5f0e-bc3c-acfc98b30dc0",
+        "type": "relationship",
+        "source_ref": "cv-value--characteristic-value--1eb87855-0d2b-5060-89c5-5ae6fbfdb18b",
+        "relationship_name": "instance-of",
+        "target_ref": "mhd--characteristic-definition--7b63c277-c8b7-4d35-98f1-a5a7f3e8a044"
+      },
+      {
+        "id": "rel--relationship--7b79456a-f59a-5d77-8a48-5cf8d2aca02d",
+        "type": "relationship",
+        "source_ref": "cv-value--characteristic-value--1eb87855-0d2b-5060-89c5-5ae6fbfdb18b",
+        "relationship_name": "value-of",
+        "target_ref": "mhd--subject--52b206e1-e312-4d3e-9052-90fb1635c2aa"
+      },
+      {
+        "id": "rel--relationship--fa6a7755-b209-5a51-a555-fc98d2b5d16f",
+        "type": "relationship",
+        "source_ref": "cv-value--characteristic-value--1eb87855-0d2b-5060-89c5-5ae6fbfdb18b",
+        "relationship_name": "value-of",
+        "target_ref": "mhd--subject--7ab92676-f454-4be9-941f-f4ea9a66c5db"
+      },
+      {
+        "id": "rel--relationship--2d8ac6d7-0455-54b0-9034-65d71d6c2261",
+        "type": "relationship",
+        "source_ref": "cv-value--characteristic-value--ee6a826f-e407-51b9-8a0a-4f9ed3615511",
+        "relationship_name": "has-type",
+        "target_ref": "cv--characteristic-type--06e4cc5e-6267-5808-8da5-9a410f09b0fd"
+      },
+      {
+        "id": "rel--relationship--5913fc5e-f1fe-53d2-8493-53e0aa877a68",
+        "type": "relationship",
+        "source_ref": "cv-value--characteristic-value--ee6a826f-e407-51b9-8a0a-4f9ed3615511",
+        "relationship_name": "instance-of",
+        "target_ref": "mhd--characteristic-definition--eaa2b455-fa85-4f76-9f77-62f149c49c63"
+      },
+      {
+        "id": "rel--relationship--45004d3b-a02a-504c-a45c-140ca66797c6",
+        "type": "relationship",
+        "source_ref": "cv-value--characteristic-value--ee6a826f-e407-51b9-8a0a-4f9ed3615511",
+        "relationship_name": "value-of",
+        "target_ref": "mhd--subject--52b206e1-e312-4d3e-9052-90fb1635c2aa"
+      },
+      {
+        "id": "rel--relationship--394ee5b9-a784-589d-9a14-1e26c7047220",
+        "type": "relationship",
+        "source_ref": "cv-value--characteristic-value--ee6a826f-e407-51b9-8a0a-4f9ed3615511",
+        "relationship_name": "value-of",
+        "target_ref": "mhd--subject--7ab92676-f454-4be9-941f-f4ea9a66c5db"
+      },
+      {
+        "id": "rel--relationship--4c522925-1e3d-5a56-8f27-e60b7bd3bb18",
+        "type": "relationship",
+        "source_ref": "cv-value--data-provider--4375660c-3282-52a9-b68d-9054d463fc1d",
+        "relationship_name": "provides",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--bc45f9fe-d3a7-5338-aa10-670d8f2690ef",
+        "type": "relationship",
+        "source_ref": "cv-value--parameter-value--44daa711-99db-564b-9f0c-7ea1a7868b68",
+        "relationship_name": "has-type",
+        "target_ref": "cv--parameter-type--f875b274-26fa-5405-a3ae-d392bbecd567"
+      },
+      {
+        "id": "rel--relationship--cd53382c-168b-5033-8a52-c4eccaf9df6e",
+        "type": "relationship",
+        "source_ref": "cv-value--parameter-value--44daa711-99db-564b-9f0c-7ea1a7868b68",
+        "relationship_name": "instance-of",
+        "target_ref": "mhd--parameter-definition--d126875f-cdf1-48d4-98a5-c0d56ac211b0"
+      },
+      {
+        "id": "rel--relationship--b673e765-6e1d-5d9a-8975-aeb179ff7089",
+        "type": "relationship",
+        "source_ref": "cv-value--parameter-value--60ed851c-aa43-576b-8080-067a7946216a",
+        "relationship_name": "has-type",
+        "target_ref": "cv--parameter-type--f75219a7-b7e5-50a4-93eb-747034f72b37"
+      },
+      {
+        "id": "rel--relationship--b200fddd-c889-5f68-ad28-1a313067e422",
+        "type": "relationship",
+        "source_ref": "cv-value--parameter-value--60ed851c-aa43-576b-8080-067a7946216a",
+        "relationship_name": "instance-of",
+        "target_ref": "mhd--parameter-definition--dae41d31-370e-4087-8f12-26cd1337bf18"
+      },
+      {
+        "id": "rel--relationship--b8858d70-6c03-5c1c-a577-fa9ec0d17532",
+        "type": "relationship",
+        "source_ref": "cv-value--parameter-value--63a8ca09-5fce-525e-988c-9bcb7cdc6bcc",
+        "relationship_name": "has-type",
+        "target_ref": "cv--parameter-type--3043a1d7-a8cb-5429-99a5-d6185ed474f3"
+      },
+      {
+        "id": "rel--relationship--52860102-f3a2-5520-934c-ef51ce4837af",
+        "type": "relationship",
+        "source_ref": "cv-value--parameter-value--63a8ca09-5fce-525e-988c-9bcb7cdc6bcc",
+        "relationship_name": "instance-of",
+        "target_ref": "mhd--parameter-definition--b4dc5b7e-b99b-45b7-acfa-e5cbfe53c482"
+      },
+      {
+        "id": "rel--relationship--cdd46494-8cff-5523-b3aa-a43fa93cef8e",
+        "type": "relationship",
+        "source_ref": "cv-value--parameter-value--c89f18e7-b3b2-5fbd-af92-a5d6f292f9cd",
+        "relationship_name": "has-type",
+        "target_ref": "cv--parameter-type--7f6783b7-b1b5-553a-b21b-444617680b6c"
+      },
+      {
+        "id": "rel--relationship--3d88f556-0947-5fd3-b678-2b7563157949",
+        "type": "relationship",
+        "source_ref": "cv-value--parameter-value--c89f18e7-b3b2-5fbd-af92-a5d6f292f9cd",
+        "relationship_name": "instance-of",
+        "target_ref": "mhd--parameter-definition--eef6e4a7-67b8-4a84-8a08-19b7bf2f5116"
+      },
+      {
+        "id": "rel--relationship--63b7e4d3-179c-558b-90f6-00d418aaac19",
+        "type": "relationship",
+        "source_ref": "cv-value--x-mtbls-characteristic-value--4680f044-1959-5df9-9943-07bf305c023e",
+        "relationship_name": "has-type",
+        "target_ref": "cv--x-mtbls-characteristic-type--98d4cda7-1d7c-51b0-97f1-0ef31b56b833"
+      },
+      {
+        "id": "rel--relationship--c1dc3855-ccb5-5d7a-af1e-678add8b4093",
+        "type": "relationship",
+        "source_ref": "cv-value--x-mtbls-characteristic-value--4680f044-1959-5df9-9943-07bf305c023e",
+        "relationship_name": "instance-of",
+        "target_ref": "mhd--characteristic-definition--a287bed5-09d7-404a-9403-e6dd965d9274"
+      },
+      {
+        "id": "rel--relationship--5fb4633b-3f1d-559c-abda-63bf3258df8b",
+        "type": "relationship",
+        "source_ref": "cv-value--x-mtbls-characteristic-value--4680f044-1959-5df9-9943-07bf305c023e",
+        "relationship_name": "value-of",
+        "target_ref": "mhd--subject--52b206e1-e312-4d3e-9052-90fb1635c2aa"
+      },
+      {
+        "id": "rel--relationship--92531c09-da7a-5ee3-b98d-d81d343192cc",
+        "type": "relationship",
+        "source_ref": "cv-value--x-mtbls-characteristic-value--4680f044-1959-5df9-9943-07bf305c023e",
+        "relationship_name": "value-of",
+        "target_ref": "mhd--subject--7ab92676-f454-4be9-941f-f4ea9a66c5db"
+      },
+      {
+        "id": "rel--relationship--9d18c7ec-7ea4-5648-ad24-3aaa41c7d139",
+        "type": "relationship",
+        "source_ref": "cv-value--x-mtbls-factor-value--439f0d42-7d15-5021-a737-194e7367eb9a",
+        "relationship_name": "has-type",
+        "target_ref": "cv--x-mtbls-factor-type--ecb89696-89e1-578f-8c6a-eb150c57c84c"
+      },
+      {
+        "id": "rel--relationship--8204019c-318e-5777-bd3e-8167c3d12b5b",
+        "type": "relationship",
+        "source_ref": "cv-value--x-mtbls-factor-value--439f0d42-7d15-5021-a737-194e7367eb9a",
+        "relationship_name": "instance-of",
+        "target_ref": "mhd--factor-definition--632143a8-ed04-4df2-8c3b-c833b3056b8f"
+      },
+      {
+        "id": "rel--relationship--79ff9d98-37ed-5415-8e65-a15badbd3d59",
+        "type": "relationship",
+        "source_ref": "cv-value--x-mtbls-factor-value--439f0d42-7d15-5021-a737-194e7367eb9a",
+        "relationship_name": "value-of",
+        "target_ref": "mhd--sample--d8b73da9-a4db-4004-b03b-8bcadd9b8fbf"
+      },
+      {
+        "id": "rel--relationship--79ce5ffa-1f50-58cc-ae6b-c8763dc55ead",
+        "type": "relationship",
+        "source_ref": "cv-value--x-mtbls-factor-value--56b69acd-727c-5cf8-a683-f5bd069c344f",
+        "relationship_name": "has-type",
+        "target_ref": "cv--x-mtbls-factor-type--ecb89696-89e1-578f-8c6a-eb150c57c84c"
+      },
+      {
+        "id": "rel--relationship--f95fe090-4c50-540b-b030-9295eb91c40a",
+        "type": "relationship",
+        "source_ref": "cv-value--x-mtbls-factor-value--56b69acd-727c-5cf8-a683-f5bd069c344f",
+        "relationship_name": "instance-of",
+        "target_ref": "mhd--factor-definition--632143a8-ed04-4df2-8c3b-c833b3056b8f"
+      },
+      {
+        "id": "rel--relationship--9d9d41d1-42eb-52c1-94e3-806e9a98a2ff",
+        "type": "relationship",
+        "source_ref": "cv-value--x-mtbls-factor-value--56b69acd-727c-5cf8-a683-f5bd069c344f",
+        "relationship_name": "value-of",
+        "target_ref": "mhd--sample--0608d2be-83b8-4f4c-8549-7e30e5a23585"
+      },
+      {
+        "id": "rel--relationship--4b45eafe-fb25-5213-a5e5-6ca8f2d48306",
+        "type": "relationship",
+        "source_ref": "cv-value--x-mtbls-parameter-value--14779f7e-cadc-58d9-8c50-28cb567e9a11",
+        "relationship_name": "has-type",
+        "target_ref": "cv--x-mtbls-parameter-type--109082f6-139e-5232-916c-4b3e28897a06"
+      },
+      {
+        "id": "rel--relationship--f0cf42c6-05d1-527f-8622-9795e4698906",
+        "type": "relationship",
+        "source_ref": "cv-value--x-mtbls-parameter-value--14779f7e-cadc-58d9-8c50-28cb567e9a11",
+        "relationship_name": "instance-of",
+        "target_ref": "mhd--parameter-definition--59f7b9fe-45f7-49e7-bf4e-68d31a23b51c"
+      },
+      {
+        "id": "rel--relationship--4a0877b5-2068-51d2-b45b-758154f5d8ec",
+        "type": "relationship",
+        "source_ref": "cv-value--x-mtbls-parameter-value--5de2519c-0e9b-5204-88b6-4fb9f2bc2c19",
+        "relationship_name": "has-type",
+        "target_ref": "cv--x-mtbls-parameter-type--dc5b8f19-60a5-508b-bd7f-5b3a8cd09867"
+      },
+      {
+        "id": "rel--relationship--f4d51efc-7b5c-5780-81ba-11a52ba04a5a",
+        "type": "relationship",
+        "source_ref": "cv-value--x-mtbls-parameter-value--5de2519c-0e9b-5204-88b6-4fb9f2bc2c19",
+        "relationship_name": "instance-of",
+        "target_ref": "mhd--parameter-definition--708b129f-1cea-4847-9507-ac782caa2c59"
+      },
+      {
+        "id": "rel--relationship--046b8700-a651-5213-9417-b568ba87a895",
+        "type": "relationship",
+        "source_ref": "cv-value--x-mtbls-parameter-value--9162552b-e122-5c3c-8aaf-b296fab713d0",
+        "relationship_name": "has-type",
+        "target_ref": "cv--x-mtbls-parameter-type--51529a95-306c-5ae8-a222-20ce4b3163fe"
+      },
+      {
+        "id": "rel--relationship--c170c559-e353-5911-b2e3-1190b068e064",
+        "type": "relationship",
+        "source_ref": "cv-value--x-mtbls-parameter-value--9162552b-e122-5c3c-8aaf-b296fab713d0",
+        "relationship_name": "instance-of",
+        "target_ref": "mhd--parameter-definition--c282eeb9-3099-4862-949f-575c91689047"
+      },
+      {
+        "id": "rel--relationship--f8ab7ff9-f6f6-5be1-a409-3eb832ebc251",
+        "type": "relationship",
+        "source_ref": "cv-value--x-mtbls-parameter-value--a3b22647-8da4-5018-907e-c4bcf205084e",
+        "relationship_name": "has-type",
+        "target_ref": "cv--x-mtbls-parameter-type--775a670c-0648-5e32-acfd-bdcc8b9ed699"
+      },
+      {
+        "id": "rel--relationship--f6128b98-d26d-5d19-a5b4-096d1297aae4",
+        "type": "relationship",
+        "source_ref": "cv-value--x-mtbls-parameter-value--a3b22647-8da4-5018-907e-c4bcf205084e",
+        "relationship_name": "instance-of",
+        "target_ref": "mhd--parameter-definition--673223fc-78fe-40b5-8308-b737e5df835e"
+      },
+      {
+        "id": "rel--relationship--cce9f556-6131-5a21-a87c-450686a32371",
+        "type": "relationship",
+        "source_ref": "cv-value--x-mtbls-parameter-value--dbc8f9f1-3d5f-502d-94f7-ffe6e6d74e75",
+        "relationship_name": "has-type",
+        "target_ref": "cv--x-mtbls-parameter-type--87727b9f-c5eb-51f4-a154-82e5a8170b14"
+      },
+      {
+        "id": "rel--relationship--67ffc390-6e89-520e-b5f9-c9229973036f",
+        "type": "relationship",
+        "source_ref": "cv-value--x-mtbls-parameter-value--dbc8f9f1-3d5f-502d-94f7-ffe6e6d74e75",
+        "relationship_name": "instance-of",
+        "target_ref": "mhd--parameter-definition--746ca488-43a3-4d0b-b618-77beda4a4678"
+      },
+      {
+        "id": "rel--relationship--7c6403e0-58cc-5e1a-b8ab-37d8361b5a08",
+        "type": "relationship",
+        "source_ref": "mhd--assay--09e57e2a-08a1-497e-858c-81f3ea87a2a5",
+        "relationship_name": "follows",
+        "target_ref": "mhd--protocol--1e12ca74-8286-431d-b5d9-bdde686e0bfc"
+      },
+      {
+        "id": "rel--relationship--2d3f1d0e-5c3b-54d4-9817-a7adb78050e5",
+        "type": "relationship",
+        "source_ref": "mhd--assay--09e57e2a-08a1-497e-858c-81f3ea87a2a5",
+        "relationship_name": "follows",
+        "target_ref": "mhd--protocol--2d68db08-0ac9-408f-930a-055a36e499b2"
+      },
+      {
+        "id": "rel--relationship--61839823-dca1-58c2-93e6-d4d84547c880",
+        "type": "relationship",
+        "source_ref": "mhd--assay--09e57e2a-08a1-497e-858c-81f3ea87a2a5",
+        "relationship_name": "follows",
+        "target_ref": "mhd--protocol--623b90d5-1422-487a-be5f-6d3c332de783"
+      },
+      {
+        "id": "rel--relationship--f2aef93a-c41c-591f-b6e6-4cbface2d32c",
+        "type": "relationship",
+        "source_ref": "mhd--assay--09e57e2a-08a1-497e-858c-81f3ea87a2a5",
+        "relationship_name": "follows",
+        "target_ref": "mhd--protocol--8cc273c4-7205-458b-9f13-7bfec0929865"
+      },
+      {
+        "id": "rel--relationship--f9ed073b-3f43-59f2-afba-94ee4168b10e",
+        "type": "relationship",
+        "source_ref": "mhd--assay--09e57e2a-08a1-497e-858c-81f3ea87a2a5",
+        "relationship_name": "follows",
+        "target_ref": "mhd--protocol--ddda4fe4-d2f4-4c6b-8973-a17df620e947"
+      },
+      {
+        "id": "rel--relationship--88aa2e84-390d-5bd5-97db-27959fe357a6",
+        "type": "relationship",
+        "source_ref": "mhd--assay--09e57e2a-08a1-497e-858c-81f3ea87a2a5",
+        "relationship_name": "follows",
+        "target_ref": "mhd--protocol--fa79ab5b-0472-4f21-b1c9-00976b1cec60"
+      },
+      {
+        "id": "rel--relationship--17186edc-9334-5dec-bd1f-bbcd2a736f2e",
+        "type": "relationship",
+        "source_ref": "mhd--assay--09e57e2a-08a1-497e-858c-81f3ea87a2a5",
+        "relationship_name": "has-submitter-keyword",
+        "target_ref": "cv--descriptor--a00d8694-a24b-5b32-8fc6-f777991744ce"
+      },
+      {
+        "id": "rel--relationship--7eb2553f-f38b-52fe-9c4a-24800475a624",
+        "type": "relationship",
+        "source_ref": "mhd--assay--09e57e2a-08a1-497e-858c-81f3ea87a2a5",
+        "relationship_name": "part-of",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--95f4672b-2af0-58c2-a99f-18867b51413f",
+        "type": "relationship",
+        "source_ref": "mhd--characteristic-definition--669ea0fb-8762-41b5-93b0-d179a9d12ba0",
+        "relationship_name": "has-type",
+        "target_ref": "cv--characteristic-type--220a2993-b1bd-51ba-adaf-82047671859d"
+      },
+      {
+        "id": "rel--relationship--a66123ff-3eba-50e3-ba3b-a3a9fd56557e",
+        "type": "relationship",
+        "source_ref": "mhd--characteristic-definition--669ea0fb-8762-41b5-93b0-d179a9d12ba0",
+        "relationship_name": "used-in",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--b4ac1635-e437-5ec1-a6df-ce3a03d970b9",
+        "type": "relationship",
+        "source_ref": "mhd--characteristic-definition--7b63c277-c8b7-4d35-98f1-a5a7f3e8a044",
+        "relationship_name": "has-instance",
+        "target_ref": "cv-value--characteristic-value--1eb87855-0d2b-5060-89c5-5ae6fbfdb18b"
+      },
+      {
+        "id": "rel--relationship--9c9668a3-1962-59b0-b689-2c92ca5e516f",
+        "type": "relationship",
+        "source_ref": "mhd--characteristic-definition--7b63c277-c8b7-4d35-98f1-a5a7f3e8a044",
+        "relationship_name": "has-type",
+        "target_ref": "cv--characteristic-type--53caec3d-a05b-537d-96de-cc914a2bc680"
+      },
+      {
+        "id": "rel--relationship--06421c06-8020-5ce0-ab7f-8df970321fa4",
+        "type": "relationship",
+        "source_ref": "mhd--characteristic-definition--7b63c277-c8b7-4d35-98f1-a5a7f3e8a044",
+        "relationship_name": "used-in",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--993003b6-7145-5209-9b5d-f8039272a8dd",
+        "type": "relationship",
+        "source_ref": "mhd--characteristic-definition--8a459da9-8e74-45ed-91b2-062e8db808c2",
+        "relationship_name": "has-type",
+        "target_ref": "cv--x-mtbls-characteristic-type--bf74113d-7334-5151-bba3-0a490eb43919"
+      },
+      {
+        "id": "rel--relationship--d30760ae-82ce-585f-b8ea-018e3cd20d14",
+        "type": "relationship",
+        "source_ref": "mhd--characteristic-definition--8a459da9-8e74-45ed-91b2-062e8db808c2",
+        "relationship_name": "used-in",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--d407c64c-0604-5789-a7cc-7ff24e07fffe",
+        "type": "relationship",
+        "source_ref": "mhd--characteristic-definition--a287bed5-09d7-404a-9403-e6dd965d9274",
+        "relationship_name": "has-instance",
+        "target_ref": "cv-value--x-mtbls-characteristic-value--4680f044-1959-5df9-9943-07bf305c023e"
+      },
+      {
+        "id": "rel--relationship--92a22ec5-42c8-5d93-b3dc-1b7165b5a073",
+        "type": "relationship",
+        "source_ref": "mhd--characteristic-definition--a287bed5-09d7-404a-9403-e6dd965d9274",
+        "relationship_name": "has-type",
+        "target_ref": "cv--x-mtbls-characteristic-type--98d4cda7-1d7c-51b0-97f1-0ef31b56b833"
+      },
+      {
+        "id": "rel--relationship--2e1d11be-ff8f-56ff-a385-61abf245295f",
+        "type": "relationship",
+        "source_ref": "mhd--characteristic-definition--a287bed5-09d7-404a-9403-e6dd965d9274",
+        "relationship_name": "used-in",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--6de295ad-1edc-5838-9525-79943319fe5b",
+        "type": "relationship",
+        "source_ref": "mhd--characteristic-definition--eaa2b455-fa85-4f76-9f77-62f149c49c63",
+        "relationship_name": "has-instance",
+        "target_ref": "cv-value--characteristic-value--ee6a826f-e407-51b9-8a0a-4f9ed3615511"
+      },
+      {
+        "id": "rel--relationship--850ca40d-bc0d-5790-8525-5d2a1b19aaa7",
+        "type": "relationship",
+        "source_ref": "mhd--characteristic-definition--eaa2b455-fa85-4f76-9f77-62f149c49c63",
+        "relationship_name": "has-type",
+        "target_ref": "cv--characteristic-type--06e4cc5e-6267-5808-8da5-9a410f09b0fd"
+      },
+      {
+        "id": "rel--relationship--30b1dcd3-35f8-5d01-8d87-1a22c2f41153",
+        "type": "relationship",
+        "source_ref": "mhd--characteristic-definition--eaa2b455-fa85-4f76-9f77-62f149c49c63",
+        "relationship_name": "used-in",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--d57ef9d2-4896-5d9e-98fe-fac4fdfe4bb0",
+        "type": "relationship",
+        "source_ref": "mhd--characteristic-definition--f9a193f8-e7ae-4180-9a3b-34d459b218fb",
+        "relationship_name": "has-type",
+        "target_ref": "cv--characteristic-type--d474b94d-69ec-50e1-b4c8-c2aaeba80cf4"
+      },
+      {
+        "id": "rel--relationship--1e1400d6-4ba3-5a8b-b889-418f67c8bce1",
+        "type": "relationship",
+        "source_ref": "mhd--characteristic-definition--f9a193f8-e7ae-4180-9a3b-34d459b218fb",
+        "relationship_name": "used-in",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--739bc380-a748-51a6-94d8-d4222e42c74d",
+        "type": "relationship",
+        "source_ref": "mhd--factor-definition--632143a8-ed04-4df2-8c3b-c833b3056b8f",
+        "relationship_name": "has-instance",
+        "target_ref": "cv-value--x-mtbls-factor-value--439f0d42-7d15-5021-a737-194e7367eb9a"
+      },
+      {
+        "id": "rel--relationship--15b6850b-02c0-59a0-866c-65ad4bdb0514",
+        "type": "relationship",
+        "source_ref": "mhd--factor-definition--632143a8-ed04-4df2-8c3b-c833b3056b8f",
+        "relationship_name": "has-instance",
+        "target_ref": "cv-value--x-mtbls-factor-value--56b69acd-727c-5cf8-a683-f5bd069c344f"
+      },
+      {
+        "id": "rel--relationship--745e87be-a881-5db7-ac90-de05c97d9daa",
+        "type": "relationship",
+        "source_ref": "mhd--factor-definition--632143a8-ed04-4df2-8c3b-c833b3056b8f",
+        "relationship_name": "has-type",
+        "target_ref": "cv--x-mtbls-factor-type--ecb89696-89e1-578f-8c6a-eb150c57c84c"
+      },
+      {
+        "id": "rel--relationship--aeae8e7f-e57e-5167-b321-e904764e564b",
+        "type": "relationship",
+        "source_ref": "mhd--factor-definition--632143a8-ed04-4df2-8c3b-c833b3056b8f",
+        "relationship_name": "used-in",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--8113860c-7914-537e-bc93-229d7698b9d6",
+        "type": "relationship",
+        "source_ref": "mhd--metabolite--59ed15c7-958d-49e7-a802-b7b98d706d1e",
+        "relationship_name": "reported-in",
+        "target_ref": "mhd--result-file--b28a3d4a-6726-4518-9c43-415d4ec5efcf"
+      },
+      {
+        "id": "rel--relationship--4c90b787-52b2-557a-a137-2c20cd3d0c36",
+        "type": "relationship",
+        "source_ref": "mhd--metabolite--59ed15c7-958d-49e7-a802-b7b98d706d1e",
+        "relationship_name": "reported-in",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--c5b5dcd1-a30d-5e2e-9668-60114ee27ebe",
+        "type": "relationship",
+        "source_ref": "mhd--metabolite--7f234e9b-36be-4790-85dc-aabd6b488331",
+        "relationship_name": "reported-in",
+        "target_ref": "mhd--result-file--b28a3d4a-6726-4518-9c43-415d4ec5efcf"
+      },
+      {
+        "id": "rel--relationship--0cbbfd42-96ab-5cae-8527-d51b507c0c9d",
+        "type": "relationship",
+        "source_ref": "mhd--metabolite--7f234e9b-36be-4790-85dc-aabd6b488331",
+        "relationship_name": "reported-in",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--9ea8902c-cf19-5f1d-a2b5-3d0d34793e46",
+        "type": "relationship",
+        "source_ref": "mhd--metabolite--df86dd11-0ab5-411f-bd6d-c73b3a0525c6",
+        "relationship_name": "reported-in",
+        "target_ref": "mhd--result-file--b28a3d4a-6726-4518-9c43-415d4ec5efcf"
+      },
+      {
+        "id": "rel--relationship--ead12400-86f5-52fa-a732-ebcd87a3d51c",
+        "type": "relationship",
+        "source_ref": "mhd--metabolite--df86dd11-0ab5-411f-bd6d-c73b3a0525c6",
+        "relationship_name": "reported-in",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--e70cc1ad-9d6e-56a8-aa17-f68b7ec715d4",
+        "type": "relationship",
+        "source_ref": "mhd--metadata-file--0d86c680-1dd7-425a-b934-61e7a910325b",
+        "relationship_name": "describes",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--6b7e4582-a0e7-5445-ad3c-35d0fb1cbfec",
+        "type": "relationship",
+        "source_ref": "mhd--metadata-file--5a6679a4-cc8b-4afb-9e4a-5e8d584e3212",
+        "relationship_name": "describes",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--febf2372-df2e-54ef-917c-01a524f23073",
+        "type": "relationship",
+        "source_ref": "mhd--metadata-file--abb68799-0924-4a45-b2c3-3a3e8b60985e",
+        "relationship_name": "describes",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--2954b86b-ed74-502e-8ac5-c95cb1fb52b3",
+        "type": "relationship",
+        "source_ref": "mhd--organization--2f1768a7-fb05-4302-9ee6-4295cb594bce",
+        "relationship_name": "funds",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--b6f0577d-3882-5a72-806a-896c609fa4b1",
+        "type": "relationship",
+        "source_ref": "mhd--organization--5d246686-8d47-472b-bee3-469a5f7444a5",
+        "relationship_name": "affiliates",
+        "target_ref": "mhd--person--6a94da1e-93c0-483e-9f8a-cbf960410bb4"
+      },
+      {
+        "id": "rel--relationship--96fb055f-8460-5591-bc22-35703b768ffc",
+        "type": "relationship",
+        "source_ref": "mhd--organization--6a9e4369-dacf-489d-ba71-03112e6a241e",
+        "relationship_name": "affiliates",
+        "target_ref": "mhd--person--0fdd3f54-34ea-41b3-96f9-842d2d217a62"
+      },
+      {
+        "id": "rel--relationship--6b8ae4bd-e26b-5f82-bdcc-53512bffc784",
+        "type": "relationship",
+        "source_ref": "mhd--parameter-definition--037ce9d7-f20b-4066-be14-f00043120140",
+        "relationship_name": "has-type",
+        "target_ref": "cv--x-mtbls-parameter-type--d6f09e04-7283-5587-afad-16f7c3dcef32"
+      },
+      {
+        "id": "rel--relationship--504dc34b-a232-585a-a940-fea1a1a06743",
+        "type": "relationship",
+        "source_ref": "mhd--parameter-definition--037ce9d7-f20b-4066-be14-f00043120140",
+        "relationship_name": "used-in",
+        "target_ref": "mhd--protocol--ddda4fe4-d2f4-4c6b-8973-a17df620e947"
+      },
+      {
+        "id": "rel--relationship--914f6c3d-b5c2-58b9-855d-8951d2bfd047",
+        "type": "relationship",
+        "source_ref": "mhd--parameter-definition--59f7b9fe-45f7-49e7-bf4e-68d31a23b51c",
+        "relationship_name": "has-instance",
+        "target_ref": "cv-value--x-mtbls-parameter-value--14779f7e-cadc-58d9-8c50-28cb567e9a11"
+      },
+      {
+        "id": "rel--relationship--f4582849-e35a-56dc-bf0b-a4c79253eec1",
+        "type": "relationship",
+        "source_ref": "mhd--parameter-definition--59f7b9fe-45f7-49e7-bf4e-68d31a23b51c",
+        "relationship_name": "has-type",
+        "target_ref": "cv--x-mtbls-parameter-type--109082f6-139e-5232-916c-4b3e28897a06"
+      },
+      {
+        "id": "rel--relationship--586819ea-a51f-51ce-b70e-4873287830d5",
+        "type": "relationship",
+        "source_ref": "mhd--parameter-definition--59f7b9fe-45f7-49e7-bf4e-68d31a23b51c",
+        "relationship_name": "used-in",
+        "target_ref": "mhd--protocol--1e12ca74-8286-431d-b5d9-bdde686e0bfc"
+      },
+      {
+        "id": "rel--relationship--fb85a8bd-f4f0-5793-8b9e-0cf664366597",
+        "type": "relationship",
+        "source_ref": "mhd--parameter-definition--673223fc-78fe-40b5-8308-b737e5df835e",
+        "relationship_name": "has-instance",
+        "target_ref": "cv-value--x-mtbls-parameter-value--a3b22647-8da4-5018-907e-c4bcf205084e"
+      },
+      {
+        "id": "rel--relationship--af0fcdfd-86a0-5800-8215-848082714fb7",
+        "type": "relationship",
+        "source_ref": "mhd--parameter-definition--673223fc-78fe-40b5-8308-b737e5df835e",
+        "relationship_name": "has-type",
+        "target_ref": "cv--x-mtbls-parameter-type--775a670c-0648-5e32-acfd-bdcc8b9ed699"
+      },
+      {
+        "id": "rel--relationship--04a930ee-557b-5f14-825d-47a3c1395f3b",
+        "type": "relationship",
+        "source_ref": "mhd--parameter-definition--673223fc-78fe-40b5-8308-b737e5df835e",
+        "relationship_name": "used-in",
+        "target_ref": "mhd--protocol--1e12ca74-8286-431d-b5d9-bdde686e0bfc"
+      },
+      {
+        "id": "rel--relationship--af8bf2af-617f-5bf1-8fda-086cb092fd69",
+        "type": "relationship",
+        "source_ref": "mhd--parameter-definition--708b129f-1cea-4847-9507-ac782caa2c59",
+        "relationship_name": "has-instance",
+        "target_ref": "cv-value--x-mtbls-parameter-value--5de2519c-0e9b-5204-88b6-4fb9f2bc2c19"
+      },
+      {
+        "id": "rel--relationship--06805d96-4a66-5cfb-b269-95b6606e8d2c",
+        "type": "relationship",
+        "source_ref": "mhd--parameter-definition--708b129f-1cea-4847-9507-ac782caa2c59",
+        "relationship_name": "has-type",
+        "target_ref": "cv--x-mtbls-parameter-type--dc5b8f19-60a5-508b-bd7f-5b3a8cd09867"
+      },
+      {
+        "id": "rel--relationship--8639cb61-63df-54a8-be75-48acb196b60a",
+        "type": "relationship",
+        "source_ref": "mhd--parameter-definition--708b129f-1cea-4847-9507-ac782caa2c59",
+        "relationship_name": "used-in",
+        "target_ref": "mhd--protocol--1e12ca74-8286-431d-b5d9-bdde686e0bfc"
+      },
+      {
+        "id": "rel--relationship--4dc6c947-1316-5330-a34b-8d748cb6fa7d",
+        "type": "relationship",
+        "source_ref": "mhd--parameter-definition--746ca488-43a3-4d0b-b618-77beda4a4678",
+        "relationship_name": "has-instance",
+        "target_ref": "cv-value--x-mtbls-parameter-value--dbc8f9f1-3d5f-502d-94f7-ffe6e6d74e75"
+      },
+      {
+        "id": "rel--relationship--d143dab0-62bd-5c65-a62c-6dc3c0aafbd8",
+        "type": "relationship",
+        "source_ref": "mhd--parameter-definition--746ca488-43a3-4d0b-b618-77beda4a4678",
+        "relationship_name": "has-type",
+        "target_ref": "cv--x-mtbls-parameter-type--87727b9f-c5eb-51f4-a154-82e5a8170b14"
+      },
+      {
+        "id": "rel--relationship--d7089475-753b-5a7e-8ab6-4de316513226",
+        "type": "relationship",
+        "source_ref": "mhd--parameter-definition--746ca488-43a3-4d0b-b618-77beda4a4678",
+        "relationship_name": "used-in",
+        "target_ref": "mhd--protocol--1e12ca74-8286-431d-b5d9-bdde686e0bfc"
+      },
+      {
+        "id": "rel--relationship--33e18bf6-5e9c-5482-b2e2-5e857159dbc5",
+        "type": "relationship",
+        "source_ref": "mhd--parameter-definition--908ae168-b44f-4f23-a5b8-1263150aaaff",
+        "relationship_name": "has-type",
+        "target_ref": "cv--x-mtbls-parameter-type--f20e0e93-9f01-5ba8-a25d-b44ac65cd5fe"
+      },
+      {
+        "id": "rel--relationship--07fc2771-1f3c-5f1b-b29a-2fb8b4a661ce",
+        "type": "relationship",
+        "source_ref": "mhd--parameter-definition--908ae168-b44f-4f23-a5b8-1263150aaaff",
+        "relationship_name": "used-in",
+        "target_ref": "mhd--protocol--1e12ca74-8286-431d-b5d9-bdde686e0bfc"
+      },
+      {
+        "id": "rel--relationship--539c4395-3f86-53f1-bbf6-0c8c42679f83",
+        "type": "relationship",
+        "source_ref": "mhd--parameter-definition--b4dc5b7e-b99b-45b7-acfa-e5cbfe53c482",
+        "relationship_name": "has-instance",
+        "target_ref": "cv-value--parameter-value--63a8ca09-5fce-525e-988c-9bcb7cdc6bcc"
+      },
+      {
+        "id": "rel--relationship--0bf21b70-7f7a-5402-9421-3124e8e5e915",
+        "type": "relationship",
+        "source_ref": "mhd--parameter-definition--b4dc5b7e-b99b-45b7-acfa-e5cbfe53c482",
+        "relationship_name": "has-type",
+        "target_ref": "cv--parameter-type--3043a1d7-a8cb-5429-99a5-d6185ed474f3"
+      },
+      {
+        "id": "rel--relationship--d9793918-2359-5d6f-b1e0-13f81b7ddb14",
+        "type": "relationship",
+        "source_ref": "mhd--parameter-definition--b4dc5b7e-b99b-45b7-acfa-e5cbfe53c482",
+        "relationship_name": "used-in",
+        "target_ref": "mhd--protocol--623b90d5-1422-487a-be5f-6d3c332de783"
+      },
+      {
+        "id": "rel--relationship--91025323-16e8-52c1-8306-44d518bd84d7",
+        "type": "relationship",
+        "source_ref": "mhd--parameter-definition--c282eeb9-3099-4862-949f-575c91689047",
+        "relationship_name": "has-instance",
+        "target_ref": "cv-value--x-mtbls-parameter-value--9162552b-e122-5c3c-8aaf-b296fab713d0"
+      },
+      {
+        "id": "rel--relationship--180357bf-3332-569c-a253-16f4ab02cdf8",
+        "type": "relationship",
+        "source_ref": "mhd--parameter-definition--c282eeb9-3099-4862-949f-575c91689047",
+        "relationship_name": "has-type",
+        "target_ref": "cv--x-mtbls-parameter-type--51529a95-306c-5ae8-a222-20ce4b3163fe"
+      },
+      {
+        "id": "rel--relationship--a19ed5fd-9e85-55d5-9469-45e23d884360",
+        "type": "relationship",
+        "source_ref": "mhd--parameter-definition--c282eeb9-3099-4862-949f-575c91689047",
+        "relationship_name": "used-in",
+        "target_ref": "mhd--protocol--623b90d5-1422-487a-be5f-6d3c332de783"
+      },
+      {
+        "id": "rel--relationship--ae008e2d-9137-59eb-bdc2-5dc0d10ba7bd",
+        "type": "relationship",
+        "source_ref": "mhd--parameter-definition--d126875f-cdf1-48d4-98a5-c0d56ac211b0",
+        "relationship_name": "has-instance",
+        "target_ref": "cv-value--parameter-value--44daa711-99db-564b-9f0c-7ea1a7868b68"
+      },
+      {
+        "id": "rel--relationship--b3fa2278-e4c5-5ca8-b246-2f3cb07fc6a0",
+        "type": "relationship",
+        "source_ref": "mhd--parameter-definition--d126875f-cdf1-48d4-98a5-c0d56ac211b0",
+        "relationship_name": "has-type",
+        "target_ref": "cv--parameter-type--f875b274-26fa-5405-a3ae-d392bbecd567"
+      },
+      {
+        "id": "rel--relationship--32d12845-830c-5024-b88b-f279506d6414",
+        "type": "relationship",
+        "source_ref": "mhd--parameter-definition--d126875f-cdf1-48d4-98a5-c0d56ac211b0",
+        "relationship_name": "used-in",
+        "target_ref": "mhd--protocol--623b90d5-1422-487a-be5f-6d3c332de783"
+      },
+      {
+        "id": "rel--relationship--cfc89550-2fae-5130-ab3c-3504eec2297a",
+        "type": "relationship",
+        "source_ref": "mhd--parameter-definition--dae41d31-370e-4087-8f12-26cd1337bf18",
+        "relationship_name": "has-instance",
+        "target_ref": "cv-value--parameter-value--60ed851c-aa43-576b-8080-067a7946216a"
+      },
+      {
+        "id": "rel--relationship--b08dc530-9344-50ea-8acd-539098d69ef1",
+        "type": "relationship",
+        "source_ref": "mhd--parameter-definition--dae41d31-370e-4087-8f12-26cd1337bf18",
+        "relationship_name": "has-type",
+        "target_ref": "cv--parameter-type--f75219a7-b7e5-50a4-93eb-747034f72b37"
+      },
+      {
+        "id": "rel--relationship--2fdcf9b2-afda-5df8-9036-b69ee48b777d",
+        "type": "relationship",
+        "source_ref": "mhd--parameter-definition--dae41d31-370e-4087-8f12-26cd1337bf18",
+        "relationship_name": "used-in",
+        "target_ref": "mhd--protocol--623b90d5-1422-487a-be5f-6d3c332de783"
+      },
+      {
+        "id": "rel--relationship--a293a682-5c45-542d-968c-973b45171044",
+        "type": "relationship",
+        "source_ref": "mhd--parameter-definition--e782e277-4a89-434c-8e6e-73f5386a5b28",
+        "relationship_name": "has-type",
+        "target_ref": "cv--x-mtbls-parameter-type--72a9f0f7-258d-5c36-b12f-8ac7193dad12"
+      },
+      {
+        "id": "rel--relationship--5a010eb4-93a9-557a-b87b-4597be5bccf5",
+        "type": "relationship",
+        "source_ref": "mhd--parameter-definition--e782e277-4a89-434c-8e6e-73f5386a5b28",
+        "relationship_name": "used-in",
+        "target_ref": "mhd--protocol--ddda4fe4-d2f4-4c6b-8973-a17df620e947"
+      },
+      {
+        "id": "rel--relationship--74832479-af61-5294-8da8-6caf8feeffce",
+        "type": "relationship",
+        "source_ref": "mhd--parameter-definition--eef6e4a7-67b8-4a84-8a08-19b7bf2f5116",
+        "relationship_name": "has-instance",
+        "target_ref": "cv-value--parameter-value--c89f18e7-b3b2-5fbd-af92-a5d6f292f9cd"
+      },
+      {
+        "id": "rel--relationship--f6816750-e2ee-5749-b9fc-c7b8f05a14a1",
+        "type": "relationship",
+        "source_ref": "mhd--parameter-definition--eef6e4a7-67b8-4a84-8a08-19b7bf2f5116",
+        "relationship_name": "has-type",
+        "target_ref": "cv--parameter-type--7f6783b7-b1b5-553a-b21b-444617680b6c"
+      },
+      {
+        "id": "rel--relationship--383435a8-a9c0-5623-9727-98b14e269f6d",
+        "type": "relationship",
+        "source_ref": "mhd--parameter-definition--eef6e4a7-67b8-4a84-8a08-19b7bf2f5116",
+        "relationship_name": "used-in",
+        "target_ref": "mhd--protocol--623b90d5-1422-487a-be5f-6d3c332de783"
+      },
+      {
+        "id": "rel--relationship--da1f08c4-1084-5e41-a37b-052e55bc8d9c",
+        "type": "relationship",
+        "source_ref": "mhd--person--0fdd3f54-34ea-41b3-96f9-842d2d217a62",
+        "relationship_name": "affiliated-with",
+        "target_ref": "mhd--organization--6a9e4369-dacf-489d-ba71-03112e6a241e"
+      },
+      {
+        "id": "rel--relationship--adb1e7db-1de7-5bbe-bbf6-cc76decb7327",
+        "type": "relationship",
+        "source_ref": "mhd--person--0fdd3f54-34ea-41b3-96f9-842d2d217a62",
+        "relationship_name": "contributes",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--be8b9e46-363c-5095-b53a-4cd0517b88ff",
+        "type": "relationship",
+        "source_ref": "mhd--person--0fdd3f54-34ea-41b3-96f9-842d2d217a62",
+        "relationship_name": "principal-investigator-of",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--26d43583-5675-572c-83eb-452d21479959",
+        "type": "relationship",
+        "source_ref": "mhd--person--0fdd3f54-34ea-41b3-96f9-842d2d217a62",
+        "relationship_name": "submits",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--8e2967c8-5404-5796-8754-a3e9e4cf6920",
+        "type": "relationship",
+        "source_ref": "mhd--person--6a94da1e-93c0-483e-9f8a-cbf960410bb4",
+        "relationship_name": "affiliated-with",
+        "target_ref": "mhd--organization--5d246686-8d47-472b-bee3-469a5f7444a5"
+      },
+      {
+        "id": "rel--relationship--701048d2-808c-57b1-9aad-770b271eaa25",
+        "type": "relationship",
+        "source_ref": "mhd--person--6a94da1e-93c0-483e-9f8a-cbf960410bb4",
+        "relationship_name": "contributes",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--d5bff727-9c02-5426-aec2-23a00cfb3fdf",
+        "type": "relationship",
+        "source_ref": "mhd--protocol--1e12ca74-8286-431d-b5d9-bdde686e0bfc",
+        "relationship_name": "has-parameter-definition",
+        "target_ref": "mhd--parameter-definition--59f7b9fe-45f7-49e7-bf4e-68d31a23b51c"
+      },
+      {
+        "id": "rel--relationship--1653b686-bfed-55ed-8452-3badea2cb13f",
+        "type": "relationship",
+        "source_ref": "mhd--protocol--1e12ca74-8286-431d-b5d9-bdde686e0bfc",
+        "relationship_name": "has-parameter-definition",
+        "target_ref": "mhd--parameter-definition--673223fc-78fe-40b5-8308-b737e5df835e"
+      },
+      {
+        "id": "rel--relationship--4bea43c6-83de-5334-8686-0e724acb2ed5",
+        "type": "relationship",
+        "source_ref": "mhd--protocol--1e12ca74-8286-431d-b5d9-bdde686e0bfc",
+        "relationship_name": "has-parameter-definition",
+        "target_ref": "mhd--parameter-definition--708b129f-1cea-4847-9507-ac782caa2c59"
+      },
+      {
+        "id": "rel--relationship--5db9e563-502f-59b6-8102-5e5e95b86139",
+        "type": "relationship",
+        "source_ref": "mhd--protocol--1e12ca74-8286-431d-b5d9-bdde686e0bfc",
+        "relationship_name": "has-parameter-definition",
+        "target_ref": "mhd--parameter-definition--746ca488-43a3-4d0b-b618-77beda4a4678"
+      },
+      {
+        "id": "rel--relationship--0f1c4da9-7be6-5b0a-9c17-c8feb7b0d0df",
+        "type": "relationship",
+        "source_ref": "mhd--protocol--1e12ca74-8286-431d-b5d9-bdde686e0bfc",
+        "relationship_name": "has-parameter-definition",
+        "target_ref": "mhd--parameter-definition--908ae168-b44f-4f23-a5b8-1263150aaaff"
+      },
+      {
+        "id": "rel--relationship--c5d53f46-012f-529f-afca-b257ef521c96",
+        "type": "relationship",
+        "source_ref": "mhd--protocol--1e12ca74-8286-431d-b5d9-bdde686e0bfc",
+        "relationship_name": "has-type",
+        "target_ref": "cv--protocol-type--6dc3a063-6cac-5cb1-880c-2ec34014e872"
+      },
+      {
+        "id": "rel--relationship--5acf216c-4ae4-5a0a-9c3c-de513e30cad5",
+        "type": "relationship",
+        "source_ref": "mhd--protocol--1e12ca74-8286-431d-b5d9-bdde686e0bfc",
+        "relationship_name": "used-in",
+        "target_ref": "mhd--assay--09e57e2a-08a1-497e-858c-81f3ea87a2a5"
+      },
+      {
+        "id": "rel--relationship--d60c3563-b1dc-54dd-a0b1-a49e84a52cde",
+        "type": "relationship",
+        "source_ref": "mhd--protocol--1e12ca74-8286-431d-b5d9-bdde686e0bfc",
+        "relationship_name": "used-in",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--fed286c7-43b9-57c9-819d-02c129ce30af",
+        "type": "relationship",
+        "source_ref": "mhd--protocol--2d68db08-0ac9-408f-930a-055a36e499b2",
+        "relationship_name": "has-type",
+        "target_ref": "cv--protocol-type--160cd136-e23d-5b4c-b594-a0828d5845f4"
+      },
+      {
+        "id": "rel--relationship--07756b42-60e7-5bf2-b17b-f1dc5ff507d7",
+        "type": "relationship",
+        "source_ref": "mhd--protocol--2d68db08-0ac9-408f-930a-055a36e499b2",
+        "relationship_name": "used-in",
+        "target_ref": "mhd--assay--09e57e2a-08a1-497e-858c-81f3ea87a2a5"
+      },
+      {
+        "id": "rel--relationship--6c6193d8-3be0-5a15-b666-1deb539ea72a",
+        "type": "relationship",
+        "source_ref": "mhd--protocol--2d68db08-0ac9-408f-930a-055a36e499b2",
+        "relationship_name": "used-in",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--fff70b58-04e2-5d91-989d-f797d084d896",
+        "type": "relationship",
+        "source_ref": "mhd--protocol--623b90d5-1422-487a-be5f-6d3c332de783",
+        "relationship_name": "has-parameter-definition",
+        "target_ref": "mhd--parameter-definition--b4dc5b7e-b99b-45b7-acfa-e5cbfe53c482"
+      },
+      {
+        "id": "rel--relationship--abf695c3-530a-5d27-a153-46981214458d",
+        "type": "relationship",
+        "source_ref": "mhd--protocol--623b90d5-1422-487a-be5f-6d3c332de783",
+        "relationship_name": "has-parameter-definition",
+        "target_ref": "mhd--parameter-definition--c282eeb9-3099-4862-949f-575c91689047"
+      },
+      {
+        "id": "rel--relationship--7e5ee947-ee55-5f7d-9439-b22579cc04ec",
+        "type": "relationship",
+        "source_ref": "mhd--protocol--623b90d5-1422-487a-be5f-6d3c332de783",
+        "relationship_name": "has-parameter-definition",
+        "target_ref": "mhd--parameter-definition--d126875f-cdf1-48d4-98a5-c0d56ac211b0"
+      },
+      {
+        "id": "rel--relationship--94310e94-6eb6-56ac-9646-648f453d4dbb",
+        "type": "relationship",
+        "source_ref": "mhd--protocol--623b90d5-1422-487a-be5f-6d3c332de783",
+        "relationship_name": "has-parameter-definition",
+        "target_ref": "mhd--parameter-definition--dae41d31-370e-4087-8f12-26cd1337bf18"
+      },
+      {
+        "id": "rel--relationship--81b5b143-91d8-5469-8052-7f5e5603b428",
+        "type": "relationship",
+        "source_ref": "mhd--protocol--623b90d5-1422-487a-be5f-6d3c332de783",
+        "relationship_name": "has-parameter-definition",
+        "target_ref": "mhd--parameter-definition--eef6e4a7-67b8-4a84-8a08-19b7bf2f5116"
+      },
+      {
+        "id": "rel--relationship--f62392e4-0bb8-5f6d-98af-ceb0013c4229",
+        "type": "relationship",
+        "source_ref": "mhd--protocol--623b90d5-1422-487a-be5f-6d3c332de783",
+        "relationship_name": "has-type",
+        "target_ref": "cv--protocol-type--c53ad940-5e8f-52d7-82c8-460a64e03ca3"
+      },
+      {
+        "id": "rel--relationship--f5b2983a-ce62-5b81-a2b6-7bd92ff31abe",
+        "type": "relationship",
+        "source_ref": "mhd--protocol--623b90d5-1422-487a-be5f-6d3c332de783",
+        "relationship_name": "used-in",
+        "target_ref": "mhd--assay--09e57e2a-08a1-497e-858c-81f3ea87a2a5"
+      },
+      {
+        "id": "rel--relationship--c643853a-4600-5f2f-933d-10cb78ce9184",
+        "type": "relationship",
+        "source_ref": "mhd--protocol--623b90d5-1422-487a-be5f-6d3c332de783",
+        "relationship_name": "used-in",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--47b2af1c-b5f4-5a61-92d7-45e47d028982",
+        "type": "relationship",
+        "source_ref": "mhd--protocol--8cc273c4-7205-458b-9f13-7bfec0929865",
+        "relationship_name": "has-type",
+        "target_ref": "cv--protocol-type--ffbd9ded-cb98-577e-887a-4d3075adc2aa"
+      },
+      {
+        "id": "rel--relationship--a31d2fd3-5e81-5514-a251-d41d8c3a9c8e",
+        "type": "relationship",
+        "source_ref": "mhd--protocol--8cc273c4-7205-458b-9f13-7bfec0929865",
+        "relationship_name": "used-in",
+        "target_ref": "mhd--assay--09e57e2a-08a1-497e-858c-81f3ea87a2a5"
+      },
+      {
+        "id": "rel--relationship--8d18e9e7-ff2e-58c0-870f-9075838eca05",
+        "type": "relationship",
+        "source_ref": "mhd--protocol--8cc273c4-7205-458b-9f13-7bfec0929865",
+        "relationship_name": "used-in",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--3f09c8fc-e7e7-5ca5-b7e9-106d26057fce",
+        "type": "relationship",
+        "source_ref": "mhd--protocol--ddda4fe4-d2f4-4c6b-8973-a17df620e947",
+        "relationship_name": "has-parameter-definition",
+        "target_ref": "mhd--parameter-definition--037ce9d7-f20b-4066-be14-f00043120140"
+      },
+      {
+        "id": "rel--relationship--c9f826b9-20fa-5d7c-8b83-364a2178751d",
+        "type": "relationship",
+        "source_ref": "mhd--protocol--ddda4fe4-d2f4-4c6b-8973-a17df620e947",
+        "relationship_name": "has-parameter-definition",
+        "target_ref": "mhd--parameter-definition--e782e277-4a89-434c-8e6e-73f5386a5b28"
+      },
+      {
+        "id": "rel--relationship--6744ad78-a7ca-55bb-8c4e-acb58cf13d7f",
+        "type": "relationship",
+        "source_ref": "mhd--protocol--ddda4fe4-d2f4-4c6b-8973-a17df620e947",
+        "relationship_name": "has-type",
+        "target_ref": "cv--protocol-type--b344f6f5-a7dc-5d48-8e55-3e174b559a26"
+      },
+      {
+        "id": "rel--relationship--8e544869-9f93-579a-9545-dce7e8dc9d7b",
+        "type": "relationship",
+        "source_ref": "mhd--protocol--ddda4fe4-d2f4-4c6b-8973-a17df620e947",
+        "relationship_name": "used-in",
+        "target_ref": "mhd--assay--09e57e2a-08a1-497e-858c-81f3ea87a2a5"
+      },
+      {
+        "id": "rel--relationship--8d08b3af-047f-5e8f-83f8-6ac2d60dbfd7",
+        "type": "relationship",
+        "source_ref": "mhd--protocol--ddda4fe4-d2f4-4c6b-8973-a17df620e947",
+        "relationship_name": "used-in",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--bf5db183-9557-58fb-9a06-c2beb5d466df",
+        "type": "relationship",
+        "source_ref": "mhd--protocol--fa79ab5b-0472-4f21-b1c9-00976b1cec60",
+        "relationship_name": "has-type",
+        "target_ref": "cv--protocol-type--78066266-234c-5e2d-92d0-69a5372762f9"
+      },
+      {
+        "id": "rel--relationship--82bf6cba-994c-5083-80d2-2bd452eec144",
+        "type": "relationship",
+        "source_ref": "mhd--protocol--fa79ab5b-0472-4f21-b1c9-00976b1cec60",
+        "relationship_name": "used-in",
+        "target_ref": "mhd--assay--09e57e2a-08a1-497e-858c-81f3ea87a2a5"
+      },
+      {
+        "id": "rel--relationship--1d646da6-9d2d-5f6b-ab03-d8c4c29f087f",
+        "type": "relationship",
+        "source_ref": "mhd--protocol--fa79ab5b-0472-4f21-b1c9-00976b1cec60",
+        "relationship_name": "used-in",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--59e57512-67a6-5f04-a37e-2815d7093833",
+        "type": "relationship",
+        "source_ref": "mhd--publication--7ac16918-7d10-404a-80f1-c5303c078a0d",
+        "relationship_name": "describes",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--51296803-ef65-53a6-a57a-30004c04507f",
+        "type": "relationship",
+        "source_ref": "mhd--raw-data-file--27bcac7e-20bc-4e1f-ba34-e39de69a56db",
+        "relationship_name": "created-in",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--f9fa9e71-4b92-53d0-9f9c-7ca57270fe3c",
+        "type": "relationship",
+        "source_ref": "mhd--raw-data-file--ce10bc3e-8415-4a7d-949b-fb3ec98fee22",
+        "relationship_name": "created-in",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--ef15828b-a462-57e9-b40a-e9cc35b1dee7",
+        "type": "relationship",
+        "source_ref": "mhd--result-file--b28a3d4a-6726-4518-9c43-415d4ec5efcf",
+        "relationship_name": "created-in",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--464a7c17-dc2b-5c34-9d7f-f4445d70394d",
+        "type": "relationship",
+        "source_ref": "mhd--result-file--b28a3d4a-6726-4518-9c43-415d4ec5efcf",
+        "relationship_name": "reports",
+        "target_ref": "mhd--metabolite--59ed15c7-958d-49e7-a802-b7b98d706d1e"
+      },
+      {
+        "id": "rel--relationship--fa18b406-a622-5d03-8469-9a90d81b6915",
+        "type": "relationship",
+        "source_ref": "mhd--result-file--b28a3d4a-6726-4518-9c43-415d4ec5efcf",
+        "relationship_name": "reports",
+        "target_ref": "mhd--metabolite--7f234e9b-36be-4790-85dc-aabd6b488331"
+      },
+      {
+        "id": "rel--relationship--e108d7e3-d887-5426-9831-b3a2546b74bf",
+        "type": "relationship",
+        "source_ref": "mhd--result-file--b28a3d4a-6726-4518-9c43-415d4ec5efcf",
+        "relationship_name": "reports",
+        "target_ref": "mhd--metabolite--df86dd11-0ab5-411f-bd6d-c73b3a0525c6"
+      },
+      {
+        "id": "rel--relationship--bdddd6e1-7355-5273-9d46-ca16a281a14e",
+        "type": "relationship",
+        "source_ref": "mhd--sample--0608d2be-83b8-4f4c-8549-7e30e5a23585",
+        "relationship_name": "derived-from",
+        "target_ref": "mhd--subject--7ab92676-f454-4be9-941f-f4ea9a66c5db"
+      },
+      {
+        "id": "rel--relationship--e91345e3-62d5-5065-be7e-5c58b4b39fd8",
+        "type": "relationship",
+        "source_ref": "mhd--sample--0608d2be-83b8-4f4c-8549-7e30e5a23585",
+        "relationship_name": "has-factor-value",
+        "target_ref": "cv-value--x-mtbls-factor-value--56b69acd-727c-5cf8-a683-f5bd069c344f"
+      },
+      {
+        "id": "rel--relationship--f1d1e830-b0ec-52d2-90f2-bf56aec2aa59",
+        "type": "relationship",
+        "source_ref": "mhd--sample--0608d2be-83b8-4f4c-8549-7e30e5a23585",
+        "relationship_name": "used-in",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--3c463c1c-74a7-5015-91fb-ee114c0f6906",
+        "type": "relationship",
+        "source_ref": "mhd--sample--d8b73da9-a4db-4004-b03b-8bcadd9b8fbf",
+        "relationship_name": "derived-from",
+        "target_ref": "mhd--subject--52b206e1-e312-4d3e-9052-90fb1635c2aa"
+      },
+      {
+        "id": "rel--relationship--c17f5ab8-2f69-5940-83cd-9eafdc23d573",
+        "type": "relationship",
+        "source_ref": "mhd--sample--d8b73da9-a4db-4004-b03b-8bcadd9b8fbf",
+        "relationship_name": "has-factor-value",
+        "target_ref": "cv-value--x-mtbls-factor-value--439f0d42-7d15-5021-a737-194e7367eb9a"
+      },
+      {
+        "id": "rel--relationship--6d688bc3-a928-58d4-80bb-e7e19fc1bcb6",
+        "type": "relationship",
+        "source_ref": "mhd--sample--d8b73da9-a4db-4004-b03b-8bcadd9b8fbf",
+        "relationship_name": "used-in",
+        "target_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947"
+      },
+      {
+        "id": "rel--relationship--6f758f58-521b-5e1c-90d7-ca7d0fbb4547",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "defines",
+        "target_ref": "cv--parameter-type--3043a1d7-a8cb-5429-99a5-d6185ed474f3"
+      },
+      {
+        "id": "rel--relationship--c9904fb4-f14d-51c8-aa3c-61528062e26d",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "defines",
+        "target_ref": "cv--parameter-type--7f6783b7-b1b5-553a-b21b-444617680b6c"
+      },
+      {
+        "id": "rel--relationship--87366527-5117-5764-850a-dc7f02097c0b",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "defines",
+        "target_ref": "cv--parameter-type--f75219a7-b7e5-50a4-93eb-747034f72b37"
+      },
+      {
+        "id": "rel--relationship--9342ebf5-b0be-5aa5-bcc5-0dc734576b4c",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "defines",
+        "target_ref": "cv--parameter-type--f875b274-26fa-5405-a3ae-d392bbecd567"
+      },
+      {
+        "id": "rel--relationship--d0be5606-57ce-5e50-880d-2e4941c276f1",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "defines",
+        "target_ref": "cv--x-mtbls-parameter-type--109082f6-139e-5232-916c-4b3e28897a06"
+      },
+      {
+        "id": "rel--relationship--2b18b506-32e1-5f2d-a7e7-e05132fd63d5",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "defines",
+        "target_ref": "cv--x-mtbls-parameter-type--51529a95-306c-5ae8-a222-20ce4b3163fe"
+      },
+      {
+        "id": "rel--relationship--cb45de45-b6a2-50cb-826f-391b44186fbe",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "defines",
+        "target_ref": "cv--x-mtbls-parameter-type--72a9f0f7-258d-5c36-b12f-8ac7193dad12"
+      },
+      {
+        "id": "rel--relationship--12e4c4bf-5770-56c6-b0d7-d357bf511c24",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "defines",
+        "target_ref": "cv--x-mtbls-parameter-type--775a670c-0648-5e32-acfd-bdcc8b9ed699"
+      },
+      {
+        "id": "rel--relationship--182bd2c8-3adf-5088-be4c-97ac471a5984",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "defines",
+        "target_ref": "cv--x-mtbls-parameter-type--87727b9f-c5eb-51f4-a154-82e5a8170b14"
+      },
+      {
+        "id": "rel--relationship--5ecf4f60-5541-5340-ae5a-b4db3560c722",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "defines",
+        "target_ref": "cv--x-mtbls-parameter-type--d6f09e04-7283-5587-afad-16f7c3dcef32"
+      },
+      {
+        "id": "rel--relationship--08b7322b-ff18-5cad-818b-859498a1c436",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "defines",
+        "target_ref": "cv--x-mtbls-parameter-type--dc5b8f19-60a5-508b-bd7f-5b3a8cd09867"
+      },
+      {
+        "id": "rel--relationship--31511f89-3b10-510b-9efc-935ffbe01a5a",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "defines",
+        "target_ref": "cv--x-mtbls-parameter-type--f20e0e93-9f01-5ba8-a25d-b44ac65cd5fe"
+      },
+      {
+        "id": "rel--relationship--7834edcc-ee1a-5843-bb1b-19f6abcd0bac",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "funded-by",
+        "target_ref": "mhd--organization--2f1768a7-fb05-4302-9ee6-4295cb594bce"
+      },
+      {
+        "id": "rel--relationship--8c94fcae-83d5-5b67-841a-4831a6bc9c55",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "has-assay",
+        "target_ref": "mhd--assay--09e57e2a-08a1-497e-858c-81f3ea87a2a5"
+      },
+      {
+        "id": "rel--relationship--40c52196-09d2-5789-a39b-577f2e30be0e",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "has-characteristic-definition",
+        "target_ref": "mhd--characteristic-definition--669ea0fb-8762-41b5-93b0-d179a9d12ba0"
+      },
+      {
+        "id": "rel--relationship--f309e862-1e5b-5777-baa3-28b7487f48ea",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "has-characteristic-definition",
+        "target_ref": "mhd--characteristic-definition--7b63c277-c8b7-4d35-98f1-a5a7f3e8a044"
+      },
+      {
+        "id": "rel--relationship--d10eada2-48c6-5aaf-8564-64e33414008d",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "has-characteristic-definition",
+        "target_ref": "mhd--characteristic-definition--8a459da9-8e74-45ed-91b2-062e8db808c2"
+      },
+      {
+        "id": "rel--relationship--0549a528-e95e-5dd5-9ab9-94efa6564780",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "has-characteristic-definition",
+        "target_ref": "mhd--characteristic-definition--a287bed5-09d7-404a-9403-e6dd965d9274"
+      },
+      {
+        "id": "rel--relationship--4910eb11-0040-50a2-a7ed-a9e186ada201",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "has-characteristic-definition",
+        "target_ref": "mhd--characteristic-definition--eaa2b455-fa85-4f76-9f77-62f149c49c63"
+      },
+      {
+        "id": "rel--relationship--3be9ecc7-e691-5087-85d2-efb38ac86f7a",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "has-characteristic-definition",
+        "target_ref": "mhd--characteristic-definition--f9a193f8-e7ae-4180-9a3b-34d459b218fb"
+      },
+      {
+        "id": "rel--relationship--282c1963-7a5c-5c5f-be41-04f2ac129f52",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "has-contributor",
+        "target_ref": "mhd--person--0fdd3f54-34ea-41b3-96f9-842d2d217a62"
+      },
+      {
+        "id": "rel--relationship--2ca81411-1745-5bdf-acad-f526123e4ece",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "has-contributor",
+        "target_ref": "mhd--person--6a94da1e-93c0-483e-9f8a-cbf960410bb4"
+      },
+      {
+        "id": "rel--relationship--153d82ef-ab69-570c-953e-b7c31dcb7500",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "has-factor-definition",
+        "target_ref": "mhd--factor-definition--632143a8-ed04-4df2-8c3b-c833b3056b8f"
+      },
+      {
+        "id": "rel--relationship--f8c133c8-1ca0-5bff-b3ef-e8759f1f673c",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "has-metadata-file",
+        "target_ref": "mhd--metadata-file--0d86c680-1dd7-425a-b934-61e7a910325b"
+      },
+      {
+        "id": "rel--relationship--89a0fc5c-0a3a-5dea-9b35-600d99718bcd",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "has-metadata-file",
+        "target_ref": "mhd--metadata-file--5a6679a4-cc8b-4afb-9e4a-5e8d584e3212"
+      },
+      {
+        "id": "rel--relationship--96fd9b34-37c6-5ffb-ab7a-19a2493e34e7",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "has-metadata-file",
+        "target_ref": "mhd--metadata-file--abb68799-0924-4a45-b2c3-3a3e8b60985e"
+      },
+      {
+        "id": "rel--relationship--4bfe0f1e-f8b2-5b42-83da-8e00486da980",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "has-principal-investigator",
+        "target_ref": "mhd--person--0fdd3f54-34ea-41b3-96f9-842d2d217a62"
+      },
+      {
+        "id": "rel--relationship--50448b06-6aaf-5547-a3b8-249f4fd4fc36",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "has-protocol",
+        "target_ref": "mhd--protocol--1e12ca74-8286-431d-b5d9-bdde686e0bfc"
+      },
+      {
+        "id": "rel--relationship--50aff8b2-e310-5e83-9d63-f343e3f8c719",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "has-protocol",
+        "target_ref": "mhd--protocol--2d68db08-0ac9-408f-930a-055a36e499b2"
+      },
+      {
+        "id": "rel--relationship--0b75abd4-bc9e-5fbd-ad25-5f76c3d677a4",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "has-protocol",
+        "target_ref": "mhd--protocol--623b90d5-1422-487a-be5f-6d3c332de783"
+      },
+      {
+        "id": "rel--relationship--f7c81ce0-bc2f-5502-b8d1-af225ba0f049",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "has-protocol",
+        "target_ref": "mhd--protocol--8cc273c4-7205-458b-9f13-7bfec0929865"
+      },
+      {
+        "id": "rel--relationship--77f9e891-7cea-57c7-b30d-7496515257cf",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "has-protocol",
+        "target_ref": "mhd--protocol--ddda4fe4-d2f4-4c6b-8973-a17df620e947"
+      },
+      {
+        "id": "rel--relationship--95abb014-7a02-5b92-bd9e-7e165522fff2",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "has-protocol",
+        "target_ref": "mhd--protocol--fa79ab5b-0472-4f21-b1c9-00976b1cec60"
+      },
+      {
+        "id": "rel--relationship--d3b4925e-2676-5aaf-b311-fa62a348ee88",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "has-publication",
+        "target_ref": "mhd--publication--7ac16918-7d10-404a-80f1-c5303c078a0d"
+      },
+      {
+        "id": "rel--relationship--ff2c849e-93ce-544f-b891-cb3695eba130",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "has-raw-data-file",
+        "target_ref": "mhd--raw-data-file--27bcac7e-20bc-4e1f-ba34-e39de69a56db"
+      },
+      {
+        "id": "rel--relationship--306f46e0-082b-5d7c-9e27-03ed59235c2d",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "has-raw-data-file",
+        "target_ref": "mhd--raw-data-file--ce10bc3e-8415-4a7d-949b-fb3ec98fee22"
+      },
+      {
+        "id": "rel--relationship--42d12e1b-4b91-5514-9cd0-23b29a2d6b21",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "has-result-file",
+        "target_ref": "mhd--result-file--b28a3d4a-6726-4518-9c43-415d4ec5efcf"
+      },
+      {
+        "id": "rel--relationship--b7258b2f-b5de-5764-a7be-c6a596c91469",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "has-sample",
+        "target_ref": "mhd--sample--0608d2be-83b8-4f4c-8549-7e30e5a23585"
+      },
+      {
+        "id": "rel--relationship--3dc3beed-0734-50c6-b0a0-824d085ad528",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "has-sample",
+        "target_ref": "mhd--sample--d8b73da9-a4db-4004-b03b-8bcadd9b8fbf"
+      },
+      {
+        "id": "rel--relationship--27f5b214-9b00-5feb-8e7d-7d31768caaff",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "has-submitter-keyword",
+        "target_ref": "cv--descriptor--1e86ee7d-4789-5501-b242-ccf6d6f096f3"
+      },
+      {
+        "id": "rel--relationship--9dbbda32-8d8e-5519-8a22-1e51e0e381ef",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "has-submitter-keyword",
+        "target_ref": "cv--descriptor--24f6ef0f-cd6e-5803-9e2d-4ba884190b2b"
+      },
+      {
+        "id": "rel--relationship--d8deb9ae-770b-50d8-a435-a2bd9cd50475",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "has-submitter-keyword",
+        "target_ref": "cv--descriptor--3e61cef2-12e9-56f1-90bc-5864e8ac4012"
+      },
+      {
+        "id": "rel--relationship--fee247a9-33a0-552c-a221-da3a5585ca55",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "has-submitter-keyword",
+        "target_ref": "cv--descriptor--4de01e27-9fef-5def-9243-570f08a47bb3"
+      },
+      {
+        "id": "rel--relationship--718638dd-ad40-51b0-ac97-6b6405ad4b6c",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "has-submitter-keyword",
+        "target_ref": "cv--descriptor--80540dcf-d83e-5810-beee-699615afa7b9"
+      },
+      {
+        "id": "rel--relationship--bc2b03fd-768b-558b-9ecd-955686625443",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "has-submitter-keyword",
+        "target_ref": "cv--descriptor--892ce271-ecdd-5d78-8386-247f00bb5205"
+      },
+      {
+        "id": "rel--relationship--3be057fe-a498-5a14-870e-73fe2d8b33ba",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "has-submitter-keyword",
+        "target_ref": "cv--descriptor--8ae9918a-a743-548d-b39b-7e35375c6f4d"
+      },
+      {
+        "id": "rel--relationship--b891d125-c1e7-54ca-aa5c-01567469c531",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "has-submitter-keyword",
+        "target_ref": "cv--descriptor--b94f9d42-452c-5d47-ab15-4dce32ced19e"
+      },
+      {
+        "id": "rel--relationship--01ce61b1-571c-51fc-8569-9185b03740aa",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "has-submitter-keyword",
+        "target_ref": "cv--descriptor--c70b2bb7-d486-5559-aea9-9e3361f243c9"
+      },
+      {
+        "id": "rel--relationship--f0635121-0e55-5bcb-98ac-366d078e0637",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "provided-by",
+        "target_ref": "cv-value--data-provider--4375660c-3282-52a9-b68d-9054d463fc1d"
+      },
+      {
+        "id": "rel--relationship--e5331b6e-dc25-509d-bca9-d21fb7f23838",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "reports",
+        "target_ref": "mhd--metabolite--59ed15c7-958d-49e7-a802-b7b98d706d1e"
+      },
+      {
+        "id": "rel--relationship--4c2c08b5-1732-50fc-93d3-ee63694bb160",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "reports",
+        "target_ref": "mhd--metabolite--7f234e9b-36be-4790-85dc-aabd6b488331"
+      },
+      {
+        "id": "rel--relationship--a4a3f02a-e341-58ca-81b5-05bcf2701d80",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "reports",
+        "target_ref": "mhd--metabolite--df86dd11-0ab5-411f-bd6d-c73b3a0525c6"
+      },
+      {
+        "id": "rel--relationship--a8b42217-e61e-543c-8121-456037d6b63f",
+        "type": "relationship",
+        "source_ref": "mhd--study--fec70ff0-dd79-4e75-ae62-642b541f7947",
+        "relationship_name": "submitted-by",
+        "target_ref": "mhd--person--0fdd3f54-34ea-41b3-96f9-842d2d217a62"
+      },
+      {
+        "id": "rel--relationship--0c94078b-c1ef-5fc3-8bc0-8d127eb2dd0e",
+        "type": "relationship",
+        "source_ref": "mhd--subject--52b206e1-e312-4d3e-9052-90fb1635c2aa",
+        "relationship_name": "has-characteristic-value",
+        "target_ref": "cv-value--characteristic-value--1eb87855-0d2b-5060-89c5-5ae6fbfdb18b"
+      },
+      {
+        "id": "rel--relationship--d24a11fc-044e-51ee-a8f1-58e4b10886d3",
+        "type": "relationship",
+        "source_ref": "mhd--subject--52b206e1-e312-4d3e-9052-90fb1635c2aa",
+        "relationship_name": "has-characteristic-value",
+        "target_ref": "cv-value--characteristic-value--ee6a826f-e407-51b9-8a0a-4f9ed3615511"
+      },
+      {
+        "id": "rel--relationship--3ce293d9-091c-5c52-8d40-659a3ed3105e",
+        "type": "relationship",
+        "source_ref": "mhd--subject--52b206e1-e312-4d3e-9052-90fb1635c2aa",
+        "relationship_name": "has-characteristic-value",
+        "target_ref": "cv-value--x-mtbls-characteristic-value--4680f044-1959-5df9-9943-07bf305c023e"
+      },
+      {
+        "id": "rel--relationship--bc8b2a02-22f3-59a9-b50c-188921e4afb2",
+        "type": "relationship",
+        "source_ref": "mhd--subject--52b206e1-e312-4d3e-9052-90fb1635c2aa",
+        "relationship_name": "source-of",
+        "target_ref": "mhd--sample--d8b73da9-a4db-4004-b03b-8bcadd9b8fbf"
+      },
+      {
+        "id": "rel--relationship--3bd92ad2-8d80-5a7f-9026-e9166f351ca9",
+        "type": "relationship",
+        "source_ref": "mhd--subject--7ab92676-f454-4be9-941f-f4ea9a66c5db",
+        "relationship_name": "has-characteristic-value",
+        "target_ref": "cv-value--characteristic-value--1eb87855-0d2b-5060-89c5-5ae6fbfdb18b"
+      },
+      {
+        "id": "rel--relationship--177b77a5-9625-56e5-a869-fde87c594fd0",
+        "type": "relationship",
+        "source_ref": "mhd--subject--7ab92676-f454-4be9-941f-f4ea9a66c5db",
+        "relationship_name": "has-characteristic-value",
+        "target_ref": "cv-value--characteristic-value--ee6a826f-e407-51b9-8a0a-4f9ed3615511"
+      },
+      {
+        "id": "rel--relationship--be8ba136-fd50-5a78-b0db-97757ace4e56",
+        "type": "relationship",
+        "source_ref": "mhd--subject--7ab92676-f454-4be9-941f-f4ea9a66c5db",
+        "relationship_name": "has-characteristic-value",
+        "target_ref": "cv-value--x-mtbls-characteristic-value--4680f044-1959-5df9-9943-07bf305c023e"
+      },
+      {
+        "id": "rel--relationship--b998f5e5-fb60-573f-b844-5fcb337497cb",
+        "type": "relationship",
+        "source_ref": "mhd--subject--7ab92676-f454-4be9-941f-f4ea9a66c5db",
+        "relationship_name": "source-of",
+        "target_ref": "mhd--sample--0608d2be-83b8-4f4c-8549-7e30e5a23585"
+      }
+    ]
+  }
+}

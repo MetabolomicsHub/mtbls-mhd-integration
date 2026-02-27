@@ -62,19 +62,20 @@ def load_mtbls_terms_mapping() -> dict[str, dict[str, CvTerm]]:
     """
     with (
         resources.files(mtbls2mhd.__name__)
-        .joinpath("cv_mappings.csv")
+        .joinpath("cv_mapping_table.csv")
         .open("r", encoding="utf-8") as f
     ):
         # MAP TO MHD common parameter definition
-        paramter_value_definition_mappings = {
-            "Mass spectrometry instrument": "mass spectrometry instrument",
-            "Liquid chromatography instrument": "chromatography instrument",
-            "Gas chromatography instrument": "chromatography instrument",
+        parameter_value_definition_mappings = {
+            "mass spectrometry instrument": "mass spectrometry instrument",
+            "liquid chromatography instrument": "chromatography instrument",
+            "gas chromatography instrument": "chromatography instrument",
+            "ionization type": "ionization type",
+            "chromatography separation": "chromatography separation",
+            "inlet type": "inlet type",
             # TODO: Define mappings for the following parameters.
             # "Ionization polarity": "ionization polarity",
-            # "Ionization type": "ionization type",
             # "Instrument class": "instrument class",
-            # "Chromatography separation": "chromatography separation",
             # "Chromatography column": "chromatography column?",
         }
         # Column names and their index in the cv_mappings.csv file.
@@ -82,8 +83,8 @@ def load_mtbls_terms_mapping() -> dict[str, dict[str, CvTerm]]:
             "REF_ACCESSION": 0,
             "REF_TERM": 1,
             "MTBLS_CV_NAMES": 2,
-            "MTBLS_ACCESSION": 3,
-            "INSTANCE": 6,
+            "MTBLS_CV_NAMES2": 3,
+            "INSTANCE": 5,
         }
 
         reader = csv.reader(f)
@@ -94,13 +95,20 @@ def load_mtbls_terms_mapping() -> dict[str, dict[str, CvTerm]]:
             accession = row[HEADERS["REF_ACCESSION"]].replace("_", ":")
             source = accession.split(":")[0]
             term = row[HEADERS["REF_TERM"]]
-            mtbls_cv_names = [
-                name.strip()
-                for name in row[HEADERS["MTBLS_CV_NAMES"]].split(";")
-                if name and name.strip()
-            ]
+            mtbls_cv_names_set: set[str] = set()
+            for x in ["MTBLS_CV_NAMES", "MTBLS_CV_NAMES2"]:
+                mtbls_cv_names_set.update(
+                    {
+                        name.strip().lower().split(":")[1]
+                        if ":" in name
+                        else name.strip().lower()
+                        for name in row[HEADERS[x]].split(";")
+                        if name and name.strip()
+                    }
+                )
+            # mtbls_cv_names = list(mtbls_cv_names_set)
             instance = row[HEADERS["INSTANCE"]]
-            if not mtbls_cv_names or not term or not accession:
+            if not mtbls_cv_names_set or not term or not accession:
                 continue
             if not instance:
                 logger.warning(
@@ -111,10 +119,12 @@ def load_mtbls_terms_mapping() -> dict[str, dict[str, CvTerm]]:
                     term,
                 )
                 continue
-            parameter_definition = paramter_value_definition_mappings.get(instance)
+            parameter_definition = parameter_value_definition_mappings.get(
+                instance.lower()
+            )
             if parameter_definition not in mtbls_term_mappings:
                 mtbls_term_mappings[parameter_definition] = {}
-            for mtbls_cv_name in mtbls_cv_names:
+            for mtbls_cv_name in mtbls_cv_names_set:
                 mtbls_term_mappings[parameter_definition][mtbls_cv_name.lower()] = (
                     CvTerm(
                         source=source,
@@ -965,13 +975,13 @@ class MhdLegacyDatasetBuilder:
                     characteristic_type_ref=characteristic_type.id_,
                     name=name,
                 )
+                mhd_builder.add(characteristic)
                 mhd_builder.link(
                     characteristic,
                     "has-type",
                     characteristic_type,
                     reverse_relationship_name="type-of",
                 )
-                mhd_builder.add(characteristic)
                 mhd_builder.link(
                     mhd_study,
                     "has-characteristic-definition",
@@ -1465,8 +1475,12 @@ class MhdLegacyDatasetBuilder:
                             object_name = "parameter-value"
 
                         term = ALL_COMMON_PROTOCOL_PARAMETERS.get(parameter, None)
-                        if values and term and term.name in mtbls_cv_terms_mappings:
-                            mapping = mtbls_cv_terms_mappings[term.name]
+                        if (
+                            values
+                            and term
+                            and term.name.lower() in mtbls_cv_terms_mappings
+                        ):
+                            mapping = mtbls_cv_terms_mappings[term.name.lower()]
                             mapped_value = mapping.get(values[0].lower())
                             # CONVERT TO REFERENCE TERM
                             if mapped_value:
