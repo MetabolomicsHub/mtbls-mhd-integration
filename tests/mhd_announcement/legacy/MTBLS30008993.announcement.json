@@ -1,0 +1,3770 @@
+{
+  "repository_name": "MetaboLights",
+  "repository_identifier": "MTBLS30008993",
+  "revision": 2,
+  "revision_datetime": "2026-02-20T00:00:00",
+  "$schema": "https://metabolomicshub.github.io/mhd-model/schemas/v0_1/announcement-v0.1.schema.json",
+  "profile_uri": "https://metabolomicshub.github.io/mhd-model/schemas/v0_1/announcement-v0.1.legacy-profile.json",
+  "cv_definitions": [
+    {
+      "label": "BTO",
+      "name": "The BRENDA Tissue Ontology (BTO)",
+      "uri": "http://purl.obolibrary.org/obo/bto.owl",
+      "prefix": "http://purl.obolibrary.org/obo/BTO_"
+    },
+    {
+      "label": "CHMO",
+      "name": "Chemical Methods Ontology",
+      "uri": "http://purl.obolibrary.org/obo/chmo.owl",
+      "prefix": "http://purl.obolibrary.org/obo/CHMO_"
+    },
+    {
+      "label": "EDAM",
+      "name": "The ontology of data analysis and management",
+      "uri": "http://edamontology.org",
+      "prefix": "http://edamontology.org/"
+    },
+    {
+      "label": "EFO",
+      "name": "Experimental Factor Ontology",
+      "uri": "http://www.ebi.ac.uk/efo/efo.owl",
+      "prefix": "http://www.ebi.ac.uk/efo/EFO_"
+    },
+    {
+      "label": "MI",
+      "name": "Molecular Interactions Controlled Vocabulary",
+      "uri": " http://purl.obolibrary.org/obo/mi.owl",
+      "prefix": "http://purl.obolibrary.org/obo/MI_"
+    },
+    {
+      "label": "MS",
+      "name": "MS",
+      "uri": "http://purl.obolibrary.org/obo/ms.owl",
+      "prefix": "http://purl.obolibrary.org/obo/MS_"
+    },
+    {
+      "label": "MSIO",
+      "name": "Metabolomics Standards Initiative Ontology (MSIO)",
+      "uri": "http://purl.obolibrary.org/obo/msio.owl",
+      "prefix": "http://purl.obolibrary.org/obo/MSIO_"
+    },
+    {
+      "label": "NCBITAXON",
+      "name": "National Center for Biotechnology Information (NCBI) Organismal Classification",
+      "uri": "http://purl.obolibrary.org/obo/ncbitaxon.owl",
+      "prefix": "http://purl.obolibrary.org/obo/NCBITaxon_"
+    },
+    {
+      "label": "NCBITAXON",
+      "name": "National Center for Biotechnology Information (NCBI) Organismal Classification",
+      "uri": "http://purl.obolibrary.org/obo/ncbitaxon.owl",
+      "prefix": "http://purl.obolibrary.org/obo/NCBITaxon_"
+    },
+    {
+      "label": "NCIT",
+      "name": "NCI Thesaurus OBO Edition",
+      "uri": "http://purl.obolibrary.org/obo/ncit.owl",
+      "prefix": "http://purl.obolibrary.org/obo/NCIT_"
+    },
+    {
+      "label": "OBI",
+      "name": "Ontology for Biomedical Investigations",
+      "uri": "http://purl.obolibrary.org/obo/obi.owl",
+      "prefix": "http://purl.obolibrary.org/obo/OBI_"
+    },
+    {
+      "label": "WIKIDATA",
+      "name": "Wikidata",
+      "uri": "https://www.wikidata.org/wiki",
+      "prefix": "https://www.wikidata.org/wiki/"
+    }
+  ],
+  "mhd_metadata_file_url": "https://www.ebi.ac.uk/metabolightsMTBLS30008993",
+  "dataset_url_list": [
+    "https://www.ebi.ac.uk/metabolights/MTBLS30008993"
+  ],
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "title": "EMP1 safeguards hematopoietic stem cells by suppressing sphingolipid metabolism and alleviating endoplasmic reticulum stress (test)",
+  "description": "The long-term maintenance of hematopoietic stem cells (HSCs) relies on the regulation of endoplasmic reticulum (ER) stress at a low level, but the underlying mechanism remains poorly understood. Here, we demonstrate that suppression of ER stress improves the functions of HSCs and protects HSCs against ionizing radiation (IR)-induced injury. We identify epithelial membrane protein 1 (EMP1) as a key regulator that mitigates ER stress in HSCs. Emp1 deficiency leads to the accumulation of protein aggregates and elevated ER stress, ultimately resulting in impaired HSC maintenance and self-renewal. Mechanistically, EMP1 is located within the ER and interacts with ceramide synthase 2 (CERS2) to limit the production of a class of sphingolipids, dihydroceramides (dhCers). DhCers accumulate in Emp1-deficient HSCs and induce protein aggregation. Furthermore, Emp1 deficiency renders HSCs more susceptible to IR, while overexpression of Emp1 or inhibition of CERS2 protects HSCs against IR-induced injury. These findings highlight the critical role played by the EMP1-CERS2-dhCers axis in constraining ER stress and preserving HSC potential.",
+  "submission_date": "2026-02-19T00:00:00",
+  "public_release_date": "2026-02-19T00:00:00",
+  "submitters": [
+    {
+      "full_name": "Naveen Raj K P",
+      "email_list": [
+        "polliapram@ebi.ac.uk"
+      ],
+      "affiliation_list": [
+        "ebi"
+      ]
+    }
+  ],
+  "principal_investigators": [
+    {
+      "full_name": "naveen raj",
+      "email_list": [
+        "unni.navi@gmail.com"
+      ],
+      "affiliation_list": [
+        "ebi"
+      ]
+    }
+  ],
+  "omics_type": [
+    {
+      "source": "EDAM",
+      "accession": "EDAM:topic_3172",
+      "name": "Metabolomics"
+    }
+  ],
+  "technology_type": [
+    {
+      "source": "OBI",
+      "accession": "OBI:0000470",
+      "name": "mass spectrometry assay"
+    }
+  ],
+  "measurement_type": [
+    {
+      "source": "MS",
+      "accession": "MS:1003905",
+      "name": "targeted analysis"
+    }
+  ],
+  "assay_type": [
+    {
+      "source": "OBI",
+      "accession": "OBI:0003741",
+      "name": "capillary electrophoresis mass spectrometry assay"
+    },
+    {
+      "source": "OBI",
+      "accession": "OBI:0003097",
+      "name": "liquid chromatography mass spectrometry assay"
+    }
+  ],
+  "submitter_keywords": [
+    {
+      "source": "EFO",
+      "accession": "EFO:1001886",
+      "name": "Endoplasmic Reticulum Stress"
+    },
+    {
+      "source": "",
+      "accession": "",
+      "name": "targeted metabolites"
+    },
+    {
+      "source": "MSIO",
+      "accession": "MSIO:0000100",
+      "name": "targeted metabolite profiling"
+    }
+  ],
+  "descriptors": [
+    {
+      "source": "NCIT",
+      "accession": "NCIT:C12551",
+      "name": "Hematopoietic Stem Cell"
+    },
+    {
+      "source": "",
+      "accession": "",
+      "name": "Test"
+    },
+    {
+      "source": "",
+      "accession": "",
+      "name": "AB SCIEX Triple Quad 6500+"
+    },
+    {
+      "source": "",
+      "accession": "",
+      "name": "Waters ACQUITY Premier System"
+    },
+    {
+      "source": "CHMO",
+      "accession": "CHMO:0002746",
+      "name": "experimental sample"
+    },
+    {
+      "source": "",
+      "accession": "",
+      "name": "Metabolomics"
+    },
+    {
+      "source": "NCBITAXON",
+      "accession": "NCBITaxon:10090",
+      "name": "Mus musculus"
+    },
+    {
+      "source": "OBI",
+      "accession": "OBI:0000470",
+      "name": "liquid chromatography mass spectrometry assay"
+    },
+    {
+      "source": "MS",
+      "accession": "MS:1003904",
+      "name": "untargeted analysis"
+    }
+  ],
+  "publications": [
+    {
+      "title": "Flexible Devices: Extremely Stable Current Emission of P‐Doped SiC Flexible Field Emitters (Adv. Sci. 1/2016)",
+      "doi": "10.1002/advs.201670002"
+    }
+  ],
+  "study_factors": [
+    {
+      "key": {
+        "source": "",
+        "accession": "",
+        "name": "emp1 gene knock out"
+      },
+      "values": [
+        {
+          "source": "NCIT",
+          "accession": "NCIT:C47891",
+          "name": "Test"
+        }
+      ]
+    }
+  ],
+  "characteristic_values": [
+    {
+      "key": {
+        "source": "EFO",
+        "accession": "EFO:0000324",
+        "name": "cell type"
+      },
+      "values": [
+        {
+          "source": "NCIT",
+          "accession": "NCIT:C48660",
+          "name": "Not Applicable"
+        }
+      ]
+    },
+    {
+      "key": {
+        "source": "EFO",
+        "accession": "EFO:0000408",
+        "name": "disease"
+      },
+      "values": [
+        {
+          "source": "NCIT",
+          "accession": "NCIT:C48660",
+          "name": "Not Applicable"
+        }
+      ]
+    },
+    {
+      "key": {
+        "source": "NCIT",
+        "accession": "NCIT:C14250",
+        "name": "organism"
+      },
+      "values": [
+        {
+          "source": "NCBITaxon",
+          "accession": "NCBITaxon:10090",
+          "name": "Mus musculus"
+        }
+      ]
+    },
+    {
+      "key": {
+        "source": "NCIT",
+        "accession": "NCIT:C103199",
+        "name": "organism part"
+      },
+      "values": [
+        {
+          "source": "",
+          "accession": "",
+          "name": "Test"
+        },
+        {
+          "source": "BTO",
+          "accession": "BTO:0000725",
+          "name": "hematopoietic stem cell"
+        }
+      ]
+    },
+    {
+      "key": {
+        "source": "NCIT",
+        "accession": "NCIT:C210102",
+        "name": "Sample Type"
+      },
+      "values": [
+        {
+          "source": "CHMO",
+          "accession": "CHMO:0002746",
+          "name": "experimental sample"
+        }
+      ]
+    }
+  ],
+  "protocols": [
+    {
+      "name": "Sample collection",
+      "protocol_type": {
+        "source": "EFO",
+        "accession": "EFO:0005518",
+        "name": "sample collection protocol"
+      },
+      "description": "For lipidomics, approximately 500,000 HSCs (CD48-CD150+LSK) derived from Emp1fl/fl and Emp1fl/fl,Tie2-Cre (Emp1-KO) were sorted and were rapidly frozen in liquid nitrogen for 30 s and stored at -80 °C until use."
+    },
+    {
+      "name": "Extraction",
+      "protocol_type": {
+        "source": "MS",
+        "accession": "MS:1000831",
+        "name": "sample preparation"
+      },
+      "description": "<p>The entire cell sample was mixed with 200 μL of water and vortexed for 60 s. The samples underwent 3x freeze-thaw cycles using liquid nitrogen, followed by sonication in an ice-water bath for 20 min. Subsequently, the homogenate (200 μL) was combined with 480 μL of extraction solution (MTBE:MeOH, 5:1), which contained the internal standard. After vortexing for an additional 60 s, the samples were sonicated again for 10 min in an ice-water bath. Next, the samples were centrifuged at 2000 x g for 15 min at a temperature of 4 °C. A volume of 250 μL of supernatant was transferred to a fresh tube. The remaining sample received an addition of another 250 μL of MTBE, followed by vortexing, sonication and centrifugation; another aliquot of 250 μL supernatant was then collected. This step was repeated once more. The combined supernatants were concentrated under vacuum at a temperature of 37 °C until dry. The dried residues were subsequently reconstituted in 80 μL of resuspension buffer (DCM:MeOH:H2O, 60:30:4.5). Following this, the samples were vortexed for approximately 30 s and subjected to sonication in an ice-water bath for another 10 min. Finally, the resulting suspension was centrifuged at a speed of 10,000 x g for 15 min at a temperature of 4 °C; thereafter, a volume of 35 μL from the supernatant was transferred into a fresh glass vial for LC-MS analysis.</p>",
+      "protocol_parameters": [
+        {
+          "key": {
+            "source": "",
+            "accession": "",
+            "name": "derivatization"
+          }
+        },
+        {
+          "key": {
+            "source": "",
+            "accession": "",
+            "name": "post extraction"
+          },
+          "values": [
+            {
+              "source": "",
+              "accession": "",
+              "name": "480 L of extraction solution (MTBE: MeOH = 5:1)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Chromatography",
+      "protocol_type": {
+        "source": "CHMO",
+        "accession": "CHMO:0001000",
+        "name": "chromatography"
+      },
+      "description": "<p>The UHPLC separation was performed using an ACQUITY Premier series UHPLC System (Waters). The mobile phase A comprised 40% water, 60% acetonitrile and 10 mmol/L ammonium formate. Mobile phase B consisted of 10% acetonitrile, 90% isopropanol and 10 mmol/L ammonium formate. The column temperature was maintained at 45 °C. The autosampler temperature was set to 10 °C, with an injection volume of 2 μL.</p>",
+      "protocol_parameters": [
+        {
+          "key": {
+            "source": "",
+            "accession": "",
+            "name": "autosampler model"
+          },
+          "values": [
+            {
+              "source": "",
+              "accession": "",
+              "name": "Agilent 1100 Autosampler"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "OBI",
+            "accession": "OBI:0000038",
+            "name": "chromatography column"
+          }
+        },
+        {
+          "key": {
+            "source": "OBI",
+            "accession": "OBI:0000485",
+            "name": "chromatography instrument"
+          },
+          "values": [
+            {
+              "source": "MS",
+              "accession": "MS:1003706",
+              "name": "ACQUITY Premier"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "MS",
+            "accession": "MS:1002270",
+            "name": "chromatography separation"
+          }
+        },
+        {
+          "key": {
+            "source": "",
+            "accession": "",
+            "name": "guard column"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Mass spectrometry",
+      "protocol_type": {
+        "source": "CHMO",
+        "accession": "CHMO:0000470",
+        "name": "mass spectrometry"
+      },
+      "description": "<p>For assay development, a Triple Quad 6500+ mass spectrometer (SCIEX) was utilized. Typical ion source parameters included: IonSpray Voltage: +5500 / -4500 V; Curtain Gas: 40 psi; Temperature: 350 °C; Ion Source Gas 1:50 psi; Ion Source Gas 2:50 psi; DP: ±80 V.</p>",
+      "protocol_parameters": [
+        {
+          "key": {
+            "source": "wikidata",
+            "accession": "wikidata:Q138265353",
+            "name": "acquisition polarity"
+          },
+          "values": [
+            {
+              "source": "",
+              "accession": "",
+              "name": "alternating"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "MS",
+            "accession": "MS:1003761",
+            "name": "instrument class"
+          },
+          "values": [
+            {
+              "source": "",
+              "accession": "",
+              "name": "triple quadrupole"
+            },
+            {
+              "source": "MS",
+              "accession": "MS:1000484",
+              "name": "orbitrap"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "MS",
+            "accession": "MS:1000008",
+            "name": "ionization type"
+          },
+          "values": [
+            {
+              "source": "MS",
+              "accession": "MS:1000073",
+              "name": "electrospray ionization"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "MSIO",
+            "accession": "MSIO:0000171",
+            "name": "mass spectrometry instrument"
+          },
+          "values": [
+            {
+              "source": "MS",
+              "accession": "MS:1002595",
+              "name": "Triple Quad 6500+"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "",
+            "accession": "",
+            "name": "scan m/z range"
+          },
+          "values": [
+            {
+              "source": "",
+              "accession": "",
+              "name": "70-1050"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Data transformation",
+      "protocol_type": {
+        "source": "OBI",
+        "accession": "OBI:0200000",
+        "name": "data transformation"
+      },
+      "description": "<p>Biobud - v2.1.4.1 software was employed for the quantification of the target compounds. The absolute content of individual lipids was calculated based on peak area and the actual concentration of the identical lipid class internal standard (IS).</p>"
+    },
+    {
+      "name": "Metabolite identification",
+      "protocol_type": {
+        "source": "MI",
+        "accession": "MI:2131",
+        "name": "metabolite identification"
+      },
+      "description": "<p>Biobud - v2.1.4.1 software was employed for the quantification of the target compounds. The absolute content of individual lipids was calculated based on peak area and the actual concentration of the identical lipid class internal standard (IS).</p>"
+    },
+    {
+      "name": "Capillary Electrophoresis",
+      "protocol_type": {
+        "source": "CHMO",
+        "accession": "CHMO:0001024",
+        "name": "capillary electrophoresis"
+      },
+      "description": "Please update this protocol description",
+      "protocol_parameters": [
+        {
+          "key": {
+            "source": "",
+            "accession": "",
+            "name": "ce instrument"
+          },
+          "values": [
+            {
+              "source": "",
+              "accession": "",
+              "name": "tesss"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "OBI",
+            "accession": "OBI:0000038",
+            "name": "chromatography column"
+          },
+          "values": [
+            {
+              "source": "",
+              "accession": "",
+              "name": "Acclaim 120 C18 (2.2 µm, 2.1 mm x 150 mm; Thermo Scientific)"
+            },
+            {
+              "source": "",
+              "accession": "",
+              "name": "ACQUITY UPLC HSS T3 (1.8 µm, 1 mm x 100 mm; Waters)"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "MS",
+            "accession": "MS:1002270",
+            "name": "chromatography separation"
+          },
+          "values": [
+            {
+              "source": "",
+              "accession": "",
+              "name": "reversed phase chromatography"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "reported_metabolites": [
+    {
+      "name": "BMP(14:0/16:0)"
+    },
+    {
+      "name": "BMP(14:0/16:1)"
+    },
+    {
+      "name": "BMP(14:0/18:0)"
+    },
+    {
+      "name": "BMP(14:0/18:1)"
+    },
+    {
+      "name": "BMP(14:0/18:2)"
+    },
+    {
+      "name": "BMP(14:0/18:3)"
+    },
+    {
+      "name": "BMP(14:0/20:1)"
+    },
+    {
+      "name": "BMP(14:0/20:2)"
+    },
+    {
+      "name": "BMP(14:0/20:4)"
+    },
+    {
+      "name": "BMP(14:0/20:5)"
+    },
+    {
+      "name": "BMP(14:0/22:2)"
+    },
+    {
+      "name": "BMP(14:0/22:3)"
+    },
+    {
+      "name": "BMP(14:0/22:4)"
+    },
+    {
+      "name": "BMP(14:0/22:6)"
+    },
+    {
+      "name": "BMP(14:1/18:6)"
+    },
+    {
+      "name": "BMP(14:1/22:6)"
+    },
+    {
+      "name": "BMP(14:2/16:3)"
+    },
+    {
+      "name": "BMP(16:0/16:0)"
+    },
+    {
+      "name": "BMP(16:0/16:1)"
+    },
+    {
+      "name": "BMP(16:0/16:3)"
+    },
+    {
+      "name": "BMP(16:0/18:0)"
+    },
+    {
+      "name": "BMP(16:0/18:1)"
+    },
+    {
+      "name": "BMP(16:0/18:2)"
+    },
+    {
+      "name": "BMP(16:0/18:3)"
+    },
+    {
+      "name": "BMP(16:0/18:4)"
+    },
+    {
+      "name": "BMP(16:0/20:0)"
+    },
+    {
+      "name": "BMP(16:0/20:1)"
+    },
+    {
+      "name": "BMP(16:0/20:2)"
+    },
+    {
+      "name": "BMP(16:0/20:3)"
+    },
+    {
+      "name": "BMP(16:0/20:4)"
+    },
+    {
+      "name": "BMP(16:0/20:5)"
+    },
+    {
+      "name": "BMP(16:0/22:3)"
+    },
+    {
+      "name": "BMP(16:0/22:4)"
+    },
+    {
+      "name": "BMP(16:0/22:5)"
+    },
+    {
+      "name": "BMP(16:0/22:6)"
+    },
+    {
+      "name": "BMP(16:1/18:0)"
+    },
+    {
+      "name": "BMP(16:1/18:1)"
+    },
+    {
+      "name": "BMP(16:1/18:2)"
+    },
+    {
+      "name": "BMP(16:1/18:4)"
+    },
+    {
+      "name": "BMP(16:1/20:1)"
+    },
+    {
+      "name": "BMP(16:1/20:3)"
+    },
+    {
+      "name": "BMP(16:1/20:4)"
+    },
+    {
+      "name": "BMP(16:1/22:2)"
+    },
+    {
+      "name": "BMP(16:1/22:3)"
+    },
+    {
+      "name": "BMP(16:1/22:4)"
+    },
+    {
+      "name": "BMP(16:1/22:5)"
+    },
+    {
+      "name": "BMP(16:1/22:6)"
+    },
+    {
+      "name": "BMP(16:2/20:5)"
+    },
+    {
+      "name": "BMP(16:2/22:4)"
+    },
+    {
+      "name": "BMP(18:0/18:0)"
+    },
+    {
+      "name": "BMP(18:0/18:1)"
+    },
+    {
+      "name": "BMP(18:0/18:2)"
+    },
+    {
+      "name": "BMP(18:0/18:3)"
+    },
+    {
+      "name": "BMP(18:0/20:0)"
+    },
+    {
+      "name": "BMP(18:0/20:1)"
+    },
+    {
+      "name": "BMP(18:0/20:2)"
+    },
+    {
+      "name": "BMP(18:0/20:3)"
+    },
+    {
+      "name": "BMP(18:0/20:4)"
+    },
+    {
+      "name": "BMP(18:0/20:5)"
+    },
+    {
+      "name": "BMP(18:0/22:3)"
+    },
+    {
+      "name": "BMP(18:0/22:4)"
+    },
+    {
+      "name": "BMP(18:0/22:5)"
+    },
+    {
+      "name": "BMP(18:0/22:6)"
+    },
+    {
+      "name": "BMP(18:1/18:1)"
+    },
+    {
+      "name": "BMP(18:1/18:2)"
+    },
+    {
+      "name": "BMP(18:1/18:3)"
+    },
+    {
+      "name": "BMP(18:1/18:4)"
+    },
+    {
+      "name": "BMP(18:1/20:0)"
+    },
+    {
+      "name": "BMP(18:1/20:1)"
+    },
+    {
+      "name": "BMP(18:1/20:2)"
+    },
+    {
+      "name": "BMP(18:1/20:3)"
+    },
+    {
+      "name": "BMP(18:1/20:4)"
+    },
+    {
+      "name": "BMP(18:1/20:5)"
+    },
+    {
+      "name": "BMP(18:1/22:2)"
+    },
+    {
+      "name": "BMP(18:1/22:3)"
+    },
+    {
+      "name": "BMP(18:1/22:4)"
+    },
+    {
+      "name": "BMP(18:1/22:5)"
+    },
+    {
+      "name": "BMP(18:1/22:6)"
+    },
+    {
+      "name": "BMP(18:2/18:2)"
+    },
+    {
+      "name": "BMP(18:2/18:3)"
+    },
+    {
+      "name": "BMP(18:2/18:4)"
+    },
+    {
+      "name": "BMP(18:2/20:1)"
+    },
+    {
+      "name": "BMP(18:2/20:2)"
+    },
+    {
+      "name": "BMP(18:2/20:3)"
+    },
+    {
+      "name": "BMP(18:2/20:4)"
+    },
+    {
+      "name": "BMP(18:2/20:5)"
+    },
+    {
+      "name": "BMP(18:2/20:6)"
+    },
+    {
+      "name": "BMP(18:2/22:2)"
+    },
+    {
+      "name": "BMP(18:2/22:3)"
+    },
+    {
+      "name": "BMP(18:2/22:4)"
+    },
+    {
+      "name": "BMP(18:2/22:5)"
+    },
+    {
+      "name": "BMP(18:2/22:6)"
+    },
+    {
+      "name": "BMP(18:3/20:3)"
+    },
+    {
+      "name": "BMP(18:3/20:5)"
+    },
+    {
+      "name": "BMP(18:3/22:4)"
+    },
+    {
+      "name": "BMP(18:3/22:5)"
+    },
+    {
+      "name": "BMP(18:3/22:6)"
+    },
+    {
+      "name": "BMP(20:1/20:1)"
+    },
+    {
+      "name": "BMP(20:1/22:3)"
+    },
+    {
+      "name": "BMP(20:1/22:5)"
+    },
+    {
+      "name": "BMP(20:1/22:6)"
+    },
+    {
+      "name": "BMP(20:2/20:2)"
+    },
+    {
+      "name": "BMP(20:2/20:3)"
+    },
+    {
+      "name": "BMP(20:2/20:4)"
+    },
+    {
+      "name": "BMP(20:2/20:5)"
+    },
+    {
+      "name": "BMP(20:2/22:2)"
+    },
+    {
+      "name": "BMP(20:2/22:5)"
+    },
+    {
+      "name": "BMP(20:2/22:6)"
+    },
+    {
+      "name": "BMP(20:3/20:3)"
+    },
+    {
+      "name": "BMP(20:3/20:4)"
+    },
+    {
+      "name": "BMP(20:3/22:3)"
+    },
+    {
+      "name": "BMP(20:3/22:4)"
+    },
+    {
+      "name": "BMP(20:3/22:5)"
+    },
+    {
+      "name": "BMP(20:3/22:6)"
+    },
+    {
+      "name": "BMP(20:4/20:4)"
+    },
+    {
+      "name": "BMP(20:4/22:2)"
+    },
+    {
+      "name": "BMP(20:4/22:3)"
+    },
+    {
+      "name": "BMP(20:4/22:4)"
+    },
+    {
+      "name": "BMP(20:4/22:5)"
+    },
+    {
+      "name": "BMP(20:4/22:6)"
+    },
+    {
+      "name": "BMP(20:5/22:4)"
+    },
+    {
+      "name": "BMP(20:5/22:6)"
+    },
+    {
+      "name": "BMP(22:3/22:6)"
+    },
+    {
+      "name": "BMP(22:4/22:4)"
+    },
+    {
+      "name": "BMP(22:4/22:5)"
+    },
+    {
+      "name": "BMP(22:4/22:6)"
+    },
+    {
+      "name": "BMP(22:5/22:5)"
+    },
+    {
+      "name": "CE(16:0)"
+    },
+    {
+      "name": "CE(18:1)"
+    },
+    {
+      "name": "CE(18:2)"
+    },
+    {
+      "name": "CE(20:1)"
+    },
+    {
+      "name": "CE(20:2)"
+    },
+    {
+      "name": "CE(20:3)"
+    },
+    {
+      "name": "CE(20:4)"
+    },
+    {
+      "name": "CE(20:5)"
+    },
+    {
+      "name": "CE(22:2)"
+    },
+    {
+      "name": "CE(22:4)"
+    },
+    {
+      "name": "CE(22:5)"
+    },
+    {
+      "name": "CE(22:6)"
+    },
+    {
+      "name": "Cer(18:0/14:0)"
+    },
+    {
+      "name": "Cer(18:0/16:0)"
+    },
+    {
+      "name": "Cer(18:0/18:0)"
+    },
+    {
+      "name": "Cer(18:0/18:1)"
+    },
+    {
+      "name": "Cer(18:0/20:0)"
+    },
+    {
+      "name": "Cer(18:0/20:1)"
+    },
+    {
+      "name": "Cer(18:0/22:0)"
+    },
+    {
+      "name": "Cer(18:0/22:1)"
+    },
+    {
+      "name": "Cer(18:0/24:0)"
+    },
+    {
+      "name": "Cer(18:0/24:1)"
+    },
+    {
+      "name": "Cer(18:0/26:0)"
+    },
+    {
+      "name": "Cer(18:0/26:1)"
+    },
+    {
+      "name": "Cer(18:1/14:0)"
+    },
+    {
+      "name": "Cer(18:1/14:1)"
+    },
+    {
+      "name": "Cer(18:1/16:0)"
+    },
+    {
+      "name": "Cer(18:1/16:1)"
+    },
+    {
+      "name": "Cer(18:1/18:0)"
+    },
+    {
+      "name": "Cer(18:1/20:0)"
+    },
+    {
+      "name": "Cer(18:1/20:1)"
+    },
+    {
+      "name": "Cer(18:1/22:0)"
+    },
+    {
+      "name": "Cer(18:1/22:1)"
+    },
+    {
+      "name": "Cer(18:1/24:0)"
+    },
+    {
+      "name": "Cer(18:1/24:1)"
+    },
+    {
+      "name": "Cer(18:1/26:0)"
+    },
+    {
+      "name": "Cer(18:1/26:1)"
+    },
+    {
+      "name": "DAG(14:0/16:1)"
+    },
+    {
+      "name": "DAG(14:0/18:1)"
+    },
+    {
+      "name": "DAG(14:0/18:2)"
+    },
+    {
+      "name": "DAG(14:0/18:3)"
+    },
+    {
+      "name": "DAG(14:0/20:0)"
+    },
+    {
+      "name": "DAG(14:0/20:4)"
+    },
+    {
+      "name": "DAG(14:0/22:6)"
+    },
+    {
+      "name": "DAG(16:0/16:0)"
+    },
+    {
+      "name": "DAG(16:0/16:1)"
+    },
+    {
+      "name": "DAG(16:0/18:0)"
+    },
+    {
+      "name": "DAG(16:0/18:1)"
+    },
+    {
+      "name": "DAG(16:0/18:2)"
+    },
+    {
+      "name": "DAG(16:0/18:3)"
+    },
+    {
+      "name": "DAG(16:0/20:3)"
+    },
+    {
+      "name": "DAG(16:0/20:4)"
+    },
+    {
+      "name": "DAG(16:0/20:5)"
+    },
+    {
+      "name": "DAG(16:0/22:5)"
+    },
+    {
+      "name": "DAG(16:0/22:6)"
+    },
+    {
+      "name": "DAG(16:1/16:1)"
+    },
+    {
+      "name": "DAG(16:1/18:0)"
+    },
+    {
+      "name": "DAG(16:1/18:1)"
+    },
+    {
+      "name": "DAG(16:1/18:2)"
+    },
+    {
+      "name": "DAG(16:1/18:3)"
+    },
+    {
+      "name": "DAG(16:1/20:0)"
+    },
+    {
+      "name": "DAG(16:1/20:2)"
+    },
+    {
+      "name": "DAG(16:1/20:4)"
+    },
+    {
+      "name": "DAG(16:1/22:6)"
+    },
+    {
+      "name": "DAG(18:0/18:1)"
+    },
+    {
+      "name": "DAG(18:0/18:2)"
+    },
+    {
+      "name": "DAG(18:0/18:3)"
+    },
+    {
+      "name": "DAG(18:0/22:6)"
+    },
+    {
+      "name": "DAG(18:1/18:1)"
+    },
+    {
+      "name": "DAG(18:1/18:2)"
+    },
+    {
+      "name": "DAG(18:1/20:1)"
+    },
+    {
+      "name": "DAG(18:1/20:2)"
+    },
+    {
+      "name": "DAG(18:1/20:3)"
+    },
+    {
+      "name": "DAG(18:1/20:4)"
+    },
+    {
+      "name": "DAG(18:1/20:5)"
+    },
+    {
+      "name": "DAG(18:1/22:4)"
+    },
+    {
+      "name": "DAG(18:1/22:5)"
+    },
+    {
+      "name": "DAG(18:1/22:6)"
+    },
+    {
+      "name": "DAG(18:2/18:3)"
+    },
+    {
+      "name": "DAG(18:2/20:3)"
+    },
+    {
+      "name": "DAG(18:2/20:4)"
+    },
+    {
+      "name": "DAG(18:2/20:5)"
+    },
+    {
+      "name": "DAG(18:2/22:4)"
+    },
+    {
+      "name": "DAG(18:2/22:5)"
+    },
+    {
+      "name": "DAG(18:2/22:6)"
+    },
+    {
+      "name": "DGDG(12:0/18:1)"
+    },
+    {
+      "name": "DGDG(14:0/16:1)"
+    },
+    {
+      "name": "DGDG(14:1/24:5)"
+    },
+    {
+      "name": "FFA(14:0)"
+    },
+    {
+      "name": "FFA(16:0)"
+    },
+    {
+      "name": "FFA(16:1)"
+    },
+    {
+      "name": "FFA(16:2)"
+    },
+    {
+      "name": "FFA(18:0)"
+    },
+    {
+      "name": "FFA(18:1)"
+    },
+    {
+      "name": "FFA(18:2)"
+    },
+    {
+      "name": "FFA(18:3)"
+    },
+    {
+      "name": "FFA(20:0)"
+    },
+    {
+      "name": "FFA(20:1)"
+    },
+    {
+      "name": "FFA(20:2)"
+    },
+    {
+      "name": "FFA(20:3)"
+    },
+    {
+      "name": "FFA(20:4)"
+    },
+    {
+      "name": "FFA(20:5)"
+    },
+    {
+      "name": "FFA(22:0)"
+    },
+    {
+      "name": "FFA(22:1)"
+    },
+    {
+      "name": "FFA(22:2)"
+    },
+    {
+      "name": "FFA(22:3)"
+    },
+    {
+      "name": "FFA(22:4)"
+    },
+    {
+      "name": "FFA(22:5)"
+    },
+    {
+      "name": "FFA(22:6)"
+    },
+    {
+      "name": "FFA(24:0)"
+    },
+    {
+      "name": "FFA(24:1)"
+    },
+    {
+      "name": "FFA(24:2)"
+    },
+    {
+      "name": "FFA(24:3)"
+    },
+    {
+      "name": "FFA(24:5)"
+    },
+    {
+      "name": "FFA(24:6)"
+    },
+    {
+      "name": "FFA(26:0)"
+    },
+    {
+      "name": "FFA(26:1)"
+    },
+    {
+      "name": "FFA(26:2)"
+    },
+    {
+      "name": "FFA(26:3)"
+    },
+    {
+      "name": "FFA(26:4)"
+    },
+    {
+      "name": "FFA(26:5)"
+    },
+    {
+      "name": "FFA(26:6)"
+    },
+    {
+      "name": "FFA(28:2)"
+    },
+    {
+      "name": "FFA(28:5)"
+    },
+    {
+      "name": "FFA(28:6)"
+    },
+    {
+      "name": "FFA(30:4)"
+    },
+    {
+      "name": "FFA(30:5)"
+    },
+    {
+      "name": "FFA(30:6)"
+    },
+    {
+      "name": "Hex2Cer(18:0/16:0)"
+    },
+    {
+      "name": "Hex2Cer(18:0/16:1)"
+    },
+    {
+      "name": "Hex2Cer(18:0/26:0)"
+    },
+    {
+      "name": "Hex2Cer(18:1/16:0)"
+    },
+    {
+      "name": "Hex2Cer(18:1/16:1)"
+    },
+    {
+      "name": "Hex2Cer(18:1/18:0)"
+    },
+    {
+      "name": "Hex2Cer(18:1/18:1)"
+    },
+    {
+      "name": "Hex2Cer(18:1/20:0)"
+    },
+    {
+      "name": "Hex2Cer(18:1/22:0)"
+    },
+    {
+      "name": "Hex2Cer(18:1/24:0)"
+    },
+    {
+      "name": "Hex2Cer(18:1/24:1)"
+    },
+    {
+      "name": "Hex2Cer(18:1/26:0)"
+    },
+    {
+      "name": "Hex2Cer(18:1/26:1)"
+    },
+    {
+      "name": "HexCer(18:0/14:0)"
+    },
+    {
+      "name": "HexCer(18:0/16:0)"
+    },
+    {
+      "name": "HexCer(18:0/16:1)"
+    },
+    {
+      "name": "HexCer(18:0/18:0)"
+    },
+    {
+      "name": "HexCer(18:0/18:1)"
+    },
+    {
+      "name": "HexCer(18:0/20:0)"
+    },
+    {
+      "name": "HexCer(18:0/20:1)"
+    },
+    {
+      "name": "HexCer(18:0/22:0)"
+    },
+    {
+      "name": "HexCer(18:0/22:1)"
+    },
+    {
+      "name": "HexCer(18:0/24:0)"
+    },
+    {
+      "name": "HexCer(18:0/24:1)"
+    },
+    {
+      "name": "HexCer(18:1/14:0)"
+    },
+    {
+      "name": "HexCer(18:1/16:0)"
+    },
+    {
+      "name": "HexCer(18:1/16:1)"
+    },
+    {
+      "name": "HexCer(18:1/18:0)"
+    },
+    {
+      "name": "HexCer(18:1/18:1)"
+    },
+    {
+      "name": "HexCer(18:1/20:0)"
+    },
+    {
+      "name": "HexCer(18:1/20:1)"
+    },
+    {
+      "name": "HexCer(18:1/22:0)"
+    },
+    {
+      "name": "HexCer(18:1/22:1)"
+    },
+    {
+      "name": "HexCer(18:1/24:0)"
+    },
+    {
+      "name": "HexCer(18:1/24:1)"
+    },
+    {
+      "name": "HexCer(18:1/26:0)"
+    },
+    {
+      "name": "HexCer(18:1/26:1)"
+    },
+    {
+      "name": "LPC(14:0)"
+    },
+    {
+      "name": "LPC(16:0)"
+    },
+    {
+      "name": "LPC(16:1)"
+    },
+    {
+      "name": "LPC(18:0)"
+    },
+    {
+      "name": "LPC(18:1)"
+    },
+    {
+      "name": "LPC(18:2)"
+    },
+    {
+      "name": "LPC(18:3)"
+    },
+    {
+      "name": "LPC(20:0)"
+    },
+    {
+      "name": "LPC(20:1)"
+    },
+    {
+      "name": "LPC(20:2)"
+    },
+    {
+      "name": "LPC(20:3)"
+    },
+    {
+      "name": "LPC(20:4)"
+    },
+    {
+      "name": "LPC(22:4)"
+    },
+    {
+      "name": "LPC(22:6)"
+    },
+    {
+      "name": "LPE(14:0)"
+    },
+    {
+      "name": "LPE(16:0)"
+    },
+    {
+      "name": "LPE(16:1)"
+    },
+    {
+      "name": "LPE(18:0)"
+    },
+    {
+      "name": "LPE(18:1)"
+    },
+    {
+      "name": "LPE(18:2)"
+    },
+    {
+      "name": "LPE(20:0)"
+    },
+    {
+      "name": "LPE(20:1)"
+    },
+    {
+      "name": "LPE(20:2)"
+    },
+    {
+      "name": "LPE(20:3)"
+    },
+    {
+      "name": "LPE(20:4)"
+    },
+    {
+      "name": "LPE(20:5)"
+    },
+    {
+      "name": "LPE(22:4)"
+    },
+    {
+      "name": "LPE(22:5)"
+    },
+    {
+      "name": "LPE(22:6)"
+    },
+    {
+      "name": "LPG(14:0)"
+    },
+    {
+      "name": "LPG(16:0)"
+    },
+    {
+      "name": "LPG(18:0)"
+    },
+    {
+      "name": "LPG(18:1)"
+    },
+    {
+      "name": "LPG(18:3)"
+    },
+    {
+      "name": "LPG(18:4)"
+    },
+    {
+      "name": "LPG(20:2)"
+    },
+    {
+      "name": "LPG(20:4)"
+    },
+    {
+      "name": "LPG(20:5)"
+    },
+    {
+      "name": "LPG(22:6)"
+    },
+    {
+      "name": "LPI(14:0)"
+    },
+    {
+      "name": "LPI(16:0)"
+    },
+    {
+      "name": "LPI(18:0)"
+    },
+    {
+      "name": "LPI(18:3)"
+    },
+    {
+      "name": "LPI(20:4)"
+    },
+    {
+      "name": "LPI(20:5)"
+    },
+    {
+      "name": "LPI(22:6)"
+    },
+    {
+      "name": "LPS(18:0)"
+    },
+    {
+      "name": "LPS(18:1)"
+    },
+    {
+      "name": "LPS(18:4)"
+    },
+    {
+      "name": "LPS(22:5)"
+    },
+    {
+      "name": "LPS(22:6)"
+    },
+    {
+      "name": "MGDG(14:0/24:0)"
+    },
+    {
+      "name": "MGDG(16:0/16:0)"
+    },
+    {
+      "name": "MGDG(16:0/18:0)"
+    },
+    {
+      "name": "MGDG(16:0/18:1)"
+    },
+    {
+      "name": "MGDG(16:0/18:2)"
+    },
+    {
+      "name": "MGDG(16:0/18:3)"
+    },
+    {
+      "name": "MGDG(16:0/20:0)"
+    },
+    {
+      "name": "MGDG(16:0/20:1)"
+    },
+    {
+      "name": "MGDG(16:0/20:2)"
+    },
+    {
+      "name": "MGDG(16:0/22:0)"
+    },
+    {
+      "name": "MGDG(16:0/22:2)"
+    },
+    {
+      "name": "MGDG(16:0/22:3)"
+    },
+    {
+      "name": "MGDG(16:0/24:0)"
+    },
+    {
+      "name": "MGDG(16:0/24:1)"
+    },
+    {
+      "name": "MGDG(16:1/16:1)"
+    },
+    {
+      "name": "MGDG(16:1/18:2)"
+    },
+    {
+      "name": "MGDG(18:0/18:3)"
+    },
+    {
+      "name": "MGDG(18:0/20:0)"
+    },
+    {
+      "name": "MGDG(18:1/18:1)"
+    },
+    {
+      "name": "MGDG(18:1/18:2)"
+    },
+    {
+      "name": "MGDG(18:1/20:0)"
+    },
+    {
+      "name": "MGDG(18:2/22:0)"
+    },
+    {
+      "name": "MGDG(18:2/24:0)"
+    },
+    {
+      "name": "MGDG(20:3/20:4)"
+    },
+    {
+      "name": "MGDG(20:4/20:4)"
+    },
+    {
+      "name": "PC(14:0/14:0)"
+    },
+    {
+      "name": "PC(14:0/18:1)"
+    },
+    {
+      "name": "PC(14:0/18:2)"
+    },
+    {
+      "name": "PC(14:0/18:3)"
+    },
+    {
+      "name": "PC(14:0/20:1)"
+    },
+    {
+      "name": "PC(14:0/20:2)"
+    },
+    {
+      "name": "PC(14:0/20:3)"
+    },
+    {
+      "name": "PC(14:0/20:4)"
+    },
+    {
+      "name": "PC(14:0/22:4)"
+    },
+    {
+      "name": "PC(14:0/22:5)"
+    },
+    {
+      "name": "PC(14:0/22:6)"
+    },
+    {
+      "name": "PC(16:0/14:0)"
+    },
+    {
+      "name": "PC(16:0/16:0)"
+    },
+    {
+      "name": "PC(16:0/16:1)"
+    },
+    {
+      "name": "PC(16:0/18:0)"
+    },
+    {
+      "name": "PC(16:0/18:1)"
+    },
+    {
+      "name": "PC(16:0/18:2)"
+    },
+    {
+      "name": "PC(16:0/18:3)"
+    },
+    {
+      "name": "PC(16:0/20:1)"
+    },
+    {
+      "name": "PC(16:0/20:2)"
+    },
+    {
+      "name": "PC(16:0/20:3)"
+    },
+    {
+      "name": "PC(16:0/20:4)"
+    },
+    {
+      "name": "PC(16:0/20:5)"
+    },
+    {
+      "name": "PC(16:0/22:4)"
+    },
+    {
+      "name": "PC(16:0/22:5)"
+    },
+    {
+      "name": "PC(16:0/22:6)"
+    },
+    {
+      "name": "PC(16:1/18:1)"
+    },
+    {
+      "name": "PC(16:1/18:2)"
+    },
+    {
+      "name": "PC(18:0/14:0)"
+    },
+    {
+      "name": "PC(18:0/16:1)"
+    },
+    {
+      "name": "PC(18:0/18:0)"
+    },
+    {
+      "name": "PC(18:0/18:1)"
+    },
+    {
+      "name": "PC(18:0/18:2)"
+    },
+    {
+      "name": "PC(18:0/18:3)"
+    },
+    {
+      "name": "PC(18:0/20:0)"
+    },
+    {
+      "name": "PC(18:0/20:1)"
+    },
+    {
+      "name": "PC(18:0/20:2)"
+    },
+    {
+      "name": "PC(18:0/20:3)"
+    },
+    {
+      "name": "PC(18:0/20:4)"
+    },
+    {
+      "name": "PC(18:0/20:5)"
+    },
+    {
+      "name": "PC(18:0/22:4)"
+    },
+    {
+      "name": "PC(18:0/22:5)"
+    },
+    {
+      "name": "PC(18:0/22:6)"
+    },
+    {
+      "name": "PC(18:1/16:1)"
+    },
+    {
+      "name": "PC(18:1/18:1)"
+    },
+    {
+      "name": "PC(18:1/18:2)"
+    },
+    {
+      "name": "PC(18:1/18:3)"
+    },
+    {
+      "name": "PC(18:1/20:1)"
+    },
+    {
+      "name": "PC(18:1/20:2)"
+    },
+    {
+      "name": "PC(18:1/20:3)"
+    },
+    {
+      "name": "PC(18:1/20:4)"
+    },
+    {
+      "name": "PC(18:1/20:5)"
+    },
+    {
+      "name": "PC(18:1/22:4)"
+    },
+    {
+      "name": "PC(18:1/22:5)"
+    },
+    {
+      "name": "PC(18:1/22:6)"
+    },
+    {
+      "name": "PC(18:2/16:1)"
+    },
+    {
+      "name": "PC(18:2/18:2)"
+    },
+    {
+      "name": "PC(18:2/18:3)"
+    },
+    {
+      "name": "PC(18:2/20:1)"
+    },
+    {
+      "name": "PC(18:2/20:2)"
+    },
+    {
+      "name": "PC(18:2/20:3)"
+    },
+    {
+      "name": "PC(18:2/20:4)"
+    },
+    {
+      "name": "PC(18:2/20:5)"
+    },
+    {
+      "name": "PC(18:2/22:4)"
+    },
+    {
+      "name": "PC(18:2/22:5)"
+    },
+    {
+      "name": "PC(18:2/22:6)"
+    },
+    {
+      "name": "PC(20:0/18:1)"
+    },
+    {
+      "name": "PC(20:0/20:2)"
+    },
+    {
+      "name": "PC(20:0/20:3)"
+    },
+    {
+      "name": "PC(20:0/20:4)"
+    },
+    {
+      "name": "PE(14:0/18:1)"
+    },
+    {
+      "name": "PE(14:0/18:2)"
+    },
+    {
+      "name": "PE(14:0/20:4)"
+    },
+    {
+      "name": "PE(16:0/14:0)"
+    },
+    {
+      "name": "PE(16:0/16:0)"
+    },
+    {
+      "name": "PE(16:0/16:1)"
+    },
+    {
+      "name": "PE(16:0/18:1)"
+    },
+    {
+      "name": "PE(16:0/18:2)"
+    },
+    {
+      "name": "PE(16:0/18:3)"
+    },
+    {
+      "name": "PE(16:0/20:1)"
+    },
+    {
+      "name": "PE(16:0/20:2)"
+    },
+    {
+      "name": "PE(16:0/20:3)"
+    },
+    {
+      "name": "PE(16:0/20:4)"
+    },
+    {
+      "name": "PE(16:0/20:5)"
+    },
+    {
+      "name": "PE(16:0/22:4)"
+    },
+    {
+      "name": "PE(16:0/22:5)"
+    },
+    {
+      "name": "PE(16:0/22:6)"
+    },
+    {
+      "name": "PE(18:0/14:0)"
+    },
+    {
+      "name": "PE(18:0/16:0)"
+    },
+    {
+      "name": "PE(18:0/16:1)"
+    },
+    {
+      "name": "PE(18:0/18:0)"
+    },
+    {
+      "name": "PE(18:0/18:1)"
+    },
+    {
+      "name": "PE(18:0/18:2)"
+    },
+    {
+      "name": "PE(18:0/18:3)"
+    },
+    {
+      "name": "PE(18:0/20:1)"
+    },
+    {
+      "name": "PE(18:0/20:2)"
+    },
+    {
+      "name": "PE(18:0/20:3)"
+    },
+    {
+      "name": "PE(18:0/20:4)"
+    },
+    {
+      "name": "PE(18:0/20:5)"
+    },
+    {
+      "name": "PE(18:0/22:4)"
+    },
+    {
+      "name": "PE(18:0/22:5)"
+    },
+    {
+      "name": "PE(18:0/22:6)"
+    },
+    {
+      "name": "PE(18:1/16:1)"
+    },
+    {
+      "name": "PE(18:1/18:1)"
+    },
+    {
+      "name": "PE(18:1/18:2)"
+    },
+    {
+      "name": "PE(18:1/18:3)"
+    },
+    {
+      "name": "PE(18:1/20:1)"
+    },
+    {
+      "name": "PE(18:1/20:2)"
+    },
+    {
+      "name": "PE(18:1/20:3)"
+    },
+    {
+      "name": "PE(18:1/20:4)"
+    },
+    {
+      "name": "PE(18:1/20:5)"
+    },
+    {
+      "name": "PE(18:1/22:4)"
+    },
+    {
+      "name": "PE(18:1/22:5)"
+    },
+    {
+      "name": "PE(18:1/22:6)"
+    },
+    {
+      "name": "PE(18:2/16:1)"
+    },
+    {
+      "name": "PE(18:2/18:2)"
+    },
+    {
+      "name": "PE(18:2/18:3)"
+    },
+    {
+      "name": "PE(18:2/20:1)"
+    },
+    {
+      "name": "PE(18:2/20:2)"
+    },
+    {
+      "name": "PE(18:2/20:3)"
+    },
+    {
+      "name": "PE(18:2/20:4)"
+    },
+    {
+      "name": "PE(18:2/20:5)"
+    },
+    {
+      "name": "PE(18:2/22:4)"
+    },
+    {
+      "name": "PE(18:2/22:5)"
+    },
+    {
+      "name": "PE(18:2/22:6)"
+    },
+    {
+      "name": "PE(O-16:0/16:0)"
+    },
+    {
+      "name": "PE(O-16:0/16:1)"
+    },
+    {
+      "name": "PE(O-16:0/18:0)"
+    },
+    {
+      "name": "PE(O-16:0/18:1)"
+    },
+    {
+      "name": "PE(O-16:0/18:2)"
+    },
+    {
+      "name": "PE(O-16:0/18:3)"
+    },
+    {
+      "name": "PE(O-16:0/20:1)"
+    },
+    {
+      "name": "PE(O-16:0/20:2)"
+    },
+    {
+      "name": "PE(O-16:0/20:3)"
+    },
+    {
+      "name": "PE(O-16:0/20:4)"
+    },
+    {
+      "name": "PE(O-16:0/20:5)"
+    },
+    {
+      "name": "PE(O-16:0/22:4)"
+    },
+    {
+      "name": "PE(O-16:0/22:5)"
+    },
+    {
+      "name": "PE(O-16:0/22:6)"
+    },
+    {
+      "name": "PE(O-18:0/16:0)"
+    },
+    {
+      "name": "PE(O-18:0/16:1)"
+    },
+    {
+      "name": "PE(O-18:0/18:0)"
+    },
+    {
+      "name": "PE(O-18:0/18:1)"
+    },
+    {
+      "name": "PE(O-18:0/18:2)"
+    },
+    {
+      "name": "PE(O-18:0/20:1)"
+    },
+    {
+      "name": "PE(O-18:0/20:2)"
+    },
+    {
+      "name": "PE(O-18:0/20:3)"
+    },
+    {
+      "name": "PE(O-18:0/20:4)"
+    },
+    {
+      "name": "PE(O-18:0/20:5)"
+    },
+    {
+      "name": "PE(O-18:0/22:4)"
+    },
+    {
+      "name": "PE(O-18:0/22:5)"
+    },
+    {
+      "name": "PE(O-18:0/22:6)"
+    },
+    {
+      "name": "PE(P-16:0/16:0)"
+    },
+    {
+      "name": "PE(P-16:0/16:1)"
+    },
+    {
+      "name": "PE(P-16:0/18:0)"
+    },
+    {
+      "name": "PE(P-16:0/18:1)"
+    },
+    {
+      "name": "PE(P-16:0/18:2)"
+    },
+    {
+      "name": "PE(P-16:0/18:3)"
+    },
+    {
+      "name": "PE(P-16:0/20:1)"
+    },
+    {
+      "name": "PE(P-16:0/20:2)"
+    },
+    {
+      "name": "PE(P-16:0/20:3)"
+    },
+    {
+      "name": "PE(P-16:0/20:4)"
+    },
+    {
+      "name": "PE(P-16:0/20:5)"
+    },
+    {
+      "name": "PE(P-16:0/22:4)"
+    },
+    {
+      "name": "PE(P-16:0/22:5)"
+    },
+    {
+      "name": "PE(P-16:0/22:6)"
+    },
+    {
+      "name": "PE(P-18:0/16:0)"
+    },
+    {
+      "name": "PE(P-18:0/16:1)"
+    },
+    {
+      "name": "PE(P-18:0/18:0)"
+    },
+    {
+      "name": "PE(P-18:0/18:1)"
+    },
+    {
+      "name": "PE(P-18:0/18:2)"
+    },
+    {
+      "name": "PE(P-18:0/18:3)"
+    },
+    {
+      "name": "PE(P-18:0/20:1)"
+    },
+    {
+      "name": "PE(P-18:0/20:2)"
+    },
+    {
+      "name": "PE(P-18:0/20:3)"
+    },
+    {
+      "name": "PE(P-18:0/20:4)"
+    },
+    {
+      "name": "PE(P-18:0/20:5)"
+    },
+    {
+      "name": "PE(P-18:0/22:4)"
+    },
+    {
+      "name": "PE(P-18:0/22:5)"
+    },
+    {
+      "name": "PE(P-18:0/22:6)"
+    },
+    {
+      "name": "PE(P-18:1/16:0)"
+    },
+    {
+      "name": "PE(P-18:1/16:1)"
+    },
+    {
+      "name": "PE(P-18:1/18:0)"
+    },
+    {
+      "name": "PE(P-18:1/18:1)"
+    },
+    {
+      "name": "PE(P-18:1/18:2)"
+    },
+    {
+      "name": "PE(P-18:1/18:3)"
+    },
+    {
+      "name": "PE(P-18:1/20:1)"
+    },
+    {
+      "name": "PE(P-18:1/20:2)"
+    },
+    {
+      "name": "PE(P-18:1/20:3)"
+    },
+    {
+      "name": "PE(P-18:1/20:4)"
+    },
+    {
+      "name": "PE(P-18:1/20:5)"
+    },
+    {
+      "name": "PE(P-18:1/22:4)"
+    },
+    {
+      "name": "PE(P-18:1/22:5)"
+    },
+    {
+      "name": "PE(P-18:1/22:6)"
+    },
+    {
+      "name": "PE(P-18:2/18:2)"
+    },
+    {
+      "name": "PE(P-18:2/20:4)"
+    },
+    {
+      "name": "PE(P-18:2/22:6)"
+    },
+    {
+      "name": "PG(14:0/18:1)"
+    },
+    {
+      "name": "PG(14:0/20:1)"
+    },
+    {
+      "name": "PG(16:0/16:0)"
+    },
+    {
+      "name": "PG(16:0/16:3)"
+    },
+    {
+      "name": "PG(16:0/16:4)"
+    },
+    {
+      "name": "PG(16:0/18:0)"
+    },
+    {
+      "name": "PG(16:0/18:1)"
+    },
+    {
+      "name": "PG(16:0/18:2)"
+    },
+    {
+      "name": "PG(16:0/20:0)"
+    },
+    {
+      "name": "PG(16:0/20:1)"
+    },
+    {
+      "name": "PG(16:0/20:2)"
+    },
+    {
+      "name": "PG(16:0/20:3)"
+    },
+    {
+      "name": "PG(16:0/20:4)"
+    },
+    {
+      "name": "PG(16:0/20:5)"
+    },
+    {
+      "name": "PG(16:0/22:2)"
+    },
+    {
+      "name": "PG(16:1/18:1)"
+    },
+    {
+      "name": "PG(16:1/18:2)"
+    },
+    {
+      "name": "PG(16:1/20:4)"
+    },
+    {
+      "name": "PG(16:1/22:6)"
+    },
+    {
+      "name": "PG(16:2/22:4)"
+    },
+    {
+      "name": "PG(18:0/18:0)"
+    },
+    {
+      "name": "PG(18:0/18:1)"
+    },
+    {
+      "name": "PG(18:0/18:2)"
+    },
+    {
+      "name": "PG(18:0/18:3)"
+    },
+    {
+      "name": "PG(18:0/20:2)"
+    },
+    {
+      "name": "PG(18:0/20:3)"
+    },
+    {
+      "name": "PG(18:0/20:4)"
+    },
+    {
+      "name": "PG(18:0/22:6)"
+    },
+    {
+      "name": "PG(18:1/18:1)"
+    },
+    {
+      "name": "PG(18:1/18:2)"
+    },
+    {
+      "name": "PG(18:1/18:6)"
+    },
+    {
+      "name": "PG(18:1/20:0)"
+    },
+    {
+      "name": "PG(18:1/20:1)"
+    },
+    {
+      "name": "PG(18:1/20:2)"
+    },
+    {
+      "name": "PG(18:1/20:3)"
+    },
+    {
+      "name": "PG(18:1/20:4)"
+    },
+    {
+      "name": "PG(18:1/20:5)"
+    },
+    {
+      "name": "PG(18:1/22:4)"
+    },
+    {
+      "name": "PG(18:1/22:5)"
+    },
+    {
+      "name": "PG(18:1/22:6)"
+    },
+    {
+      "name": "PG(18:2/18:2)"
+    },
+    {
+      "name": "PG(18:2/18:3)"
+    },
+    {
+      "name": "PG(18:2/18:4)"
+    },
+    {
+      "name": "PG(18:2/20:2)"
+    },
+    {
+      "name": "PG(18:2/20:3)"
+    },
+    {
+      "name": "PG(18:2/20:4)"
+    },
+    {
+      "name": "PG(18:2/20:5)"
+    },
+    {
+      "name": "PG(18:2/22:4)"
+    },
+    {
+      "name": "PG(18:2/22:5)"
+    },
+    {
+      "name": "PG(18:2/22:6)"
+    },
+    {
+      "name": "PG(18:3/20:4)"
+    },
+    {
+      "name": "PG(18:3/22:6)"
+    },
+    {
+      "name": "PG(20:2/20:4)"
+    },
+    {
+      "name": "PG(20:2/22:5)"
+    },
+    {
+      "name": "PG(20:2/22:6)"
+    },
+    {
+      "name": "PG(20:3/20:3)"
+    },
+    {
+      "name": "PG(20:3/20:4)"
+    },
+    {
+      "name": "PG(20:3/22:4)"
+    },
+    {
+      "name": "PG(20:3/22:5)"
+    },
+    {
+      "name": "PG(20:3/22:6)"
+    },
+    {
+      "name": "PG(20:4/20:4)"
+    },
+    {
+      "name": "PG(20:4/20:5)"
+    },
+    {
+      "name": "PG(20:4/22:4)"
+    },
+    {
+      "name": "PG(20:4/22:5)"
+    },
+    {
+      "name": "PG(20:4/22:6)"
+    },
+    {
+      "name": "PG(22:3/22:6)"
+    },
+    {
+      "name": "PG(22:4/22:4)"
+    },
+    {
+      "name": "PG(22:4/22:5)"
+    },
+    {
+      "name": "PG(22:4/22:6)"
+    },
+    {
+      "name": "PG(22:5/22:5)"
+    },
+    {
+      "name": "PG(22:5/22:6)"
+    },
+    {
+      "name": "PI(14:0/20:0)"
+    },
+    {
+      "name": "PI(16:0/16:0)"
+    },
+    {
+      "name": "PI(16:0/16:1)"
+    },
+    {
+      "name": "PI(16:0/18:1)"
+    },
+    {
+      "name": "PI(16:0/18:2)"
+    },
+    {
+      "name": "PI(16:0/20:1)"
+    },
+    {
+      "name": "PI(16:0/20:2)"
+    },
+    {
+      "name": "PI(16:0/20:3)"
+    },
+    {
+      "name": "PI(16:0/20:4)"
+    },
+    {
+      "name": "PI(16:0/20:5)"
+    },
+    {
+      "name": "PI(16:0/22:1)"
+    },
+    {
+      "name": "PI(16:0/22:4)"
+    },
+    {
+      "name": "PI(16:0/22:5)"
+    },
+    {
+      "name": "PI(16:0/22:6)"
+    },
+    {
+      "name": "PI(18:0/18:0)"
+    },
+    {
+      "name": "PI(18:0/18:1)"
+    },
+    {
+      "name": "PI(18:0/18:2)"
+    },
+    {
+      "name": "PI(18:0/18:3)"
+    },
+    {
+      "name": "PI(18:0/20:0)"
+    },
+    {
+      "name": "PI(18:0/20:1)"
+    },
+    {
+      "name": "PI(18:0/20:2)"
+    },
+    {
+      "name": "PI(18:0/20:3)"
+    },
+    {
+      "name": "PI(18:0/20:4)"
+    },
+    {
+      "name": "PI(18:0/20:5)"
+    },
+    {
+      "name": "PI(18:0/22:4)"
+    },
+    {
+      "name": "PI(18:0/22:5)"
+    },
+    {
+      "name": "PI(18:0/22:6)"
+    },
+    {
+      "name": "PI(18:1/18:1)"
+    },
+    {
+      "name": "PI(18:1/18:2)"
+    },
+    {
+      "name": "PI(18:1/20:0)"
+    },
+    {
+      "name": "PI(18:1/20:2)"
+    },
+    {
+      "name": "PI(18:1/20:3)"
+    },
+    {
+      "name": "PI(18:1/20:4)"
+    },
+    {
+      "name": "PI(18:1/20:5)"
+    },
+    {
+      "name": "PI(18:1/22:0)"
+    },
+    {
+      "name": "PI(18:1/22:4)"
+    },
+    {
+      "name": "PI(18:1/22:5)"
+    },
+    {
+      "name": "PI(18:1/22:6)"
+    },
+    {
+      "name": "PI(18:2/18:2)"
+    },
+    {
+      "name": "PI(18:2/20:0)"
+    },
+    {
+      "name": "PI(18:2/20:4)"
+    },
+    {
+      "name": "PI(20:0/20:4)"
+    },
+    {
+      "name": "PI(20:1/20:4)"
+    },
+    {
+      "name": "PI(20:2/20:4)"
+    },
+    {
+      "name": "PI(20:4/22:1)"
+    },
+    {
+      "name": "PIP(16:0/16:2)"
+    },
+    {
+      "name": "PIP(16:0/16:3)"
+    },
+    {
+      "name": "PIP(16:0/16:4)"
+    },
+    {
+      "name": "PS(14:0/18:0)"
+    },
+    {
+      "name": "PS(14:0/20:0)"
+    },
+    {
+      "name": "PS(14:0/22:0)"
+    },
+    {
+      "name": "PS(14:0/22:3)"
+    },
+    {
+      "name": "PS(14:1/20:0)"
+    },
+    {
+      "name": "PS(14:1/20:1)"
+    },
+    {
+      "name": "PS(14:1/22:2)"
+    },
+    {
+      "name": "PS(14:1/22:3)"
+    },
+    {
+      "name": "PS(14:1/22:4)"
+    },
+    {
+      "name": "PS(14:1/22:5)"
+    },
+    {
+      "name": "PS(16:0/16:0)"
+    },
+    {
+      "name": "PS(16:0/16:1)"
+    },
+    {
+      "name": "PS(16:0/18:0)"
+    },
+    {
+      "name": "PS(16:0/18:1)"
+    },
+    {
+      "name": "PS(16:0/18:2)"
+    },
+    {
+      "name": "PS(16:0/18:4)"
+    },
+    {
+      "name": "PS(16:0/20:0)"
+    },
+    {
+      "name": "PS(16:0/20:1)"
+    },
+    {
+      "name": "PS(16:0/20:2)"
+    },
+    {
+      "name": "PS(16:0/20:3)"
+    },
+    {
+      "name": "PS(16:0/20:4)"
+    },
+    {
+      "name": "PS(16:0/22:0)"
+    },
+    {
+      "name": "PS(16:0/22:1)"
+    },
+    {
+      "name": "PS(16:0/22:2)"
+    },
+    {
+      "name": "PS(16:0/22:4)"
+    },
+    {
+      "name": "PS(16:0/22:5)"
+    },
+    {
+      "name": "PS(16:0/22:6)"
+    },
+    {
+      "name": "PS(16:1/18:0)"
+    },
+    {
+      "name": "PS(16:1/20:0)"
+    },
+    {
+      "name": "PS(16:1/20:1)"
+    },
+    {
+      "name": "PS(16:1/22:0)"
+    },
+    {
+      "name": "PS(16:1/22:1)"
+    },
+    {
+      "name": "PS(16:1/22:2)"
+    },
+    {
+      "name": "PS(16:1/22:3)"
+    },
+    {
+      "name": "PS(16:1/22:5)"
+    },
+    {
+      "name": "PS(18:0/18:0)"
+    },
+    {
+      "name": "PS(18:0/18:1)"
+    },
+    {
+      "name": "PS(18:0/18:2)"
+    },
+    {
+      "name": "PS(18:0/20:0)"
+    },
+    {
+      "name": "PS(18:0/20:2)"
+    },
+    {
+      "name": "PS(18:0/20:3)"
+    },
+    {
+      "name": "PS(18:0/20:4)"
+    },
+    {
+      "name": "PS(18:0/20:5)"
+    },
+    {
+      "name": "PS(18:0/22:0)"
+    },
+    {
+      "name": "PS(18:0/22:1)"
+    },
+    {
+      "name": "PS(18:0/22:2)"
+    },
+    {
+      "name": "PS(18:0/22:3)"
+    },
+    {
+      "name": "PS(18:0/22:4)"
+    },
+    {
+      "name": "PS(18:0/22:5)"
+    },
+    {
+      "name": "PS(18:0/22:6)"
+    },
+    {
+      "name": "PS(18:1/18:1)"
+    },
+    {
+      "name": "PS(18:1/18:4)"
+    },
+    {
+      "name": "PS(18:1/20:0)"
+    },
+    {
+      "name": "PS(18:1/20:1)"
+    },
+    {
+      "name": "PS(18:1/20:3)"
+    },
+    {
+      "name": "PS(18:1/20:4)"
+    },
+    {
+      "name": "PS(18:1/22:0)"
+    },
+    {
+      "name": "PS(18:1/22:1)"
+    },
+    {
+      "name": "PS(18:1/22:2)"
+    },
+    {
+      "name": "PS(18:1/22:3)"
+    },
+    {
+      "name": "PS(18:1/22:4)"
+    },
+    {
+      "name": "PS(18:1/22:6)"
+    },
+    {
+      "name": "PS(18:2/20:0)"
+    },
+    {
+      "name": "PS(18:2/20:1)"
+    },
+    {
+      "name": "PS(18:2/20:2)"
+    },
+    {
+      "name": "PS(18:2/22:0)"
+    },
+    {
+      "name": "PS(18:2/22:1)"
+    },
+    {
+      "name": "PS(18:2/22:2)"
+    },
+    {
+      "name": "PS(18:2/22:3)"
+    },
+    {
+      "name": "PS(18:2/22:4)"
+    },
+    {
+      "name": "PS(18:2/22:6)"
+    },
+    {
+      "name": "PS(20:0/20:0)"
+    },
+    {
+      "name": "PS(20:0/22:0)"
+    },
+    {
+      "name": "PS(20:0/22:1)"
+    },
+    {
+      "name": "PS(20:1/22:0)"
+    },
+    {
+      "name": "PS(20:1/22:1)"
+    },
+    {
+      "name": "PS(20:1/22:4)"
+    },
+    {
+      "name": "PS(20:2/22:0)"
+    },
+    {
+      "name": "PS(20:2/22:1)"
+    },
+    {
+      "name": "PS(20:2/22:3)"
+    },
+    {
+      "name": "PS(20:3/22:0)"
+    },
+    {
+      "name": "PS(20:3/22:1)"
+    },
+    {
+      "name": "PS(20:3/22:2)"
+    },
+    {
+      "name": "PS(20:3/22:3)"
+    },
+    {
+      "name": "PS(20:3/22:4)"
+    },
+    {
+      "name": "PS(20:3/22:5)"
+    },
+    {
+      "name": "PS(20:4/22:0)"
+    },
+    {
+      "name": "PS(20:4/22:1)"
+    },
+    {
+      "name": "PS(20:4/22:2)"
+    },
+    {
+      "name": "PS(20:4/22:3)"
+    },
+    {
+      "name": "PS(20:4/22:4)"
+    },
+    {
+      "name": "PS(22:0/22:0)"
+    },
+    {
+      "name": "PS(22:0/22:1)"
+    },
+    {
+      "name": "PS(22:1/22:1)"
+    },
+    {
+      "name": "PS(22:3/22:3)"
+    },
+    {
+      "name": "SM(14:0)"
+    },
+    {
+      "name": "SM(16:0)"
+    },
+    {
+      "name": "SM(18:0)"
+    },
+    {
+      "name": "SM(18:1)"
+    },
+    {
+      "name": "SM(20:0)"
+    },
+    {
+      "name": "SM(20:1)"
+    },
+    {
+      "name": "SM(22:0)"
+    },
+    {
+      "name": "SM(22:1)"
+    },
+    {
+      "name": "SM(24:0)"
+    },
+    {
+      "name": "SM(24:1)"
+    },
+    {
+      "name": "SM(26:0)"
+    },
+    {
+      "name": "SM(26:1)"
+    },
+    {
+      "name": "TAG(40:0)_FA14:0"
+    },
+    {
+      "name": "TAG(40:0)_FA16:0"
+    },
+    {
+      "name": "TAG(42:0)_FA14:0"
+    },
+    {
+      "name": "TAG(42:0)_FA16:0"
+    },
+    {
+      "name": "TAG(42:1)_FA14:0"
+    },
+    {
+      "name": "TAG(42:1)_FA16:0"
+    },
+    {
+      "name": "TAG(42:1)_FA16:1"
+    },
+    {
+      "name": "TAG(42:1)_FA18:1"
+    },
+    {
+      "name": "TAG(42:2)_FA18:2"
+    },
+    {
+      "name": "TAG(44:0)_FA14:0"
+    },
+    {
+      "name": "TAG(44:0)_FA16:0"
+    },
+    {
+      "name": "TAG(44:0)_FA18:0"
+    },
+    {
+      "name": "TAG(44:1)_FA14:0"
+    },
+    {
+      "name": "TAG(44:1)_FA16:0"
+    },
+    {
+      "name": "TAG(44:1)_FA16:1"
+    },
+    {
+      "name": "TAG(44:1)_FA18:1"
+    },
+    {
+      "name": "TAG(44:2)_FA14:0"
+    },
+    {
+      "name": "TAG(44:2)_FA16:0"
+    },
+    {
+      "name": "TAG(44:2)_FA16:1"
+    },
+    {
+      "name": "TAG(44:2)_FA18:1"
+    },
+    {
+      "name": "TAG(44:2)_FA18:2"
+    },
+    {
+      "name": "TAG(44:3)_FA18:2"
+    },
+    {
+      "name": "TAG(45:0)_FA14:0"
+    },
+    {
+      "name": "TAG(45:0)_FA16:0"
+    },
+    {
+      "name": "TAG(45:1)_FA16:0"
+    },
+    {
+      "name": "TAG(45:1)_FA18:1"
+    },
+    {
+      "name": "TAG(46:0)_FA14:0"
+    },
+    {
+      "name": "TAG(46:0)_FA16:0"
+    },
+    {
+      "name": "TAG(46:0)_FA18:0"
+    },
+    {
+      "name": "TAG(46:1)_FA14:0"
+    },
+    {
+      "name": "TAG(46:1)_FA16:0"
+    },
+    {
+      "name": "TAG(46:1)_FA16:1"
+    },
+    {
+      "name": "TAG(46:1)_FA18:0"
+    },
+    {
+      "name": "TAG(46:1)_FA18:1"
+    },
+    {
+      "name": "TAG(46:2)_FA14:0"
+    },
+    {
+      "name": "TAG(46:2)_FA16:0"
+    },
+    {
+      "name": "TAG(46:2)_FA16:1"
+    },
+    {
+      "name": "TAG(46:2)_FA18:1"
+    },
+    {
+      "name": "TAG(46:2)_FA18:2"
+    },
+    {
+      "name": "TAG(46:3)_FA16:1"
+    },
+    {
+      "name": "TAG(46:3)_FA18:1"
+    },
+    {
+      "name": "TAG(46:3)_FA18:2"
+    },
+    {
+      "name": "TAG(47:0)_FA14:0"
+    },
+    {
+      "name": "TAG(47:0)_FA16:0"
+    },
+    {
+      "name": "TAG(47:0)_FA17:0"
+    },
+    {
+      "name": "TAG(47:1)_FA14:0"
+    },
+    {
+      "name": "TAG(47:1)_FA16:0"
+    },
+    {
+      "name": "TAG(47:1)_FA16:1"
+    },
+    {
+      "name": "TAG(47:1)_FA17:0"
+    },
+    {
+      "name": "TAG(47:1)_FA18:1"
+    },
+    {
+      "name": "TAG(47:2)_FA14:0"
+    },
+    {
+      "name": "TAG(47:2)_FA16:1"
+    },
+    {
+      "name": "TAG(47:2)_FA18:1"
+    },
+    {
+      "name": "TAG(47:2)_FA18:2"
+    },
+    {
+      "name": "TAG(48:0)_FA14:0"
+    },
+    {
+      "name": "TAG(48:0)_FA16:0"
+    },
+    {
+      "name": "TAG(48:0)_FA18:0"
+    },
+    {
+      "name": "TAG(48:1)_FA14:0"
+    },
+    {
+      "name": "TAG(48:1)_FA16:0"
+    },
+    {
+      "name": "TAG(48:1)_FA16:1"
+    },
+    {
+      "name": "TAG(48:1)_FA18:0"
+    },
+    {
+      "name": "TAG(48:1)_FA18:1"
+    },
+    {
+      "name": "TAG(48:2)_FA14:0"
+    },
+    {
+      "name": "TAG(48:2)_FA16:0"
+    },
+    {
+      "name": "TAG(48:2)_FA16:1"
+    },
+    {
+      "name": "TAG(48:2)_FA18:1"
+    },
+    {
+      "name": "TAG(48:2)_FA18:2"
+    },
+    {
+      "name": "TAG(48:3)_FA14:0"
+    },
+    {
+      "name": "TAG(48:3)_FA16:1"
+    },
+    {
+      "name": "TAG(48:3)_FA18:1"
+    },
+    {
+      "name": "TAG(48:3)_FA18:2"
+    },
+    {
+      "name": "TAG(48:4)_FA16:1"
+    },
+    {
+      "name": "TAG(48:4)_FA18:2"
+    },
+    {
+      "name": "TAG(49:0)_FA16:0"
+    },
+    {
+      "name": "TAG(49:0)_FA17:0"
+    },
+    {
+      "name": "TAG(49:0)_FA18:0"
+    },
+    {
+      "name": "TAG(49:1)_FA14:0"
+    },
+    {
+      "name": "TAG(49:1)_FA16:0"
+    },
+    {
+      "name": "TAG(49:1)_FA16:1"
+    },
+    {
+      "name": "TAG(49:1)_FA17:0"
+    },
+    {
+      "name": "TAG(49:1)_FA18:1"
+    },
+    {
+      "name": "TAG(49:2)_FA14:0"
+    },
+    {
+      "name": "TAG(49:2)_FA16:0"
+    },
+    {
+      "name": "TAG(49:2)_FA16:1"
+    },
+    {
+      "name": "TAG(49:2)_FA17:0"
+    },
+    {
+      "name": "TAG(49:2)_FA18:1"
+    },
+    {
+      "name": "TAG(49:2)_FA18:2"
+    },
+    {
+      "name": "TAG(49:3)_FA16:1"
+    },
+    {
+      "name": "TAG(49:3)_FA18:2"
+    },
+    {
+      "name": "TAG(50:0)_FA14:0"
+    },
+    {
+      "name": "TAG(50:0)_FA16:0"
+    },
+    {
+      "name": "TAG(50:0)_FA18:0"
+    },
+    {
+      "name": "TAG(50:1)_FA14:0"
+    },
+    {
+      "name": "TAG(50:1)_FA16:0"
+    },
+    {
+      "name": "TAG(50:1)_FA16:1"
+    },
+    {
+      "name": "TAG(50:1)_FA18:0"
+    },
+    {
+      "name": "TAG(50:1)_FA18:1"
+    },
+    {
+      "name": "TAG(50:1)_FA20:1"
+    },
+    {
+      "name": "TAG(50:2)_FA14:0"
+    },
+    {
+      "name": "TAG(50:2)_FA16:0"
+    },
+    {
+      "name": "TAG(50:2)_FA16:1"
+    },
+    {
+      "name": "TAG(50:2)_FA18:0"
+    },
+    {
+      "name": "TAG(50:2)_FA18:1"
+    },
+    {
+      "name": "TAG(50:2)_FA18:2"
+    },
+    {
+      "name": "TAG(50:2)_FA20:2"
+    },
+    {
+      "name": "TAG(50:3)_FA14:0"
+    },
+    {
+      "name": "TAG(50:3)_FA16:0"
+    },
+    {
+      "name": "TAG(50:3)_FA16:1"
+    },
+    {
+      "name": "TAG(50:3)_FA18:1"
+    },
+    {
+      "name": "TAG(50:3)_FA18:2"
+    },
+    {
+      "name": "TAG(50:4)_FA16:1"
+    },
+    {
+      "name": "TAG(50:4)_FA18:2"
+    },
+    {
+      "name": "TAG(50:5)_FA20:5"
+    },
+    {
+      "name": "TAG(51:0)_FA16:0"
+    },
+    {
+      "name": "TAG(51:0)_FA17:0"
+    },
+    {
+      "name": "TAG(51:0)_FA18:0"
+    },
+    {
+      "name": "TAG(51:1)_FA16:0"
+    },
+    {
+      "name": "TAG(51:1)_FA17:0"
+    },
+    {
+      "name": "TAG(51:1)_FA18:0"
+    },
+    {
+      "name": "TAG(51:1)_FA18:1"
+    },
+    {
+      "name": "TAG(51:2)_FA16:0"
+    },
+    {
+      "name": "TAG(51:2)_FA16:1"
+    },
+    {
+      "name": "TAG(51:2)_FA17:0"
+    },
+    {
+      "name": "TAG(51:2)_FA18:1"
+    },
+    {
+      "name": "TAG(51:2)_FA18:2"
+    },
+    {
+      "name": "TAG(51:3)_FA16:1"
+    },
+    {
+      "name": "TAG(51:3)_FA18:2"
+    },
+    {
+      "name": "TAG(51:4)_FA16:1"
+    },
+    {
+      "name": "TAG(51:4)_FA18:2"
+    },
+    {
+      "name": "TAG(52:0)_FA16:0"
+    },
+    {
+      "name": "TAG(52:0)_FA18:0"
+    },
+    {
+      "name": "TAG(52:0)_FA20:0"
+    },
+    {
+      "name": "TAG(52:1)_FA16:0"
+    },
+    {
+      "name": "TAG(52:1)_FA16:1"
+    },
+    {
+      "name": "TAG(52:1)_FA18:0"
+    },
+    {
+      "name": "TAG(52:1)_FA18:1"
+    },
+    {
+      "name": "TAG(52:1)_FA20:0"
+    },
+    {
+      "name": "TAG(52:1)_FA20:1"
+    },
+    {
+      "name": "TAG(52:2)_FA16:0"
+    },
+    {
+      "name": "TAG(52:2)_FA16:1"
+    },
+    {
+      "name": "TAG(52:2)_FA18:0"
+    },
+    {
+      "name": "TAG(52:2)_FA18:1"
+    },
+    {
+      "name": "TAG(52:2)_FA18:2"
+    },
+    {
+      "name": "TAG(52:2)_FA20:2"
+    },
+    {
+      "name": "TAG(52:3)_FA16:0"
+    },
+    {
+      "name": "TAG(52:3)_FA16:1"
+    },
+    {
+      "name": "TAG(52:3)_FA18:1"
+    },
+    {
+      "name": "TAG(52:3)_FA18:2"
+    },
+    {
+      "name": "TAG(52:3)_FA20:3"
+    },
+    {
+      "name": "TAG(52:4)_FA16:0"
+    },
+    {
+      "name": "TAG(52:4)_FA16:1"
+    },
+    {
+      "name": "TAG(52:4)_FA18:1"
+    },
+    {
+      "name": "TAG(52:4)_FA18:2"
+    },
+    {
+      "name": "TAG(52:4)_FA18:3"
+    },
+    {
+      "name": "TAG(52:4)_FA20:4"
+    },
+    {
+      "name": "TAG(52:5)_FA16:1"
+    },
+    {
+      "name": "TAG(52:5)_FA18:2"
+    },
+    {
+      "name": "TAG(52:5)_FA18:3"
+    },
+    {
+      "name": "TAG(52:5)_FA20:5"
+    },
+    {
+      "name": "TAG(53:0)_FA16:0"
+    },
+    {
+      "name": "TAG(53:1)_FA16:0"
+    },
+    {
+      "name": "TAG(53:1)_FA17:0"
+    },
+    {
+      "name": "TAG(53:1)_FA18:1"
+    },
+    {
+      "name": "TAG(53:2)_FA18:1"
+    },
+    {
+      "name": "TAG(54:0)_FA16:0"
+    },
+    {
+      "name": "TAG(54:0)_FA18:0"
+    },
+    {
+      "name": "TAG(54:1)_FA16:0"
+    },
+    {
+      "name": "TAG(54:1)_FA18:0"
+    },
+    {
+      "name": "TAG(54:1)_FA18:1"
+    },
+    {
+      "name": "TAG(54:1)_FA20:0"
+    },
+    {
+      "name": "TAG(54:1)_FA20:1"
+    },
+    {
+      "name": "TAG(54:2)_FA16:0"
+    },
+    {
+      "name": "TAG(54:2)_FA18:0"
+    },
+    {
+      "name": "TAG(54:2)_FA18:1"
+    },
+    {
+      "name": "TAG(54:2)_FA18:2"
+    },
+    {
+      "name": "TAG(54:2)_FA20:1"
+    },
+    {
+      "name": "TAG(54:2)_FA20:2"
+    },
+    {
+      "name": "TAG(54:3)_FA16:0"
+    },
+    {
+      "name": "TAG(54:3)_FA16:1"
+    },
+    {
+      "name": "TAG(54:3)_FA18:0"
+    },
+    {
+      "name": "TAG(54:3)_FA18:1"
+    },
+    {
+      "name": "TAG(54:3)_FA18:2"
+    },
+    {
+      "name": "TAG(54:3)_FA20:1"
+    },
+    {
+      "name": "TAG(54:3)_FA20:2"
+    },
+    {
+      "name": "TAG(54:4)_FA16:0"
+    },
+    {
+      "name": "TAG(54:4)_FA18:1"
+    },
+    {
+      "name": "TAG(54:4)_FA18:2"
+    },
+    {
+      "name": "TAG(54:4)_FA20:4"
+    },
+    {
+      "name": "TAG(54:5)_FA18:1"
+    },
+    {
+      "name": "TAG(54:5)_FA18:2"
+    },
+    {
+      "name": "TAG(54:5)_FA20:4"
+    },
+    {
+      "name": "TAG(54:5)_FA22:5"
+    },
+    {
+      "name": "TAG(54:6)_FA16:0"
+    },
+    {
+      "name": "TAG(54:6)_FA18:2"
+    },
+    {
+      "name": "TAG(54:6)_FA20:4"
+    },
+    {
+      "name": "TAG(54:6)_FA22:6"
+    },
+    {
+      "name": "TAG(55:1)_FA16:0"
+    },
+    {
+      "name": "TAG(55:1)_FA18:1"
+    },
+    {
+      "name": "TAG(55:2)_FA18:1"
+    },
+    {
+      "name": "TAG(56:1)_FA16:0"
+    },
+    {
+      "name": "TAG(56:1)_FA18:1"
+    },
+    {
+      "name": "TAG(56:2)_FA18:0"
+    },
+    {
+      "name": "TAG(56:3)_FA18:1"
+    },
+    {
+      "name": "TAG(56:3)_FA20:1"
+    },
+    {
+      "name": "TAG(56:4)_FA18:1"
+    },
+    {
+      "name": "TAG(56:5)_FA18:1"
+    },
+    {
+      "name": "TAG(56:5)_FA18:2"
+    },
+    {
+      "name": "TAG(56:5)_FA20:4"
+    },
+    {
+      "name": "TAG(56:6)_FA16:0"
+    },
+    {
+      "name": "TAG(56:6)_FA18:1"
+    },
+    {
+      "name": "TAG(56:6)_FA18:2"
+    },
+    {
+      "name": "TAG(56:6)_FA20:4"
+    },
+    {
+      "name": "TAG(56:7)_FA20:4"
+    },
+    {
+      "name": "TAG(56:7)_FA22:6"
+    },
+    {
+      "name": "TAG(56:8)_FA20:4"
+    },
+    {
+      "name": "TAG(56:8)_FA22:6"
+    },
+    {
+      "name": "TAG(57:2)_FA18:1"
+    },
+    {
+      "name": "TAG(58:2)_FA18:1"
+    },
+    {
+      "name": "TAG(58:3)_FA18:1"
+    },
+    {
+      "name": "TAG(58:8)_FA22:6"
+    },
+    {
+      "name": "TAG(58:9)_FA22:6"
+    },
+    {
+      "name": "water"
+    }
+  ],
+  "repository_metadata_file_list": [
+    {
+      "name": "a_MTBLS30008993_CE-MS_positive_reversed-phase-chromatography.txt",
+      "url_list": [
+        "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS30008993/a_MTBLS30008993_CE-MS_positive_reversed-phase-chromatography.txt",
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS30008993/a_MTBLS30008993_CE-MS_positive_reversed-phase-chromatography.txt"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3687",
+        "name": "ISA-TAB"
+      }
+    },
+    {
+      "name": "a_MTBLS30008993_LC-MS_alternating_reverse-phase_metabolite_profiling.txt",
+      "url_list": [
+        "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS30008993/a_MTBLS30008993_LC-MS_alternating_reverse-phase_metabolite_profiling.txt",
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS30008993/a_MTBLS30008993_LC-MS_alternating_reverse-phase_metabolite_profiling.txt"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3687",
+        "name": "ISA-TAB"
+      }
+    },
+    {
+      "name": "i_Investigation.txt",
+      "url_list": [
+        "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS30008993/i_Investigation.txt",
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS30008993/i_Investigation.txt"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3687",
+        "name": "ISA-TAB"
+      }
+    },
+    {
+      "name": "s_MTBLS30008993.txt",
+      "url_list": [
+        "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS30008993/s_MTBLS30008993.txt",
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS30008993/s_MTBLS30008993.txt"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3687",
+        "name": "ISA-TAB"
+      }
+    }
+  ],
+  "derived_data_file_list": [
+    {
+      "name": "FILES/DERIVED_FILES/GSXB-spl-FL_2.mzML",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS30008993/FILES/DERIVED_FILES/GSXB-spl-FL_2.mzML"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3244",
+        "name": "mzML"
+      }
+    },
+    {
+      "name": "FILES/DERIVED_FILES/GSXB-spl-FL_3.mzML",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS30008993/FILES/DERIVED_FILES/GSXB-spl-FL_3.mzML"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3244",
+        "name": "mzML"
+      }
+    },
+    {
+      "name": "FILES/DERIVED_FILES/GSXB-spl-FL_4.mzML",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS30008993/FILES/DERIVED_FILES/GSXB-spl-FL_4.mzML"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3244",
+        "name": "mzML"
+      }
+    },
+    {
+      "name": "FILES/DERIVED_FILES/GSXB-spl-KO_1.mzML",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS30008993/FILES/DERIVED_FILES/GSXB-spl-KO_1.mzML"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3244",
+        "name": "mzML"
+      }
+    },
+    {
+      "name": "FILES/DERIVED_FILES/GSXB-spl-KO_2.mzML",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS30008993/FILES/DERIVED_FILES/GSXB-spl-KO_2.mzML"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3244",
+        "name": "mzML"
+      }
+    },
+    {
+      "name": "FILES/DERIVED_FILES/GSXB-spl-KO_3.mzML",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS30008993/FILES/DERIVED_FILES/GSXB-spl-KO_3.mzML"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3244",
+        "name": "mzML"
+      }
+    },
+    {
+      "name": "FILES/DERIVED_FILES/GSXB-spl-KO_4.mzML",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS30008993/FILES/DERIVED_FILES/GSXB-spl-KO_4.mzML"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3244",
+        "name": "mzML"
+      }
+    }
+  ],
+  "result_file_list": [
+    {
+      "name": "m_MTBLS30008993_CE-MS_positive_reversed-phase-chromatography_v2_maf.tsv",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS30008993/m_MTBLS30008993_CE-MS_positive_reversed-phase-chromatography_v2_maf.tsv",
+        "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS30008993/m_MTBLS30008993_CE-MS_positive_reversed-phase-chromatography_v2_maf.tsv"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3475",
+        "name": "TSV"
+      }
+    },
+    {
+      "name": "m_MTBLS30008993_LC-MS_alternating_reverse-phase_metabolite_profiling_v2_maf.tsv",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS30008993/m_MTBLS30008993_LC-MS_alternating_reverse-phase_metabolite_profiling_v2_maf.tsv",
+        "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS30008993/m_MTBLS30008993_LC-MS_alternating_reverse-phase_metabolite_profiling_v2_maf.tsv"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3475",
+        "name": "TSV"
+      }
+    }
+  ]
+}

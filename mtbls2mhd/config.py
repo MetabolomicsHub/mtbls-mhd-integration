@@ -1,19 +1,19 @@
+from dotenv import dotenv_values
 from pydantic import AnyUrl, BaseModel
-from pydantic_settings import BaseSettings, SettingsConfigDict
 
 mhd_model_v0_1_schema_uri: str = "https://metabolomicshub.github.io/mhd-model/schemas/v0_1/common-data-model-v0.1.schema.json"
 mhd_model_v0_1_ms_profile_uri: str = "https://metabolomicshub.github.io/mhd-model/schemas/v0_1/common-data-model-v0.1.ms-profile.json"
 mhd_model_v0_1_legacy_profile_uri: str = "https://metabolomicshub.github.io/mhd-model/schemas/v0_1/common-data-model-v0.1.legacy-profile.json"
 
 
-class Mtbls2MhdConfiguration(BaseSettings):
-    database_name: str
-    database_user: str
-    database_user_password: str
-    database_host: str
+class Mtbls2MhdConfiguration(BaseModel):
+    database_name: None | str = None
+    database_user: None | str = None
+    database_user_password: None | str = None
+    database_host: None | str = None
     database_host_port: int = 5432
-    selected_schema_uri: str
-    selected_profile_uri: str
+    selected_schema_uri: None | str = None
+    selected_profile_uri: None | str = None
     public_ftp_base_url: str = (
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public"
     )
@@ -25,8 +25,7 @@ class Mtbls2MhdConfiguration(BaseSettings):
         "https://creativecommons.org/publicdomain/zero/1.0"
     )
     default_mhd_model_version: str = "0.1"
-    mtbls_studies_root_path: str
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
+    mtbls_studies_root_path: None | str = None
 
 
 class DatabaseConfiguration(BaseModel):
@@ -64,5 +63,7 @@ class ConfigurationFile(BaseModel):
 
 
 def get_default_config() -> Mtbls2MhdConfiguration:
-    mtbls2mhd_config = Mtbls2MhdConfiguration()
+    env_vars = dotenv_values(".env")
+    config_kwargs = {k.lower(): v for k, v in env_vars.items()} if env_vars else {}
+    mtbls2mhd_config = Mtbls2MhdConfiguration(**config_kwargs)
     return mtbls2mhd_config

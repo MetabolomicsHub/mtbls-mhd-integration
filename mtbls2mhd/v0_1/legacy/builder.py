@@ -242,6 +242,12 @@ COMMON_PROTOCOL_PARAMETER_VALUE_MAP = {
         # "Solvent": COMMON_PARAMETER_DEFINITIONS["solvent"],
         # "Chromatographic additive": COMMON_PARAMETER_DEFINITIONS["chromatographic additive"],
     },
+    "Capillary Electrophoresis": {
+        "Column model": COMMON_PARAMETER_DEFINITIONS["chromatography column"],
+        "Column type": COMMON_PARAMETER_DEFINITIONS["chromatography separation"],
+        # "Solvent": COMMON_PARAMETER_DEFINITIONS["solvent"],
+        # "Chromatographic additive": COMMON_PARAMETER_DEFINITIONS["chromatographic additive"],
+    },
 }
 ALL_COMMON_PROTOCOL_PARAMETERS = {}
 for _, items in COMMON_PROTOCOL_PARAMETER_VALUE_MAP.items():
@@ -254,11 +260,6 @@ MTBLS_PROTOCOL_PARAMETER_DEFINITION_MAP.update(
     {
         "Mass spectrometry": {
             **COMMON_PROTOCOL_PARAMETER_VALUE_MAP["Mass spectrometry"],
-            "CE instrument": CvTerm(
-                source="OBI",
-                accession="OBI:0001132",
-                name="capillary electrophoresis instrument",
-            ),
             # "Scan m/z range": COMMON_PARAMETER_DEFINITIONS["MTBLS:50020"],
             # "FIA instrument": COMMON_PARAMETER_DEFINITIONS["MTBLS:50021"],
         },
@@ -266,6 +267,14 @@ MTBLS_PROTOCOL_PARAMETER_DEFINITION_MAP.update(
             **COMMON_PROTOCOL_PARAMETER_VALUE_MAP["Chromatography"],
             # "Guard column": COMMON_PARAMETER_DEFINITIONS["MTBLS:50003"],
             # "Autosampler model": COMMON_PARAMETER_DEFINITIONS["MTBLS:50004"],
+        },
+        "Capillary Electrophoresis": {
+            "CE instrument": CvTerm(
+                source="OBI",
+                accession="OBI:0001132",
+                name="capillary electrophoresis instrument",
+            ),
+            **COMMON_PROTOCOL_PARAMETER_VALUE_MAP["Capillary Electrophoresis"],
         },
         "Extraction": {
             # "Post Extraction": COMMON_PARAMETER_DEFINITIONS["MTBLS:50010"],
@@ -1621,11 +1630,8 @@ class MhdLegacyDatasetBuilder:
     def get_parameter_cv(
         self, protocol_name: str, parameter_name: str
     ) -> CvTerm | None:
-        if protocol_name in MTBLS_PROTOCOL_PARAMETER_DEFINITION_MAP:
-            params = MTBLS_PROTOCOL_PARAMETER_DEFINITION_MAP[protocol_name]
-            if parameter_name in params and params[parameter_name]:
-                return params[parameter_name]
-        return None
+        parameters_dict = MTBLS_PROTOCOL_PARAMETER_DEFINITION_MAP.get(protocol_name, {})
+        return parameters_dict.get(parameter_name, None)
 
     def add_protocols(
         self, mhd_builder: MhDatasetBuilder, mhd_study: mhd_domain.Study, study: Study
@@ -2318,7 +2324,7 @@ class MhdLegacyDatasetBuilder:
         mtbls_study_repository_url: str,
         target_mhd_model_schema_uri: str,
         target_mhd_model_profile_uri: str,
-        config: Mtbls2MhdConfiguration,
+        config: None | Mtbls2MhdConfiguration,
         repository_name: str,
         cached_mtbls_model_file_path: None | Path = None,
         revision: None | Revision = None,
@@ -2326,6 +2332,7 @@ class MhdLegacyDatasetBuilder:
         **kwargs,
     ) -> MhDatasetLegacyProfile:
         mhd_output_filename = kwargs.get("mhd_output_filename", None)
+        mhd_model_data = kwargs.get("mhd_model_data", None)
         dataset_provider = create_cv_term_value_object(
             type_="data-provider",
             source="NCIT",
@@ -2333,7 +2340,8 @@ class MhdLegacyDatasetBuilder:
             name="Study Data Repository",
             value=repository_name,
         )
-
+        if mhd_model_data:
+            data = mhd_model_data
         if (
             not cached_mtbls_model_file_path
             or not cached_mtbls_model_file_path.exists()
