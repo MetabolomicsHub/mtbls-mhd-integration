@@ -2329,10 +2329,10 @@ class MhdLegacyDatasetBuilder:
         cached_mtbls_model_file_path: None | Path = None,
         revision: None | Revision = None,
         build_type: BuildType = BuildType.FULL,
+        metabolights_study_model: None | MetabolightsStudyModel = None,
         **kwargs,
     ) -> MhDatasetLegacyProfile:
         mhd_output_filename = kwargs.get("mhd_output_filename", None)
-        mhd_model_data = kwargs.get("mhd_model_data", None)
         dataset_provider = create_cv_term_value_object(
             type_="data-provider",
             source="NCIT",
@@ -2340,12 +2340,16 @@ class MhdLegacyDatasetBuilder:
             name="Study Data Repository",
             value=repository_name,
         )
-        if mhd_model_data:
-            data = mhd_model_data
-        if (
-            not cached_mtbls_model_file_path
-            or not cached_mtbls_model_file_path.exists()
-        ):
+        if metabolights_study_model:
+            data = metabolights_study_model
+        elif cached_mtbls_model_file_path and cached_mtbls_model_file_path.exists():
+            with cached_mtbls_model_file_path.open("r") as fr:
+                data: MetabolightsStudyModel = (
+                    MetabolightsStudyModel.model_validate_json(
+                        cached_mtbls_model_file_path.read_text()
+                    )
+                )
+        else:
             connection = create_postgresql_connection(config)
             db_collector = DbMetadataCollector(config)
             provider = MetabolightsStudyProvider(
@@ -2364,11 +2368,7 @@ class MhdLegacyDatasetBuilder:
             if cached_mtbls_model_file_path:
                 with cached_mtbls_model_file_path.open("w") as fr:
                     json.dump(data.model_dump(by_alias=True), fr)
-        else:
-            with cached_mtbls_model_file_path.open("r") as fr:
-                data: MetabolightsStudyModel = MetabolightsStudyModel.model_validate(
-                    json.load(fr)
-                )
+
         if not data.investigation.studies:
             error = f"{data.investigation_file_path} file does not have any study. Skipping..."
             logger.warning(error)
