@@ -7,7 +7,8 @@ repos:
   rev: v6.0.0
   hooks:
   - id: check-added-large-files
-    args: [ "--maxkb=2000" ]
+    args: [ "--maxkb=4000" ]
+    exclude: .+_model\.json
   - id: check-toml
   - id: check-json
     exclude: .vscode/.+

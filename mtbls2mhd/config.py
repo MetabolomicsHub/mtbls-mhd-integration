@@ -56,10 +56,10 @@ class FoldersConfiguration(BaseModel):
 
 
 class ConfigurationFile(BaseModel):
-    db: DatabaseConfiguration
-    urls: UrlConfiguration
-    license: LicenseConfiguration
-    folders: FoldersConfiguration
+    db: None | DatabaseConfiguration = None
+    urls: UrlConfiguration = UrlConfiguration()
+    license: LicenseConfiguration = LicenseConfiguration()
+    folders: None | FoldersConfiguration = None
 
 
 def get_default_config() -> Mtbls2MhdConfiguration:

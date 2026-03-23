@@ -305,6 +305,7 @@ FILE_EXTENSIONS: dict[tuple[str, bool], CvTerm] = {
         source="EDAM", accession="EDAM:format_3654", name="mzXML"
     ),
     (".ibd", False): CvTerm(source="EDAM", accession="EDAM:format_3839", name="ibd"),
+    (".cdf", False): CvTerm(source="EDAM", accession="EDAM:format_3839", name="ibd"),
 }
 
 # DEFAULT_RAW_DATA_FILE_FORMAT = CvTerm(
@@ -422,7 +423,7 @@ class MhdLegacyDatasetBuilder:
                     mhd_contact = mhd_domain.Person(
                         full_name=" ".join(
                             [
-                                x
+                                x if len(x) > 1 else f"{x}."
                                 for x in (
                                     submitter.first_name,
                                     submitter.last_name,
@@ -449,7 +450,7 @@ class MhdLegacyDatasetBuilder:
                     mhd_contact = mhd_domain.Person(
                         full_name=" ".join(
                             [
-                                x
+                                x if len(x) > 1 else f"{x}."
                                 for x in (
                                     contact.first_name,
                                     contact.mid_initials,
@@ -559,7 +560,7 @@ class MhdLegacyDatasetBuilder:
                         mhd_contact = mhd_domain.Person(
                             full_name=" ".join(
                                 [
-                                    x
+                                    x if len(x) > 1 else f"{x}."
                                     for x in (
                                         submitter.first_name,
                                         submitter.last_name,
@@ -1089,6 +1090,9 @@ class MhdLegacyDatasetBuilder:
         characteristic_values_map: dict[str, dict[str, mhd_domain.CvTermObject]] = {}
         factors_values_map: dict[str, dict[str, mhd_domain.CvTermObject]] = {}
         for idx, name in enumerate(data["Sample Name"]):
+            if not name:
+                logger.warning("Sample name is not defined at row: %s", idx + 1)
+                continue
             if build_type == BuildType.MINIMUM:
                 characteristic_values = self.create_values(
                     mhd_builder,
@@ -1926,7 +1930,7 @@ class MhdLegacyDatasetBuilder:
                 )
                 cv_nodes[data_format_node.accession] = data_format_node
 
-        data_format_node = cv_nodes[data_format.accession]
+            data_format_node = cv_nodes[data_format.accession]
         return zip_file_format_node, data_format_node, file_extension
 
     def add_data_files(
@@ -2045,7 +2049,7 @@ class MhdLegacyDatasetBuilder:
                     default_format=None,
                     cv_nodes=cv_nodes,
                 )
-                if not data_format:
+                if data_format:
                     mhd_builder.add(data_format)
                 if compression_format:
                     mhd_builder.add(compression_format)
@@ -2315,6 +2319,14 @@ class MhdLegacyDatasetBuilder:
             self.add_assay_protocols(mhd_builder, mhd_study, data, mhd_assay)
         return assays
 
+    def convert_str_to_datetime(self, val: str):
+        if not val or len(val) < 10:
+            return None
+        if len(val) >= 10:
+            return datetime.datetime.strptime(val[:10], "%Y-%m-%d")
+
+        return datetime.datetime.strptime(val, "%Y-%m-%d")
+
     def build(
         self,
         mhd_id: None | str,
@@ -2375,9 +2387,14 @@ class MhdLegacyDatasetBuilder:
             return False, error
         db_metadata = data.study_db_metadata
         if not revision:
+            revision_str = (
+                db_metadata.revision_date[:10]
+                if db_metadata.revision_date and len(db_metadata.revision_date) >= 10
+                else ""
+            )
             revision_date = (
-                datetime.datetime.strptime(db_metadata.revision_date, "%Y-%m-%d")
-                if db_metadata and db_metadata.revision_date
+                datetime.datetime.strptime(revision_str, "%Y-%m-%d")
+                if revision_str
                 else None
             )
             if revision_date:
@@ -2450,28 +2467,26 @@ class MhdLegacyDatasetBuilder:
                 data.study_db_metadata.release_date,
             )
         # actual or estimated
-        submission_date_str = None
-        public_release_date_str = None
+        submission_date = None
+        public_release_date = None
         if db_metadata:
             if db_metadata.first_private_date:
-                submission_date_str = db_metadata.first_private_date
+                submission_date = self.convert_str_to_datetime(
+                    db_metadata.first_private_date
+                )
             elif db_metadata.submission_date:
-                submission_date_str = db_metadata.submission_date
+                submission_date = self.convert_str_to_datetime(
+                    db_metadata.submission_date
+                )
             if db_metadata.first_public_date:
-                public_release_date_str = db_metadata.first_public_date
+                public_release_date = self.convert_str_to_datetime(
+                    db_metadata.first_public_date
+                )
             elif db_metadata.release_date:
-                public_release_date_str = db_metadata.release_date
+                public_release_date = self.convert_str_to_datetime(
+                    db_metadata.release_date
+                )
 
-        public_release_date = (
-            datetime.datetime.strptime(public_release_date_str, "%Y-%m-%d")
-            if public_release_date_str
-            else None
-        )
-        submission_date = (
-            datetime.datetime.strptime(submission_date_str, "%Y-%m-%d")
-            if submission_date_str
-            else None
-        )
         mhd_study = mhd_domain.Study(
             repository_identifier=study.identifier,
             created_by_ref=dataset_provider.id_,

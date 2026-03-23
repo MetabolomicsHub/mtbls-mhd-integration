@@ -5,20 +5,11 @@ import jsonschema
 from metabolights_utils.models.metabolights.model import (
     MetabolightsStudyModel,
 )
-from metabolights_utils.provider.study_provider import (
-    MetabolightsStudyProvider,
-)
 from mhd_model.model.v0_1.dataset.validation.validator import validate_mhd_model
 
+from mtbls2mhd.commands.fetch_mtbls_study import fetch_mtbls_data
 from mtbls2mhd.config import Mtbls2MhdConfiguration, get_default_config
 from mtbls2mhd.convertor_factory import Mtbls2MhdConvertorFactory
-from mtbls2mhd.v0_1.legacy.db_metadata_collector import (
-    DbMetadataCollector,
-    create_postgresql_connection,
-)
-from mtbls2mhd.v0_1.legacy.folder_metadata_collector import (
-    LocalFolderMetadataCollector,
-)
 from scripts.utils import setup_basic_logging_config
 
 logger = logging.getLogger(__name__)
@@ -67,7 +58,9 @@ def convert_mtbls_study_to_mhd(
 
 
 def convert_mtbls_study_model_to_mhd(
-    mtbls_study_id: str, mtbls_config: None | Mtbls2MhdConfiguration = None
+    mtbls_study_id: str,
+    mtbls_config: Mtbls2MhdConfiguration,
+    mtbls_ws_url: str = "https://www.ebi.ac.uk/metabolights/ws3",
 ) -> tuple[bool, dict[str, list[jsonschema.ValidationError]]]:
     root_path = mtbls_config.mtbls_studies_root_path
     factory = Mtbls2MhdConvertorFactory()
@@ -84,22 +77,19 @@ def convert_mtbls_study_model_to_mhd(
     mhd_output_root_path.mkdir(exist_ok=True, parents=True)
     mtbls_study_id.removeprefix("MTBLS").removeprefix("REQ")
     mhd_output_filename = f"{mtbls_study_id}.mhd.json"
-    connection = create_postgresql_connection(mtbls_config)
-    db_collector = DbMetadataCollector(mtbls_config)
-    provider = MetabolightsStudyProvider(
-        db_metadata_collector=db_collector,
-        folder_metadata_collector=LocalFolderMetadataCollector(),
-    )
-    metabolights_study_model: MetabolightsStudyModel = provider.load_study(
+
+    output_dir_path = Path("tests/mtbls_model")
+    mtbls_model_file_path = output_dir_path / f"{mtbls_study_id}_model.json"
+    file_path = fetch_mtbls_data(
         mtbls_study_id,
-        study_path=str(mtbls_study_path),
-        load_assay_files=True,
-        load_sample_file=True,
-        load_maf_files=True,
-        load_folder_metadata=True,
-        connection=connection,
+        output_folder_path=output_dir_path,
+        output_filename=mtbls_model_file_path.name,
+        mtbls_ws_url=mtbls_ws_url,
     )
 
+    metabolights_study_model = MetabolightsStudyModel.model_validate_json(
+        file_path.read_text()
+    )
     convertor.convert(
         repository_name="MetaboLights",
         repository_identifier=mtbls_study_id,
@@ -127,8 +117,13 @@ def convert_mtbls_study_model_to_mhd(
 
 if __name__ == "__main__":
     setup_basic_logging_config()
-    study_ids = ["MTBLS30008993", "MTBLS30008997"]
+    # study_ids = ["MTBLS30008993", "MTBLS30008997"]
+    study_ids = ["MTBLS3", "MTBLS2"]
     mtbls_config = get_default_config()
 
     for mtbls_study_id in study_ids:
-        convert_mtbls_study_model_to_mhd(mtbls_study_id, mtbls_config)
+        convert_mtbls_study_model_to_mhd(
+            mtbls_study_id,
+            mtbls_config,
+            mtbls_ws_url="https://wwwdev.ebi.ac.uk/metabolights/ws3",
+        )
