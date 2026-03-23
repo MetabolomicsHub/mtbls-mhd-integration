@@ -1,3 +1,9 @@
+## v0.0.22 (2026-03-20)
+
+### Fix
+
+- model validation using mhd-model library
+
 ## v0.0.21 (2026-03-19)
 
 ### Fix
