@@ -298,7 +298,7 @@ class DbMetadataCollector(AbstractDbMetadataCollector):
         )
 
         study_db_metadata.study_category = StudyCategory(study["study_category"])
-        study_db_metadata.mhd_model_version = study["mhd_model_version"]
+        study_db_metadata.mhd_model_version = study["mhd_model_version"] or ""
         study_db_metadata.reserved_mhd_accession = study["mhd_accession"] or ""
         study_db_metadata.created_at = (
             self._get_date_time_string(study["created_at"]) or ""
