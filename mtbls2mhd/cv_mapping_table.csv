@@ -653,3 +653,6 @@ MS_1003727,graphitized carbon stationary phase gas-solid chromatography,,,,chrom
 MS_1003915,two-dimensional gas chromatography,,,,chromatography separation,Parameter Value[Column type],Chromatography type,ChromatographyAndPhase,,,
 MS_1000058,flow injection analysis,,Flow induction analysis,,inlet type,,Chromatography type,,,,
 MS_1000060,infusion,,None (Direct infusion),,inlet type,,Chromatography type,,,,
+MS_1000076,negative polarity acquisition,,negative,,acquisition polarity,Parameter Value[Scan polarity],,,,,
+MS_1000077,positive polarity acquisition,,positive,,acquisition polarity,Parameter Value[Scan polarity],,,,,
+MS_1002833,alternating polarity acquisition,,alternating,,acquisition polarity,Parameter Value[Scan polarity],,,,,
