@@ -1,3 +1,9 @@
+## v0.0.23 (2026-03-23)
+
+### Fix
+
+- mtbls mhd files can created on local
+
 ## v0.0.22 (2026-03-20)
 
 ### Fix
