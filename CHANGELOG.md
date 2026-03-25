@@ -1,3 +1,9 @@
+## v0.0.25 (2026-03-25)
+
+### Fix
+
+- mhd_model_version default value error
+
 ## v0.0.24 (2026-03-25)
 
 ### Fix
