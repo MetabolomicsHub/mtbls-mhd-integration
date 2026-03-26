@@ -1,3 +1,9 @@
+## v0.0.26 (2026-03-26)
+
+### Fix
+
+- mtbls conversion errors for legacy studies
+
 ## v0.0.25 (2026-03-25)
 
 ### Fix
