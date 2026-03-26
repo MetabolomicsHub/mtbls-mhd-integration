@@ -1,5 +1,6 @@
 import json
 import logging
+import traceback
 from pathlib import Path
 
 import jsonschema
@@ -9,6 +10,7 @@ from metabolights_utils.models.metabolights.model import (
 from metabolights_utils.provider.study_provider import (
     MetabolightsStudyProvider,
 )
+from mhd_model.convertors.mhd.convertor import BaseMhdConvertor
 from mhd_model.model.v0_1.dataset.validation.validator import validate_mhd_model
 from psycopg import Connection
 from psycopg.rows import TupleRow
@@ -38,6 +40,8 @@ def convert_mtbls_study_to_mhd(
     mhd_output_root_path: None | Path = None,
     mhd_announcement_output_root_path: None | Path = None,
     mtbls_model_source_path: None | Path = None,
+    convertor: None | BaseMhdConvertor = None,
+    errors_file_path: None | Path = None,
 ) -> tuple[bool | None, dict[str, list[jsonschema.ValidationError]]]:
     root_path = mtbls_config.mtbls_studies_root_path
 
@@ -52,14 +56,26 @@ def convert_mtbls_study_to_mhd(
     announcement_file_path = mhd_announcement_output_root_path / Path(
         announcement_file_name
     )
-    if announcement_file_path.exists() and mhd_file_path.exists():
-        return None, []
 
-    factory = Mtbls2MhdConvertorFactory()
-    convertor = factory.get_convertor(
-        target_mhd_model_schema_uri=mtbls_config.selected_schema_uri,
-        target_mhd_model_profile_uri=mtbls_config.selected_profile_uri,
-    )
+    if (
+        announcement_file_path.exists()
+        and mhd_file_path.exists()
+        and errors_file_path
+        and not errors_file_path.exists()
+    ):
+        return None, []
+    if mhd_file_path.exists():
+        mhd_file_path.unlink()
+    if announcement_file_path.exists():
+        announcement_file_path.unlink()
+    if errors_file_path and errors_file_path.exists():
+        errors_file_path.unlink()
+    if not convertor:
+        factory = Mtbls2MhdConvertorFactory()
+        convertor = factory.get_convertor(
+            target_mhd_model_schema_uri=mtbls_config.selected_schema_uri,
+            target_mhd_model_profile_uri=mtbls_config.selected_profile_uri,
+        )
     mtbls_study_path = Path(root_path) / Path(mtbls_study_id)
 
     if not mtbls_study_path.exists():
@@ -71,24 +87,47 @@ def convert_mtbls_study_to_mhd(
         metabolights_study_model = MetabolightsStudyModel.model_validate_json(
             mtbls_model_source_path.read_text(), by_alias=True
         )
-    convertor.convert(
-        repository_name="MetaboLights",
-        repository_identifier=mtbls_study_id,
-        mhd_identifier=None,
-        mhd_output_folder_path=mhd_output_root_path,
-        mhd_output_filename=mhd_output_filename,
-        config=mtbls_config,
-        metabolights_study_model=metabolights_study_model,
-    )
+    try:
+        convertor.convert(
+            repository_name="MetaboLights",
+            repository_identifier=mtbls_study_id,
+            mhd_identifier=None,
+            mhd_output_folder_path=mhd_output_root_path,
+            mhd_output_filename=mhd_output_filename,
+            config=mtbls_config,
+            metabolights_study_model=metabolights_study_model,
+        )
 
-    mhd_file_url = mtbls_config.study_http_base_url + mtbls_study_id
-    return validate_mhd_model(
-        repository_study_id=mtbls_study_id,
-        mhd_file_path=mhd_file_path,
-        validate_announcement_file=True,
-        announcement_file_path=announcement_file_path,
-        mhd_file_url=mhd_file_url,
-    )
+    except Exception:
+        if mhd_file_path.exists():
+            mhd_file_path.unlink()
+        if announcement_file_path.exists():
+            announcement_file_path.unlink()
+        return False, {
+            mhd_file_path.name: [
+                ("error", jsonschema.ValidationError(message=traceback.format_exc()))
+            ]
+        }
+
+    try:
+        mhd_file_url = mtbls_config.study_http_base_url + "/" + mtbls_study_id
+        return validate_mhd_model(
+            repository_study_id=mtbls_study_id,
+            mhd_file_path=mhd_file_path,
+            validate_announcement_file=True,
+            announcement_file_path=announcement_file_path,
+            mhd_file_url=mhd_file_url,
+        )
+    except Exception:
+        if mhd_file_path.exists():
+            mhd_file_path.unlink()
+        if announcement_file_path.exists():
+            announcement_file_path.unlink()
+        return False, {
+            "input": [
+                ("error", jsonschema.ValidationError(message=traceback.format_exc()))
+            ]
+        }
 
 
 def convert_mtbls_study_model_to_mhd(
@@ -150,6 +189,8 @@ def convert_mtbls_study_model_to_mhd(
 
 
 def write_to_file(errors_file_path, success, errors):
+    if success and errors_file_path.exists():
+        errors_file_path.unlink()
     if not success or errors:
         errors_dict = {}
         for file, val in errors.items():
@@ -186,6 +227,20 @@ def create_mtbls_model(
             connection=connection,
         )
     else:
+        data_json = json.loads(mtbls_model_target_path.read_text())
+        version = data_json.get("studyDbMetadata", {}).get("mhdModelVersion", "")
+        dataset_license_url = data_json.get("studyDbMetadata", {}).get(
+            "datasetLicenseUrl", ""
+        )
+        if version is None:
+            data_json.get("studyDbMetadata", {})["mhdModelVersion"] = ""
+        if dataset_license_url is None:
+            data_json.get("studyDbMetadata", {})["datasetLicenseUrl"] = (
+                "https://www.ebi.ac.uk/about/terms-of-use/"
+            )
+        if version is None or dataset_license_url is None:
+            mtbls_model_target_path.write_text(json.dumps(data_json, indent=2))
+
         data = MetabolightsStudyModel.model_validate_json(
             mtbls_model_target_path.read_text(), by_alias=True
         )
@@ -218,10 +273,8 @@ def create_mtbls_model(
             )
 
 
-if __name__ == "__main__":
-    setup_basic_logging_config()
+def create_mtbls_models(skip_current: bool = True):
     mtbls_config = get_default_config()
-    mhd_output_root_path = Path(".outputs/mhd_legacy")
     root_path = mtbls_config.mtbls_studies_root_path
 
     connection = create_postgresql_connection(mtbls_config)
@@ -233,10 +286,6 @@ if __name__ == "__main__":
         data = cursor.fetchall()
     except Exception as ex:
         raise ex
-
-    # study_ids = [
-    #     x for x in Path("legacy.txt").read_text().split("\n") if x and x.strip()
-    # ]
     study_ids = [x.get("acc") for x in data]
     study_ids.sort(
         key=lambda x: int(x.replace("MTBLS", "").replace("REQ", "")), reverse=True
@@ -258,8 +307,14 @@ if __name__ == "__main__":
         "MS",
     }
     mtbls_model_root_path = Path(".outputs/mtbls_model")
+
     mtbls_model_root_path.mkdir(parents=True, exist_ok=True)
     for mtbls_study_id in study_ids:
+        mtbls_model_target_path = mtbls_model_root_path / Path(
+            f"{mtbls_study_id}_model.json"
+        )
+        if mtbls_model_target_path.exists():
+            continue
         create_mtbls_model(
             mtbls_study_id=mtbls_study_id,
             provider=provider,
@@ -269,37 +324,76 @@ if __name__ == "__main__":
             mtbls_model_root_path=mtbls_model_root_path,
         )
 
+
+if __name__ == "__main__":
+    setup_basic_logging_config()
+    study_ids = [
+        x.name.replace("_model.json", "")
+        for x in Path(".outputs/mtbls_model").glob("*_model.json")
+    ]
+    study_ids.sort(
+        key=lambda x: int(x.replace("MTBLS", "").replace("REQ", "")), reverse=True
+    )
+
+    factory = Mtbls2MhdConvertorFactory()
+    mhd_output_root_path = Path(".outputs/mhd_legacy")
+    mtbls_config = get_default_config()
+
     mtbls_config.selected_schema_uri = MHD_MODEL_V0_1_SCHEMA_URI
     mtbls_config.selected_profile_uri = MHD_MODEL_V0_1_LEGACY_PROFILE_URI
     mtbls_config.use_label_for_invalid_cv_term = True
+    legacy_convertor = factory.get_convertor(
+        target_mhd_model_schema_uri=mtbls_config.selected_schema_uri,
+        target_mhd_model_profile_uri=mtbls_config.selected_profile_uri,
+    )
 
     ms_mtbls_config = get_default_config()
     ms_mtbls_config.selected_schema_uri = MHD_MODEL_V0_1_SCHEMA_URI
     ms_mtbls_config.selected_profile_uri = MHD_MODEL_V0_1_MS_PROFILE_URI
     ms_mhd_output_root_path = Path(".outputs/mhd")
 
+    ms_convertor = factory.get_convertor(
+        target_mhd_model_schema_uri=ms_mtbls_config.selected_schema_uri,
+        target_mhd_model_profile_uri=ms_mtbls_config.selected_profile_uri,
+    )
+    mtbls_model_root_path = Path(".outputs/mtbls_model")
+
     for mtbls_study_id in study_ids:
         errors_file_path = mhd_output_root_path / f"{mtbls_study_id}.mhd.errors.json"
+        # if errors_file_path.exists():
+        #     # if "characteristic-value node at index" not in errors_file_path.read_text():
+        #     #     continue
+        #     pass
+        # else:
+        #     continue
         mtbls_model_source_path = mtbls_model_root_path / Path(
             f"{mtbls_study_id}_model.json"
         )
+        if not mtbls_model_source_path.exists():
+            continue
+
         success, errors = convert_mtbls_study_to_mhd(
             mtbls_study_id,
             mtbls_config,
             mhd_output_root_path=mhd_output_root_path,
             mhd_announcement_output_root_path=mhd_output_root_path,
             mtbls_model_source_path=mtbls_model_source_path,
+            convertor=legacy_convertor,
+            errors_file_path=errors_file_path,
         )
-        if success is None and not errors_file_path.exists():
+        if success is None:
             logger.info("%s is skipped", mtbls_study_id)
             continue
         write_to_file(errors_file_path, success, errors)
-        errors_file_path = ms_mhd_output_root_path / f"{mtbls_study_id}.mhd.errors.json"
-        success, errors = convert_mtbls_study_to_mhd(
-            mtbls_study_id,
-            ms_mtbls_config,
-            mhd_output_root_path=ms_mhd_output_root_path,
-            mhd_announcement_output_root_path=ms_mhd_output_root_path,
-            mtbls_model_source_path=mtbls_model_source_path,
-        )
-        write_to_file(errors_file_path, success, errors)
+
+        # errors_file_path = ms_mhd_output_root_path / f"{mtbls_study_id}.mhd.errors.json"
+        # success, errors = convert_mtbls_study_to_mhd(
+        #     mtbls_study_id,
+        #     ms_mtbls_config,
+        #     mhd_output_root_path=ms_mhd_output_root_path,
+        #     mhd_announcement_output_root_path=ms_mhd_output_root_path,
+        #     mtbls_model_source_path=mtbls_model_source_path,
+        #     convertor=ms_convertor,
+        #     errors_file_path=errors_file_path
+        # )
+        # write_to_file(errors_file_path, success, errors)

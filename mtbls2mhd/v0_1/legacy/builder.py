@@ -14,7 +14,6 @@ from metabolights_utils.models.isa.investigation_file import Assay, Study
 from metabolights_utils.models.isa.samples_file import SamplesFile
 from metabolights_utils.models.metabolights.model import (
     MetabolightsStudyModel,
-    UserStatus,
 )
 from metabolights_utils.provider.study_provider import (
     MetabolightsStudyProvider,
@@ -505,24 +504,6 @@ class MhdLegacyDatasetBuilder:
                 else:
                     contacts[mhd_contact.email_list[0]] = mhd_contact
                 mhd_builder.add(mhd_contact)
-                affiliation = contact.affiliation or None
-                organization = None
-                if not affiliation:
-                    continue
-                if affiliation not in organizations:
-                    organization = mhd_domain.Organization(
-                        name=affiliation,
-                        address=contact.address if contact.address else None,
-                    )
-                    mhd_builder.add(organization)
-                    organizations[affiliation] = organization
-                organization = organizations[affiliation]
-                mhd_builder.link(
-                    mhd_contact,
-                    "affiliated-with",
-                    organization,
-                    reverse_relationship_name="affiliates",
-                )
                 roles = set()
                 for role in contact.roles:
                     if role.term.lower() in roles:
@@ -550,11 +531,27 @@ class MhdLegacyDatasetBuilder:
                         mhd_study,
                         reverse_relationship_name="has-contributor",
                     )
+
+                affiliation = contact.affiliation or None
+                organization = None
+                if not affiliation:
+                    continue
+                if affiliation not in organizations:
+                    organization = mhd_domain.Organization(
+                        name=affiliation,
+                        address=contact.address if contact.address else None,
+                    )
+                    mhd_builder.add(organization)
+                    organizations[affiliation] = organization
+                organization = organizations[affiliation]
+                mhd_builder.link(
+                    mhd_contact,
+                    "affiliated-with",
+                    organization,
+                    reverse_relationship_name="affiliates",
+                )
             if data.study_db_metadata and data.study_db_metadata.submitters:
                 for submitter in data.study_db_metadata.submitters:
-                    if submitter.status != UserStatus.ACTIVE:
-                        continue
-
                     if submitter.user_name not in contacts:
                         affiliation = submitter.affiliation or None
                         organization = None
@@ -566,6 +563,12 @@ class MhdLegacyDatasetBuilder:
                             organizations[affiliation] = organization
 
                         organization = organizations[affiliation]
+                        orcid = None
+                        if re.match(
+                            r"^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[X0-9]$",
+                            submitter.orcid or "",
+                        ):
+                            orcid = submitter.orcid
                         mhd_contact = mhd_domain.Person(
                             full_name=" ".join(
                                 [
@@ -583,7 +586,7 @@ class MhdLegacyDatasetBuilder:
                             address_list=[submitter.address]
                             if submitter.address
                             else None,
-                            orcid=submitter.orcid or None,
+                            orcid=orcid,
                         )
                         mhd_builder.add(mhd_contact)
                         if organization:
@@ -721,7 +724,10 @@ class MhdLegacyDatasetBuilder:
                     source="MS",
                     name="Dataset with no associated published manuscript",
                 )
-                mhd_builder.add(no_publication)
+                mhd_builder.add(
+                    no_publication,
+                    use_label_for_invalid_cv_term=self.config.use_label_for_invalid_cv_term,
+                )
                 mhd_builder.link(
                     mhd_study,
                     "defined-as",
@@ -1129,7 +1135,7 @@ class MhdLegacyDatasetBuilder:
                 )
                 continue
 
-            subject_name = data["Source Name"][idx]
+            subject_name = data["Source Name"][idx] or data["Sample Name"][idx]
             if subject_name not in subject_map:
                 subject_map[subject_name] = mhd_domain.Subject(
                     name=subject_name, repository_identifier=subject_name
@@ -1329,11 +1335,11 @@ class MhdLegacyDatasetBuilder:
                         type_=object_name, name=name, accession="", source=""
                     )
                 if item:
-                    values_map[key][name] = item
                     mhd_builder.add(
                         item,
                         use_label_for_invalid_cv_term=self.config.use_label_for_invalid_cv_term,
                     )
+                    values_map[key][name] = item
                     mhd_builder.link(
                         term,
                         "has-instance",
@@ -2154,9 +2160,9 @@ class MhdLegacyDatasetBuilder:
             for idx, name in enumerate(
                 maf_file.table.data["metabolite_identification"]
             ):
-                if not name or not name.strip():
+                if not name or not name.strip() or len(name.strip()) < 2:
                     continue
-                met = mhd_domain.Metabolite(name=name)
+                met = mhd_domain.Metabolite(name=name.strip())
                 assignments = {}
                 data: dict[str, str] = maf_file.table.data
                 submitted_identifiers = []
@@ -2576,7 +2582,10 @@ class MhdLegacyDatasetBuilder:
         )
 
         mhd_builder.add(mhd_study)
-        mhd_builder.add_node(dataset_provider)
+        mhd_builder.add_node(
+            dataset_provider,
+            use_label_for_invalid_cv_term=self.config.use_label_for_invalid_cv_term,
+        )
         mhd_builder.link(
             dataset_provider,
             "provides",
