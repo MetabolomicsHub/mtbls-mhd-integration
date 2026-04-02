@@ -1,3 +1,9 @@
+## v0.0.28 (2026-04-02)
+
+### Fix
+
+- ms mhd enabled convertor error
+
 ## v0.0.27 (2026-04-02)
 
 ### Fix
