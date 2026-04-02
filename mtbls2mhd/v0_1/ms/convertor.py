@@ -29,10 +29,14 @@ class MsProfileConvertor(BaseMhdConvertor):
         if not config:
             config = get_default_config()
         mhd_dataset_builder = MhdLegacyDatasetBuilder(config=config)
-        mtbls_study_repository_url = (
+        mtbls_study_repository_website_url = (
             f"{config.study_http_base_url}/{repository_identifier}"
         )
-
+        public_ftp_url = f"{config.public_ftp_base_url}/{repository_identifier}"
+        public_http_url = f"{config.public_http_base_url}/{repository_identifier}"
+        mtbls_study_path = Path(config.mtbls_studies_root_path) / Path(
+            repository_identifier
+        )
         mtbls_study_path = Path(config.mtbls_studies_root_path) / Path(
             repository_identifier
         )
@@ -43,7 +47,11 @@ class MsProfileConvertor(BaseMhdConvertor):
                 else "MHDT000000",
                 mtbls_study_id=repository_identifier,
                 mtbls_study_path=mtbls_study_path,
-                mtbls_study_repository_url=mtbls_study_repository_url,
+                mtbls_study_repository_urls=[
+                    mtbls_study_repository_website_url,
+                    public_http_url,
+                    public_ftp_url,
+                ],
                 target_mhd_model_schema_uri=self.target_mhd_model_schema_uri,
                 target_mhd_model_profile_uri=self.target_mhd_model_profile_uri,
                 cached_mtbls_model_file_path=cached_mtbls_model_file_path,
