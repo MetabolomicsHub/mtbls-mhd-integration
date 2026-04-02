@@ -1,0 +1,1294 @@
+{
+  "repository_name": "MetaboLights",
+  "repository_identifier": "MTBLS3",
+  "revision": 2,
+  "revision_datetime": "2025-09-02T00:00:00",
+  "$schema": "https://metabolomicshub.github.io/mhd-model/schemas/v0_1/announcement-v0.1.schema.json",
+  "profile_uri": "https://metabolomicshub.github.io/mhd-model/schemas/v0_1/announcement-v0.1.legacy-profile.json",
+  "cv_definitions": [
+    {
+      "label": "CHMO",
+      "name": "Chemical Methods Ontology",
+      "uri": "http://purl.obolibrary.org/obo/chmo.owl",
+      "prefix": "http://purl.obolibrary.org/obo/CHMO_"
+    },
+    {
+      "label": "EDAM",
+      "name": "The ontology of data analysis and management",
+      "uri": "http://edamontology.org",
+      "prefix": "http://edamontology.org/"
+    },
+    {
+      "label": "EFO",
+      "name": "Experimental Factor Ontology",
+      "uri": "http://www.ebi.ac.uk/efo/efo.owl",
+      "prefix": "http://www.ebi.ac.uk/efo/EFO_"
+    },
+    {
+      "label": "MI",
+      "name": "Molecular Interactions Controlled Vocabulary",
+      "uri": " http://purl.obolibrary.org/obo/mi.owl",
+      "prefix": "http://purl.obolibrary.org/obo/MI_"
+    },
+    {
+      "label": "MONDO",
+      "name": "A global community effort to harmonize multiple disease resources to yield a coherent merged ontology.",
+      "uri": "https://purl.obolibrary.org/obo/mondo/mondo-international.owl",
+      "prefix": ""
+    },
+    {
+      "label": "MS",
+      "name": "MS",
+      "uri": "http://purl.obolibrary.org/obo/ms.owl",
+      "prefix": "http://purl.obolibrary.org/obo/MS_"
+    },
+    {
+      "label": "MSIO",
+      "name": "Metabolomics Standards Initiative Ontology (MSIO)",
+      "uri": "http://purl.obolibrary.org/obo/msio.owl",
+      "prefix": "http://purl.obolibrary.org/obo/MSIO_"
+    },
+    {
+      "label": "NCBITAXON",
+      "name": "National Center for Biotechnology Information (NCBI) Organismal Classification",
+      "uri": "http://purl.obolibrary.org/obo/ncbitaxon.owl",
+      "prefix": "http://purl.obolibrary.org/obo/NCBITaxon_"
+    },
+    {
+      "label": "NCIT",
+      "name": "NCI Thesaurus OBO Edition",
+      "uri": "http://purl.obolibrary.org/obo/ncit.owl",
+      "prefix": "http://purl.obolibrary.org/obo/NCIT_"
+    },
+    {
+      "label": "OBI",
+      "name": "Ontology for Biomedical Investigations",
+      "uri": "http://purl.obolibrary.org/obo/obi.owl",
+      "prefix": "http://purl.obolibrary.org/obo/OBI_"
+    }
+  ],
+  "mhd_metadata_file_url": "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/MTBLS3.mhd.json",
+  "dataset_url_list": [
+    "https://www.ebi.ac.uk/metabolights/MTBLS3",
+    "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3",
+    "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3"
+  ],
+  "license": "https://www.ebi.ac.uk/about/terms-of-use/",
+  "title": "A metabolomic strategy defines the regulation of lipid content and global metabolism by Δ9 desaturases in Caenorhabditis elegans",
+  "description": "Caenorhabditis elegans provides a genetically tractable model organism to investigate the network of genes involved in fat metabolism and how regulation is perturbed to produce the complex phenotype of obesity. C. elegans possess the full range of desaturases, including the delta-9 desaturases expressed by fat-5, fat-6 and fat-7. They regulate the biosynthesis of monounsaturated fatty acids, used for the synthesis of lipids including phospholipids, triglycerides and cholesteryl esters. Gas chromatography mass spectrometry (GC-MS) was used to define the metabolome of all the possible knock-outs for the delta 9 desaturases, including for the first time intact lipids. Despite the genes having similar enzymatic roles, excellent discrimination was achievable for all single and viable double mutants highlighting the distinctive roles of fat-6 and fat-7, both expressing steroyl-CoA desaturases. The metabolomic changes extend to aqueous metabolites demonstrating the influence delta 9 desaturases have on regulating global metabolism and highlighting how comprehensive metabolomics is more discriminatory than classically used dyes for fat staining. The propagation of metabolic changes across the network of metabolism demonstrates that modification of the delta 9 desaturases places C.elegans into a catabolic state compared with wildtype controls.",
+  "submission_date": "2012-02-14T00:00:00",
+  "public_release_date": "2012-02-14T00:00:00",
+  "submitters": [
+    {
+      "full_name": "Reza Salek",
+      "email_list": [
+        "r7salek@gmail.com"
+      ],
+      "orcid": "0000-0001-8604-1732",
+      "affiliation_list": [
+        "International Agency for Research on Cancer"
+      ]
+    }
+  ],
+  "omics_type": [
+    {
+      "source": "EDAM",
+      "accession": "EDAM:topic_0153",
+      "name": "Lipidomics"
+    }
+  ],
+  "technology_type": [
+    {
+      "source": "OBI",
+      "accession": "OBI:0000470",
+      "name": "mass spectrometry assay"
+    }
+  ],
+  "measurement_type": [
+    {
+      "source": "MS",
+      "accession": "MS:1003905",
+      "name": "targeted analysis"
+    },
+    {
+      "source": "MS",
+      "accession": "MS:1003905",
+      "name": "targeted analysis"
+    }
+  ],
+  "assay_type": [
+    {
+      "source": "OBI",
+      "accession": "OBI:0003110",
+      "name": "gas chromatography mass spectrometry assay"
+    }
+  ],
+  "submitter_keywords": [
+    {
+      "source": "EFO",
+      "accession": "EFO:0000752",
+      "name": "metabolomic profiling"
+    },
+    {
+      "source": "CHMO",
+      "accession": "CHMO:0000497",
+      "name": "gas chromatography-mass spectrometry"
+    },
+    {
+      "source": "",
+      "accession": "",
+      "name": "obesity"
+    },
+    {
+      "source": "",
+      "accession": "",
+      "name": "Free amino acid target analysis"
+    },
+    {
+      "source": "",
+      "accession": "",
+      "name": "Lipidomics"
+    },
+    {
+      "source": "",
+      "accession": "",
+      "name": "targeted metabolites"
+    }
+  ],
+  "publications": [
+    {
+      "title": "A metabolomic strategy defines the regulation of lipid content and global metabolism by Δ9 desaturases in Caenorhabditis elegans.",
+      "doi": "10.1186/1471-2164-13-36"
+    }
+  ],
+  "study_factors": [
+    {
+      "key": {
+        "source": "",
+        "accession": "",
+        "name": "gene knockout"
+      },
+      "values": [
+        {
+          "source": "",
+          "accession": "",
+          "name": "Delta 9 fat 5"
+        },
+        {
+          "source": "",
+          "accession": "",
+          "name": "Delta 9 fat 5 fat 6"
+        },
+        {
+          "source": "",
+          "accession": "",
+          "name": "Delta 9 fat 6"
+        },
+        {
+          "source": "",
+          "accession": "",
+          "name": "Delta 9 fat 7"
+        },
+        {
+          "source": "",
+          "accession": "",
+          "name": "wild-type generic"
+        },
+        {
+          "source": "",
+          "accession": "",
+          "name": "Delta 9 fat 5 fat 7"
+        }
+      ]
+    }
+  ],
+  "characteristic_values": [
+    {
+      "key": {
+        "source": "EFO",
+        "accession": "EFO:0000324",
+        "name": "cell type"
+      },
+      "values": [
+        {
+          "source": "NCIT",
+          "accession": "NCIT:C126101",
+          "name": "Not Available"
+        }
+      ]
+    },
+    {
+      "key": {
+        "source": "MONDO",
+        "accession": "MONDO:0000001",
+        "name": "disease"
+      },
+      "values": [
+        {
+          "source": "NCIT",
+          "accession": "NCIT:C126101",
+          "name": "Not Available"
+        }
+      ]
+    },
+    {
+      "key": {
+        "source": "NCIT",
+        "accession": "NCIT:C14250",
+        "name": "Organism"
+      },
+      "values": [
+        {
+          "source": "NCBITAXON",
+          "accession": "NCBITaxon:6239",
+          "name": "Caenorhabditis elegans"
+        }
+      ]
+    },
+    {
+      "key": {
+        "source": "NCIT",
+        "accession": "NCIT:C103199",
+        "name": "Organism Part"
+      },
+      "values": [
+        {
+          "source": "NCIT",
+          "accession": "NCIT:C13413",
+          "name": "Whole Organism"
+        }
+      ]
+    }
+  ],
+  "protocols": [
+    {
+      "name": "Sample collection",
+      "protocol_type": {
+        "source": "EFO",
+        "accession": "EFO:0005518",
+        "name": "sample collection protocol"
+      },
+      "description": "C. elegans were grown under standard conditions on Nematode Growth Media (NGM) with HB101 as food source, at 20 ºC. The wild-type strain used was Bristol N2. Mutant strains were obtained from the Caenorhabditis Genetics Center, University of Minnesota, Twin Cities, MN and included: BX107 fat 5(tm420) V; BX106 fat 6(tm331) IV; BX153 fat 7(wa36) V; BX110 fat 7(wa36) V fat 5(tm420) V (referred to as fat 5;fat 7 in the text); BX160 fat 6(tm331) IV;fat-5(tm420) V refered to as fat 5;fat 6); and BX156 fat 6(tm331) IV;fat 7(wa36) V. Mutations were verified using PCR and DNA sequencing prior to starting experiments. For each experiment, early embryos were isolated by alkaline hypochlorite treatment and plated after synchronisation on NGM plates seeded with bacteria. For each biological replicate, ~8000 animals were harvested, washed and stored at -80 ºC until extraction. Eight samples were grown for each strain. C. elegans were grown under standard conditions on Nematode Growth Media (NGM) with HB101 as food source, at 20 ºC. The wild-type strain used was Bristol N2. Mutant strains were obtained from the Caenorhabditis Genetics Center, University of Minnesota, Twin Cities, MN and included: BX107 fat 5(tm420) V; BX106 fat 6(tm331) IV; BX153 fat 7(wa36) V; BX110 fat 7(wa36) V fat 5(tm420) V (referred to as fat 5;fat 7 in the text); BX160 fat 6(tm331) IV;fat-5(tm420) V refered to as fat 5;fat 6); and BX156 fat 6(tm331) IV;fat 7(wa36) V. Mutations were verified using PCR and DNA sequencing prior to starting experiments. For each experiment, early embryos were isolated by alkaline hypochlorite treatment and plated after synchronisation on NGM plates seeded with bacteria. For each biological replicate, ~8000 animals were harvested, washed and stored at -80 ºC until extraction. Eight samples were grown for each strain."
+    },
+    {
+      "name": "Extraction",
+      "protocol_type": {
+        "source": "MS",
+        "accession": "MS:1000831",
+        "name": "sample preparation"
+      },
+      "description": "Metabolites from whole nematodes were extracted using a methanol–chloroform procedure. 600 µl of methanol–chloroform (2:1 v:v) was added to the frozen nematodes and samples were sonicated for 15 min. 200 µl each of chloroform and water were added, the samples centrifuged and the aqueous layer separated from the lipid one. The procedure was repeated twice. The aqueous layer was dried overnight in an evacuated centrifuge, while the lipid fraction was dried overnight in the fumehood.",
+      "protocol_parameters": [
+        {
+          "key": {
+            "source": "",
+            "accession": "",
+            "name": "derivatization"
+          },
+          "values": [
+            {
+              "source": "",
+              "accession": "",
+              "name": "other"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "",
+            "accession": "",
+            "name": "post extraction"
+          },
+          "values": [
+            {
+              "source": "",
+              "accession": "",
+              "name": "dried samples resuspended in hexane"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Chromatography",
+      "protocol_type": {
+        "source": "CHMO",
+        "accession": "CHMO:0001000",
+        "name": "chromatography"
+      },
+      "description": "Chromatography was carried out using the EZ:faast Free (Physiological) Amino Acid provided column (Zebron™ ZB-AAA GC Column) by GC-MS kit (Phenomenex, USA).",
+      "protocol_parameters": [
+        {
+          "key": {
+            "source": "",
+            "accession": "",
+            "name": "autosampler model"
+          }
+        },
+        {
+          "key": {
+            "source": "OBI",
+            "accession": "OBI:0000038",
+            "name": "chromatography column"
+          },
+          "values": [
+            {
+              "source": "",
+              "accession": "",
+              "name": "Zebron ZB-AAA GC (0.25 mm x 10 m; Phenomenex)"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "OBI",
+            "accession": "OBI:0000485",
+            "name": "chromatography instrument"
+          },
+          "values": [
+            {
+              "source": "MS",
+              "accession": "MS:1003759",
+              "name": "TRACE GC Ultra"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "MS",
+            "accession": "MS:1002270",
+            "name": "chromatography separation"
+          },
+          "values": [
+            {
+              "source": "MS",
+              "accession": "MS:1003719",
+              "name": "mid-polar stationary phase gas-liquid chromatography"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "",
+            "accession": "",
+            "name": "guard column"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Mass spectrometry",
+      "protocol_type": {
+        "source": "CHMO",
+        "accession": "CHMO:0000470",
+        "name": "mass spectrometry"
+      },
+      "description": "The derivatized sample was injected (3 µl) split ratio of 10 into a Thermo Electron Trace GC Ultra equipped with amino acid column (Phenomenex; injector temperature = 220 °C, helium carrier gas flow rate = 1.1 ml/min). The initial column temperature was 110 °C; this was held for 2 min and then increased by 30 °C/min to 310 °C. The column effluent was introduced into a Trace DSQ quadrupole mass spectrometer (Thermo Electron; transfer line temperature = 320 °C, ion source temperature = 240 °C, electron beam = 70 eV). The detector was turned on after a solvent delay of 120 s, and data were collected in full scan mode using 3 scans/s across a mass range of 50–450 m/z.",
+      "protocol_parameters": [
+        {
+          "key": {
+            "source": "MS",
+            "accession": "MS:1003776",
+            "name": "acquisition polarity"
+          },
+          "values": [
+            {
+              "source": "MS",
+              "accession": "MS:1000077",
+              "name": "positive polarity acquisition"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "MS",
+            "accession": "MS:1003761",
+            "name": "instrument class"
+          },
+          "values": [
+            {
+              "source": "MS",
+              "accession": "MS:1000081",
+              "name": "quadrupole"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "MS",
+            "accession": "MS:1000008",
+            "name": "ionization type"
+          },
+          "values": [
+            {
+              "source": "MS",
+              "accession": "MS:1000389",
+              "name": "electron ionization"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "MSIO",
+            "accession": "MSIO:0000171",
+            "name": "mass spectrometry instrument"
+          },
+          "values": [
+            {
+              "source": "MS",
+              "accession": "MS:1000197",
+              "name": "TRACE DSQ"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "",
+            "accession": "",
+            "name": "scan m/z range"
+          },
+          "values": [
+            {
+              "source": "",
+              "accession": "",
+              "name": "50-450"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Data transformation",
+      "protocol_type": {
+        "source": "OBI",
+        "accession": "OBI:0200000",
+        "name": "data transformation"
+      },
+      "description": "GC-MS chromatograms were analyzed using Xcalibur, version 2.0 (Thermo Electron), integrating each peak individually. Each integrated peak was normalized so that the total sum of peaks was set to 10,000. Deconvolution of overlapping peaks was achieved by traces of single ions. A 0.1 min threshold window was used for the deviation of peaks away from the predicted retention time across the data set."
+    },
+    {
+      "name": "Metabolite identification",
+      "protocol_type": {
+        "source": "MI",
+        "accession": "MI:2131",
+        "name": "metabolite identification"
+      },
+      "description": "Amino acid identification was based on the information, retention time and fragmentation, provided by the EZ:faast Free (Physiological) Amino Acid GC kit"
+    }
+  ],
+  "reported_metabolites": [
+    {
+      "name": "DL-2-Aminobutyric acid"
+    },
+    {
+      "name": "DL-Alanine"
+    },
+    {
+      "name": "DL-Asparagine"
+    },
+    {
+      "name": "DL-Aspartic acid"
+    },
+    {
+      "name": "DL-Cystathionine"
+    },
+    {
+      "name": "DL-Leucine"
+    },
+    {
+      "name": "DL-Lysine"
+    },
+    {
+      "name": "DL-Proline"
+    },
+    {
+      "name": "DL-Tryptophan"
+    },
+    {
+      "name": "DL-Tyrosine"
+    },
+    {
+      "name": "DL-phenylalanine"
+    },
+    {
+      "name": "Glutamic acid"
+    },
+    {
+      "name": "Glycine"
+    },
+    {
+      "name": "Isoleucine"
+    },
+    {
+      "name": "Thioproline"
+    },
+    {
+      "name": "alpha aminoadipic acid"
+    },
+    {
+      "name": "glutamine"
+    },
+    {
+      "name": "histidine"
+    },
+    {
+      "name": "methionine"
+    },
+    {
+      "name": "ornithine"
+    },
+    {
+      "name": "threonine"
+    },
+    {
+      "name": "valine"
+    }
+  ],
+  "repository_metadata_file_list": [
+    {
+      "name": "a_MTBLS3_live_metabolite_profiling_mass_spectrometry.txt",
+      "url_list": [
+        "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/a_MTBLS3_live_metabolite_profiling_mass_spectrometry.txt",
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/a_MTBLS3_live_metabolite_profiling_mass_spectrometry.txt"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3687",
+        "name": "ISA-TAB"
+      }
+    },
+    {
+      "name": "i_Investigation.txt",
+      "url_list": [
+        "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/i_Investigation.txt",
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/i_Investigation.txt"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3687",
+        "name": "ISA-TAB"
+      }
+    },
+    {
+      "name": "s_MTBLS3.txt",
+      "url_list": [
+        "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/s_MTBLS3.txt",
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/s_MTBLS3.txt"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3687",
+        "name": "ISA-TAB"
+      }
+    }
+  ],
+  "raw_data_file_list": [
+    {
+      "name": "FILES/Cecilia_AA_batch23_05.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_05.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_batch23_06.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_06.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_batch23_07.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_07.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_batch23_08.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_08.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_batch23_10.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_10.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_batch23_11.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_11.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_batch23_12.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_12.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_batch23_15.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_15.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_batch23_16.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_16.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_batch23_17.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_17.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_batch23_18.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_18.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_batch23_19.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_19.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_batch23_21.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_21.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_batch23_22.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_22.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_batch23_23.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_23.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_batch23_28.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_28.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_batch23_29.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_29.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_batch23_30.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_30.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_batch23_31.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_31.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_batch23_32.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_32.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_batch23_33.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_33.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_batch23_35.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_35.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_batch23_36.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_36.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_batch23_39.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_39.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_batch23_40.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_40.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_batch23_41.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_41.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_batch23_42.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_42.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_batch23_43.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_43.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_batch23_45.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_45.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_batch23_46.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_46.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_rerun05.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun05.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_rerun06.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun06.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_rerun07.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun07.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_rerun08.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun08.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_rerun10.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun10.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_rerun11.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun11.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_rerun12.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun12.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_rerun13.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun13.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_rerun15.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun15.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_rerun16.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun16.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_rerun17.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun17.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_rerun18.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun18.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_rerun19.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun19.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_rerun21.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun21.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_rerun22.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun22.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_rerun23.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun23.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_rerun24.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun24.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_rerun27.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun27.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_rerun28.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun28.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_rerun29.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun29.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_rerun30.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun30.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_rerun31.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun31.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_rerun33.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun33.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_rerun34.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun34.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_rerun35.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun35.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_rerun36.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun36.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_rerun37.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun37.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_rerun39.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun39.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_rerun40.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun40.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_rerun41.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun41.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_rerun42.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun42.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_rerun43.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun43.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    },
+    {
+      "name": "FILES/Cecilia_AA_rerun45.raw",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun45.raw"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3712",
+        "name": "Thermo RAW"
+      }
+    }
+  ],
+  "result_file_list": [
+    {
+      "name": "m_MTBLS3_live_metabolite_profiling_mass_spectrometry_v2_maf.tsv",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/m_MTBLS3_live_metabolite_profiling_mass_spectrometry_v2_maf.tsv",
+        "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/m_MTBLS3_live_metabolite_profiling_mass_spectrometry_v2_maf.tsv"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3475",
+        "name": "TSV"
+      }
+    }
+  ]
+}

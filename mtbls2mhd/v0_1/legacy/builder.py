@@ -19,6 +19,9 @@ from metabolights_utils.provider.study_provider import (
     MetabolightsStudyProvider,
 )
 from mhd_model.model.v0_1.dataset.profiles.base import graph_nodes as mhd_domain
+from mhd_model.model.v0_1.dataset.profiles.base.base import (
+    KeyValue,
+)
 from mhd_model.model.v0_1.dataset.profiles.base.dataset_builder import MhDatasetBuilder
 from mhd_model.model.v0_1.dataset.profiles.base.profile import MhDatasetBaseProfile
 from mhd_model.model.v0_1.dataset.profiles.base.relationships import Relationship
@@ -53,7 +56,7 @@ logger = logging.getLogger(__name__)
 _mtbls_term_mappings: dict[str, dict[str, CvTerm]] | None = None
 
 
-def load_mtbls_terms_mapping() -> dict[str, dict[str, CvTerm]]:
+def get_mtbls_terms_mapping() -> dict[str, dict[str, CvTerm]]:
     """loads MTBLS term 2 MS ontology term mappings file
 
     Returns:
@@ -68,8 +71,8 @@ def load_mtbls_terms_mapping() -> dict[str, dict[str, CvTerm]]:
         .joinpath("cv_mapping_table.csv")
         .open("r", encoding="utf-8") as f
     ):
-        # MAP TO MHD common parameter definition
-        parameter_value_definition_mappings = {
+        # MAP TO MHD common parameter/characteristic definition
+        definition_mappings = {
             "mass spectrometry instrument": "mass spectrometry instrument",
             "liquid chromatography instrument": "chromatography instrument",
             "gas chromatography instrument": "chromatography instrument",
@@ -81,6 +84,10 @@ def load_mtbls_terms_mapping() -> dict[str, dict[str, CvTerm]]:
             # "Ionization polarity": "ionization polarity",
             # "Instrument class": "instrument class",
             # "Chromatography column": "chromatography column?",
+            "organism": "organism",
+            "organism part": "organism part",
+            "cell type": "cell type",
+            "disease": "disease",
         }
         # Column names and their index in the cv_mappings.csv file.
         HEADERS = {
@@ -123,18 +130,14 @@ def load_mtbls_terms_mapping() -> dict[str, dict[str, CvTerm]]:
                     term,
                 )
                 continue
-            parameter_definition = parameter_value_definition_mappings.get(
-                instance.lower()
-            )
-            if parameter_definition not in mtbls_term_mappings:
-                mtbls_term_mappings[parameter_definition] = {}
+            definition = definition_mappings.get(instance.lower())
+            if definition not in mtbls_term_mappings:
+                mtbls_term_mappings[definition] = {}
             for mtbls_cv_name in mtbls_cv_names_set:
-                mtbls_term_mappings[parameter_definition][mtbls_cv_name.lower()] = (
-                    CvTerm(
-                        source=source,
-                        accession=accession,
-                        name=term,
-                    )
+                mtbls_term_mappings[definition][mtbls_cv_name.lower()] = CvTerm(
+                    source=source,
+                    accession=accession,
+                    name=term,
                 )
     _mtbls_term_mappings = mtbls_term_mappings
     return _mtbls_term_mappings
@@ -429,6 +432,7 @@ class MhdLegacyDatasetBuilder:
             if data.study_db_metadata and data.study_db_metadata.submitters:
                 for submitter in data.study_db_metadata.submitters:
                     mhd_contact = mhd_domain.Person(
+                        repository_identifier=submitter.user_name,
                         full_name=" ".join(
                             [
                                 x if len(x) > 1 else f"{x}."
@@ -454,19 +458,21 @@ class MhdLegacyDatasetBuilder:
             contributers = {}
             for idx, contact in enumerate(study.study_contacts.people, start=1):
                 mhd_contact = None
+                fullname = " ".join(
+                    [
+                        x if len(x) > 1 else f"{x}."
+                        for x in (
+                            contact.first_name,
+                            contact.mid_initials,
+                            contact.last_name,
+                        )
+                        if x
+                    ]
+                )
                 try:
                     mhd_contact = mhd_domain.Person(
-                        full_name=" ".join(
-                            [
-                                x if len(x) > 1 else f"{x}."
-                                for x in (
-                                    contact.first_name,
-                                    contact.mid_initials,
-                                    contact.last_name,
-                                )
-                                if x
-                            ]
-                        ),
+                        repository_identifier=contact.email or fullname,
+                        full_name=fullname,
                         email_list=[contact.email] if contact.email else None,
                         address_list=[contact.address] if contact.address else None,
                         phone_list=[contact.phone] if contact.phone else None,
@@ -538,6 +544,7 @@ class MhdLegacyDatasetBuilder:
                     continue
                 if affiliation not in organizations:
                     organization = mhd_domain.Organization(
+                        repository_identifier=affiliation,
                         name=affiliation,
                         address=contact.address if contact.address else None,
                     )
@@ -558,7 +565,9 @@ class MhdLegacyDatasetBuilder:
                         if not affiliation:
                             continue
                         if affiliation not in organizations:
-                            organization = mhd_domain.Organization(name=affiliation)
+                            organization = mhd_domain.Organization(
+                                repository_identifier=affiliation, name=affiliation
+                            )
                             mhd_builder.add(organization)
                             organizations[affiliation] = organization
 
@@ -570,6 +579,7 @@ class MhdLegacyDatasetBuilder:
                         ):
                             orcid = submitter.orcid
                         mhd_contact = mhd_domain.Person(
+                            repository_identifier=submitter.user_name,
                             full_name=" ".join(
                                 [
                                     x if len(x) > 1 else f"{x}."
@@ -641,7 +651,9 @@ class MhdLegacyDatasetBuilder:
                     continue
                 organization = organizations.get(funder)
                 if not organization:
-                    organization = mhd_domain.Organization(name=funder)
+                    organization = mhd_domain.Organization(
+                        repository_identifier=funder, name=funder
+                    )
                     mhd_builder.add(organization)
                     organizations[funder] = organization
                 mhd_builder.link(
@@ -668,6 +680,31 @@ class MhdLegacyDatasetBuilder:
                 grant_ids.extend(identifiers)
         if grant_ids:
             mhd_study.grant_identifier_list = grant_ids
+
+    def add_related_datasets(
+        self,
+        data: MetabolightsStudyModel,
+        mhd_builder: MhDatasetBuilder,
+        mhd_study: mhd_domain.Study,
+    ):
+        study = data.investigation.studies[0]
+
+        study.related_datasets = study.related_datasets or []
+        url: None | mhd_domain.CvTermObject = None
+        for idx, related_dataset in enumerate(study.related_datasets):
+            if idx == 0:
+                url = create_cv_term_object(
+                    accession="NCIT:C42743",
+                    name="Uniform Resource Locator",
+                    source="NCIT",
+                )
+                mhd_builder.add_node(url)
+            mhd_study.related_dataset_list.append(
+                KeyValue(
+                    key=url.id_,
+                    value=related_dataset.url,
+                )
+            )
 
     def add_publications(
         self,
@@ -783,6 +820,7 @@ class MhdLegacyDatasetBuilder:
             for file in metadata_files:
                 if self.config.build_type == BuildType.MINIMUM:
                     meta = mhd_domain.MetadataFile(
+                        repository_identifier=study_id + ":" + file,
                         name=file,
                         url_list=[
                             f"{self.config.public_http_base_url}/{study_id}/{file}",
@@ -792,6 +830,7 @@ class MhdLegacyDatasetBuilder:
                 else:
                     format_appended = True
                     meta = mhd_domain.MetadataFile(
+                        repository_identifier=study_id + ":" + file,
                         name=file,
                         extension=Path(file).suffix,
                         format_ref=isa_tab_format.id_,
@@ -827,6 +866,7 @@ class MhdLegacyDatasetBuilder:
 
         for idx, file in enumerate(data.metabolite_assignments):
             result_file = mhd_domain.ResultFile(
+                repository_identifier=study_id + ":" + file,
                 name=file,
                 extension=Path(file).suffix,
                 format_ref=tsv_format.id_,
@@ -858,6 +898,7 @@ class MhdLegacyDatasetBuilder:
         if self.config.build_type == BuildType.MINIMUM:
             return
         study = data.investigation.studies[0]
+        study_id = study.identifier
         for item in study.study_factors.factors:
             factor_name = item.name.lower()
             if factor_name in MANAGED_STUDY_FACTOR_MAP:
@@ -889,6 +930,7 @@ class MhdLegacyDatasetBuilder:
             )
 
             factor_definition = mhd_domain.FactorDefinition(
+                repository_identifier=study_id + ":" + item.name,
                 factor_type_ref=factor_type.id_,
                 name=item.name,
             )
@@ -964,6 +1006,7 @@ class MhdLegacyDatasetBuilder:
     ):
         characteristics_map: dict[str, mhd_domain.CvTermObject] = {}
         created_characteristics = {}
+        study_id = mhd_study.repository_identifier
         for item in sample_file.table.headers:
             if item.column_header.startswith("Characteristics["):
                 name = (
@@ -1008,6 +1051,7 @@ class MhdLegacyDatasetBuilder:
 
                 characteristic_type = characteristics_map.get(key)
                 characteristic = mhd_domain.CharacteristicDefinition(
+                    repository_identifier=study_id + ":" + name,
                     characteristic_type_ref=characteristic_type.id_,
                     name=name,
                 )
@@ -1024,6 +1068,7 @@ class MhdLegacyDatasetBuilder:
                     characteristic,
                     reverse_relationship_name="used-in",
                 )
+        study_id = mhd_study.repository_identifier
         for name, term in MANAGED_CHARACTERISTICS_MAP.items():
             if name not in created_characteristics:
                 characteristic_type = create_cv_term_object(
@@ -1038,6 +1083,7 @@ class MhdLegacyDatasetBuilder:
                     use_label_for_invalid_cv_term=self.config.use_label_for_invalid_cv_term,
                 )
                 characteristic = mhd_domain.CharacteristicDefinition(
+                    repository_identifier=study_id + ":" + name,
                     characteristic_type_ref=characteristic_type.id_,
                     name=name,
                 )
@@ -1054,7 +1100,7 @@ class MhdLegacyDatasetBuilder:
                     characteristic,
                     reverse_relationship_name="used-in",
                 )
-                missing_data = COMMON_MISSING_DATA_TERMS["not applicable"]
+                missing_data = COMMON_MISSING_DATA_TERMS["not available"]
                 characteristic_value = mhd_domain.CvTermObject(
                     type_="characteristic-value",
                     name=missing_data.name,
@@ -1081,7 +1127,6 @@ class MhdLegacyDatasetBuilder:
         sample_file: SamplesFile,
     ) -> dict[str, mhd_domain.Sample]:
         samples_map: dict[str, mhd_domain.Sample] = {}
-
         factor_definitions: list[mhd_domain.CvTermObject] = []
         characteristics: list[mhd_domain.CvTermObject] = []
 
@@ -1117,6 +1162,7 @@ class MhdLegacyDatasetBuilder:
         sample_sources_map: dict[str, set[str]] = {}
         characteristic_values_map: dict[str, dict[str, mhd_domain.CvTermObject]] = {}
         factors_values_map: dict[str, dict[str, mhd_domain.CvTermObject]] = {}
+        study_id = mhd_study.repository_identifier
         for idx, name in enumerate(data["Sample Name"]):
             if not name:
                 logger.warning("Sample name is not defined at row: %s", idx + 1)
@@ -1138,13 +1184,14 @@ class MhdLegacyDatasetBuilder:
             subject_name = data["Source Name"][idx] or data["Sample Name"][idx]
             if subject_name not in subject_map:
                 subject_map[subject_name] = mhd_domain.Subject(
-                    name=subject_name, repository_identifier=subject_name
+                    name=subject_name,
+                    repository_identifier=study_id + ":" + subject_name,
                 )
                 mhd_builder.add(subject_map[subject_name])
             subject = subject_map[subject_name]
             if name not in sample_map:
                 samples_map[name] = mhd_domain.Sample(
-                    name=name, repository_identifier=name
+                    name=name, repository_identifier=study_id + ":" + name
                 )
                 sample_sources_map[name] = set()
                 mhd_builder.add(samples_map[name])
@@ -1207,7 +1254,7 @@ class MhdLegacyDatasetBuilder:
                     )
                 # sample.factor_values = factor_values
 
-        missing_data = COMMON_MISSING_DATA_TERMS["not applicable"]
+        missing_data = COMMON_MISSING_DATA_TERMS["not available"]
         characteristic_value = mhd_domain.CvTermObject(
             type_="characteristic-value",
             name=missing_data.name,
@@ -1263,6 +1310,7 @@ class MhdLegacyDatasetBuilder:
         name_prefix: str,
         definition_type_property: str,
     ):
+        mtbls_cv_terms_mappings = get_mtbls_terms_mapping()
         data = sample_file.table.data
         values = []
         columns = sample_file.table.columns
@@ -1287,7 +1335,15 @@ class MhdLegacyDatasetBuilder:
             index = columns.index(column_name)
 
             if name not in values_map[key]:
-                if index + 1 < len(columns) and columns[index + 1].startswith(
+                item = mtbls_cv_terms_mappings.get(key, {}).get(name.lower(), None)
+                if item:
+                    item = create_cv_term_object(
+                        type_=object_name,
+                        source=item.source,
+                        accession=item.accession,
+                        name=item.name,
+                    )
+                elif index + 1 < len(columns) and columns[index + 1].startswith(
                     "Term Source REF"
                 ):
                     source = data[columns[index + 1]][idx]
@@ -1319,6 +1375,7 @@ class MhdLegacyDatasetBuilder:
                         if index + 3 < len(columns)
                         else ""
                     )
+
                     item = create_cv_term_value_object(
                         type_=object_name,
                         value=name,
@@ -1369,13 +1426,13 @@ class MhdLegacyDatasetBuilder:
         samples: dict[str, mhd_domain.Sample],
         protocol_summaries: OrderedDict[str, ProtocolRunSummary],
     ) -> dict[str, OrderedDict[str, str]]:
-        mtbls_cv_terms_mappings = load_mtbls_terms_mapping()
+        mtbls_cv_terms_mappings = get_mtbls_terms_mapping()
         assay_table = assay_file.table
         if "Sample Name" not in assay_table.data or not assay_table.data["Sample Name"]:
             return
         protocol_run_map: dict[str, OrderedDict[str, str]] = {}
         protocols = {}
-
+        study_id = mhd_study.repository_identifier
         parameter_definitions: OrderedDict[str, mhd_domain.CvTermObject] = OrderedDict()
 
         for x in mhd_builder.objects.values():
@@ -1443,7 +1500,7 @@ class MhdLegacyDatasetBuilder:
                 protocol_columns[header.column_name] = protocol_summaries[
                     header.column_name
                 ]
-
+        idx = 1
         sample_row_indices: dict[str, int] = {}
         for row_idx, sample_name in enumerate(assay_table.data["Sample Name"]):
             sample_row_indices[sample_name] = row_idx
@@ -1598,10 +1655,18 @@ class MhdLegacyDatasetBuilder:
                                     )
                     if parameter_values:
                         config = mhd_domain.SampleRunConfiguration(
+                            repository_identifier=study_id
+                            + ":"
+                            + assay_file.file_path
+                            + ":"
+                            + protocol_run_summary.protocol.name
+                            + ":"
+                            + f"{idx:02}",
                             protocol_ref=protocol_run_summary.protocol.id_,
                             parameter_value_refs=[x.id_ for x in parameter_values],
                         )
                         protocol_run_summary.sample_run_configurations[key] = config
+                        idx = idx + 1
                     else:
                         protocol_run_summary.sample_run_configurations[key] = None
                 if key in protocol_run_summary.sample_run_configurations:
@@ -1651,6 +1716,7 @@ class MhdLegacyDatasetBuilder:
 
             sample = samples.get(sample_name)
             mhd_sample_run = mhd_domain.SampleRun(
+                repository_identifier=study_id + ":" + name,
                 name=name,
                 sample_ref=sample.id_ if sample else None,
                 sample_run_configuration_refs=(
@@ -1678,6 +1744,7 @@ class MhdLegacyDatasetBuilder:
     ) -> dict[str, mhd_domain.Protocol]:
         parameters_map: dict[str, mhd_domain.CvTermObject] = {}
         protocols: dict[str, mhd_domain.Protocol] = {}
+        study_id = mhd_study.repository_identifier
         for protocol in study.study_protocols.protocols:
             name = protocol.name
 
@@ -1718,7 +1785,9 @@ class MhdLegacyDatasetBuilder:
                         )
                     definition_type = parameters_map.get(key)
                     definition = mhd_domain.ParameterDefinition(
-                        parameter_type_ref=definition_type.id_, name=x.term
+                        repository_identifier=study_id + ":" + x.term,
+                        parameter_type_ref=definition_type.id_,
+                        name=x.term,
                     )
                     mhd_builder.link(
                         definition,
@@ -1763,6 +1832,7 @@ class MhdLegacyDatasetBuilder:
                 use_label_for_invalid_cv_term=self.config.use_label_for_invalid_cv_term,
             )
             mhd_protocol = mhd_domain.Protocol(
+                repository_identifier=study_id + ":" + name,
                 name=name,
                 protocol_type_ref=protocol_type_obj.id_,
                 description=protocol.description,
@@ -1953,7 +2023,7 @@ class MhdLegacyDatasetBuilder:
             zip_file_format_node = create_cv_term_object(
                 type_="descriptor",
                 source="EDAM",
-                accession="EDAM:3987",
+                accession="EDAM:format_3987",
                 name="ZIP Format",
             )
         folder = False
@@ -2037,6 +2107,7 @@ class MhdLegacyDatasetBuilder:
                     )
                 referenced_assay = metadata_files.get(assay.file_path)
                 file_node = mhd_domain.RawDataFile(
+                    repository_identifier=study_id + ":" + file,
                     name=file,
                     metadata_file_refs=[referenced_assay.id_]
                     if referenced_assay
@@ -2084,6 +2155,7 @@ class MhdLegacyDatasetBuilder:
                     )
                 referenced_assay = metadata_files.get(assay.file_path)
                 file_node = mhd_domain.DerivedDataFile(
+                    repository_identifier=study_id + ":" + file,
                     name=file,
                     metadata_file_refs=[referenced_assay.id_]
                     if referenced_assay
@@ -2127,6 +2199,7 @@ class MhdLegacyDatasetBuilder:
                     )
 
                 file_node = mhd_domain.SupplementaryFile(
+                    repository_identifier=study_id + ":" + file,
                     name=file,
                     compression_format_ref=(
                         compression_format.id_ if compression_format else None
@@ -2163,7 +2236,6 @@ class MhdLegacyDatasetBuilder:
                 if not name or not name.strip() or len(name.strip()) < 2:
                     continue
                 met = mhd_domain.Metabolite(name=name.strip())
-                assignments = {}
                 data: dict[str, str] = maf_file.table.data
                 submitted_identifiers = []
                 assigned_chebi_identifiers = []
@@ -2187,55 +2259,54 @@ class MhdLegacyDatasetBuilder:
                         if x
                     ]
 
-                for identifiers in [
+                for identifiers, compound_source in [
                     (submitted_identifiers, ""),
                     (assigned_chebi_identifiers, "CHEBI"),
                     (assigned_refmet_identifiers, "REFMET"),
                 ]:
-                    for identifiers, compound_source in assignments:
-                        if not identifiers:
-                            continue
-                        for identifier_value in identifiers:
-                            identifier = None
-                            if (
-                                compound_source == "CHEBI"
-                                or identifier_value.upper().startswith("CHEBI")
-                            ):
-                                identifier = create_cv_term_value_object(
-                                    type_="metabolite-identifier",
-                                    source="CHEMINF",
-                                    accession="CHEMINF:000407",
-                                    name="ChEBI identifier",
-                                    value=identifier_value,
-                                )
-                            elif identifier_value.upper().startswith("HMDB"):
-                                identifier = create_cv_term_value_object(
-                                    type_="metabolite-identifier",
-                                    source="CHEMINF",
-                                    accession="CHEMINF:000408",
-                                    name="HMDB identifier",
-                                    value=identifier_value,
-                                )
-                            elif compound_source == "REFMET":
-                                identifier = create_cv_term_value_object(
-                                    type_="metabolite-identifier",
-                                    source="REFMET",
-                                    accession="",
-                                    name="RefMet identifier",
-                                    value=identifier_value,
-                                )
+                    if not identifiers:
+                        continue
+                    for identifier_value in identifiers:
+                        identifier = None
+                        if (
+                            compound_source == "CHEBI"
+                            or identifier_value.upper().startswith("CHEBI")
+                        ):
+                            identifier = create_cv_term_value_object(
+                                type_="metabolite-identifier",
+                                source="CHEMINF",
+                                accession="CHEMINF:000407",
+                                name="ChEBI identifier",
+                                value=identifier_value,
+                            )
+                        elif identifier_value.upper().startswith("HMDB"):
+                            identifier = create_cv_term_value_object(
+                                type_="metabolite-identifier",
+                                source="CHEMINF",
+                                accession="CHEMINF:000408",
+                                name="HMDB identifier",
+                                value=identifier_value,
+                            )
+                        elif compound_source == "REFMET":
+                            identifier = create_cv_term_value_object(
+                                type_="metabolite-identifier",
+                                source="REFMET",
+                                accession="",
+                                name="RefMet identifier",
+                                value=identifier_value,
+                            )
 
-                            if identifier:
-                                mhd_builder.add(
-                                    identifier,
-                                    use_label_for_invalid_cv_term=self.config.use_label_for_invalid_cv_term,
-                                )
-                                mhd_builder.link(
-                                    met,
-                                    "identified-as",
-                                    identifier,
-                                    reverse_relationship_name="reported-identifier-of",
-                                )
+                        if identifier:
+                            mhd_builder.add(
+                                identifier,
+                                use_label_for_invalid_cv_term=self.config.use_label_for_invalid_cv_term,
+                            )
+                            mhd_builder.link(
+                                met,
+                                "identified-as",
+                                identifier,
+                                reverse_relationship_name="reported-identifier-of",
+                            )
                 mhd_builder.add(met)
                 if result_file:
                     mhd_builder.link(
@@ -2418,7 +2489,7 @@ class MhdLegacyDatasetBuilder:
         mhd_output_folder_path: Path,
         mtbls_study_id: str,
         mtbls_study_path: Path,
-        mtbls_study_repository_url: str,
+        mtbls_study_repository_urls: list[str],
         target_mhd_model_schema_uri: str,
         target_mhd_model_profile_uri: str,
         repository_name: str,
@@ -2578,7 +2649,7 @@ class MhdLegacyDatasetBuilder:
             description=study.description,
             submission_date=submission_date,
             public_release_date=public_release_date,
-            dataset_url_list=[mtbls_study_repository_url],
+            dataset_url_list=mtbls_study_repository_urls or None,
         )
 
         mhd_builder.add(mhd_study)

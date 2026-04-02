@@ -1,0 +1,1081 @@
+{
+  "repository_name": "MetaboLights",
+  "repository_identifier": "MTBLS6",
+  "revision": 2,
+  "revision_datetime": "2025-09-03T00:00:00",
+  "$schema": "https://metabolomicshub.github.io/mhd-model/schemas/v0_1/announcement-v0.1.schema.json",
+  "profile_uri": "https://metabolomicshub.github.io/mhd-model/schemas/v0_1/announcement-v0.1.legacy-profile.json",
+  "cv_definitions": [
+    {
+      "label": "BTO",
+      "name": "The BRENDA Tissue Ontology (BTO)",
+      "uri": "http://purl.obolibrary.org/obo/bto.owl",
+      "prefix": "http://purl.obolibrary.org/obo/BTO_"
+    },
+    {
+      "label": "CHEBI",
+      "name": "Chemical Entities of Biological Interest",
+      "uri": "http://purl.obolibrary.org/obo/chebi.owl",
+      "prefix": "http://purl.obolibrary.org/obo/CHEBI_"
+    },
+    {
+      "label": "CHMO",
+      "name": "Chemical Methods Ontology",
+      "uri": "http://purl.obolibrary.org/obo/chmo.owl",
+      "prefix": "http://purl.obolibrary.org/obo/CHMO_"
+    },
+    {
+      "label": "EDAM",
+      "name": "The ontology of data analysis and management",
+      "uri": "http://edamontology.org",
+      "prefix": "http://edamontology.org/"
+    },
+    {
+      "label": "EFO",
+      "name": "Experimental Factor Ontology",
+      "uri": "http://www.ebi.ac.uk/efo/efo.owl",
+      "prefix": "http://www.ebi.ac.uk/efo/EFO_"
+    },
+    {
+      "label": "MI",
+      "name": "Molecular Interactions Controlled Vocabulary",
+      "uri": " http://purl.obolibrary.org/obo/mi.owl",
+      "prefix": "http://purl.obolibrary.org/obo/MI_"
+    },
+    {
+      "label": "MONDO",
+      "name": "A global community effort to harmonize multiple disease resources to yield a coherent merged ontology.",
+      "uri": "https://purl.obolibrary.org/obo/mondo/mondo-international.owl",
+      "prefix": ""
+    },
+    {
+      "label": "MS",
+      "name": "MS",
+      "uri": "http://purl.obolibrary.org/obo/ms.owl",
+      "prefix": "http://purl.obolibrary.org/obo/MS_"
+    },
+    {
+      "label": "MSIO",
+      "name": "Metabolomics Standards Initiative Ontology (MSIO)",
+      "uri": "http://purl.obolibrary.org/obo/msio.owl",
+      "prefix": "http://purl.obolibrary.org/obo/MSIO_"
+    },
+    {
+      "label": "NCBITAXON",
+      "name": "National Center for Biotechnology Information (NCBI) Organismal Classification",
+      "uri": "http://purl.obolibrary.org/obo/ncbitaxon.owl",
+      "prefix": "http://purl.obolibrary.org/obo/NCBITaxon_"
+    },
+    {
+      "label": "NCIT",
+      "name": "NCI Thesaurus OBO Edition",
+      "uri": "http://purl.obolibrary.org/obo/ncit.owl",
+      "prefix": "http://purl.obolibrary.org/obo/NCIT_"
+    },
+    {
+      "label": "OBI",
+      "name": "Ontology for Biomedical Investigations",
+      "uri": "http://purl.obolibrary.org/obo/obi.owl",
+      "prefix": "http://purl.obolibrary.org/obo/OBI_"
+    }
+  ],
+  "mhd_metadata_file_url": "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/MTBLS6.mhd.json",
+  "dataset_url_list": [
+    "https://www.ebi.ac.uk/metabolights/MTBLS6",
+    "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6",
+    "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6"
+  ],
+  "license": "https://www.ebi.ac.uk/about/terms-of-use/",
+  "title": "Development and validation of the PyMS Mass Spectrometry software",
+  "description": "To provide useful data for development and validation of the PyMS Mass Spectrometry software, a test dataset was run at Metabolomics Australia. A biologically complex mix of a biological background material (foetal calf serum), spiked with 2-fold increasing amounts of a mix of metabolite standards. In addition, a single sample consisting of a simple mix of 45 metabolites representing a variety of chemical classes (sufars, organic acids, amino acids, sugar phosphates), was run through a standard Metabolomics Australia GC-MS analysis. The resulting data is a valuable tool in testing GC-MS data analysis software.",
+  "submission_date": "2012-03-29T00:00:00",
+  "public_release_date": "2012-03-29T00:00:00",
+  "submitters": [
+    {
+      "full_name": "Sean O'Callaghan",
+      "email_list": [
+        "spoc@unimelb.edu.au"
+      ],
+      "affiliation_list": [
+        "Metabolomics Australia"
+      ]
+    }
+  ],
+  "omics_type": [
+    {
+      "source": "EDAM",
+      "accession": "EDAM:topic_3172",
+      "name": "Metabolomics"
+    }
+  ],
+  "technology_type": [
+    {
+      "source": "OBI",
+      "accession": "OBI:0000470",
+      "name": "mass spectrometry assay"
+    }
+  ],
+  "measurement_type": [
+    {
+      "source": "MS",
+      "accession": "MS:1003904",
+      "name": "untargeted analysis"
+    }
+  ],
+  "assay_type": [
+    {
+      "source": "OBI",
+      "accession": "OBI:0003110",
+      "name": "gas chromatography mass spectrometry assay"
+    }
+  ],
+  "submitter_keywords": [
+    {
+      "source": "",
+      "accession": "",
+      "name": "PyMS"
+    },
+    {
+      "source": "MS",
+      "accession": "MS:1001457",
+      "name": "data processing software"
+    },
+    {
+      "source": "CHMO",
+      "accession": "CHMO:0000497",
+      "name": "gas chromatography-mass spectrometry"
+    },
+    {
+      "source": "NCIT",
+      "accession": "NCIT:C16237",
+      "name": "Validation"
+    }
+  ],
+  "study_factors": [
+    {
+      "key": {
+        "source": "",
+        "accession": "",
+        "name": "gap penalty"
+      },
+      "values": [
+        {
+          "source": "",
+          "accession": "",
+          "name": "0.3"
+        }
+      ]
+    },
+    {
+      "key": {
+        "source": "",
+        "accession": "",
+        "name": "min number ions"
+      },
+      "values": [
+        {
+          "source": "",
+          "accession": "",
+          "name": "3"
+        }
+      ]
+    },
+    {
+      "key": {
+        "source": "",
+        "accession": "",
+        "name": "relative intensity"
+      },
+      "values": [
+        {
+          "source": "",
+          "accession": "",
+          "name": "2"
+        }
+      ]
+    },
+    {
+      "key": {
+        "source": "",
+        "accession": "",
+        "name": "retention time modulation"
+      },
+      "values": [
+        {
+          "source": "",
+          "accession": "",
+          "name": "2.5"
+        }
+      ]
+    },
+    {
+      "key": {
+        "source": "",
+        "accession": "",
+        "name": "sample type"
+      },
+      "values": [
+        {
+          "source": "",
+          "accession": "",
+          "name": "mixture"
+        },
+        {
+          "source": "",
+          "accession": "",
+          "name": "Spiked"
+        }
+      ]
+    },
+    {
+      "key": {
+        "source": "",
+        "accession": "",
+        "name": "skewing"
+      },
+      "values": [
+        {
+          "source": "",
+          "accession": "",
+          "name": "2"
+        }
+      ]
+    },
+    {
+      "key": {
+        "source": "",
+        "accession": "",
+        "name": "spike in volume"
+      },
+      "values": [
+        {
+          "source": "",
+          "accession": "",
+          "name": ""
+        },
+        {
+          "source": "",
+          "accession": "",
+          "name": ""
+        },
+        {
+          "source": "",
+          "accession": "",
+          "name": ""
+        },
+        {
+          "source": "",
+          "accession": "",
+          "name": ""
+        },
+        {
+          "source": "",
+          "accession": "",
+          "name": ""
+        },
+        {
+          "source": "",
+          "accession": "",
+          "name": ""
+        }
+      ]
+    },
+    {
+      "key": {
+        "source": "",
+        "accession": "",
+        "name": "threshold"
+      },
+      "values": [
+        {
+          "source": "",
+          "accession": "",
+          "name": "6000"
+        },
+        {
+          "source": "",
+          "accession": "",
+          "name": "2000"
+        }
+      ]
+    },
+    {
+      "key": {
+        "source": "",
+        "accession": "",
+        "name": "window"
+      },
+      "values": [
+        {
+          "source": "",
+          "accession": "",
+          "name": "13"
+        },
+        {
+          "source": "",
+          "accession": "",
+          "name": "5"
+        }
+      ]
+    }
+  ],
+  "characteristic_values": [
+    {
+      "key": {
+        "source": "EFO",
+        "accession": "EFO:0000324",
+        "name": "cell type"
+      },
+      "values": [
+        {
+          "source": "NCIT",
+          "accession": "NCIT:C126101",
+          "name": "Not Available"
+        }
+      ]
+    },
+    {
+      "key": {
+        "source": "MONDO",
+        "accession": "MONDO:0000001",
+        "name": "disease"
+      },
+      "values": [
+        {
+          "source": "NCIT",
+          "accession": "NCIT:C126101",
+          "name": "Not Available"
+        }
+      ]
+    },
+    {
+      "key": {
+        "source": "NCIT",
+        "accession": "NCIT:C14250",
+        "name": "Organism"
+      },
+      "values": [
+        {
+          "source": "CHEBI",
+          "accession": "CHEBI:747204",
+          "name": "reference compound"
+        },
+        {
+          "source": "NCBITAXON",
+          "accession": "NCBITaxon:9913",
+          "name": "Bos taurus"
+        }
+      ]
+    },
+    {
+      "key": {
+        "source": "NCIT",
+        "accession": "NCIT:C103199",
+        "name": "Organism Part"
+      },
+      "values": [
+        {
+          "source": "CHEBI",
+          "accession": "CHEBI:60004",
+          "name": "mixture"
+        },
+        {
+          "source": "BTO",
+          "accession": "BTO:0000448",
+          "name": "fetal serum"
+        }
+      ]
+    }
+  ],
+  "protocols": [
+    {
+      "name": "Sample collection",
+      "protocol_type": {
+        "source": "EFO",
+        "accession": "EFO:0005518",
+        "name": "sample collection protocol"
+      },
+      "description": "Two types of samples were prepared. A mixture of 45 metabolites, representing a variety of chemical classes (sugars, organic acids, amino acids, sugar phosphates), was prepared for GC-MS analysis. 10 µl of the mixture was transferred to a GC-MS vial insert and evaporated to dryness in vacuo. The samples were resuspended in 20 mg/ml methoxyamine in pyridine (20 µl, 16 hr, 25 °C) with continuous shaking, followed by derivatization with BSTFA + 1% TMCS (Pierce; 20 µl, 1 hr, 25 °C) using a Gerstel MPS2 autosampler robot. Second group a Foetal calf serum was spiked with 2-fold increasing amounts of a mix of metabolite standards."
+    },
+    {
+      "name": "Extraction",
+      "protocol_type": {
+        "source": "MS",
+        "accession": "MS:1000831",
+        "name": "sample preparation"
+      },
+      "description": "The Foetal calf serum samples (120 µl) were extracted by the addition of 200 µl of 3:2 chloroform:methanol, followed by vigorous mixing and incubation on ice for 10 min. Samples were centrifuged at 4 °C for 10 mins at 16,000 rpm to enable biphasic sparation. 15 µl of the upper aqueous phase was transferred to GC-MS vial inserts and dried in vacuo. The samples were resuspended in 20 mg/ml methoxyamine in pyridine (20 µl, 16 hr, 25 °C) with continuous shaking, followed by derivatization with BSTFA + 1% TMCS (Pierce; 20 µl, 1 hr, 25 °C) using a Gerstel MPS2 autosampler robot.",
+      "protocol_parameters": [
+        {
+          "key": {
+            "source": "",
+            "accession": "",
+            "name": "derivatization"
+          },
+          "values": [
+            {
+              "source": "",
+              "accession": "",
+              "name": "sylilation"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "",
+            "accession": "",
+            "name": "post extraction"
+          },
+          "values": [
+            {
+              "source": "",
+              "accession": "",
+              "name": "None"
+            },
+            {
+              "source": "",
+              "accession": "",
+              "name": "20 mg/ml methoxyamine in pyridine"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Chromatography",
+      "protocol_type": {
+        "source": "CHMO",
+        "accession": "CHMO:0001000",
+        "name": "chromatography"
+      },
+      "description": "Gas chromatography was performed using a 30 m VF5-MS column with 0.25 mm inner diameter and 0.25 mm film thickness (Varian Inc.). Agilent 7890A gas chromatograph interfaced with a 5975C mass selective detector.",
+      "protocol_parameters": [
+        {
+          "key": {
+            "source": "OBI",
+            "accession": "OBI:0000038",
+            "name": "chromatography column"
+          },
+          "values": [
+            {
+              "source": "",
+              "accession": "",
+              "name": "VF-5ms GC (0.25 µm, 0.25 mm x 30 m; Varian)"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "OBI",
+            "accession": "OBI:0000485",
+            "name": "chromatography instrument"
+          },
+          "values": [
+            {
+              "source": "MS",
+              "accession": "MS:1003741",
+              "name": "7890A"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "MS",
+            "accession": "MS:1002270",
+            "name": "chromatography separation"
+          },
+          "values": [
+            {
+              "source": "MS",
+              "accession": "MS:1003718",
+              "name": "non-polar stationary phase gas-liquid chromatography"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Mass spectrometry",
+      "protocol_type": {
+        "source": "CHMO",
+        "accession": "CHMO:0000470",
+        "name": "mass spectrometry"
+      },
+      "description": "The injection temperature was 250 °C, the interface set at 280 °C, and the ionsource adjusted to 250 °C. The carrier gas was helium (flow rate 1 ml/min). The temperature program was 1 min isothermal heating at 70 °C, followed by a 1 °C/min oven temperature ramp to 76 °C, then 5 °C/min to 325 °C and held for 10 min. Mass spectra were recorded at 2.66 scans/s (m/z 50–600).",
+      "protocol_parameters": [
+        {
+          "key": {
+            "source": "MS",
+            "accession": "MS:1003776",
+            "name": "acquisition polarity"
+          },
+          "values": [
+            {
+              "source": "MS",
+              "accession": "MS:1000077",
+              "name": "positive polarity acquisition"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "MS",
+            "accession": "MS:1003761",
+            "name": "instrument class"
+          },
+          "values": [
+            {
+              "source": "",
+              "accession": "",
+              "name": "quadrupole"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "MS",
+            "accession": "MS:1000008",
+            "name": "ionization type"
+          },
+          "values": [
+            {
+              "source": "MS",
+              "accession": "MS:1000389",
+              "name": "electron ionization"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "MSIO",
+            "accession": "MSIO:0000171",
+            "name": "mass spectrometry instrument"
+          },
+          "values": [
+            {
+              "source": "MS",
+              "accession": "MS:1003519",
+              "name": "5975C MSD"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "",
+            "accession": "",
+            "name": "scan m/z range"
+          },
+          "values": [
+            {
+              "source": "",
+              "accession": "",
+              "name": "50-600"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Data transformation",
+      "protocol_type": {
+        "source": "OBI",
+        "accession": "OBI:0200000",
+        "name": "data transformation"
+      },
+      "description": "Data Analysis was performed using the PyMS software package (code.google.com/p/pyms). There are two steps, deconvolution (peak picking), and alignment. Each step produces output – for each sample a peak list was created. Deconvolution was carried out using PyMS with the following parameters: Threshold: 6000, Window: 13 scan, Num Ions per Peak: 3, Relative Intensity: 2 and Spectral Skewing parameter: 2 for the Foetal Calf Serum and Threshold: 3000, and Window: 5 scans difference for the Metabolite mix sample. Alignment was carried out using PyMS, with gap penalty 0.3 and retention time modulation parameter 2.5."
+    },
+    {
+      "name": "Metabolite identification",
+      "protocol_type": {
+        "source": "MI",
+        "accession": "MI:2131",
+        "name": "metabolite identification"
+      },
+      "description": "No metabolites were identified in this experiment."
+    }
+  ],
+  "repository_metadata_file_list": [
+    {
+      "name": "a_MTBLS6_live10_metabolite_profiling_mass_spectrometry.txt",
+      "url_list": [
+        "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/a_MTBLS6_live10_metabolite_profiling_mass_spectrometry.txt",
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/a_MTBLS6_live10_metabolite_profiling_mass_spectrometry.txt"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3687",
+        "name": "ISA-TAB"
+      }
+    },
+    {
+      "name": "i_Investigation.txt",
+      "url_list": [
+        "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/i_Investigation.txt",
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/i_Investigation.txt"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3687",
+        "name": "ISA-TAB"
+      }
+    },
+    {
+      "name": "s_MTBLS6.txt",
+      "url_list": [
+        "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/s_MTBLS6.txt",
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/s_MTBLS6.txt"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3687",
+        "name": "ISA-TAB"
+      }
+    }
+  ],
+  "raw_data_file_list": [
+    {
+      "name": "FILES/APC_BSTFA1_1.CDF",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA1_1.CDF"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/APC_BSTFA1_2.CDF",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA1_2.CDF"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/APC_BSTFA1_3.CDF",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA1_3.CDF"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/APC_BSTFA2_1.CDF",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA2_1.CDF"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/APC_BSTFA2_2.CDF",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA2_2.CDF"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/APC_BSTFA2_3.CDF",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA2_3.CDF"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/APC_BSTFA3_1.CDF",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA3_1.CDF"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/APC_BSTFA3_2.CDF",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA3_2.CDF"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/APC_BSTFA3_3.CDF",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA3_3.CDF"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/APC_BSTFA4_1.CDF",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA4_1.CDF"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/APC_BSTFA4_2.CDF",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA4_2.CDF"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/APC_BSTFA4_3.CDF",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA4_3.CDF"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/APC_BSTFA5_1.CDF",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA5_1.CDF"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/APC_BSTFA5_2.CDF",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA5_2.CDF"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/APC_BSTFA5_3.CDF",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA5_3.CDF"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/APC_BSTFA6_1.CDF",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA6_1.CDF"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/APC_BSTFA6_2.CDF",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA6_2.CDF"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/APC_BSTFA6_3.CDF",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA6_3.CDF"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/gc01_0812_066.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/gc01_0812_066.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    }
+  ],
+  "derived_data_file_list": [
+    {
+      "name": "FILES/APC_BSTFA1_1_peaks.csv",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA1_1_peaks.csv"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3752",
+        "name": "CSV"
+      }
+    },
+    {
+      "name": "FILES/APC_BSTFA1_2_peaks.csv",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA1_2_peaks.csv"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3752",
+        "name": "CSV"
+      }
+    },
+    {
+      "name": "FILES/APC_BSTFA1_3_peaks.csv",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA1_3_peaks.csv"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3752",
+        "name": "CSV"
+      }
+    },
+    {
+      "name": "FILES/APC_BSTFA2_1_peaks.csv",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA2_1_peaks.csv"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3752",
+        "name": "CSV"
+      }
+    },
+    {
+      "name": "FILES/APC_BSTFA2_2_peaks.csv",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA2_2_peaks.csv"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3752",
+        "name": "CSV"
+      }
+    },
+    {
+      "name": "FILES/APC_BSTFA2_3_peaks.csv",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA2_3_peaks.csv"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3752",
+        "name": "CSV"
+      }
+    },
+    {
+      "name": "FILES/APC_BSTFA3_1_peaks.csv",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA3_1_peaks.csv"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3752",
+        "name": "CSV"
+      }
+    },
+    {
+      "name": "FILES/APC_BSTFA3_2_peaks.csv",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA3_2_peaks.csv"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3752",
+        "name": "CSV"
+      }
+    },
+    {
+      "name": "FILES/APC_BSTFA3_3_peaks.csv",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA3_3_peaks.csv"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3752",
+        "name": "CSV"
+      }
+    },
+    {
+      "name": "FILES/APC_BSTFA4_1_peaks.csv",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA4_1_peaks.csv"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3752",
+        "name": "CSV"
+      }
+    },
+    {
+      "name": "FILES/APC_BSTFA4_2_peaks.csv",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA4_2_peaks.csv"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3752",
+        "name": "CSV"
+      }
+    },
+    {
+      "name": "FILES/APC_BSTFA4_3_peaks.csv",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA4_3_peaks.csv"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3752",
+        "name": "CSV"
+      }
+    },
+    {
+      "name": "FILES/APC_BSTFA5_1_peaks.csv",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA5_1_peaks.csv"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3752",
+        "name": "CSV"
+      }
+    },
+    {
+      "name": "FILES/APC_BSTFA5_2_peaks.csv",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA5_2_peaks.csv"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3752",
+        "name": "CSV"
+      }
+    },
+    {
+      "name": "FILES/APC_BSTFA5_3_peaks.csv",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA5_3_peaks.csv"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3752",
+        "name": "CSV"
+      }
+    },
+    {
+      "name": "FILES/APC_BSTFA6_1_peaks.csv",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA6_1_peaks.csv"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3752",
+        "name": "CSV"
+      }
+    },
+    {
+      "name": "FILES/APC_BSTFA6_2_peaks.csv",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA6_2_peaks.csv"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3752",
+        "name": "CSV"
+      }
+    },
+    {
+      "name": "FILES/APC_BSTFA6_3_peaks.csv",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA6_3_peaks.csv"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3752",
+        "name": "CSV"
+      }
+    },
+    {
+      "name": "FILES/GC01_0812_066_peaks.csv",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/GC01_0812_066_peaks.csv"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3752",
+        "name": "CSV"
+      }
+    }
+  ],
+  "supplementary_file_list": [
+    {
+      "name": "FILES/aligned_areas.csv",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/aligned_areas.csv"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3752",
+        "name": "CSV"
+      }
+    },
+    {
+      "name": "FILES/aligned_rts.csv",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/aligned_rts.csv"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3752",
+        "name": "CSV"
+      }
+    }
+  ]
+}

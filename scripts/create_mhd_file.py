@@ -11,6 +11,7 @@ from metabolights_utils.provider.study_provider import (
     MetabolightsStudyProvider,
 )
 from mhd_model.convertors.mhd.convertor import BaseMhdConvertor
+from mhd_model.convertors.sdrf.mhd2sdrf import create_sdrf_files
 from mhd_model.model.v0_1.dataset.validation.validator import validate_mhd_model
 from psycopg import Connection
 from psycopg.rows import TupleRow
@@ -18,7 +19,7 @@ from psycopg.rows import TupleRow
 from mtbls2mhd.commands.fetch_mtbls_study import fetch_mtbls_data
 from mtbls2mhd.config import (
     MHD_MODEL_V0_1_LEGACY_PROFILE_URI,
-    MHD_MODEL_V0_1_MS_PROFILE_URI,
+    # MHD_MODEL_V0_1_MS_PROFILE_URI,
     MHD_MODEL_V0_1_SCHEMA_URI,
     Mtbls2MhdConfiguration,
     get_default_config,
@@ -42,6 +43,7 @@ def convert_mtbls_study_to_mhd(
     mtbls_model_source_path: None | Path = None,
     convertor: None | BaseMhdConvertor = None,
     errors_file_path: None | Path = None,
+    force_recreate: bool = False,
 ) -> tuple[bool | None, dict[str, list[jsonschema.ValidationError]]]:
     root_path = mtbls_config.mtbls_studies_root_path
 
@@ -58,7 +60,8 @@ def convert_mtbls_study_to_mhd(
     )
 
     if (
-        announcement_file_path.exists()
+        not force_recreate
+        and announcement_file_path.exists()
         and mhd_file_path.exists()
         and errors_file_path
         and not errors_file_path.exists()
@@ -110,7 +113,13 @@ def convert_mtbls_study_to_mhd(
         }
 
     try:
-        mhd_file_url = mtbls_config.study_http_base_url + "/" + mtbls_study_id
+        mhd_file_url = (
+            mtbls_config.public_http_base_url
+            + "/"
+            + mtbls_study_id
+            + "/"
+            + mhd_output_filename
+        )
         return validate_mhd_model(
             repository_study_id=mtbls_study_id,
             mhd_file_path=mhd_file_path,
@@ -273,7 +282,7 @@ def create_mtbls_model(
             )
 
 
-def create_mtbls_models(skip_current: bool = True):
+def create_mtbls_models(skip_current: bool = True, working_dir: str = ".outputs"):
     mtbls_config = get_default_config()
     root_path = mtbls_config.mtbls_studies_root_path
 
@@ -306,7 +315,7 @@ def create_mtbls_models(skip_current: bool = True):
         "MALDI-MS",
         "MS",
     }
-    mtbls_model_root_path = Path(".outputs/mtbls_model")
+    mtbls_model_root_path = Path(working_dir) / "mtbls_model"
 
     mtbls_model_root_path.mkdir(parents=True, exist_ok=True)
     for mtbls_study_id in study_ids:
@@ -325,18 +334,19 @@ def create_mtbls_models(skip_current: bool = True):
         )
 
 
-if __name__ == "__main__":
-    setup_basic_logging_config()
+def create_mhd_legacy_profile(
+    force_recreate: bool = False, working_dir: str = ".outputs"
+):
     study_ids = [
         x.name.replace("_model.json", "")
-        for x in Path(".outputs/mtbls_model").glob("*_model.json")
+        for x in Path(f"{working_dir}/mtbls_model").glob("*_model.json")
     ]
     study_ids.sort(
         key=lambda x: int(x.replace("MTBLS", "").replace("REQ", "")), reverse=True
     )
-
+    # study_ids = ["MTBLS143"]
     factory = Mtbls2MhdConvertorFactory()
-    mhd_output_root_path = Path(".outputs/mhd_legacy")
+    mhd_output_root_path = Path(f"{working_dir}/mhd_legacy")
     mtbls_config = get_default_config()
 
     mtbls_config.selected_schema_uri = MHD_MODEL_V0_1_SCHEMA_URI
@@ -346,17 +356,7 @@ if __name__ == "__main__":
         target_mhd_model_schema_uri=mtbls_config.selected_schema_uri,
         target_mhd_model_profile_uri=mtbls_config.selected_profile_uri,
     )
-
-    ms_mtbls_config = get_default_config()
-    ms_mtbls_config.selected_schema_uri = MHD_MODEL_V0_1_SCHEMA_URI
-    ms_mtbls_config.selected_profile_uri = MHD_MODEL_V0_1_MS_PROFILE_URI
-    ms_mhd_output_root_path = Path(".outputs/mhd")
-
-    ms_convertor = factory.get_convertor(
-        target_mhd_model_schema_uri=ms_mtbls_config.selected_schema_uri,
-        target_mhd_model_profile_uri=ms_mtbls_config.selected_profile_uri,
-    )
-    mtbls_model_root_path = Path(".outputs/mtbls_model")
+    mtbls_model_root_path = Path(f"{working_dir}/mtbls_model")
 
     for mtbls_study_id in study_ids:
         errors_file_path = mhd_output_root_path / f"{mtbls_study_id}.mhd.errors.json"
@@ -380,11 +380,22 @@ if __name__ == "__main__":
             mtbls_model_source_path=mtbls_model_source_path,
             convertor=legacy_convertor,
             errors_file_path=errors_file_path,
+            force_recreate=force_recreate,
         )
         if success is None:
             logger.info("%s is skipped", mtbls_study_id)
             continue
         write_to_file(errors_file_path, success, errors)
+
+        # ms_mtbls_config = get_default_config()
+        # ms_mtbls_config.selected_schema_uri = MHD_MODEL_V0_1_SCHEMA_URI
+        # ms_mtbls_config.selected_profile_uri = MHD_MODEL_V0_1_MS_PROFILE_URI
+        # ms_mhd_output_root_path = Path(".outputs/mhd")
+
+        # ms_convertor = factory.get_convertor(
+        #     target_mhd_model_schema_uri=ms_mtbls_config.selected_schema_uri,
+        #     target_mhd_model_profile_uri=ms_mtbls_config.selected_profile_uri,
+        # )
 
         # errors_file_path = ms_mhd_output_root_path / f"{mtbls_study_id}.mhd.errors.json"
         # success, errors = convert_mtbls_study_to_mhd(
@@ -394,6 +405,21 @@ if __name__ == "__main__":
         #     mhd_announcement_output_root_path=ms_mhd_output_root_path,
         #     mtbls_model_source_path=mtbls_model_source_path,
         #     convertor=ms_convertor,
-        #     errors_file_path=errors_file_path
+        #     errors_file_path=errors_file_path,
         # )
         # write_to_file(errors_file_path, success, errors)
+
+
+def create_sdrf_file_from_mhd_file(working_dir: str = ".outputs"):
+    files = list(Path(f"{working_dir}/mhd_legacy").glob("*.mhd.json"))
+    sdrf_file_root_path = Path(f"{working_dir}/sdrf_files/legacy")
+    Path(sdrf_file_root_path).mkdir(parents=True, exist_ok=True)
+
+    for file in files:
+        create_sdrf_files(str(file), sdrf_file_root_path)
+
+
+if __name__ == "__main__":
+    setup_basic_logging_config()
+    create_mhd_legacy_profile(force_recreate=True, working_dir="tests")
+    # create_sdrf_file_from_mhd_file()

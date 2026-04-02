@@ -1,0 +1,2453 @@
+{
+  "repository_name": "MetaboLights",
+  "repository_identifier": "MTBLS8",
+  "revision": 3,
+  "revision_datetime": "2025-09-02T00:00:00",
+  "$schema": "https://metabolomicshub.github.io/mhd-model/schemas/v0_1/announcement-v0.1.schema.json",
+  "profile_uri": "https://metabolomicshub.github.io/mhd-model/schemas/v0_1/announcement-v0.1.legacy-profile.json",
+  "cv_definitions": [
+    {
+      "label": "CHMO",
+      "name": "Chemical Methods Ontology",
+      "uri": "http://purl.obolibrary.org/obo/chmo.owl",
+      "prefix": "http://purl.obolibrary.org/obo/CHMO_"
+    },
+    {
+      "label": "EDAM",
+      "name": "The ontology of data analysis and management",
+      "uri": "http://edamontology.org",
+      "prefix": "http://edamontology.org/"
+    },
+    {
+      "label": "EFO",
+      "name": "Experimental Factor Ontology",
+      "uri": "http://www.ebi.ac.uk/efo/efo.owl",
+      "prefix": "http://www.ebi.ac.uk/efo/EFO_"
+    },
+    {
+      "label": "ENVO",
+      "name": "The Environment Ontology",
+      "uri": "http://purl.obolibrary.org/obo/envo.owl",
+      "prefix": "http://purl.obolibrary.org/obo/ENVO_"
+    },
+    {
+      "label": "MI",
+      "name": "Molecular Interactions Controlled Vocabulary",
+      "uri": " http://purl.obolibrary.org/obo/mi.owl",
+      "prefix": "http://purl.obolibrary.org/obo/MI_"
+    },
+    {
+      "label": "MONDO",
+      "name": "A global community effort to harmonize multiple disease resources to yield a coherent merged ontology.",
+      "uri": "https://purl.obolibrary.org/obo/mondo/mondo-international.owl",
+      "prefix": ""
+    },
+    {
+      "label": "MS",
+      "name": "MS",
+      "uri": "http://purl.obolibrary.org/obo/ms.owl",
+      "prefix": "http://purl.obolibrary.org/obo/MS_"
+    },
+    {
+      "label": "MSIO",
+      "name": "Metabolomics Standards Initiative Ontology (MSIO)",
+      "uri": "http://purl.obolibrary.org/obo/msio.owl",
+      "prefix": "http://purl.obolibrary.org/obo/MSIO_"
+    },
+    {
+      "label": "NCBITAXON",
+      "name": "National Center for Biotechnology Information (NCBI) Organismal Classification",
+      "uri": "http://purl.obolibrary.org/obo/ncbitaxon.owl",
+      "prefix": "http://purl.obolibrary.org/obo/NCBITaxon_"
+    },
+    {
+      "label": "NCIT",
+      "name": "NCI Thesaurus OBO Edition",
+      "uri": "http://purl.obolibrary.org/obo/ncit.owl",
+      "prefix": "http://purl.obolibrary.org/obo/NCIT_"
+    },
+    {
+      "label": "OBI",
+      "name": "Ontology for Biomedical Investigations",
+      "uri": "http://purl.obolibrary.org/obo/obi.owl",
+      "prefix": "http://purl.obolibrary.org/obo/OBI_"
+    },
+    {
+      "label": "SBO",
+      "name": "Terms commonly used in Systems Biology, and in particular in computational modeling.",
+      "uri": "http://purl.obolibrary.org/obo/sbo.owl",
+      "prefix": ""
+    }
+  ],
+  "mhd_metadata_file_url": "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/MTBLS8.mhd.json",
+  "dataset_url_list": [
+    "https://www.ebi.ac.uk/metabolights/MTBLS8",
+    "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8",
+    "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8"
+  ],
+  "license": "https://www.ebi.ac.uk/about/terms-of-use/",
+  "title": "Growth control of the eukaryote cell: a systems biology study in yeast",
+  "description": "Metabolic control analysis is being exploited in a systems biology study of the eukaryotic cell. Using chemostat culture, we have measured the impact of changes in flux (growth rate) on the transcriptome, proteome, endometabolome and exometabolome of the yeast Saccharomyces cerevisiae. Each functional genomic level shows clear growth-rate-associated trends and discriminates between carbon-sufficient and carbon-limited conditions. Genes consistently and significantly upregulated with increasing growth rate are frequently essential and encode evolutionarily conserved proteins of known function that participate in many protein-protein interactions. In contrast, more unknown, and fewer essential, genes are downregulated with increasing growth rate; their protein products rarely interact with one another. A large proportion of yeast genes under positive growth-rate control share orthologs with other eukaryotes, including humans. Significantly, transcription of genes encoding components of the TOR complex (a major controller of eukaryotic cell growth) is not subject to growth-rate regulation. Moreover, integrative studies reveal the extent and importance of post-transcriptional control, patterns of control of metabolic fluxes at the level of enzyme synthesis, and the relevance of specific enzymatic reactions in the control of metabolic fluxes during cell growth.",
+  "submission_date": "2012-04-19T00:00:00",
+  "public_release_date": "2012-04-19T00:00:00",
+  "submitters": [
+    {
+      "full_name": "Juan I. Castrillo",
+      "email_list": [
+        "jic28@cam.ac.uk"
+      ],
+      "affiliation_list": [
+        "University of Cambridge"
+      ]
+    }
+  ],
+  "omics_type": [
+    {
+      "source": "EDAM",
+      "accession": "EDAM:topic_3172",
+      "name": "Metabolomics"
+    }
+  ],
+  "technology_type": [
+    {
+      "source": "OBI",
+      "accession": "OBI:0000470",
+      "name": "mass spectrometry assay"
+    }
+  ],
+  "measurement_type": [
+    {
+      "source": "MS",
+      "accession": "MS:1003904",
+      "name": "untargeted analysis"
+    },
+    {
+      "source": "MS",
+      "accession": "MS:1003904",
+      "name": "untargeted analysis"
+    }
+  ],
+  "assay_type": [
+    {
+      "source": "OBI",
+      "accession": "OBI:0003110",
+      "name": "gas chromatography mass spectrometry assay"
+    }
+  ],
+  "submitter_keywords": [
+    {
+      "source": "",
+      "accession": "",
+      "name": "endometabolome"
+    },
+    {
+      "source": "",
+      "accession": "",
+      "name": "exometabolome"
+    },
+    {
+      "source": "",
+      "accession": "",
+      "name": "untargeted metabolites"
+    },
+    {
+      "source": "CHMO",
+      "accession": "CHMO:0000497",
+      "name": "gas chromatography-mass spectrometry"
+    },
+    {
+      "source": "SBO",
+      "accession": "SBO:0000000",
+      "name": "systems biology representation"
+    }
+  ],
+  "publications": [
+    {
+      "title": "Growth control of the eukaryote cell: a systems biology study in yeast.",
+      "doi": "10.1186/jbiol54"
+    }
+  ],
+  "study_factors": [
+    {
+      "key": {
+        "source": "",
+        "accession": "",
+        "name": "growth rate"
+      },
+      "values": [
+        {
+          "source": "",
+          "accession": "",
+          "name": "0.2"
+        },
+        {
+          "source": "",
+          "accession": "",
+          "name": "0.1"
+        },
+        {
+          "source": "",
+          "accession": "",
+          "name": "0.07"
+        }
+      ]
+    },
+    {
+      "key": {
+        "source": "",
+        "accession": "",
+        "name": "nutrient"
+      },
+      "values": [
+        {
+          "source": "",
+          "accession": "",
+          "name": "Glucose/O2 limiting"
+        },
+        {
+          "source": "",
+          "accession": "",
+          "name": "Phosphate limiting"
+        },
+        {
+          "source": "",
+          "accession": "",
+          "name": "Ethanol limiting"
+        },
+        {
+          "source": "",
+          "accession": "",
+          "name": "Sulphate limiting"
+        },
+        {
+          "source": "",
+          "accession": "",
+          "name": "Nitrogen limiting"
+        },
+        {
+          "source": "",
+          "accession": "",
+          "name": "Carbon limiting"
+        }
+      ]
+    }
+  ],
+  "characteristic_values": [
+    {
+      "key": {
+        "source": "EFO",
+        "accession": "EFO:0000324",
+        "name": "cell type"
+      },
+      "values": [
+        {
+          "source": "NCIT",
+          "accession": "NCIT:C126101",
+          "name": "Not Available"
+        }
+      ]
+    },
+    {
+      "key": {
+        "source": "MONDO",
+        "accession": "MONDO:0000001",
+        "name": "disease"
+      },
+      "values": [
+        {
+          "source": "NCIT",
+          "accession": "NCIT:C126101",
+          "name": "Not Available"
+        }
+      ]
+    },
+    {
+      "key": {
+        "source": "NCIT",
+        "accession": "NCIT:C14250",
+        "name": "Organism"
+      },
+      "values": [
+        {
+          "source": "NCBITAXON",
+          "accession": "NCBITaxon:4932",
+          "name": "Saccharomyces cerevisiae"
+        }
+      ]
+    },
+    {
+      "key": {
+        "source": "NCIT",
+        "accession": "NCIT:C103199",
+        "name": "Organism Part"
+      },
+      "values": [
+        {
+          "source": "NCIT",
+          "accession": "NCIT:C13413",
+          "name": "Whole Organism"
+        },
+        {
+          "source": "NCIT",
+          "accession": "NCIT:C222306",
+          "name": "Exometabolome"
+        }
+      ]
+    },
+    {
+      "key": {
+        "source": "ENVO",
+        "accession": "PATO:0001227",
+        "name": "variant"
+      },
+      "values": [
+        {
+          "source": "",
+          "accession": "",
+          "name": "Saccharomyces cerevisiae strain FY1679"
+        }
+      ]
+    }
+  ],
+  "protocols": [
+    {
+      "name": "Sample collection",
+      "protocol_type": {
+        "source": "EFO",
+        "accession": "EFO:0005518",
+        "name": "sample collection protocol"
+      },
+      "description": "The diploid Saccharomyces cerevisiae strain FY1679 were grown in fermenters, essentially as described before [1]. A set of chemostat cultures under C-, N-, P- and S-limiting conditions were established at a series of dilution rates (0.07, 0.10, 0.20 /h). Cultures were fed with a defined mineral medium limiting growth by carbon, nitrogen, phosphorus, or sulphur, all other nutritional requirements were in excess at a constant residual concentration. Glucose and vitamins were added to the medium after separate sterilization. Glucose was heat-sterilized at 120 °C. Vitamins were prepared and sterilized by filtration through 0.2 µm filters (Sartopore®2, Sartorius, UK). Chemostat cultivation was performed in 2-litre fermenters (FT Applikon Ltd., UK) with a working volume of 1.0 l, a temperature of 30 °C and a stirrer speed of 750 rpm. The culture pH was maintained at 5.0 by automatic addition of 2 M NaOH or HCl as required, via an Applikon ADI-1030 biocontroller. Aerobic cultivation was performed by maintaining an air flow of 1.0 l/min. The dissolved oxygen concentration in all chemostat cultures, as measured with an Ingold polarographic oxygen electrode, was above 50% of saturation. To avoid loss of volatile metabolites, the off-gas condenser was cooled to 4 °C, connected to a cryostat. Off-gas oxygen and carbon dioxide levels were monitored with a Tandem gas analyser (Magellan Instruments, UK). Steady state conditions were deemed established once biomass levels (absorbance and dry weight measurements), dissolved oxygen, and off-gas fractions remained constant over three residence times (three volume changes). For the rapamycin study, a batch culture growing at mid-exponential phase in minimal medium was established under the same cultivation conditions as for chemostat experiments. This was divided into two flasks. Rapamycin (200 ng/ml) was added to one half, and the vehicle added to the other, as the control. Samples were taken at 0, 1, 2 and 4 hrs after the treatment. </p> Ref:</br> [1] Baganz F1, Hayes A, Marren D, Gardner DC, Oliver SG. Suitability of replacement markers for functional analysis studies in Saccharomyces cerevisiae. Yeast. 1997 Dec;13(16):1563-73. PMID:9509575</br>"
+    },
+    {
+      "name": "Extraction",
+      "protocol_type": {
+        "source": "MS",
+        "accession": "MS:1000831",
+        "name": "sample preparation"
+      },
+      "description": "Sampling, quenching, and efficient extraction for endo- and exometabolome analyses of hundreds of intra- and extracellular metabolites, including the main glycolytic intermediates, nucleotides, pyridine nucleotides, and organic acids (for example, pyruvate, citrate, and succinate) were carried out as described previously [1]. Direct quenching of the culture was performed by fast sampling of a volume of culture equivalent to 30 mg dry weight; extracts and culture supernatants were stored at -80 °C. Samples were prepared for MS immediately before the analysis was carried out. </p> Ref:</br> [1] Castrillo JI, Hayes A, Mohammed S, Gaskell SJ, Oliver SG. An optimized protocol for metabolome analysis in yeast using direct infusion electrospray mass spectrometry. Phytochemistry. 2003 Mar;62(6):929-37.</br>",
+      "protocol_parameters": [
+        {
+          "key": {
+            "source": "",
+            "accession": "",
+            "name": "derivatization"
+          },
+          "values": [
+            {
+              "source": "",
+              "accession": "",
+              "name": "sylilation"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "",
+            "accession": "",
+            "name": "post extraction"
+          },
+          "values": [
+            {
+              "source": "",
+              "accession": "",
+              "name": "4/20 µl (endo/exometabolome) internal standard solution added and lyophilized"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Chromatography",
+      "protocol_type": {
+        "source": "CHMO",
+        "accession": "CHMO:0001000",
+        "name": "chromatography"
+      },
+      "description": "Two different sample types were analyzed, endometabolome and exometabolome. Endometabolome samples (typically 1000 µl) were spiked with 4 µl internal standard solution (2.22 mg/ml [²H2]malonic acid, 1.92 mg/ml [²H5]glycine and 0.61 mg/ml [¹³C6]glucose dissolved in water) and lyophilized using a Speedvac concentrator vacuum system SPD111V connected to a Micromodulyo Freeze Dryer (ThermoLife Sciences, Basingstoke, UK). Exometabolome samples (200 µl) were spiked with 20 µl internal standard solution and lyophilized as previously described. Dried samples were derivatized as follows; 100 µl of 20 mg/ml O-methylhydroxylamine solution was added and heated at 40 °C for 90 minutes followed by addition of 100 µl N-acetyl-N-(trimethylsilyl)-trifluoroacetamide and heating at 40 °C for 120 mins. The final solution was spiked with 20 µl retention index solution (0.6 mg/ml n-decane, n-dodecane, n-pentadecane, n-nonadecane, n-docosane dissolved in hexane). </p> Chromatography was carried out on Agilent 6890 gas chromatograph using the manufacturer's software (ChromaTOF version 2.12) and a DB-50 GC column (Supelco, Gillingham, UK; 30 m x 0.25 mm x 0.25 µm film thickness).",
+      "protocol_parameters": [
+        {
+          "key": {
+            "source": "OBI",
+            "accession": "OBI:0000038",
+            "name": "chromatography column"
+          },
+          "values": [
+            {
+              "source": "",
+              "accession": "",
+              "name": "DB-50 GC (0.25 μm, 0.25 mm x 30 m; Supelco)"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "OBI",
+            "accession": "OBI:0000485",
+            "name": "chromatography instrument"
+          },
+          "values": [
+            {
+              "source": "MS",
+              "accession": "MS:1003740",
+              "name": "6890"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "MS",
+            "accession": "MS:1002270",
+            "name": "chromatography separation"
+          },
+          "values": [
+            {
+              "source": "MS",
+              "accession": "MS:1003719",
+              "name": "mid-polar stationary phase gas-liquid chromatography"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Mass spectrometry",
+      "protocol_type": {
+        "source": "CHMO",
+        "accession": "CHMO:0000470",
+        "name": "mass spectrometry"
+      },
+      "description": "The sample was injected (1 µl) split ratio of 1 in 3 into a Agilent 6890 GC equipped with DB-50 GC column (injector temperature = 270 °C, helium carrier gas flow rate = 1 ml/min). The initial column temperature was 70 °C; this was held for 2 mins and then increased by 24 °C/min to 280 °C and hold for 5 mins. The column effluent was introduced into a LECO Pegasus III time-of-flight mass spectrometer (LECO, St Joseph, MI) with transfer line temperature = 250 °C, ion source temperature = 230 °C). The TOF mass spectrometer can collect spectra at up to 500 Hz and mass range of 30–500 m/z. In the ChromaTOF software the S/N threshold was set at 10, baseline offset at 1.0, data points for averaging at 7, and peak width at 2.5.",
+      "protocol_parameters": [
+        {
+          "key": {
+            "source": "MS",
+            "accession": "MS:1003776",
+            "name": "acquisition polarity"
+          },
+          "values": [
+            {
+              "source": "MS",
+              "accession": "MS:1000077",
+              "name": "positive polarity acquisition"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "MS",
+            "accession": "MS:1003761",
+            "name": "instrument class"
+          },
+          "values": [
+            {
+              "source": "MS",
+              "accession": "MS:1000084",
+              "name": "time-of-flight"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "MS",
+            "accession": "MS:1000008",
+            "name": "ionization type"
+          },
+          "values": [
+            {
+              "source": "MS",
+              "accession": "MS:1000389",
+              "name": "electron ionization"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "MSIO",
+            "accession": "MSIO:0000171",
+            "name": "mass spectrometry instrument"
+          },
+          "values": [
+            {
+              "source": "MS",
+              "accession": "MS:1002278",
+              "name": "Pegasus III"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "",
+            "accession": "",
+            "name": "scan m/z range"
+          },
+          "values": [
+            {
+              "source": "",
+              "accession": "",
+              "name": "30-500"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Data transformation",
+      "protocol_type": {
+        "source": "OBI",
+        "accession": "OBI:0200000",
+        "name": "data transformation"
+      },
+      "description": "In the ChromaTOF software the S/N threshold was set at 10, baseline offset at 1.0, data points for averaging at 7, and peak width at 2.5. Initial processing of raw data was undertaken using LECO ChromaTOF v2.12 software to construct a data matrix (metabolite peak versus sample number) using response ratios (peak area metabolite/peak area [²H2]malonic acid) to calculate the relative amount of each metabolite in each sample. For each metabolite peak for each set of three biological replicates, the CV was calculated as follows: %CV = (standard deviation/mean) × 100. The mean CV for replicate analytical analyses (n = 3) was 24.6% for all analyses undertaken, with 62% of these analyses having a CV less than 20% and 38.04% having one less than 10%. Although this shows precision to be less robust than for targeted analyses, this is appropriate in metabolic profiling, where many hundreds of metabolites are detected in short analysis times."
+    },
+    {
+      "name": "Metabolite identification",
+      "protocol_type": {
+        "source": "MI",
+        "accession": "MI:2131",
+        "name": "metabolite identification"
+      },
+      "description": "Metabolite peaks were initially identified by searches on a commercially available mass spectral library [NIST/EPA/NIH (02)] (US National Institute of Standards and Technology, the Environmental Protection Agency and the National Institutes of Health; 2002) and libraries prepared by one of us (W.B.D.). For a peak to be identified required a similarity and reverse match score of greater than 700. Metabolite identification was confirmed by the analysis of pure chemical standards in identical conditions to the sample analysis. Identification was confirmed if the retention time (±5 secs) and mass spectra (similarity and reverse matches greater than 750) of metabolite peak in sample and standard were equivalent."
+    }
+  ],
+  "reported_metabolites": [
+    {
+      "name": "1,2-butandiol"
+    },
+    {
+      "name": "1,2-ethylene glycol"
+    },
+    {
+      "name": "1,3-propanediol"
+    },
+    {
+      "name": "1,6-anhydroglucose"
+    },
+    {
+      "name": "1-monohexadecanoylglycerol"
+    },
+    {
+      "name": "2,4-dimethylbenzoic acid"
+    },
+    {
+      "name": "2-furaldehyde"
+    },
+    {
+      "name": "2-hydroxyglutaric acid"
+    },
+    {
+      "name": "2-hydroxyglutaric acid"
+    },
+    {
+      "name": "2-hydroxyglutaric acid"
+    },
+    {
+      "name": "2-hydroxyphenylethanol"
+    },
+    {
+      "name": "2-isopropyl-malic acid"
+    },
+    {
+      "name": "2-ketoglutaric acid"
+    },
+    {
+      "name": "2-ketoglutaric acid"
+    },
+    {
+      "name": "3,4-dimethylenedioxy mandelic acid"
+    },
+    {
+      "name": "3-methyl 1,2-hydroxybutane"
+    },
+    {
+      "name": "3-phosphoglycerate"
+    },
+    {
+      "name": "4-deoxypyridoxine"
+    },
+    {
+      "name": "4-methyl, 2-hydroxy pentanoic acid"
+    },
+    {
+      "name": "5-hydroxy furancarboxylic acid"
+    },
+    {
+      "name": "N-acetylalanine"
+    },
+    {
+      "name": "N-acetylglutamic acid"
+    },
+    {
+      "name": "S-adenosylhomocysteine"
+    },
+    {
+      "name": "S-adenosylmethionine"
+    },
+    {
+      "name": "S-adenosylmethionine"
+    },
+    {
+      "name": "adenine"
+    },
+    {
+      "name": "adenosine-5-monophosphate"
+    },
+    {
+      "name": "alanine"
+    },
+    {
+      "name": "alanine"
+    },
+    {
+      "name": "alpha-hydroxyvaleric acid"
+    },
+    {
+      "name": "ammonia"
+    },
+    {
+      "name": "ammonia"
+    },
+    {
+      "name": "arginine"
+    },
+    {
+      "name": "aspartic acid"
+    },
+    {
+      "name": "aspartic acid"
+    },
+    {
+      "name": "aspartic acid"
+    },
+    {
+      "name": "aspartic acid derivative"
+    },
+    {
+      "name": "benzoic acid"
+    },
+    {
+      "name": "cadaverine"
+    },
+    {
+      "name": "carbamoyl-aspartic acid"
+    },
+    {
+      "name": "catecholpyruvic acid"
+    },
+    {
+      "name": "cinnamic acid"
+    },
+    {
+      "name": "citramalic acid"
+    },
+    {
+      "name": "citric acid"
+    },
+    {
+      "name": "citric acid"
+    },
+    {
+      "name": "cystathionine"
+    },
+    {
+      "name": "cystathionine"
+    },
+    {
+      "name": "cysteine"
+    },
+    {
+      "name": "dehydroabietic acid"
+    },
+    {
+      "name": "dehydroergosterol"
+    },
+    {
+      "name": "dextrose"
+    },
+    {
+      "name": "dextrose"
+    },
+    {
+      "name": "diphenylketone"
+    },
+    {
+      "name": "ethylphosphate"
+    },
+    {
+      "name": "fumaric acid"
+    },
+    {
+      "name": "fumaric acid"
+    },
+    {
+      "name": "galactinol"
+    },
+    {
+      "name": "galactinol"
+    },
+    {
+      "name": "galactose-6-phosphate"
+    },
+    {
+      "name": "galactose-6-phosphate"
+    },
+    {
+      "name": "gluconic acid"
+    },
+    {
+      "name": "glucopyranose"
+    },
+    {
+      "name": "glucose"
+    },
+    {
+      "name": "glucose-6-phosphate"
+    },
+    {
+      "name": "glucose-6-phosphate|glucose-1-phosphate"
+    },
+    {
+      "name": "glutamic acid"
+    },
+    {
+      "name": "glutamic acid"
+    },
+    {
+      "name": "glutamine"
+    },
+    {
+      "name": "glutathione"
+    },
+    {
+      "name": "glyceric acid"
+    },
+    {
+      "name": "glyceric acid"
+    },
+    {
+      "name": "glycerol"
+    },
+    {
+      "name": "glycerol"
+    },
+    {
+      "name": "glycerol"
+    },
+    {
+      "name": "glycerol"
+    },
+    {
+      "name": "glycine"
+    },
+    {
+      "name": "glycine"
+    },
+    {
+      "name": "heptadecanoic acid"
+    },
+    {
+      "name": "hexadecanoic acid"
+    },
+    {
+      "name": "hexadecenoic acid"
+    },
+    {
+      "name": "histidine"
+    },
+    {
+      "name": "histidine"
+    },
+    {
+      "name": "homoserine"
+    },
+    {
+      "name": "homoserine"
+    },
+    {
+      "name": "isocitric acid"
+    },
+    {
+      "name": "isoleucine"
+    },
+    {
+      "name": "isomaltose"
+    },
+    {
+      "name": "isomaltose"
+    },
+    {
+      "name": "lactic acid"
+    },
+    {
+      "name": "leucine"
+    },
+    {
+      "name": "lysine"
+    },
+    {
+      "name": "malic acid"
+    },
+    {
+      "name": "maltose"
+    },
+    {
+      "name": "maltose"
+    },
+    {
+      "name": "maltose"
+    },
+    {
+      "name": "mannose"
+    },
+    {
+      "name": "mannose"
+    },
+    {
+      "name": "myo-inositol"
+    },
+    {
+      "name": "myo-inositol"
+    },
+    {
+      "name": "myo-inositol-1-phosphate"
+    },
+    {
+      "name": "myo-inositol-6-phosphate"
+    },
+    {
+      "name": "myo-inositol-6-phosphate"
+    },
+    {
+      "name": "octadecanoic acid"
+    },
+    {
+      "name": "octadecanoic acid"
+    },
+    {
+      "name": "octadecanoic acid"
+    },
+    {
+      "name": "pantothenic acid"
+    },
+    {
+      "name": "pantothenic acid"
+    },
+    {
+      "name": "phenolic acid"
+    },
+    {
+      "name": "phenylalanine"
+    },
+    {
+      "name": "phosphoric acid"
+    },
+    {
+      "name": "phosphoric acid"
+    },
+    {
+      "name": "phosphoric acid"
+    },
+    {
+      "name": "phosphoric acid"
+    },
+    {
+      "name": "pyridine impurity"
+    },
+    {
+      "name": "pyroglutamic acid"
+    },
+    {
+      "name": "pyroglutamic acid"
+    },
+    {
+      "name": "pyroglutamic acid"
+    },
+    {
+      "name": "serine"
+    },
+    {
+      "name": "serine"
+    },
+    {
+      "name": "stearic acid-propyl ester"
+    },
+    {
+      "name": "succinic acid"
+    },
+    {
+      "name": "sucrose"
+    },
+    {
+      "name": "sucrose"
+    },
+    {
+      "name": "sugar or sugar alcohol"
+    },
+    {
+      "name": "sugar or sugar alcohol"
+    },
+    {
+      "name": "sugar or sugar alcohol"
+    },
+    {
+      "name": "sugar or sugar alcohol"
+    },
+    {
+      "name": "sugar or sugar alcohol"
+    },
+    {
+      "name": "sugar or sugar alcohol"
+    },
+    {
+      "name": "sugar or sugar alcohol"
+    },
+    {
+      "name": "sugar or sugar alcohol"
+    },
+    {
+      "name": "sugar or sugar alcohol"
+    },
+    {
+      "name": "sugar or sugar alcohol"
+    },
+    {
+      "name": "sugar or sugar alcohol"
+    },
+    {
+      "name": "sugar or sugar alcohol"
+    },
+    {
+      "name": "sugar or sugar alcohol"
+    },
+    {
+      "name": "sugar or sugar alcohol"
+    },
+    {
+      "name": "sugar or sugar alcohol"
+    },
+    {
+      "name": "sugar or sugar alcohol"
+    },
+    {
+      "name": "sugar or sugar alcohol"
+    },
+    {
+      "name": "sugar-phosphate"
+    },
+    {
+      "name": "sulphate"
+    },
+    {
+      "name": "threonine"
+    },
+    {
+      "name": "threonine"
+    },
+    {
+      "name": "trehalose"
+    },
+    {
+      "name": "trehalose"
+    },
+    {
+      "name": "trihydroxylamine"
+    },
+    {
+      "name": "tropic acid"
+    },
+    {
+      "name": "tryptophan"
+    },
+    {
+      "name": "tyrosine"
+    },
+    {
+      "name": "uracil"
+    },
+    {
+      "name": "valine"
+    },
+    {
+      "name": "valine"
+    }
+  ],
+  "repository_metadata_file_list": [
+    {
+      "name": "a_MTBLS8_live_metabolite_profiling_mass_spectrometry.txt",
+      "url_list": [
+        "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/a_MTBLS8_live_metabolite_profiling_mass_spectrometry.txt",
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/a_MTBLS8_live_metabolite_profiling_mass_spectrometry.txt"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3687",
+        "name": "ISA-TAB"
+      }
+    },
+    {
+      "name": "i_Investigation.txt",
+      "url_list": [
+        "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/i_Investigation.txt",
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/i_Investigation.txt"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3687",
+        "name": "ISA-TAB"
+      }
+    },
+    {
+      "name": "s_MTBLS8.txt",
+      "url_list": [
+        "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/s_MTBLS8.txt",
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/s_MTBLS8.txt"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3687",
+        "name": "ISA-TAB"
+      }
+    }
+  ],
+  "raw_data_file_list": [
+    {
+      "name": "FILES/100_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/100_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/100_2.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/100_2.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/100_3.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/100_3.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/101_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/101_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/102_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/102_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/103_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/103_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/104_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/104_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/105_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/105_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/106_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/106_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/107_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/107_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/108_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/108_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/10_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/10_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/10_2.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/10_2.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/10_3.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/10_3.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/11_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/11_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/12_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/12_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/13_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/13_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/14_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/14_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/15_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/15_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/16_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/16_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/17_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/17_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/18_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/18_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/19_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/19_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/19_2.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/19_2.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/19_3.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/19_3.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/1_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/1_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/1_2.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/1_2.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/1_3.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/1_3.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/20_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/20_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/21_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/21_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/22_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/22_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/23_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/23_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/24_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/24_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/25_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/25_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/26_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/26_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/27_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/27_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/28_4.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/28_4.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/28_5.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/28_5.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/28_6.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/28_6.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/29_2.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/29_2.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/2_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/2_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/30_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/30_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/31_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/31_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/32_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/32_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/33_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/33_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/34_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/34_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/35_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/35_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/36_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/36_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/37_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/37_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/37_2.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/37_2.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/37_3.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/37_3.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/38_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/38_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/39_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/39_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/3_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/3_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/40_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/40_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/41_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/41_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/42_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/42_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/46_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/46_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/46_2.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/46_2.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/46_3.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/46_3.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/47_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/47_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/48_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/48_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/49_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/49_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/4_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/4_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/50_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/50_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/51_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/51_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/52_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/52_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/53_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/53_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/54_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/54_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/55_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/55_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/55_2.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/55_2.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/55_3.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/55_3.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/56_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/56_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/57_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/57_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/58_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/58_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/59_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/59_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/5_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/5_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/60_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/60_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/61_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/61_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/62_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/62_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/63_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/63_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/64_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/64_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/64_2.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/64_2.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/64_3.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/64_3.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/65_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/65_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/66_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/66_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/67_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/67_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/68_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/68_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/69_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/69_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/6_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/6_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/70_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/70_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/71_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/71_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/72_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/72_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/73_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/73_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/73_2.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/73_2.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/73_3.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/73_3.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/74_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/74_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/75_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/75_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/76_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/76_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/77_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/77_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/78_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/78_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/79_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/79_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/7_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/7_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/80_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/80_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/81_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/81_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/82_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/82_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/82_2.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/82_2.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/82_3.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/82_3.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/83_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/83_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/84_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/84_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/85_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/85_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/86_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/86_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/87_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/87_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/88_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/88_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/89_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/89_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/8_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/8_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/90_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/90_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/91_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/91_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/91_2.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/91_2.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/91_3.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/91_3.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/92_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/92_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/93_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/93_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/94_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/94_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/95_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/95_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/96_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/96_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    },
+    {
+      "name": "FILES/9_1.cdf",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/9_1.cdf"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3650",
+        "name": "NetCDF"
+      }
+    }
+  ],
+  "derived_data_file_list": [
+    {
+      "name": "FILES/LIVE JIC big experiment GCMS data for Reza_March2012.xlsx",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/LIVE%20JIC%20big%20experiment%20GCMS%20data%20for%20Reza_March2012.xlsx"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3620",
+        "name": "xlsx"
+      }
+    }
+  ],
+  "supplementary_file_list": [
+    {
+      "name": "FILES/3MetabFiles 9August2006 for referees.xls",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/3MetabFiles%209August2006%20for%20referees.xls"
+      ]
+    },
+    {
+      "name": "FILES/JIC Info identifications 19092006.xls",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/JIC%20Info%20identifications%2019092006.xls"
+      ]
+    },
+    {
+      "name": "FILES/a_live_mtbl8_metabolite profiling_mass spectrometry_maf.csv",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/FILES/a_live_mtbl8_metabolite%20profiling_mass%20spectrometry_maf.csv"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3752",
+        "name": "CSV"
+      }
+    }
+  ],
+  "result_file_list": [
+    {
+      "name": "m_MTBLS8_live_metabolite_profiling_mass_spectrometry_v2_maf.tsv",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/m_MTBLS8_live_metabolite_profiling_mass_spectrometry_v2_maf.tsv",
+        "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS8/m_MTBLS8_live_metabolite_profiling_mass_spectrometry_v2_maf.tsv"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3475",
+        "name": "TSV"
+      }
+    }
+  ]
+}

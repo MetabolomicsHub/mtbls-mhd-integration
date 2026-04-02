@@ -1,0 +1,1387 @@
+{
+  "repository_name": "MetaboLights",
+  "repository_identifier": "MTBLS2",
+  "revision": 2,
+  "revision_datetime": "2025-09-02T00:00:00",
+  "$schema": "https://metabolomicshub.github.io/mhd-model/schemas/v0_1/announcement-v0.1.schema.json",
+  "profile_uri": "https://metabolomicshub.github.io/mhd-model/schemas/v0_1/announcement-v0.1.legacy-profile.json",
+  "cv_definitions": [
+    {
+      "label": "BTO",
+      "name": "The BRENDA Tissue Ontology (BTO)",
+      "uri": "http://purl.obolibrary.org/obo/bto.owl",
+      "prefix": "http://purl.obolibrary.org/obo/BTO_"
+    },
+    {
+      "label": "CHMO",
+      "name": "Chemical Methods Ontology",
+      "uri": "http://purl.obolibrary.org/obo/chmo.owl",
+      "prefix": "http://purl.obolibrary.org/obo/CHMO_"
+    },
+    {
+      "label": "EDAM",
+      "name": "The ontology of data analysis and management",
+      "uri": "http://edamontology.org",
+      "prefix": "http://edamontology.org/"
+    },
+    {
+      "label": "EFO",
+      "name": "Experimental Factor Ontology",
+      "uri": "http://www.ebi.ac.uk/efo/efo.owl",
+      "prefix": "http://www.ebi.ac.uk/efo/EFO_"
+    },
+    {
+      "label": "MI",
+      "name": "Molecular Interactions Controlled Vocabulary",
+      "uri": " http://purl.obolibrary.org/obo/mi.owl",
+      "prefix": "http://purl.obolibrary.org/obo/MI_"
+    },
+    {
+      "label": "MONDO",
+      "name": "A global community effort to harmonize multiple disease resources to yield a coherent merged ontology.",
+      "uri": "https://purl.obolibrary.org/obo/mondo/mondo-international.owl",
+      "prefix": ""
+    },
+    {
+      "label": "MS",
+      "name": "MS",
+      "uri": "http://purl.obolibrary.org/obo/ms.owl",
+      "prefix": "http://purl.obolibrary.org/obo/MS_"
+    },
+    {
+      "label": "MSIO",
+      "name": "Metabolomics Standards Initiative Ontology (MSIO)",
+      "uri": "http://purl.obolibrary.org/obo/msio.owl",
+      "prefix": "http://purl.obolibrary.org/obo/MSIO_"
+    },
+    {
+      "label": "NCBITAXON",
+      "name": "National Center for Biotechnology Information (NCBI) Organismal Classification",
+      "uri": "http://purl.obolibrary.org/obo/ncbitaxon.owl",
+      "prefix": "http://purl.obolibrary.org/obo/NCBITaxon_"
+    },
+    {
+      "label": "NCIT",
+      "name": "NCI Thesaurus OBO Edition",
+      "uri": "http://purl.obolibrary.org/obo/ncit.owl",
+      "prefix": "http://purl.obolibrary.org/obo/NCIT_"
+    },
+    {
+      "label": "OBI",
+      "name": "Ontology for Biomedical Investigations",
+      "uri": "http://purl.obolibrary.org/obo/obi.owl",
+      "prefix": "http://purl.obolibrary.org/obo/OBI_"
+    }
+  ],
+  "mhd_metadata_file_url": "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/MTBLS2.mhd.json",
+  "dataset_url_list": [
+    "https://www.ebi.ac.uk/metabolights/MTBLS2",
+    "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2",
+    "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2"
+  ],
+  "license": "https://www.ebi.ac.uk/about/terms-of-use/",
+  "title": "Comparative LC/MS-based profiling of silver nitrate-treated Arabidopsis thaliana leaves of wild-type and cyp79B2 cyp79B3 double knockout plants",
+  "description": "Indole-3-acetaldoxime (IAOx) represents an early intermediate of the biosynthesis of a variety of indolic secondary metabolites including the phytoanticipin indol-3-ylmethyl glucosinolate and the phytoalexin camalexin (3-thiazol-2′-yl-indole). Arabidopsis thaliana cyp79B2 cyp79B3 double knockout plants are completely impaired in the conversion of tryptophan to indole-3-acetaldoxime and do not accumulate IAOx-derived metabolites any longer. Consequently, comparative analysis of wild-type and cyp79B2 cyp79B3 plant lines has the potential to explore the complete range of IAOx-derived indolic secondary metabolites.",
+  "submission_date": "2012-05-22T00:00:00",
+  "public_release_date": "2012-05-22T00:00:00",
+  "submitters": [
+    {
+      "full_name": "Steffen R. Neumann",
+      "email_list": [
+        "sneumann@ipb-halle.de"
+      ],
+      "affiliation_list": [
+        "IPB Halle"
+      ]
+    }
+  ],
+  "omics_type": [
+    {
+      "source": "EDAM",
+      "accession": "EDAM:topic_3172",
+      "name": "Metabolomics"
+    }
+  ],
+  "technology_type": [
+    {
+      "source": "OBI",
+      "accession": "OBI:0000470",
+      "name": "mass spectrometry assay"
+    }
+  ],
+  "measurement_type": [
+    {
+      "source": "MS",
+      "accession": "MS:1003904",
+      "name": "untargeted analysis"
+    },
+    {
+      "source": "MS",
+      "accession": "MS:1003904",
+      "name": "untargeted analysis"
+    }
+  ],
+  "assay_type": [
+    {
+      "source": "OBI",
+      "accession": "OBI:0003097",
+      "name": "liquid chromatography mass spectrometry assay"
+    }
+  ],
+  "submitter_keywords": [
+    {
+      "source": "",
+      "accession": "",
+      "name": "Pathway Elucidation"
+    },
+    {
+      "source": "CHMO",
+      "accession": "CHMO:0000715",
+      "name": "ultra-performance liquid chromatography-mass spectrometry"
+    },
+    {
+      "source": "",
+      "accession": "",
+      "name": "untargeted metabolites"
+    },
+    {
+      "source": "",
+      "accession": "",
+      "name": "Comparative LC/MS-based profiling"
+    },
+    {
+      "source": "",
+      "accession": "",
+      "name": "Plant Metabolomics"
+    }
+  ],
+  "publications": [
+    {
+      "title": "Nearline acquisition and processing of liquid chromatography-tandem mass spectrometry data",
+      "doi": "10.1007/s11306-012-0401-0"
+    },
+    {
+      "title": "The multifunctional enzyme CYP71B15 (PHYTOALEXIN DEFICIENT3) converts cysteine-indole-3-acetonitrile to camalexin in the indole-3-acetonitrile metabolic network of Arabidopsis thaliana.",
+      "doi": "10.1105/tpc.109.066670"
+    }
+  ],
+  "study_factors": [
+    {
+      "key": {
+        "source": "",
+        "accession": "",
+        "name": "genotype"
+      },
+      "values": [
+        {
+          "source": "",
+          "accession": "",
+          "name": "cyp79"
+        },
+        {
+          "source": "",
+          "accession": "",
+          "name": "Col-0"
+        }
+      ]
+    },
+    {
+      "key": {
+        "source": "",
+        "accession": "",
+        "name": "replicate"
+      },
+      "values": [
+        {
+          "source": "",
+          "accession": "",
+          "name": "Exp1"
+        },
+        {
+          "source": "",
+          "accession": "",
+          "name": "Exp2"
+        }
+      ]
+    }
+  ],
+  "characteristic_values": [
+    {
+      "key": {
+        "source": "EFO",
+        "accession": "EFO:0000324",
+        "name": "cell type"
+      },
+      "values": [
+        {
+          "source": "NCIT",
+          "accession": "NCIT:C126101",
+          "name": "Not Available"
+        }
+      ]
+    },
+    {
+      "key": {
+        "source": "MONDO",
+        "accession": "MONDO:0000001",
+        "name": "disease"
+      },
+      "values": [
+        {
+          "source": "NCIT",
+          "accession": "NCIT:C126101",
+          "name": "Not Available"
+        }
+      ]
+    },
+    {
+      "key": {
+        "source": "NCIT",
+        "accession": "NCIT:C14250",
+        "name": "Organism"
+      },
+      "values": [
+        {
+          "source": "NCBITAXON",
+          "accession": "NCBITaxon:3702",
+          "name": "Arabidopsis thaliana"
+        }
+      ]
+    },
+    {
+      "key": {
+        "source": "NCIT",
+        "accession": "NCIT:C103199",
+        "name": "Organism Part"
+      },
+      "values": [
+        {
+          "source": "BTO",
+          "accession": "BTO:0003086",
+          "name": "rosette leaf"
+        }
+      ]
+    },
+    {
+      "key": {
+        "source": "NCIT",
+        "accession": "NCIT:C210102",
+        "name": "Sample Type"
+      },
+      "values": [
+        {
+          "source": "CHMO",
+          "accession": "CHMO:0002746",
+          "name": "experimental sample"
+        }
+      ]
+    }
+  ],
+  "protocols": [
+    {
+      "name": "Sample collection",
+      "protocol_type": {
+        "source": "EFO",
+        "accession": "EFO:0005518",
+        "name": "sample collection protocol"
+      },
+      "description": "Arabidopsis thaliana Col-0 and cyp79B2 cyp79B3 lines were grown for about six weeks after cold stratification (3 days, 4 °C) in parallel on a soil/vermiculite mixture (3/2) in a growth cabinet with 8 h light (~150 µE/m2/s) at 22 °C and 16 h dark at 20 °C to developmental stage 3.5. Plants were sprayed with an aqueous solution of silver nitrate (5 mM) in order to stimulate accumulation of indolic secondary metabolites and incubated for 48 h in a growth cabinet under the same conditions as described above. Rosette leaves of six individual plants per genotype were harvested, immediately frozen in liquid nitrogen, pooled and stored at –80 °C until analysis. Two independent experiments (biological replicates) were performed on independent sets of plants grown at different times."
+    },
+    {
+      "name": "Extraction",
+      "protocol_type": {
+        "source": "MS",
+        "accession": "MS:1000831",
+        "name": "sample preparation"
+      },
+      "description": "Plant material was homogenized in liquid nitrogen using a pestle and mortar and aliquots of 100 +/- 5 mg were weighed into pre-cooled 2 ml, round bottom tubes. After addition of 200 µl methanol/water, 80/20 (v/v) pre-cooled at –40 °C the samples were immediately vortexed for 15 s, sonicated for 15 min at 20 °C and centrifuged for 10 min at 19000 x g. The supernatants were transferred to new 2 ml tubes and the remaining pellets subjected to a second extraction using 200 µl methanol/water, 80/20 (v/v). The combined extracts were evaporated to dryness in a vacuum centrifuge at 30 °C, thoroughly reconstituted in 200 µl methanol/water, 30/70 (v/v) and filtered using 0.2 µm PTFE syringe filters. Four extracts (technical replicates) were prepared for each of the four leaf pools.",
+      "protocol_parameters": [
+        {
+          "key": {
+            "source": "",
+            "accession": "",
+            "name": "derivatization"
+          }
+        },
+        {
+          "key": {
+            "source": "",
+            "accession": "",
+            "name": "post extraction"
+          },
+          "values": [
+            {
+              "source": "",
+              "accession": "",
+              "name": "200 µL methanol:water (30:70, v/v)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Chromatography",
+      "protocol_type": {
+        "source": "CHMO",
+        "accession": "CHMO:0001000",
+        "name": "chromatography"
+      },
+      "description": "Chromatographic separations were performed on an Acquity UPLC system (Waters) equipped with a HSS T3 column (100 x 1.0 mm, particle size 1.8 µm, Waters) applying the following binary gradient at a flow rate of 150 µl/min: 0-1 min, isocratic 95% A (water/formic acid, 99.9/0.1 (v/v)), 5% B (acetonitrile/formic acid, 99.9/0.1 (v/v)); 1-16 min, linear from 5 to 45% B; 16-18 min, isocratic 95% B; 18-20 min, isocratic 5% B. The injection volume was 3.0 µl (full loop injection).",
+      "protocol_parameters": [
+        {
+          "key": {
+            "source": "",
+            "accession": "",
+            "name": "autosampler model"
+          }
+        },
+        {
+          "key": {
+            "source": "OBI",
+            "accession": "OBI:0000038",
+            "name": "chromatography column"
+          },
+          "values": [
+            {
+              "source": "",
+              "accession": "",
+              "name": "ACQUITY UPLC HSS T3 (1.8 µm, 1 mm x 100 mm; Waters)"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "OBI",
+            "accession": "OBI:0000485",
+            "name": "chromatography instrument"
+          },
+          "values": [
+            {
+              "source": "MS",
+              "accession": "MS:1001761",
+              "name": "ACQUITY UPLC"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "MS",
+            "accession": "MS:1002270",
+            "name": "chromatography separation"
+          },
+          "values": [
+            {
+              "source": "MS",
+              "accession": "MS:1003582",
+              "name": "reversed phase chromatography"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "",
+            "accession": "",
+            "name": "guard column"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Mass spectrometry",
+      "protocol_type": {
+        "source": "CHMO",
+        "accession": "CHMO:0000470",
+        "name": "mass spectrometry"
+      },
+      "description": "Eluting compounds were detected from m/z 100-1000 using a micrOTOF-Q II hybrid quadrupole time-of-flight mass spectrometer (Bruker Daltonics) equipped with an Apollo II electrospray ion source in positive and negative ion mode using following instrument settings: nebulizer gas, nitrogen, 1.4 bar; dry gas, nitrogen, 6 l/min, 190 °C; capillary, –5000 V; end plate offset, -500 V; funnel 1 RF, 200 V; funnel 2 RF, 200 V; in-source CID energy, 0 V; hexapole RF, 100 V; quadrupole ion energy, 5 eV; collision gas, nitrogen; collision energy, 7 eV; collision RF 150/350 V (timing 50/50); transfer time, 70 µs; pre pulse storage, 5 µs; pulser frequency, 10 kHz; spectra rate, 3 Hz. Mass spectra were acquired in centroid mode. Mass calibration of individual raw data files was performed on lithium formate cluster ions obtained by automatic infusion of 20 µl 10 mM lithium hydroxide in isopropanol/water/formic acid, 49.9/49.9/0.2 (v/v/v) at a gradient time of 18 min using a diverter valve.",
+      "protocol_parameters": [
+        {
+          "key": {
+            "source": "MS",
+            "accession": "MS:1003776",
+            "name": "acquisition polarity"
+          },
+          "values": [
+            {
+              "source": "MS",
+              "accession": "MS:1000077",
+              "name": "positive polarity acquisition"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "MS",
+            "accession": "MS:1003761",
+            "name": "instrument class"
+          },
+          "values": [
+            {
+              "source": "",
+              "accession": "",
+              "name": "quadrupole time-of-flight"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "MS",
+            "accession": "MS:1000008",
+            "name": "ionization type"
+          },
+          "values": [
+            {
+              "source": "MS",
+              "accession": "MS:1000073",
+              "name": "electrospray ionization"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "MSIO",
+            "accession": "MSIO:0000171",
+            "name": "mass spectrometry instrument"
+          },
+          "values": [
+            {
+              "source": "MS",
+              "accession": "MS:1000704",
+              "name": "micrOTOF-Q II"
+            }
+          ]
+        },
+        {
+          "key": {
+            "source": "",
+            "accession": "",
+            "name": "scan m/z range"
+          },
+          "values": [
+            {
+              "source": "",
+              "accession": "",
+              "name": "100-1000"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Data transformation",
+      "protocol_type": {
+        "source": "OBI",
+        "accession": "OBI:0200000",
+        "name": "data transformation"
+      },
+      "description": "Raw data files were converted to mzData format using the vendor-specific CompassXport (http://www.bdal.de/) and processed using the XCMS package (http://bioconductor.org/packages/release/bioc/html/xcms.html). XCMS settings for processing LC/MS data with findPeaks.centWave() were prefilter=(3,200); snthr=5; ppm=25; peakwidth=(5,12). For alignment group.density() function with parameters minfrac=0.75 and bw=2 was used."
+    },
+    {
+      "name": "Metabolite identification",
+      "protocol_type": {
+        "source": "MI",
+        "accession": "MI:2131",
+        "name": "metabolite identification"
+      },
+      "description": "Differential features detected in narrow retention time windows displaying a high chromatogram correlation were grouped. In combination with the raw data, individual compound mass spectra were reconstructed and features annotated as cluster ion, quasimolecular ion, or in-source fragment ion. Annotated lists of all differential feature sets are provided in Supplemental DataSet S5 of DOI: 10.1007/s11306-012-0401-0 online. Afterwards, targeted CID-MS/MS experiments of quasimolecular ions (MS2) were performed using QTOF-MS. Based on accurate mass measurements, putative elemental compositions were calculated, filtered by isotope abundance and the number of double bond equivalents and electron parity [1], and checked for consistency in relation to elemental compositions calculated for fragment ions and observed neutral losses [2]. Mass spectral characterization of CID mass spectra can be found in Supplemental Data Set S6 (DOI: 10.1007/s11306-012-0401-0) online. Identification was based on reference spectra in MassBank (MSI Level 2 and 3), and in some cases on authentic standards (MSI Level 1). </p> Ref: </br> [1] Kind, T., & Fiehn, O. (2006). Metabolomic database annotations via query of elemental compositions: Mass accuracy is insufficient even at less than 1 ppm. BMC Bioinformatics, 7(1), 234. PMID: 16646969 [2] Konishi Y1, Kiyota T, Draghici C, Gao JM, Yeboah F, Acoca S, Jarussophon S, Purisima E. Molecular formula analysis by an MS/MS/MS technique to expedite dereplication of natural products. Anal Chem. 2007 Feb 1;79(3):1187-97. PMID: 17263353"
+    }
+  ],
+  "reported_metabolites": [
+    {
+      "name": "1-Methoxy-indol-3-ylmethylglucosinolate"
+    },
+    {
+      "name": "1-Methoxy-indol-3-ylmethylglucosinolate"
+    },
+    {
+      "name": "1-Methoxy-indol-3-ylmethylglucosinolate"
+    },
+    {
+      "name": "3-Hydroxy-3-(thiazol-2-yl)indolin-2-one"
+    },
+    {
+      "name": "4-Methoxy-indol-3-ylmethylglucosinolate"
+    },
+    {
+      "name": "4-Methoxy-indol-3-ylmethylglucosinolate"
+    },
+    {
+      "name": "4-Methoxy-indol-3-ylmethylglucosinolate"
+    },
+    {
+      "name": "4-Methoxy-indol-3-ylmethylglucosinolate"
+    },
+    {
+      "name": "6-Hexosyloxyindole-3-carboxylic acid"
+    },
+    {
+      "name": "Ascorbigen"
+    },
+    {
+      "name": "Ascorbigen"
+    },
+    {
+      "name": "Camalexin"
+    },
+    {
+      "name": "Camalexin"
+    },
+    {
+      "name": "Camalexin"
+    },
+    {
+      "name": "Camalexin"
+    },
+    {
+      "name": "Dihydroascorbigen Hexoside"
+    },
+    {
+      "name": "Dihydroascorbigen Hexoside"
+    },
+    {
+      "name": "Hexosyl indole-3-carboxylate"
+    },
+    {
+      "name": "Hexosyl indole-3-carboxylate"
+    },
+    {
+      "name": "Hydroxy-Dihydroascorbigen Hexoside"
+    },
+    {
+      "name": "Hydroxy-Dihydroascorbigen Hexoside"
+    },
+    {
+      "name": "Indol-3-ylmethylamine"
+    },
+    {
+      "name": "Indol-3-ylmethylglucosinolate"
+    },
+    {
+      "name": "Indol-3-ylmethylglucosinolate"
+    },
+    {
+      "name": "Indol-3-ylmethylglucosinolate"
+    },
+    {
+      "name": "Methoxy-Dihydroascorbigen Hexoside"
+    },
+    {
+      "name": "Methyl indole-3-carboxylate"
+    },
+    {
+      "name": "Methyl indole-3-carboxylate"
+    },
+    {
+      "name": "SureCN668028"
+    },
+    {
+      "name": "UNK-14 (hexoside, aglycone C10H9NO2)"
+    },
+    {
+      "name": "UNK-21 (camalexin metabolite)"
+    },
+    {
+      "name": "UNK-21 (camalexin metabolite)"
+    },
+    {
+      "name": "UNK-22 (camalexin metabolite)"
+    },
+    {
+      "name": "UNK-22 (camalexin metabolite)"
+    },
+    {
+      "name": "UNK-5 (hexoside, aglycone C9H7NO4)"
+    },
+    {
+      "name": "gammaGlu-Cys(4MeOI3M)-Gly"
+    },
+    {
+      "name": "gammaGlu-Cys(IAN)"
+    },
+    {
+      "name": "gammaGlu-Cys(IAN)-Glu"
+    },
+    {
+      "name": "gammaGlu-Cys(IAN)-Glu"
+    },
+    {
+      "name": "methyl (2E)-2-(3H-1,3-benzothiazol-2-ylidene)-2-cyanoacetate"
+    },
+    {
+      "name": "methyl (2E)-2-(3H-1,3-benzothiazol-2-ylidene)-2-cyanoacetate"
+    }
+  ],
+  "repository_metadata_file_list": [
+    {
+      "name": "a_MTBLS2_metabolite_profiling_mass_spectrometry.txt",
+      "url_list": [
+        "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/a_MTBLS2_metabolite_profiling_mass_spectrometry.txt",
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/a_MTBLS2_metabolite_profiling_mass_spectrometry.txt"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3687",
+        "name": "ISA-TAB"
+      }
+    },
+    {
+      "name": "i_Investigation.txt",
+      "url_list": [
+        "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/i_Investigation.txt",
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/i_Investigation.txt"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3687",
+        "name": "ISA-TAB"
+      }
+    },
+    {
+      "name": "s_MTBLS2.txt",
+      "url_list": [
+        "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/s_MTBLS2.txt",
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/s_MTBLS2.txt"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3687",
+        "name": "ISA-TAB"
+      }
+    }
+  ],
+  "raw_data_file_list": [
+    {
+      "name": "FILES/MSpos-Ex1-Col0-48h-Ag-1_1-A,1_01_9818.d",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/MSpos-Ex1-Col0-48h-Ag-1_1-A,1_01_9818.d"
+      ],
+      "format": {
+        "source": "MS",
+        "accession": "MS:1002302",
+        "name": "Bruker Container format"
+      }
+    },
+    {
+      "name": "FILES/MSpos-Ex1-Col0-48h-Ag-2_1-A,1_01_9820.d",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/MSpos-Ex1-Col0-48h-Ag-2_1-A,1_01_9820.d"
+      ],
+      "format": {
+        "source": "MS",
+        "accession": "MS:1002302",
+        "name": "Bruker Container format"
+      }
+    },
+    {
+      "name": "FILES/MSpos-Ex1-Col0-48h-Ag-3_1-A,1_01_9822.d",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/MSpos-Ex1-Col0-48h-Ag-3_1-A,1_01_9822.d"
+      ],
+      "format": {
+        "source": "MS",
+        "accession": "MS:1002302",
+        "name": "Bruker Container format"
+      }
+    },
+    {
+      "name": "FILES/MSpos-Ex1-Col0-48h-Ag-4_1-A,1_01_9824.d",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/MSpos-Ex1-Col0-48h-Ag-4_1-A,1_01_9824.d"
+      ],
+      "format": {
+        "source": "MS",
+        "accession": "MS:1002302",
+        "name": "Bruker Container format"
+      }
+    },
+    {
+      "name": "FILES/MSpos-Ex1-cyp79-48h-Ag-1_1-B,1_01_9819.d",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/MSpos-Ex1-cyp79-48h-Ag-1_1-B,1_01_9819.d"
+      ],
+      "format": {
+        "source": "MS",
+        "accession": "MS:1002302",
+        "name": "Bruker Container format"
+      }
+    },
+    {
+      "name": "FILES/MSpos-Ex1-cyp79-48h-Ag-2_1-B,2_01_9821.d",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/MSpos-Ex1-cyp79-48h-Ag-2_1-B,2_01_9821.d"
+      ],
+      "format": {
+        "source": "MS",
+        "accession": "MS:1002302",
+        "name": "Bruker Container format"
+      }
+    },
+    {
+      "name": "FILES/MSpos-Ex1-cyp79-48h-Ag-3_1-B,1_01_9823.d",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/MSpos-Ex1-cyp79-48h-Ag-3_1-B,1_01_9823.d"
+      ],
+      "format": {
+        "source": "MS",
+        "accession": "MS:1002302",
+        "name": "Bruker Container format"
+      }
+    },
+    {
+      "name": "FILES/MSpos-Ex1-cyp79-48h-Ag-4_1-B,2_01_9825.d",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/MSpos-Ex1-cyp79-48h-Ag-4_1-B,2_01_9825.d"
+      ],
+      "format": {
+        "source": "MS",
+        "accession": "MS:1002302",
+        "name": "Bruker Container format"
+      }
+    },
+    {
+      "name": "FILES/MSpos-Ex2-Col0-48h-Ag-1_1-A,2_01_9827.d",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/MSpos-Ex2-Col0-48h-Ag-1_1-A,2_01_9827.d"
+      ],
+      "format": {
+        "source": "MS",
+        "accession": "MS:1002302",
+        "name": "Bruker Container format"
+      }
+    },
+    {
+      "name": "FILES/MSpos-Ex2-Col0-48h-Ag-2_1-A,3_01_9829.d",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/MSpos-Ex2-Col0-48h-Ag-2_1-A,3_01_9829.d"
+      ],
+      "format": {
+        "source": "MS",
+        "accession": "MS:1002302",
+        "name": "Bruker Container format"
+      }
+    },
+    {
+      "name": "FILES/MSpos-Ex2-Col0-48h-Ag-3_1-A,4_01_9831.d",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/MSpos-Ex2-Col0-48h-Ag-3_1-A,4_01_9831.d"
+      ],
+      "format": {
+        "source": "MS",
+        "accession": "MS:1002302",
+        "name": "Bruker Container format"
+      }
+    },
+    {
+      "name": "FILES/MSpos-Ex2-Col0-48h-Ag-4_1-A,2_01_9833.d",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/MSpos-Ex2-Col0-48h-Ag-4_1-A,2_01_9833.d"
+      ],
+      "format": {
+        "source": "MS",
+        "accession": "MS:1002302",
+        "name": "Bruker Container format"
+      }
+    },
+    {
+      "name": "FILES/MSpos-Ex2-cyp79-48h-Ag-1_1-B,3_01_9828.d",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/MSpos-Ex2-cyp79-48h-Ag-1_1-B,3_01_9828.d"
+      ],
+      "format": {
+        "source": "MS",
+        "accession": "MS:1002302",
+        "name": "Bruker Container format"
+      }
+    },
+    {
+      "name": "FILES/MSpos-Ex2-cyp79-48h-Ag-2_1-B,4_01_9830.d",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/MSpos-Ex2-cyp79-48h-Ag-2_1-B,4_01_9830.d"
+      ],
+      "format": {
+        "source": "MS",
+        "accession": "MS:1002302",
+        "name": "Bruker Container format"
+      }
+    },
+    {
+      "name": "FILES/MSpos-Ex2-cyp79-48h-Ag-3_1-B,3_01_9832.d",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/MSpos-Ex2-cyp79-48h-Ag-3_1-B,3_01_9832.d"
+      ],
+      "format": {
+        "source": "MS",
+        "accession": "MS:1002302",
+        "name": "Bruker Container format"
+      }
+    },
+    {
+      "name": "FILES/MSpos-Ex2-cyp79-48h-Ag-4_1-B,4_01_9834.d",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/MSpos-Ex2-cyp79-48h-Ag-4_1-B,4_01_9834.d"
+      ],
+      "format": {
+        "source": "MS",
+        "accession": "MS:1002302",
+        "name": "Bruker Container format"
+      }
+    }
+  ],
+  "derived_data_file_list": [
+    {
+      "name": "FILES/mzData/MSpos-Ex1-Col0-48h-Ag-1_1-A,1_01_9818.mzData",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/mzData/MSpos-Ex1-Col0-48h-Ag-1_1-A,1_01_9818.mzData"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3834",
+        "name": "mzData"
+      }
+    },
+    {
+      "name": "FILES/mzData/MSpos-Ex1-Col0-48h-Ag-2_1-A,1_01_9820.mzData",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/mzData/MSpos-Ex1-Col0-48h-Ag-2_1-A,1_01_9820.mzData"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3834",
+        "name": "mzData"
+      }
+    },
+    {
+      "name": "FILES/mzData/MSpos-Ex1-Col0-48h-Ag-3_1-A,1_01_9822.mzData",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/mzData/MSpos-Ex1-Col0-48h-Ag-3_1-A,1_01_9822.mzData"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3834",
+        "name": "mzData"
+      }
+    },
+    {
+      "name": "FILES/mzData/MSpos-Ex1-Col0-48h-Ag-4_1-A,1_01_9824.mzData",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/mzData/MSpos-Ex1-Col0-48h-Ag-4_1-A,1_01_9824.mzData"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3834",
+        "name": "mzData"
+      }
+    },
+    {
+      "name": "FILES/mzData/MSpos-Ex1-cyp79-48h-Ag-1_1-B,1_01_9819.mzData",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/mzData/MSpos-Ex1-cyp79-48h-Ag-1_1-B,1_01_9819.mzData"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3834",
+        "name": "mzData"
+      }
+    },
+    {
+      "name": "FILES/mzData/MSpos-Ex1-cyp79-48h-Ag-2_1-B,2_01_9821.mzData",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/mzData/MSpos-Ex1-cyp79-48h-Ag-2_1-B,2_01_9821.mzData"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3834",
+        "name": "mzData"
+      }
+    },
+    {
+      "name": "FILES/mzData/MSpos-Ex1-cyp79-48h-Ag-3_1-B,1_01_9823.mzData",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/mzData/MSpos-Ex1-cyp79-48h-Ag-3_1-B,1_01_9823.mzData"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3834",
+        "name": "mzData"
+      }
+    },
+    {
+      "name": "FILES/mzData/MSpos-Ex1-cyp79-48h-Ag-4_1-B,2_01_9825.mzData",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/mzData/MSpos-Ex1-cyp79-48h-Ag-4_1-B,2_01_9825.mzData"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3834",
+        "name": "mzData"
+      }
+    },
+    {
+      "name": "FILES/mzData/MSpos-Ex2-Col0-48h-Ag-1_1-A,2_01_9827.mzData",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/mzData/MSpos-Ex2-Col0-48h-Ag-1_1-A,2_01_9827.mzData"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3834",
+        "name": "mzData"
+      }
+    },
+    {
+      "name": "FILES/mzData/MSpos-Ex2-Col0-48h-Ag-2_1-A,3_01_9829.mzData",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/mzData/MSpos-Ex2-Col0-48h-Ag-2_1-A,3_01_9829.mzData"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3834",
+        "name": "mzData"
+      }
+    },
+    {
+      "name": "FILES/mzData/MSpos-Ex2-Col0-48h-Ag-3_1-A,4_01_9831.mzData",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/mzData/MSpos-Ex2-Col0-48h-Ag-3_1-A,4_01_9831.mzData"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3834",
+        "name": "mzData"
+      }
+    },
+    {
+      "name": "FILES/mzData/MSpos-Ex2-Col0-48h-Ag-4_1-A,2_01_9833.mzData",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/mzData/MSpos-Ex2-Col0-48h-Ag-4_1-A,2_01_9833.mzData"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3834",
+        "name": "mzData"
+      }
+    },
+    {
+      "name": "FILES/mzData/MSpos-Ex2-cyp79-48h-Ag-1_1-B,3_01_9828.mzData",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/mzData/MSpos-Ex2-cyp79-48h-Ag-1_1-B,3_01_9828.mzData"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3834",
+        "name": "mzData"
+      }
+    },
+    {
+      "name": "FILES/mzData/MSpos-Ex2-cyp79-48h-Ag-2_1-B,4_01_9830.mzData",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/mzData/MSpos-Ex2-cyp79-48h-Ag-2_1-B,4_01_9830.mzData"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3834",
+        "name": "mzData"
+      }
+    },
+    {
+      "name": "FILES/mzData/MSpos-Ex2-cyp79-48h-Ag-3_1-B,3_01_9832.mzData",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/mzData/MSpos-Ex2-cyp79-48h-Ag-3_1-B,3_01_9832.mzData"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3834",
+        "name": "mzData"
+      }
+    },
+    {
+      "name": "FILES/mzData/MSpos-Ex2-cyp79-48h-Ag-4_1-B,4_01_9834.mzData",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/mzData/MSpos-Ex2-cyp79-48h-Ag-4_1-B,4_01_9834.mzData"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3834",
+        "name": "mzData"
+      }
+    },
+    {
+      "name": "FILES/mzML/MSpos-Ex1-Col0-48h-Ag-1_1-A__1_01_9818.mzML",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/mzML/MSpos-Ex1-Col0-48h-Ag-1_1-A__1_01_9818.mzML"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3244",
+        "name": "mzML"
+      }
+    },
+    {
+      "name": "FILES/mzML/MSpos-Ex1-Col0-48h-Ag-2_1-A__1_01_9820.mzML",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/mzML/MSpos-Ex1-Col0-48h-Ag-2_1-A__1_01_9820.mzML"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3244",
+        "name": "mzML"
+      }
+    },
+    {
+      "name": "FILES/mzML/MSpos-Ex1-Col0-48h-Ag-3_1-A__1_01_9822.mzML",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/mzML/MSpos-Ex1-Col0-48h-Ag-3_1-A__1_01_9822.mzML"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3244",
+        "name": "mzML"
+      }
+    },
+    {
+      "name": "FILES/mzML/MSpos-Ex1-Col0-48h-Ag-4_1-A__1_01_9824.mzML",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/mzML/MSpos-Ex1-Col0-48h-Ag-4_1-A__1_01_9824.mzML"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3244",
+        "name": "mzML"
+      }
+    },
+    {
+      "name": "FILES/mzML/MSpos-Ex1-cyp79-48h-Ag-1_1-B__1_01_9819.mzML",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/mzML/MSpos-Ex1-cyp79-48h-Ag-1_1-B__1_01_9819.mzML"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3244",
+        "name": "mzML"
+      }
+    },
+    {
+      "name": "FILES/mzML/MSpos-Ex1-cyp79-48h-Ag-2_1-B__2_01_9821.mzML",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/mzML/MSpos-Ex1-cyp79-48h-Ag-2_1-B__2_01_9821.mzML"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3244",
+        "name": "mzML"
+      }
+    },
+    {
+      "name": "FILES/mzML/MSpos-Ex1-cyp79-48h-Ag-3_1-B__1_01_9823.mzML",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/mzML/MSpos-Ex1-cyp79-48h-Ag-3_1-B__1_01_9823.mzML"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3244",
+        "name": "mzML"
+      }
+    },
+    {
+      "name": "FILES/mzML/MSpos-Ex1-cyp79-48h-Ag-4_1-B__2_01_9825.mzML",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/mzML/MSpos-Ex1-cyp79-48h-Ag-4_1-B__2_01_9825.mzML"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3244",
+        "name": "mzML"
+      }
+    },
+    {
+      "name": "FILES/mzML/MSpos-Ex2-Col0-48h-Ag-1_1-A__2_01_9827.mzML",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/mzML/MSpos-Ex2-Col0-48h-Ag-1_1-A__2_01_9827.mzML"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3244",
+        "name": "mzML"
+      }
+    },
+    {
+      "name": "FILES/mzML/MSpos-Ex2-Col0-48h-Ag-2_1-A__3_01_9829.mzML",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/mzML/MSpos-Ex2-Col0-48h-Ag-2_1-A__3_01_9829.mzML"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3244",
+        "name": "mzML"
+      }
+    },
+    {
+      "name": "FILES/mzML/MSpos-Ex2-Col0-48h-Ag-3_1-A__4_01_9831.mzML",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/mzML/MSpos-Ex2-Col0-48h-Ag-3_1-A__4_01_9831.mzML"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3244",
+        "name": "mzML"
+      }
+    },
+    {
+      "name": "FILES/mzML/MSpos-Ex2-Col0-48h-Ag-4_1-A__2_01_9833.mzML",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/mzML/MSpos-Ex2-Col0-48h-Ag-4_1-A__2_01_9833.mzML"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3244",
+        "name": "mzML"
+      }
+    },
+    {
+      "name": "FILES/mzML/MSpos-Ex2-cyp79-48h-Ag-1_1-B__3_01_9828.mzML",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/mzML/MSpos-Ex2-cyp79-48h-Ag-1_1-B__3_01_9828.mzML"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3244",
+        "name": "mzML"
+      }
+    },
+    {
+      "name": "FILES/mzML/MSpos-Ex2-cyp79-48h-Ag-2_1-B__4_01_9830.mzML",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/mzML/MSpos-Ex2-cyp79-48h-Ag-2_1-B__4_01_9830.mzML"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3244",
+        "name": "mzML"
+      }
+    },
+    {
+      "name": "FILES/mzML/MSpos-Ex2-cyp79-48h-Ag-3_1-B__3_01_9832.mzML",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/mzML/MSpos-Ex2-cyp79-48h-Ag-3_1-B__3_01_9832.mzML"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3244",
+        "name": "mzML"
+      }
+    },
+    {
+      "name": "FILES/mzML/MSpos-Ex2-cyp79-48h-Ag-4_1-B__4_01_9834.mzML",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/mzML/MSpos-Ex2-cyp79-48h-Ag-4_1-B__4_01_9834.mzML"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3244",
+        "name": "mzML"
+      }
+    }
+  ],
+  "supplementary_file_list": [
+    {
+      "name": "FILES/MSpos-Ex1-Col0-48h-Ag-1_1-A,1_01_9818.d.zip",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/MSpos-Ex1-Col0-48h-Ag-1_1-A,1_01_9818.d.zip"
+      ],
+      "format": {
+        "source": "MS",
+        "accession": "MS:1002302",
+        "name": "Bruker Container format"
+      }
+    },
+    {
+      "name": "FILES/MSpos-Ex1-Col0-48h-Ag-2_1-A,1_01_9820.d.zip",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/MSpos-Ex1-Col0-48h-Ag-2_1-A,1_01_9820.d.zip"
+      ],
+      "format": {
+        "source": "MS",
+        "accession": "MS:1002302",
+        "name": "Bruker Container format"
+      }
+    },
+    {
+      "name": "FILES/MSpos-Ex1-Col0-48h-Ag-3_1-A,1_01_9822.d.zip",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/MSpos-Ex1-Col0-48h-Ag-3_1-A,1_01_9822.d.zip"
+      ],
+      "format": {
+        "source": "MS",
+        "accession": "MS:1002302",
+        "name": "Bruker Container format"
+      }
+    },
+    {
+      "name": "FILES/MSpos-Ex1-Col0-48h-Ag-4_1-A,1_01_9824.d.zip",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/MSpos-Ex1-Col0-48h-Ag-4_1-A,1_01_9824.d.zip"
+      ],
+      "format": {
+        "source": "MS",
+        "accession": "MS:1002302",
+        "name": "Bruker Container format"
+      }
+    },
+    {
+      "name": "FILES/MSpos-Ex1-cyp79-48h-Ag-1_1-B,1_01_9819.d.zip",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/MSpos-Ex1-cyp79-48h-Ag-1_1-B,1_01_9819.d.zip"
+      ],
+      "format": {
+        "source": "MS",
+        "accession": "MS:1002302",
+        "name": "Bruker Container format"
+      }
+    },
+    {
+      "name": "FILES/MSpos-Ex1-cyp79-48h-Ag-2_1-B,2_01_9821.d.zip",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/MSpos-Ex1-cyp79-48h-Ag-2_1-B,2_01_9821.d.zip"
+      ],
+      "format": {
+        "source": "MS",
+        "accession": "MS:1002302",
+        "name": "Bruker Container format"
+      }
+    },
+    {
+      "name": "FILES/MSpos-Ex1-cyp79-48h-Ag-3_1-B,1_01_9823.d.zip",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/MSpos-Ex1-cyp79-48h-Ag-3_1-B,1_01_9823.d.zip"
+      ],
+      "format": {
+        "source": "MS",
+        "accession": "MS:1002302",
+        "name": "Bruker Container format"
+      }
+    },
+    {
+      "name": "FILES/MSpos-Ex1-cyp79-48h-Ag-4_1-B,2_01_9825.d.zip",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/MSpos-Ex1-cyp79-48h-Ag-4_1-B,2_01_9825.d.zip"
+      ],
+      "format": {
+        "source": "MS",
+        "accession": "MS:1002302",
+        "name": "Bruker Container format"
+      }
+    },
+    {
+      "name": "FILES/MSpos-Ex2-Col0-48h-Ag-1_1-A,2_01_9827.d.zip",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/MSpos-Ex2-Col0-48h-Ag-1_1-A,2_01_9827.d.zip"
+      ],
+      "format": {
+        "source": "MS",
+        "accession": "MS:1002302",
+        "name": "Bruker Container format"
+      }
+    },
+    {
+      "name": "FILES/MSpos-Ex2-Col0-48h-Ag-2_1-A,3_01_9829.d.zip",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/MSpos-Ex2-Col0-48h-Ag-2_1-A,3_01_9829.d.zip"
+      ],
+      "format": {
+        "source": "MS",
+        "accession": "MS:1002302",
+        "name": "Bruker Container format"
+      }
+    },
+    {
+      "name": "FILES/MSpos-Ex2-Col0-48h-Ag-3_1-A,4_01_9831.d.zip",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/MSpos-Ex2-Col0-48h-Ag-3_1-A,4_01_9831.d.zip"
+      ],
+      "format": {
+        "source": "MS",
+        "accession": "MS:1002302",
+        "name": "Bruker Container format"
+      }
+    },
+    {
+      "name": "FILES/MSpos-Ex2-Col0-48h-Ag-4_1-A,2_01_9833.d.zip",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/MSpos-Ex2-Col0-48h-Ag-4_1-A,2_01_9833.d.zip"
+      ],
+      "format": {
+        "source": "MS",
+        "accession": "MS:1002302",
+        "name": "Bruker Container format"
+      }
+    },
+    {
+      "name": "FILES/MSpos-Ex2-cyp79-48h-Ag-1_1-B,3_01_9828.d.zip",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/MSpos-Ex2-cyp79-48h-Ag-1_1-B,3_01_9828.d.zip"
+      ],
+      "format": {
+        "source": "MS",
+        "accession": "MS:1002302",
+        "name": "Bruker Container format"
+      }
+    },
+    {
+      "name": "FILES/MSpos-Ex2-cyp79-48h-Ag-2_1-B,4_01_9830.d.zip",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/MSpos-Ex2-cyp79-48h-Ag-2_1-B,4_01_9830.d.zip"
+      ],
+      "format": {
+        "source": "MS",
+        "accession": "MS:1002302",
+        "name": "Bruker Container format"
+      }
+    },
+    {
+      "name": "FILES/MSpos-Ex2-cyp79-48h-Ag-3_1-B,3_01_9832.d.zip",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/MSpos-Ex2-cyp79-48h-Ag-3_1-B,3_01_9832.d.zip"
+      ],
+      "format": {
+        "source": "MS",
+        "accession": "MS:1002302",
+        "name": "Bruker Container format"
+      }
+    },
+    {
+      "name": "FILES/MSpos-Ex2-cyp79-48h-Ag-4_1-B,4_01_9834.d.zip",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/MSpos-Ex2-cyp79-48h-Ag-4_1-B,4_01_9834.d.zip"
+      ],
+      "format": {
+        "source": "MS",
+        "accession": "MS:1002302",
+        "name": "Bruker Container format"
+      }
+    },
+    {
+      "name": "FILES/a_mtbl2_metabolite profiling_mass spectrometry_maf.csv",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/FILES/a_mtbl2_metabolite%20profiling_mass%20spectrometry_maf.csv"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3752",
+        "name": "CSV"
+      }
+    }
+  ],
+  "result_file_list": [
+    {
+      "name": "m_MTBLS2_metabolite_profiling_mass_spectrometry_v2_maf.tsv",
+      "url_list": [
+        "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/m_MTBLS2_metabolite_profiling_mass_spectrometry_v2_maf.tsv",
+        "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2/m_MTBLS2_metabolite_profiling_mass_spectrometry_v2_maf.tsv"
+      ],
+      "format": {
+        "source": "EDAM",
+        "accession": "EDAM:format_3475",
+        "name": "TSV"
+      }
+    }
+  ]
+}
