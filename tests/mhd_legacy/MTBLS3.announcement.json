@@ -169,36 +169,12 @@
         "name": "gene knockout"
       },
       "values": [
-        {
-          "source": "",
-          "accession": "",
-          "name": "Delta 9 fat 5"
-        },
-        {
-          "source": "",
-          "accession": "",
-          "name": "Delta 9 fat 5 fat 6"
-        },
-        {
-          "source": "",
-          "accession": "",
-          "name": "Delta 9 fat 6"
-        },
-        {
-          "source": "",
-          "accession": "",
-          "name": "Delta 9 fat 7"
-        },
-        {
-          "source": "",
-          "accession": "",
-          "name": "wild-type generic"
-        },
-        {
-          "source": "",
-          "accession": "",
-          "name": "Delta 9 fat 5 fat 7"
-        }
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
       ]
     }
   ],
@@ -238,11 +214,7 @@
         "name": "Organism"
       },
       "values": [
-        {
-          "source": "NCBITAXON",
-          "accession": "NCBITaxon:6239",
-          "name": "Caenorhabditis elegans"
-        }
+        {}
       ]
     },
     {

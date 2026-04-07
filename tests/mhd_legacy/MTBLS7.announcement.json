@@ -186,11 +186,7 @@
         "name": "container_after_14d"
       },
       "values": [
-        {
-          "source": "",
-          "accession": "",
-          "name": "6 cm Pot"
-        }
+        {}
       ]
     },
     {
@@ -200,11 +196,7 @@
         "name": "container_after_initiation"
       },
       "values": [
-        {
-          "source": "",
-          "accession": "",
-          "name": "Petri dish"
-        }
+        {}
       ]
     },
     {
@@ -214,11 +206,7 @@
         "name": "medium_after_14d"
       },
       "values": [
-        {
-          "source": "",
-          "accession": "",
-          "name": "Potting soil"
-        }
+        {}
       ]
     },
     {
@@ -228,11 +216,7 @@
         "name": "medium_after_initiation"
       },
       "values": [
-        {
-          "source": "",
-          "accession": "",
-          "name": "Agar"
-        }
+        {}
       ]
     },
     {
@@ -242,11 +226,7 @@
         "name": "plants/container_quantity_after_14d"
       },
       "values": [
-        {
-          "source": "",
-          "accession": "",
-          "name": "1"
-        }
+        {}
       ]
     },
     {
@@ -257,9 +237,12 @@
       },
       "values": [
         {
-          "source": "",
-          "accession": "",
-          "name": ""
+          "value": "16",
+          "unit": {
+            "source": "",
+            "accession": "",
+            "name": "hour"
+          }
         }
       ]
     },
@@ -271,9 +254,12 @@
       },
       "values": [
         {
-          "source": "",
-          "accession": "",
-          "name": ""
+          "value": "8",
+          "unit": {
+            "source": "",
+            "accession": "",
+            "name": "hour"
+          }
         }
       ]
     },
@@ -285,9 +271,12 @@
       },
       "values": [
         {
-          "source": "",
-          "accession": "",
-          "name": ""
+          "value": "8",
+          "unit": {
+            "source": "",
+            "accession": "",
+            "name": "hour"
+          }
         }
       ]
     },
@@ -299,9 +288,12 @@
       },
       "values": [
         {
-          "source": "",
-          "accession": "",
-          "name": ""
+          "value": "8",
+          "unit": {
+            "source": "",
+            "accession": "",
+            "name": "hour"
+          }
         }
       ]
     },
@@ -313,9 +305,12 @@
       },
       "values": [
         {
-          "source": "",
-          "accession": "",
-          "name": ""
+          "value": "16",
+          "unit": {
+            "source": "",
+            "accession": "",
+            "name": "hour"
+          }
         }
       ]
     },
@@ -327,9 +322,12 @@
       },
       "values": [
         {
-          "source": "",
-          "accession": "",
-          "name": ""
+          "value": "16",
+          "unit": {
+            "source": "",
+            "accession": "",
+            "name": "hour"
+          }
         }
       ]
     }
@@ -370,11 +368,7 @@
         "name": "Organism"
       },
       "values": [
-        {
-          "source": "NCBITAXON",
-          "accession": "NCBITaxon:3702",
-          "name": "Arabidopsis thaliana"
-        }
+        {}
       ]
     },
     {
@@ -384,21 +378,9 @@
         "name": "Organism Part"
       },
       "values": [
-        {
-          "source": "BTO",
-          "accession": "BTO:0000300",
-          "name": "cotyledon"
-        },
-        {
-          "source": "BTO",
-          "accession": "BTO:0000713",
-          "name": "leaf"
-        },
-        {
-          "source": "PO",
-          "accession": "PO:0020148",
-          "name": "shoot apical meristem"
-        }
+        {},
+        {},
+        {}
       ]
     },
     {
@@ -408,11 +390,7 @@
         "name": "variant"
       },
       "values": [
-        {
-          "source": "",
-          "accession": "",
-          "name": "Arabidopsis thaliana.Col-0"
-        }
+        {}
       ]
     }
   ],

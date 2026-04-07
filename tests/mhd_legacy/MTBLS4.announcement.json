@@ -200,36 +200,12 @@
         "name": "blood plasma"
       },
       "values": [
-        {
-          "source": "",
-          "accession": "",
-          "name": "plasma  ringer   palm"
-        },
-        {
-          "source": "",
-          "accession": "",
-          "name": "plasma"
-        },
-        {
-          "source": "",
-          "accession": "",
-          "name": "plasma  ringer   gluc"
-        },
-        {
-          "source": "",
-          "accession": "",
-          "name": "plasma  ringer"
-        },
-        {
-          "source": "",
-          "accession": "",
-          "name": "plasma  ringer   gluc   cer   palm"
-        },
-        {
-          "source": "",
-          "accession": "",
-          "name": "plasma  ringer   cer"
-        }
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
       ]
     }
   ],
@@ -269,11 +245,7 @@
         "name": "Organism"
       },
       "values": [
-        {
-          "source": "NCBITAXON",
-          "accession": "NCBITaxon:9606",
-          "name": "Homo sapiens"
-        }
+        {}
       ]
     },
     {
@@ -283,11 +255,7 @@
         "name": "Organism Part"
       },
       "values": [
-        {
-          "source": "BTO",
-          "accession": "BTO:0000131",
-          "name": "blood plasma"
-        }
+        {}
       ]
     }
   ],

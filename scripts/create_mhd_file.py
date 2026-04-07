@@ -344,7 +344,7 @@ def create_mhd_legacy_profile(
     study_ids.sort(
         key=lambda x: int(x.replace("MTBLS", "").replace("REQ", "")), reverse=True
     )
-    # study_ids = ["MTBLS143"]
+    study_ids = ["REQ20250108125518"]
     factory = Mtbls2MhdConvertorFactory()
     mhd_output_root_path = Path(f"{working_dir}/mhd_legacy")
     mtbls_config = get_default_config()

@@ -185,9 +185,12 @@
       },
       "values": [
         {
-          "source": "",
-          "accession": "",
-          "name": ""
+          "value": "0.038",
+          "unit": {
+            "source": "",
+            "accession": "",
+            "name": "percent"
+          }
         }
       ]
     },
@@ -199,9 +202,12 @@
       },
       "values": [
         {
-          "source": "",
-          "accession": "",
-          "name": ""
+          "value": "5",
+          "unit": {
+            "source": "",
+            "accession": "",
+            "name": "percent"
+          }
         }
       ]
     }
@@ -242,11 +248,7 @@
         "name": "Organism"
       },
       "values": [
-        {
-          "source": "NCBITAXON",
-          "accession": "NCBITaxon:1148",
-          "name": "Synechocystis sp. PCC 6803"
-        }
+        {}
       ]
     },
     {
@@ -270,21 +272,9 @@
         "name": "variant"
       },
       "values": [
-        {
-          "source": "",
-          "accession": "",
-          "name": "Synechocystis sp. PCC 6803.sll0171.ko"
-        },
-        {
-          "source": "",
-          "accession": "",
-          "name": "Synechocystis sp. PCC 6803.sll0404.ko"
-        },
-        {
-          "source": "",
-          "accession": "",
-          "name": "Synechocystis sp. PCC 6803.WT.none"
-        }
+        {},
+        {},
+        {}
       ]
     }
   ],

@@ -175,21 +175,9 @@
         "name": "growth rate"
       },
       "values": [
-        {
-          "source": "",
-          "accession": "",
-          "name": "0.2"
-        },
-        {
-          "source": "",
-          "accession": "",
-          "name": "0.1"
-        },
-        {
-          "source": "",
-          "accession": "",
-          "name": "0.07"
-        }
+        {},
+        {},
+        {}
       ]
     },
     {
@@ -199,36 +187,12 @@
         "name": "nutrient"
       },
       "values": [
-        {
-          "source": "",
-          "accession": "",
-          "name": "Glucose/O2 limiting"
-        },
-        {
-          "source": "",
-          "accession": "",
-          "name": "Phosphate limiting"
-        },
-        {
-          "source": "",
-          "accession": "",
-          "name": "Ethanol limiting"
-        },
-        {
-          "source": "",
-          "accession": "",
-          "name": "Sulphate limiting"
-        },
-        {
-          "source": "",
-          "accession": "",
-          "name": "Nitrogen limiting"
-        },
-        {
-          "source": "",
-          "accession": "",
-          "name": "Carbon limiting"
-        }
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
       ]
     }
   ],
@@ -268,11 +232,7 @@
         "name": "Organism"
       },
       "values": [
-        {
-          "source": "NCBITAXON",
-          "accession": "NCBITaxon:4932",
-          "name": "Saccharomyces cerevisiae"
-        }
+        {}
       ]
     },
     {
@@ -301,11 +261,7 @@
         "name": "variant"
       },
       "values": [
-        {
-          "source": "",
-          "accession": "",
-          "name": "Saccharomyces cerevisiae strain FY1679"
-        }
+        {}
       ]
     }
   ],

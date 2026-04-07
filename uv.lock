@@ -120,7 +120,7 @@ wheels = [
 
 [[package]]
 name = "bioregistry"
-version = "0.13.31"
+version = "0.13.32"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
@@ -132,9 +132,9 @@ dependencies = [
     { name = "sssom-pydantic" },
     { name = "tqdm" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/89/47/0c0c37603d1ed3e8849b1c7caf2cb0a7e8cc1af772f67cbf4cb4ff276d2f/bioregistry-0.13.31.tar.gz", hash = "sha256:407ec9b9b959aeeeb141b954d726b1b2fc5511b9110d4673f01b308b216b8507", size = 5891486, upload-time = "2026-03-30T10:30:08.398Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/18/6d/f8cb9980a78b1d172530066b941d38e745e2142f6892a264fd51bb2d536b/bioregistry-0.13.32.tar.gz", hash = "sha256:c797cd4bb46b73884600ee77cb7961cc041cbdc8c0fcf60fa6604069cdfa456f", size = 5901910, upload-time = "2026-04-04T03:28:23.051Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ff/6b/22911600894139613264e31469274b381a3f53edd4116e4044590831427b/bioregistry-0.13.31-py3-none-any.whl", hash = "sha256:9e9c99f4df6400042cd107456c22259ce85f8761e7edf165182c78fa44244c5d", size = 5974165, upload-time = "2026-03-30T10:30:04.483Z" },
+    { url = "https://files.pythonhosted.org/packages/91/0a/37ef57c6be24ec880b61cdd77cb250f25c15d69d1c47e718aebc897a7758/bioregistry-0.13.32-py3-none-any.whl", hash = "sha256:8c2e82981b95911a22d9f249ed79d0840c17c4b55e4602d4c8e8d64743de5eed", size = 5984127, upload-time = "2026-04-04T03:28:19.947Z" },
 ]
 
 [[package]]
@@ -911,7 +911,7 @@ wheels = [
 
 [[package]]
 name = "mhd-model"
-version = "0.1.72"
+version = "0.1.74"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "bioregistry" },
@@ -929,9 +929,9 @@ dependencies = [
     { name = "pyyaml" },
     { name = "reachable" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/77/85/e9e75d555593d568bf8dd62d94b7900b9b6b061df9911929ace5bed5aa11/mhd_model-0.1.72.tar.gz", hash = "sha256:78895bc321c19742588ee9de2e7729cdb163c9034fd79ded5835ab7b9b4fc36b", size = 112500, upload-time = "2026-03-31T13:37:26.723Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/8c/98/fffd3be22e8e3dc820fff750543da046147e53cb3d22cd4a235fb0037938/mhd_model-0.1.74.tar.gz", hash = "sha256:e1db8c3f1f09674074f0da95a6ba11204dc8205b39ef9207c869e9264426e7b2", size = 113272, upload-time = "2026-04-07T15:11:00.207Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/28/50/3f1346945969f9c977712babdaec2265a651d8d373600b47469c9d1baaea/mhd_model-0.1.72-py3-none-any.whl", hash = "sha256:fdab76144b422a23dba0531782af278ba9ee61dd4581d7de96f7173efc0079bd", size = 143918, upload-time = "2026-03-31T13:37:25.622Z" },
+    { url = "https://files.pythonhosted.org/packages/18/23/393bccf7333dd0666633823413a77fd32e9d5ac7977076452a103965f57b/mhd_model-0.1.74-py3-none-any.whl", hash = "sha256:4aec1b1ed632b4d255821832bac1d21a02208fd0c055b44e30fe334d640bee4d", size = 145231, upload-time = "2026-04-07T15:11:01.382Z" },
 ]
 
 [[package]]
@@ -1051,7 +1051,7 @@ test = [
 requires-dist = [
     { name = "asyncpg", specifier = ">=0.30.0" },
     { name = "metabolights-utils", specifier = ">=1.4.21" },
-    { name = "mhd-model", specifier = ">=0.1.72" },
+    { name = "mhd-model", specifier = ">=0.1.74" },
     { name = "psycopg", extras = ["binary", "pool"], specifier = ">=3.3.2" },
     { name = "pydantic", specifier = ">=2.12.4" },
     { name = "pydantic-settings", specifier = ">=2.10.1" },
@@ -1755,17 +1755,18 @@ wheels = [
 
 [[package]]
 name = "sssom-pydantic"
-version = "0.2.0"
+version = "0.3.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "curies" },
     { name = "pydantic" },
     { name = "pystow" },
     { name = "pyyaml" },
+    { name = "tqdm" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/f4/c3/85640baa9d705beeeb9634169149d4a6990cc8699bc056473fa01694aa36/sssom_pydantic-0.2.0.tar.gz", hash = "sha256:a5584b0604afefb46a4b3d6be7518f7c26dbf00bffba85a93b9a71a20b5db37f", size = 38900, upload-time = "2026-01-23T11:43:23.409Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/e2/d4/45dd3a7124cb4dcae52002488f6b65cc8e8bdedb3f1c42c989b37e4c0ea3/sssom_pydantic-0.3.0.tar.gz", hash = "sha256:822a690568d695cd4a27892be061a86ccc46cfccf88436dd347f41ad37a0e32c", size = 50218, upload-time = "2026-04-04T17:38:19.054Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/93/05/77d276f9644ebd536889f8484dd92f2c37bf8da4e37fb0074574de0527da/sssom_pydantic-0.2.0-py3-none-any.whl", hash = "sha256:672bcec7f9690fe05ddaa2a7447e0d2781521701c7460ed96486b41646d40f92", size = 46184, upload-time = "2026-01-23T11:43:24.738Z" },
+    { url = "https://files.pythonhosted.org/packages/a1/20/9b5cdadf7b48973780644d4172fcbe11d334f50ec0727ffb5c93d0e3d949/sssom_pydantic-0.3.0-py3-none-any.whl", hash = "sha256:cdde550be01ea025d4384fcc12da21a3374fd231876cf5e832933d2bca940c12", size = 62475, upload-time = "2026-04-04T17:38:17.56Z" },
 ]
 
 [[package]]

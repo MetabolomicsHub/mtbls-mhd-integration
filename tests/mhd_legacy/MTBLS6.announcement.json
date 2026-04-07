@@ -159,11 +159,7 @@
         "name": "gap penalty"
       },
       "values": [
-        {
-          "source": "",
-          "accession": "",
-          "name": "0.3"
-        }
+        {}
       ]
     },
     {
@@ -173,11 +169,7 @@
         "name": "min number ions"
       },
       "values": [
-        {
-          "source": "",
-          "accession": "",
-          "name": "3"
-        }
+        {}
       ]
     },
     {
@@ -187,11 +179,7 @@
         "name": "relative intensity"
       },
       "values": [
-        {
-          "source": "",
-          "accession": "",
-          "name": "2"
-        }
+        {}
       ]
     },
     {
@@ -201,11 +189,7 @@
         "name": "retention time modulation"
       },
       "values": [
-        {
-          "source": "",
-          "accession": "",
-          "name": "2.5"
-        }
+        {}
       ]
     },
     {
@@ -215,16 +199,8 @@
         "name": "sample type"
       },
       "values": [
-        {
-          "source": "",
-          "accession": "",
-          "name": "mixture"
-        },
-        {
-          "source": "",
-          "accession": "",
-          "name": "Spiked"
-        }
+        {},
+        {}
       ]
     },
     {
@@ -234,11 +210,7 @@
         "name": "skewing"
       },
       "values": [
-        {
-          "source": "",
-          "accession": "",
-          "name": "2"
-        }
+        {}
       ]
     },
     {
@@ -249,34 +221,52 @@
       },
       "values": [
         {
-          "source": "",
-          "accession": "",
-          "name": ""
+          "value": "25",
+          "unit": {
+            "source": "",
+            "accession": "",
+            "name": "microliter"
+          }
         },
         {
-          "source": "",
-          "accession": "",
-          "name": ""
+          "value": "6",
+          "unit": {
+            "source": "",
+            "accession": "",
+            "name": "microliter"
+          }
         },
         {
-          "source": "",
-          "accession": "",
-          "name": ""
+          "value": "50",
+          "unit": {
+            "source": "",
+            "accession": "",
+            "name": "microliter"
+          }
         },
         {
-          "source": "",
-          "accession": "",
-          "name": ""
+          "value": "3",
+          "unit": {
+            "source": "",
+            "accession": "",
+            "name": "microliter"
+          }
         },
         {
-          "source": "",
-          "accession": "",
-          "name": ""
+          "value": "0",
+          "unit": {
+            "source": "",
+            "accession": "",
+            "name": "microliter"
+          }
         },
         {
-          "source": "",
-          "accession": "",
-          "name": ""
+          "value": "12",
+          "unit": {
+            "source": "",
+            "accession": "",
+            "name": "microliter"
+          }
         }
       ]
     },
@@ -287,16 +277,8 @@
         "name": "threshold"
       },
       "values": [
-        {
-          "source": "",
-          "accession": "",
-          "name": "6000"
-        },
-        {
-          "source": "",
-          "accession": "",
-          "name": "2000"
-        }
+        {},
+        {}
       ]
     },
     {
@@ -306,16 +288,8 @@
         "name": "window"
       },
       "values": [
-        {
-          "source": "",
-          "accession": "",
-          "name": "13"
-        },
-        {
-          "source": "",
-          "accession": "",
-          "name": "5"
-        }
+        {},
+        {}
       ]
     }
   ],

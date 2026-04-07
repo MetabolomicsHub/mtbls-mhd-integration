@@ -173,16 +173,8 @@
         "name": "genotype"
       },
       "values": [
-        {
-          "source": "",
-          "accession": "",
-          "name": "cyp79"
-        },
-        {
-          "source": "",
-          "accession": "",
-          "name": "Col-0"
-        }
+        {},
+        {}
       ]
     },
     {
@@ -192,16 +184,8 @@
         "name": "replicate"
       },
       "values": [
-        {
-          "source": "",
-          "accession": "",
-          "name": "Exp1"
-        },
-        {
-          "source": "",
-          "accession": "",
-          "name": "Exp2"
-        }
+        {},
+        {}
       ]
     }
   ],
@@ -241,11 +225,7 @@
         "name": "Organism"
       },
       "values": [
-        {
-          "source": "NCBITAXON",
-          "accession": "NCBITaxon:3702",
-          "name": "Arabidopsis thaliana"
-        }
+        {}
       ]
     },
     {
@@ -255,11 +235,7 @@
         "name": "Organism Part"
       },
       "values": [
-        {
-          "source": "BTO",
-          "accession": "BTO:0003086",
-          "name": "rosette leaf"
-        }
+        {}
       ]
     },
     {
@@ -269,11 +245,7 @@
         "name": "Sample Type"
       },
       "values": [
-        {
-          "source": "CHMO",
-          "accession": "CHMO:0002746",
-          "name": "experimental sample"
-        }
+        {}
       ]
     }
   ],
