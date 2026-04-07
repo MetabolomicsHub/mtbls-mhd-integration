@@ -93,8 +93,9 @@ def get_mtbls_terms_mapping() -> dict[str, dict[str, CvTerm]]:
         HEADERS = {
             "REF_ACCESSION": 0,
             "REF_TERM": 1,
-            "MTBLS_CV_NAMES": 2,
-            "MTBLS_CV_NAMES2": 3,
+            "MTBLS_CV_NAMES": 1,
+            "MTBLS_CV_NAMES2": 2,
+            "MTBLS_CV_NAMES3": 3,
             "INSTANCE": 5,
         }
 
@@ -107,7 +108,7 @@ def get_mtbls_terms_mapping() -> dict[str, dict[str, CvTerm]]:
             source = accession.split(":")[0]
             term = row[HEADERS["REF_TERM"]]
             mtbls_cv_names_set: set[str] = set()
-            for x in ["MTBLS_CV_NAMES", "MTBLS_CV_NAMES2"]:
+            for x in ["MTBLS_CV_NAMES", "MTBLS_CV_NAMES2", "MTBLS_CV_NAMES3"]:
                 mtbls_cv_names_set.update(
                     {
                         name.strip().lower().split(":")[1]
