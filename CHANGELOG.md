@@ -1,3 +1,9 @@
+## v0.0.29 (2026-04-07)
+
+### Fix
+
+- scan polarity convertion updates
+
 ## v0.0.28 (2026-04-02)
 
 ### Fix
