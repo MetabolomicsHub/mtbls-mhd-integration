@@ -1,3 +1,9 @@
+## v0.0.31 (2026-04-08)
+
+### Fix
+
+- instrument class mapping updates
+
 ## v0.0.30 (2026-04-07)
 
 ### Fix
