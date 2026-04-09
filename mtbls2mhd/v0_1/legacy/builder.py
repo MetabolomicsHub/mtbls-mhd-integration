@@ -285,27 +285,108 @@ MTBLS_PROTOCOL_PARAMETER_DEFINITION_MAP.update(
 
 
 FILE_EXTENSIONS: dict[tuple[str, bool], CvTerm] = {
+    # --- Raw file formats ---
+    # baf, cmp, d, dat, fid, hr, ibd, jpf, lcd, ms, peg, qgd, raw, ser,
+    # wiff + wiff.scan, smp
+    (".baf", False): CvTerm(
+        source="MS", accession="MS:1000815", name="Bruker BAF format"
+    ),
     (".d", True): CvTerm(
         source="MS", accession="MS:1002302", name="Bruker Container format"
     ),
+    (".fid", False): CvTerm(
+        source="MS", accession="MS:1000825", name="Bruker FID format"
+    ),
+    (".ibd", False): CvTerm(
+        source="EDAM", accession="EDAM:format_3839", name="ibd"
+    ),  # imaging MS binary; no MS ontology equivalent
+    (".lcd", False): CvTerm(
+        source="MS", accession="MS:1003009", name="Shimadzu Biotech LCD format"
+    ),
+    (".ms", False): CvTerm(
+        source="MS", accession="MS:1001509", name="Agilent MassHunter format"
+    ),
+    (".qgd", False): CvTerm(
+        source="MS", accession="MS:1000930", name="Shimadzu Biotech database entity"
+    ),
     (".raw", False): CvTerm(
-        source="EDAM", accession="EDAM:format_3712", name="Thermo RAW"
+        source="MS", accession="MS:1000563", name="Thermo RAW format"
     ),
     (".raw", True): CvTerm(
-        source="EDAM", accession="EDAM:format_3858", name="Waters RAW"
+        source="MS", accession="MS:1000526", name="Waters raw format"
     ),
     (".wiff", False): CvTerm(
-        source="EDAM", accession="EDAM:format_3710", name="WIFF format"
+        source="MS", accession="MS:1000562", name="ABI WIFF format"
     ),
-    (".mzml", False): CvTerm(source="EDAM", accession="EDAM:format_3244", name="mzML"),
+    (".wiff.scan", False): CvTerm(
+        source="MS", accession="MS:1000562", name="ABI WIFF format"
+    ),  # .wiff.scan companion; Path.suffix returns ".scan"
+    # placeholder: pending ontology PR
+    (".cmp", False): CvTerm(
+        source="MS", accession="MS:1000560", name="mass spectrometer file format"
+    ),
+    (".dat", False): CvTerm(
+        source="MS", accession="MS:1000560", name="mass spectrometer file format"
+    ),
+    (".hr", False): CvTerm(
+        source="MS", accession="MS:1000560", name="mass spectrometer file format"
+    ),
+    (".jpf", False): CvTerm(
+        source="MS",
+        accession="MS:1000560",
+        name="mass spectrometer file format",
+        # JEOL Systems binary data format
+    ),
+    (".peg", False): CvTerm(
+        source="MS",
+        accession="MS:1000560",
+        name="mass spectrometer file format",
+        # LECO Pegasus data format
+    ),
+    (".ser", False): CvTerm(
+        source="MS", accession="MS:1000560", name="mass spectrometer file format"
+    ),
+    (".smp", False): CvTerm(
+        source="MS", accession="MS:1000560", name="mass spectrometer file format"
+    ),
+    # --- Derived file formats ---
+    # cdf, cef, cnx, dx, imzml, mgf, msp, mzml, mzPeak, mzxml, peakml, xlsx, xy
+    (".cdf", False): CvTerm(source="MS", accession="MS:1002441", name="Andi-MS format"),
+    (".dx", False): CvTerm(
+        source="EDAM", accession="EDAM:format_3859", name="JCAMP-DX"
+    ),
+    (".imzml", False): CvTerm(source="MS", accession="MS:1003611", name="imzML format"),
+    (".mgf", False): CvTerm(
+        source="MS", accession="MS:1001062", name="Mascot MGF format"
+    ),
+    (".msp", False): CvTerm(source="EDAM", accession="EDAM:format_4039", name="MSP"),
     (".mzdata", False): CvTerm(
-        source="EDAM", accession="EDAM:format_3834", name="mzData"
+        source="MS", accession="MS:1000564", name="PSI mzData format"
+    ),
+    (".mzml", False): CvTerm(source="MS", accession="MS:1000584", name="mzML format"),
+    (".mzpeak", False): CvTerm(
+        source="MS", accession="MS:1003610", name="mzPeak format"
     ),
     (".mzxml", False): CvTerm(
-        source="EDAM", accession="EDAM:format_3654", name="mzXML"
+        source="MS", accession="MS:1000566", name="ISB mzXML format"
     ),
-    (".ibd", False): CvTerm(source="EDAM", accession="EDAM:format_3839", name="ibd"),
-    (".cdf", False): CvTerm(source="EDAM", accession="EDAM:format_3839", name="ibd"),
+    (".xlsx", False): CvTerm(source="EDAM", accession="EDAM:format_3620", name="xlsx"),
+    # placeholder: pending ontology PR
+    (".cef", False): CvTerm(
+        source="EDAM",
+        accession="EDAM:format_3245",
+        name="Mass spectrometry data format",
+    ),
+    (".peakml", False): CvTerm(
+        source="EDAM",
+        accession="EDAM:format_3245",
+        name="Mass spectrometry data format",
+    ),
+    (".xy", False): CvTerm(
+        source="EDAM",
+        accession="EDAM:format_3245",
+        name="Mass spectrometry data format",
+    ),
 }
 
 # DEFAULT_RAW_DATA_FILE_FORMAT = CvTerm(
