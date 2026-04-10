@@ -343,9 +343,6 @@ FILE_EXTENSIONS: dict[tuple[str, bool], CvTerm] = {
         name="mass spectrometer file format",
         # LECO Pegasus data format
     ),
-    (".ser", False): CvTerm(
-        source="MS", accession="MS:1000560", name="mass spectrometer file format"
-    ),
     (".smp", False): CvTerm(
         source="MS", accession="MS:1000560", name="mass spectrometer file format"
     ),
