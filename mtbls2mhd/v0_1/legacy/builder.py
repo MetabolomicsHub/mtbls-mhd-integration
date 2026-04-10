@@ -541,7 +541,7 @@ class MhdLegacyDatasetBuilder:
 
                 affiliation = contact.affiliation or None
                 organization = None
-                if not affiliation:
+                if not affiliation or len(affiliation) < 2:
                     continue
                 if affiliation not in organizations:
                     organization = mhd_domain.Organization(
@@ -563,7 +563,7 @@ class MhdLegacyDatasetBuilder:
                     if submitter.user_name not in contacts:
                         affiliation = submitter.affiliation or None
                         organization = None
-                        if not affiliation:
+                        if not affiliation or len(affiliation) < 2:
                             continue
                         if affiliation not in organizations:
                             organization = mhd_domain.Organization(
@@ -651,7 +651,7 @@ class MhdLegacyDatasetBuilder:
                 if not funder:
                     continue
                 organization = organizations.get(funder)
-                if not organization:
+                if not organization and funder and len(funder) > 1:
                     organization = mhd_domain.Organization(
                         repository_identifier=funder, name=funder
                     )
