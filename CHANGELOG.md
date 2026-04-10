@@ -1,3 +1,9 @@
+## v0.0.32 (2026-04-10)
+
+### Fix
+
+- organization creation cause errors if name is less than 2 characters
+
 ## v0.0.31 (2026-04-08)
 
 ### Fix
