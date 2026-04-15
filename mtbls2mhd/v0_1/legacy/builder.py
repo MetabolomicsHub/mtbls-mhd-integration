@@ -340,30 +340,30 @@ FILE_EXTENSIONS: dict[tuple[str, bool], CvTerm] = {
         source="MS", accession="MS:1000562", name="ABI WIFF format"
     ),  # .wiff.scan companion; Path.suffix returns ".scan"
     # placeholder: pending ontology PR
-    (".cmp", False): CvTerm(
-        source="MS", accession="MS:1000560", name="mass spectrometer file format"
-    ),
-    (".dat", False): CvTerm(
-        source="MS", accession="MS:1000560", name="mass spectrometer file format"
-    ),
-    (".hr", False): CvTerm(
-        source="MS", accession="MS:1000560", name="mass spectrometer file format"
-    ),
-    (".jpf", False): CvTerm(
-        source="MS",
-        accession="MS:1000560",
-        name="mass spectrometer file format",
-        # JEOL Systems binary data format
-    ),
-    (".peg", False): CvTerm(
-        source="MS",
-        accession="MS:1000560",
-        name="mass spectrometer file format",
-        # LECO Pegasus data format
-    ),
-    (".smp", False): CvTerm(
-        source="MS", accession="MS:1000560", name="mass spectrometer file format"
-    ),
+    # (".cmp", False): CvTerm(
+    #     source="MS", accession="MS:1000560", name="mass spectrometer file format"
+    # ),
+    # (".dat", False): CvTerm(
+    #     source="MS", accession="MS:1000560", name="mass spectrometer file format"
+    # ),
+    # (".hr", False): CvTerm(
+    #     source="MS", accession="MS:1000560", name="mass spectrometer file format"
+    # ),
+    # (".jpf", False): CvTerm(
+    #     source="MS",
+    #     accession="MS:1000560",
+    #     name="mass spectrometer file format",
+    #     # JEOL Systems binary data format
+    # ),
+    # (".peg", False): CvTerm(
+    #     source="MS",
+    #     accession="MS:1000560",
+    #     name="mass spectrometer file format",
+    #     # LECO Pegasus data format
+    # ),
+    # (".smp", False): CvTerm(
+    #     source="MS", accession="MS:1000560", name="mass spectrometer file format"
+    # ),
     # --- Derived file formats ---
     # cdf, cef, cnx, dx, imzml, mgf, msp, mzml, mzPeak, mzxml, peakml, xlsx, xy
     (".cdf", False): CvTerm(source="MS", accession="MS:1002441", name="Andi-MS format"),
@@ -387,26 +387,23 @@ FILE_EXTENSIONS: dict[tuple[str, bool], CvTerm] = {
     ),
     (".xlsx", False): CvTerm(source="EDAM", accession="EDAM:format_3620", name="xlsx"),
     # placeholder: pending ontology PR
-    (".cef", False): CvTerm(
-        source="EDAM",
-        accession="EDAM:format_3245",
-        name="Mass spectrometry data format",
-    ),
-    (".peakml", False): CvTerm(
-        source="EDAM",
-        accession="EDAM:format_3245",
-        name="Mass spectrometry data format",
-    ),
-    (".xy", False): CvTerm(
-        source="EDAM",
-        accession="EDAM:format_3245",
-        name="Mass spectrometry data format",
-    ),
-    (".ibd", False): CvTerm(source="EDAM", accession="EDAM:format_3839", name="ibd"),
+    # (".cef", False): CvTerm(
+    #     source="EDAM",
+    #     accession="EDAM:format_3245",
+    #     name="Mass spectrometry data format",
+    # ),
+    # (".peakml", False): CvTerm(
+    #     source="EDAM",
+    #     accession="EDAM:format_3245",
+    #     name="Mass spectrometry data format",
+    # ),
+    # (".xy", False): CvTerm(
+    #     source="EDAM",
+    #     accession="EDAM:format_3245",
+    #     name="Mass spectrometry data format",
+    # ),
     (".csv", False): CvTerm(source="EDAM", accession="EDAM:format_3752", name="CSV"),
     (".xml", False): CvTerm(source="EDAM", accession="EDAM:format_2332", name="XML"),
-    (".xlsx", False): CvTerm(source="EDAM", accession="EDAM:format_3620", name="xlsx"),
-    (".cdf", False): CvTerm(source="EDAM", accession="EDAM:format_3650", name="NetCDF"),
 }
 
 # DEFAULT_RAW_DATA_FILE_FORMAT = CvTerm(

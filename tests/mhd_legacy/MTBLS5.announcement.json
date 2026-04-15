@@ -1518,245 +1518,420 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_10.peg"
       ],
-      "extension": ".peg"
+      "extension": ".peg",
+      "format": {
+        "source": "MS",
+        "accession": "MS:1000560",
+        "name": "mass spectrometer file format"
+      }
     },
     {
       "name": "FILES/6089if_11.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_11.peg"
       ],
-      "extension": ".peg"
+      "extension": ".peg",
+      "format": {
+        "source": "MS",
+        "accession": "MS:1000560",
+        "name": "mass spectrometer file format"
+      }
     },
     {
       "name": "FILES/6089if_15.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_15.peg"
       ],
-      "extension": ".peg"
+      "extension": ".peg",
+      "format": {
+        "source": "MS",
+        "accession": "MS:1000560",
+        "name": "mass spectrometer file format"
+      }
     },
     {
       "name": "FILES/6089if_16.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_16.peg"
       ],
-      "extension": ".peg"
+      "extension": ".peg",
+      "format": {
+        "source": "MS",
+        "accession": "MS:1000560",
+        "name": "mass spectrometer file format"
+      }
     },
     {
       "name": "FILES/6089if_17.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_17.peg"
       ],
-      "extension": ".peg"
+      "extension": ".peg",
+      "format": {
+        "source": "MS",
+        "accession": "MS:1000560",
+        "name": "mass spectrometer file format"
+      }
     },
     {
       "name": "FILES/6089if_24.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_24.peg"
       ],
-      "extension": ".peg"
+      "extension": ".peg",
+      "format": {
+        "source": "MS",
+        "accession": "MS:1000560",
+        "name": "mass spectrometer file format"
+      }
     },
     {
       "name": "FILES/6089if_25.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_25.peg"
       ],
-      "extension": ".peg"
+      "extension": ".peg",
+      "format": {
+        "source": "MS",
+        "accession": "MS:1000560",
+        "name": "mass spectrometer file format"
+      }
     },
     {
       "name": "FILES/6089if_26.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_26.peg"
       ],
-      "extension": ".peg"
+      "extension": ".peg",
+      "format": {
+        "source": "MS",
+        "accession": "MS:1000560",
+        "name": "mass spectrometer file format"
+      }
     },
     {
       "name": "FILES/6089if_27.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_27.peg"
       ],
-      "extension": ".peg"
+      "extension": ".peg",
+      "format": {
+        "source": "MS",
+        "accession": "MS:1000560",
+        "name": "mass spectrometer file format"
+      }
     },
     {
       "name": "FILES/6089if_28.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_28.peg"
       ],
-      "extension": ".peg"
+      "extension": ".peg",
+      "format": {
+        "source": "MS",
+        "accession": "MS:1000560",
+        "name": "mass spectrometer file format"
+      }
     },
     {
       "name": "FILES/6089if_29.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_29.peg"
       ],
-      "extension": ".peg"
+      "extension": ".peg",
+      "format": {
+        "source": "MS",
+        "accession": "MS:1000560",
+        "name": "mass spectrometer file format"
+      }
     },
     {
       "name": "FILES/6089if_33.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_33.peg"
       ],
-      "extension": ".peg"
+      "extension": ".peg",
+      "format": {
+        "source": "MS",
+        "accession": "MS:1000560",
+        "name": "mass spectrometer file format"
+      }
     },
     {
       "name": "FILES/6089if_34.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_34.peg"
       ],
-      "extension": ".peg"
+      "extension": ".peg",
+      "format": {
+        "source": "MS",
+        "accession": "MS:1000560",
+        "name": "mass spectrometer file format"
+      }
     },
     {
       "name": "FILES/6089if_35.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_35.peg"
       ],
-      "extension": ".peg"
+      "extension": ".peg",
+      "format": {
+        "source": "MS",
+        "accession": "MS:1000560",
+        "name": "mass spectrometer file format"
+      }
     },
     {
       "name": "FILES/6089if_43.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_43.peg"
       ],
-      "extension": ".peg"
+      "extension": ".peg",
+      "format": {
+        "source": "MS",
+        "accession": "MS:1000560",
+        "name": "mass spectrometer file format"
+      }
     },
     {
       "name": "FILES/6089if_44.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_44.peg"
       ],
-      "extension": ".peg"
+      "extension": ".peg",
+      "format": {
+        "source": "MS",
+        "accession": "MS:1000560",
+        "name": "mass spectrometer file format"
+      }
     },
     {
       "name": "FILES/6089if_45.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_45.peg"
       ],
-      "extension": ".peg"
+      "extension": ".peg",
+      "format": {
+        "source": "MS",
+        "accession": "MS:1000560",
+        "name": "mass spectrometer file format"
+      }
     },
     {
       "name": "FILES/6089if_46.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_46.peg"
       ],
-      "extension": ".peg"
+      "extension": ".peg",
+      "format": {
+        "source": "MS",
+        "accession": "MS:1000560",
+        "name": "mass spectrometer file format"
+      }
     },
     {
       "name": "FILES/6089if_47.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_47.peg"
       ],
-      "extension": ".peg"
+      "extension": ".peg",
+      "format": {
+        "source": "MS",
+        "accession": "MS:1000560",
+        "name": "mass spectrometer file format"
+      }
     },
     {
       "name": "FILES/6089if_51.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_51.peg"
       ],
-      "extension": ".peg"
+      "extension": ".peg",
+      "format": {
+        "source": "MS",
+        "accession": "MS:1000560",
+        "name": "mass spectrometer file format"
+      }
     },
     {
       "name": "FILES/6089if_52.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_52.peg"
       ],
-      "extension": ".peg"
+      "extension": ".peg",
+      "format": {
+        "source": "MS",
+        "accession": "MS:1000560",
+        "name": "mass spectrometer file format"
+      }
     },
     {
       "name": "FILES/6089if_53.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_53.peg"
       ],
-      "extension": ".peg"
+      "extension": ".peg",
+      "format": {
+        "source": "MS",
+        "accession": "MS:1000560",
+        "name": "mass spectrometer file format"
+      }
     },
     {
       "name": "FILES/6089if_6.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_6.peg"
       ],
-      "extension": ".peg"
+      "extension": ".peg",
+      "format": {
+        "source": "MS",
+        "accession": "MS:1000560",
+        "name": "mass spectrometer file format"
+      }
     },
     {
       "name": "FILES/6089if_60.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_60.peg"
       ],
-      "extension": ".peg"
+      "extension": ".peg",
+      "format": {
+        "source": "MS",
+        "accession": "MS:1000560",
+        "name": "mass spectrometer file format"
+      }
     },
     {
       "name": "FILES/6089if_61.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_61.peg"
       ],
-      "extension": ".peg"
+      "extension": ".peg",
+      "format": {
+        "source": "MS",
+        "accession": "MS:1000560",
+        "name": "mass spectrometer file format"
+      }
     },
     {
       "name": "FILES/6089if_62.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_62.peg"
       ],
-      "extension": ".peg"
+      "extension": ".peg",
+      "format": {
+        "source": "MS",
+        "accession": "MS:1000560",
+        "name": "mass spectrometer file format"
+      }
     },
     {
       "name": "FILES/6089if_63.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_63.peg"
       ],
-      "extension": ".peg"
+      "extension": ".peg",
+      "format": {
+        "source": "MS",
+        "accession": "MS:1000560",
+        "name": "mass spectrometer file format"
+      }
     },
     {
       "name": "FILES/6089if_64.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_64.peg"
       ],
-      "extension": ".peg"
+      "extension": ".peg",
+      "format": {
+        "source": "MS",
+        "accession": "MS:1000560",
+        "name": "mass spectrometer file format"
+      }
     },
     {
       "name": "FILES/6089if_65.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_65.peg"
       ],
-      "extension": ".peg"
+      "extension": ".peg",
+      "format": {
+        "source": "MS",
+        "accession": "MS:1000560",
+        "name": "mass spectrometer file format"
+      }
     },
     {
       "name": "FILES/6089if_69.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_69.peg"
       ],
-      "extension": ".peg"
+      "extension": ".peg",
+      "format": {
+        "source": "MS",
+        "accession": "MS:1000560",
+        "name": "mass spectrometer file format"
+      }
     },
     {
       "name": "FILES/6089if_7.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_7.peg"
       ],
-      "extension": ".peg"
+      "extension": ".peg",
+      "format": {
+        "source": "MS",
+        "accession": "MS:1000560",
+        "name": "mass spectrometer file format"
+      }
     },
     {
       "name": "FILES/6089if_70.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_70.peg"
       ],
-      "extension": ".peg"
+      "extension": ".peg",
+      "format": {
+        "source": "MS",
+        "accession": "MS:1000560",
+        "name": "mass spectrometer file format"
+      }
     },
     {
       "name": "FILES/6089if_71.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_71.peg"
       ],
-      "extension": ".peg"
+      "extension": ".peg",
+      "format": {
+        "source": "MS",
+        "accession": "MS:1000560",
+        "name": "mass spectrometer file format"
+      }
     },
     {
       "name": "FILES/6089if_8.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_8.peg"
       ],
-      "extension": ".peg"
+      "extension": ".peg",
+      "format": {
+        "source": "MS",
+        "accession": "MS:1000560",
+        "name": "mass spectrometer file format"
+      }
     },
     {
       "name": "FILES/6089if_9.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_9.peg"
       ],
-      "extension": ".peg"
+      "extension": ".peg",
+      "format": {
+        "source": "MS",
+        "accession": "MS:1000560",
+        "name": "mass spectrometer file format"
+      }
     },
     {
       "name": "FILES/Inorganic Carbon Limitation in Cells of the Wild Type and Photorespiratory Mutants of the Cyanobacterium Synechocystis sp. Strain PCC 6803.xeml",

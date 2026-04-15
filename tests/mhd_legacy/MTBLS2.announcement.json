@@ -923,9 +923,9 @@
       ],
       "extension": ".mzData",
       "format": {
-        "source": "EDAM",
-        "accession": "EDAM:format_3834",
-        "name": "mzData"
+        "source": "MS",
+        "accession": "MS:1000564",
+        "name": "PSI mzData format"
       }
     },
     {
@@ -935,9 +935,9 @@
       ],
       "extension": ".mzData",
       "format": {
-        "source": "EDAM",
-        "accession": "EDAM:format_3834",
-        "name": "mzData"
+        "source": "MS",
+        "accession": "MS:1000564",
+        "name": "PSI mzData format"
       }
     },
     {
@@ -947,9 +947,9 @@
       ],
       "extension": ".mzData",
       "format": {
-        "source": "EDAM",
-        "accession": "EDAM:format_3834",
-        "name": "mzData"
+        "source": "MS",
+        "accession": "MS:1000564",
+        "name": "PSI mzData format"
       }
     },
     {
@@ -959,9 +959,9 @@
       ],
       "extension": ".mzData",
       "format": {
-        "source": "EDAM",
-        "accession": "EDAM:format_3834",
-        "name": "mzData"
+        "source": "MS",
+        "accession": "MS:1000564",
+        "name": "PSI mzData format"
       }
     },
     {
@@ -971,9 +971,9 @@
       ],
       "extension": ".mzData",
       "format": {
-        "source": "EDAM",
-        "accession": "EDAM:format_3834",
-        "name": "mzData"
+        "source": "MS",
+        "accession": "MS:1000564",
+        "name": "PSI mzData format"
       }
     },
     {
@@ -983,9 +983,9 @@
       ],
       "extension": ".mzData",
       "format": {
-        "source": "EDAM",
-        "accession": "EDAM:format_3834",
-        "name": "mzData"
+        "source": "MS",
+        "accession": "MS:1000564",
+        "name": "PSI mzData format"
       }
     },
     {
@@ -995,9 +995,9 @@
       ],
       "extension": ".mzData",
       "format": {
-        "source": "EDAM",
-        "accession": "EDAM:format_3834",
-        "name": "mzData"
+        "source": "MS",
+        "accession": "MS:1000564",
+        "name": "PSI mzData format"
       }
     },
     {
@@ -1007,9 +1007,9 @@
       ],
       "extension": ".mzData",
       "format": {
-        "source": "EDAM",
-        "accession": "EDAM:format_3834",
-        "name": "mzData"
+        "source": "MS",
+        "accession": "MS:1000564",
+        "name": "PSI mzData format"
       }
     },
     {
@@ -1019,9 +1019,9 @@
       ],
       "extension": ".mzData",
       "format": {
-        "source": "EDAM",
-        "accession": "EDAM:format_3834",
-        "name": "mzData"
+        "source": "MS",
+        "accession": "MS:1000564",
+        "name": "PSI mzData format"
       }
     },
     {
@@ -1031,9 +1031,9 @@
       ],
       "extension": ".mzData",
       "format": {
-        "source": "EDAM",
-        "accession": "EDAM:format_3834",
-        "name": "mzData"
+        "source": "MS",
+        "accession": "MS:1000564",
+        "name": "PSI mzData format"
       }
     },
     {
@@ -1043,9 +1043,9 @@
       ],
       "extension": ".mzData",
       "format": {
-        "source": "EDAM",
-        "accession": "EDAM:format_3834",
-        "name": "mzData"
+        "source": "MS",
+        "accession": "MS:1000564",
+        "name": "PSI mzData format"
       }
     },
     {
@@ -1055,9 +1055,9 @@
       ],
       "extension": ".mzData",
       "format": {
-        "source": "EDAM",
-        "accession": "EDAM:format_3834",
-        "name": "mzData"
+        "source": "MS",
+        "accession": "MS:1000564",
+        "name": "PSI mzData format"
       }
     },
     {
@@ -1067,9 +1067,9 @@
       ],
       "extension": ".mzData",
       "format": {
-        "source": "EDAM",
-        "accession": "EDAM:format_3834",
-        "name": "mzData"
+        "source": "MS",
+        "accession": "MS:1000564",
+        "name": "PSI mzData format"
       }
     },
     {
@@ -1079,9 +1079,9 @@
       ],
       "extension": ".mzData",
       "format": {
-        "source": "EDAM",
-        "accession": "EDAM:format_3834",
-        "name": "mzData"
+        "source": "MS",
+        "accession": "MS:1000564",
+        "name": "PSI mzData format"
       }
     },
     {
@@ -1091,9 +1091,9 @@
       ],
       "extension": ".mzData",
       "format": {
-        "source": "EDAM",
-        "accession": "EDAM:format_3834",
-        "name": "mzData"
+        "source": "MS",
+        "accession": "MS:1000564",
+        "name": "PSI mzData format"
       }
     },
     {
@@ -1103,9 +1103,9 @@
       ],
       "extension": ".mzData",
       "format": {
-        "source": "EDAM",
-        "accession": "EDAM:format_3834",
-        "name": "mzData"
+        "source": "MS",
+        "accession": "MS:1000564",
+        "name": "PSI mzData format"
       }
     },
     {
@@ -1115,9 +1115,9 @@
       ],
       "extension": ".mzML",
       "format": {
-        "source": "EDAM",
-        "accession": "EDAM:format_3244",
-        "name": "mzML"
+        "source": "MS",
+        "accession": "MS:1000584",
+        "name": "mzML format"
       }
     },
     {
@@ -1127,9 +1127,9 @@
       ],
       "extension": ".mzML",
       "format": {
-        "source": "EDAM",
-        "accession": "EDAM:format_3244",
-        "name": "mzML"
+        "source": "MS",
+        "accession": "MS:1000584",
+        "name": "mzML format"
       }
     },
     {
@@ -1139,9 +1139,9 @@
       ],
       "extension": ".mzML",
       "format": {
-        "source": "EDAM",
-        "accession": "EDAM:format_3244",
-        "name": "mzML"
+        "source": "MS",
+        "accession": "MS:1000584",
+        "name": "mzML format"
       }
     },
     {
@@ -1151,9 +1151,9 @@
       ],
       "extension": ".mzML",
       "format": {
-        "source": "EDAM",
-        "accession": "EDAM:format_3244",
-        "name": "mzML"
+        "source": "MS",
+        "accession": "MS:1000584",
+        "name": "mzML format"
       }
     },
     {
@@ -1163,9 +1163,9 @@
       ],
       "extension": ".mzML",
       "format": {
-        "source": "EDAM",
-        "accession": "EDAM:format_3244",
-        "name": "mzML"
+        "source": "MS",
+        "accession": "MS:1000584",
+        "name": "mzML format"
       }
     },
     {
@@ -1175,9 +1175,9 @@
       ],
       "extension": ".mzML",
       "format": {
-        "source": "EDAM",
-        "accession": "EDAM:format_3244",
-        "name": "mzML"
+        "source": "MS",
+        "accession": "MS:1000584",
+        "name": "mzML format"
       }
     },
     {
@@ -1187,9 +1187,9 @@
       ],
       "extension": ".mzML",
       "format": {
-        "source": "EDAM",
-        "accession": "EDAM:format_3244",
-        "name": "mzML"
+        "source": "MS",
+        "accession": "MS:1000584",
+        "name": "mzML format"
       }
     },
     {
@@ -1199,9 +1199,9 @@
       ],
       "extension": ".mzML",
       "format": {
-        "source": "EDAM",
-        "accession": "EDAM:format_3244",
-        "name": "mzML"
+        "source": "MS",
+        "accession": "MS:1000584",
+        "name": "mzML format"
       }
     },
     {
@@ -1211,9 +1211,9 @@
       ],
       "extension": ".mzML",
       "format": {
-        "source": "EDAM",
-        "accession": "EDAM:format_3244",
-        "name": "mzML"
+        "source": "MS",
+        "accession": "MS:1000584",
+        "name": "mzML format"
       }
     },
     {
@@ -1223,9 +1223,9 @@
       ],
       "extension": ".mzML",
       "format": {
-        "source": "EDAM",
-        "accession": "EDAM:format_3244",
-        "name": "mzML"
+        "source": "MS",
+        "accession": "MS:1000584",
+        "name": "mzML format"
       }
     },
     {
@@ -1235,9 +1235,9 @@
       ],
       "extension": ".mzML",
       "format": {
-        "source": "EDAM",
-        "accession": "EDAM:format_3244",
-        "name": "mzML"
+        "source": "MS",
+        "accession": "MS:1000584",
+        "name": "mzML format"
       }
     },
     {
@@ -1247,9 +1247,9 @@
       ],
       "extension": ".mzML",
       "format": {
-        "source": "EDAM",
-        "accession": "EDAM:format_3244",
-        "name": "mzML"
+        "source": "MS",
+        "accession": "MS:1000584",
+        "name": "mzML format"
       }
     },
     {
@@ -1259,9 +1259,9 @@
       ],
       "extension": ".mzML",
       "format": {
-        "source": "EDAM",
-        "accession": "EDAM:format_3244",
-        "name": "mzML"
+        "source": "MS",
+        "accession": "MS:1000584",
+        "name": "mzML format"
       }
     },
     {
@@ -1271,9 +1271,9 @@
       ],
       "extension": ".mzML",
       "format": {
-        "source": "EDAM",
-        "accession": "EDAM:format_3244",
-        "name": "mzML"
+        "source": "MS",
+        "accession": "MS:1000584",
+        "name": "mzML format"
       }
     },
     {
@@ -1283,9 +1283,9 @@
       ],
       "extension": ".mzML",
       "format": {
-        "source": "EDAM",
-        "accession": "EDAM:format_3244",
-        "name": "mzML"
+        "source": "MS",
+        "accession": "MS:1000584",
+        "name": "mzML format"
       }
     },
     {
@@ -1295,9 +1295,9 @@
       ],
       "extension": ".mzML",
       "format": {
-        "source": "EDAM",
-        "accession": "EDAM:format_3244",
-        "name": "mzML"
+        "source": "MS",
+        "accession": "MS:1000584",
+        "name": "mzML format"
       }
     }
   ],
