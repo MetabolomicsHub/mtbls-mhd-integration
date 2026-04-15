@@ -7,6 +7,12 @@
   "profile_uri": "https://metabolomicshub.github.io/mhd-model/schemas/v0_1/announcement-v0.1.legacy-profile.json",
   "cv_definitions": [
     {
+      "label": "CHEMINF",
+      "name": "chemical information ontology (cheminf) - information entities about chemical entities",
+      "uri": "http://semanticchemistry.github.io/semanticchemistry/ontology/cheminf.owl",
+      "prefix": "http://semanticscience.org/resource/CHEMINF_"
+    },
+    {
       "label": "CHMO",
       "name": "Chemical Methods Ontology",
       "uri": "http://purl.obolibrary.org/obo/chmo.owl",
@@ -150,6 +156,11 @@
   ],
   "submitter_keywords": [
     {
+      "source": "OBI",
+      "accession": "OBI:0001396",
+      "name": "stimulus or stress design"
+    },
+    {
       "source": "",
       "accession": "",
       "name": "untargeted metabolites"
@@ -158,11 +169,6 @@
       "source": "CHMO",
       "accession": "CHMO:0000497",
       "name": "gas chromatography-mass spectrometry"
-    },
-    {
-      "source": "OBI",
-      "accession": "OBI:0001396",
-      "name": "stimulus or stress design"
     },
     {
       "source": "OBI",
@@ -248,7 +254,11 @@
         "name": "Organism"
       },
       "values": [
-        {}
+        {
+          "source": "NCBITAXON",
+          "accession": "NCBITaxon:1148",
+          "name": "Synechocystis sp. PCC 6803"
+        }
       ]
     },
     {
@@ -272,9 +282,21 @@
         "name": "variant"
       },
       "values": [
-        {},
-        {},
-        {}
+        {
+          "source": "",
+          "accession": "",
+          "name": "Synechocystis sp. PCC 6803.sll0404.ko"
+        },
+        {
+          "source": "",
+          "accession": "",
+          "name": "Synechocystis sp. PCC 6803.sll0171.ko"
+        },
+        {
+          "source": "",
+          "accession": "",
+          "name": "Synechocystis sp. PCC 6803.WT.none"
+        }
       ]
     }
   ],
@@ -489,208 +511,752 @@
   ],
   "reported_metabolites": [
     {
-      "name": "2-hydroxypyridine"
-    },
-    {
-      "name": "2-oxoglutaric acid"
-    },
-    {
-      "name": "2-phospho-D-glyceric acid"
-    },
-    {
-      "name": "3-hydroxypyridine"
-    },
-    {
-      "name": "6-D-phosphogluconic acid"
-    },
-    {
-      "name": "D-(+)-mannose"
-    },
-    {
-      "name": "D-fructose 6-phosphate"
-    },
-    {
-      "name": "D-galactonic acid"
-    },
-    {
-      "name": "D-glucopyranose"
-    },
-    {
-      "name": "D-glucose 6-phosphate"
-    },
-    {
-      "name": "D-ribitol"
-    },
-    {
-      "name": "D-ribose"
-    },
-    {
-      "name": "L-alanine-d4"
-    },
-    {
-      "name": "L-aspartic acid"
-    },
-    {
-      "name": "L-glutamic acid"
-    },
-    {
-      "name": "L-glyceric acid"
-    },
-    {
-      "name": "L-lysine"
-    },
-    {
-      "name": "L-methionine"
-    },
-    {
-      "name": "L-phenylalanine"
-    },
-    {
-      "name": "L-ribonic acid"
-    },
-    {
-      "name": "L-threonine"
-    },
-    {
-      "name": "L-tyrosine"
-    },
-    {
-      "name": "N-Acetyl-L-glutamic acid"
-    },
-    {
-      "name": "N-tri(hydroxymethyl)methyltaurine"
-    },
-    {
-      "name": "adenine"
-    },
-    {
-      "name": "adenosine"
-    },
-    {
-      "name": "adenosine 5'-monophosphate"
-    },
-    {
-      "name": "arachidic acid"
-    },
-    {
-      "name": "benzoic acid"
-    },
-    {
-      "name": "beta-maltose"
-    },
-    {
-      "name": "cis-aconitic acid"
-    },
-    {
-      "name": "decane"
-    },
-    {
-      "name": "decanoic acid"
-    },
-    {
-      "name": "diethylene glycol"
-    },
-    {
-      "name": "docosane"
-    },
-    {
-      "name": "dodecane"
-    },
-    {
-      "name": "dotriacontane"
-    },
-    {
-      "name": "erythronic acid"
-    },
-    {
-      "name": "ethanolamine"
-    },
-    {
-      "name": "fumaric acid"
-    },
-    {
-      "name": "glycerol-3-phosphate"
-    },
-    {
-      "name": "glycine"
-    },
-    {
-      "name": "glycolic acid"
-    },
-    {
-      "name": "hexatriacontane"
-    },
-    {
-      "name": "isocitric acid"
-    },
-    {
-      "name": "lactic acid"
-    },
-    {
-      "name": "lauric acid"
-    },
-    {
-      "name": "leucine"
-    },
-    {
-      "name": "malic acid"
-    },
-    {
-      "name": "nonadecane"
-    },
-    {
-      "name": "nonanoic acid"
-    },
-    {
-      "name": "octacosane"
-    },
-    {
-      "name": "octadecane"
-    },
-    {
-      "name": "oxalic acid"
-    },
-    {
-      "name": "palmitic acid"
-    },
-    {
-      "name": "pentadecane"
-    },
-    {
-      "name": "phosphoenolpyruvic acid"
-    },
-    {
-      "name": "phosphoric acid"
-    },
-    {
-      "name": "phosphoric acid monomethyl ester"
-    },
-    {
-      "name": "pyroglutamic acid"
-    },
-    {
-      "name": "siloxane"
-    },
-    {
-      "name": "stearic acid"
-    },
-    {
-      "name": "succinic acid"
-    },
-    {
-      "name": "sucrose"
-    },
-    {
-      "name": "tetradecanoic acid"
-    },
-    {
-      "name": "tetratriacontane"
-    },
-    {
-      "name": "thymine"
-    },
-    {
-      "name": "uridine"
+      "name": "2-hydroxypyridine",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:16540",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "2-oxoglutaric acid",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:30915",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "2-phospho-D-glyceric acid",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:17835",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "3-hydroxypyridine",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:87440",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "6-D-phosphogluconic acid",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:48928",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "D-(+)-mannose",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:4208",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "D-fructose 6-phosphate",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:78697",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "D-galactonic acid",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:16534",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "D-glucopyranose",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:4167",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "D-glucose 6-phosphate",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:14314",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "D-ribitol",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:15963",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "D-ribose",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:16988",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "L-alanine-d4",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:76050",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "L-aspartic acid",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:17053",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "L-glutamic acid",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:16015",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "L-glyceric acid",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:74324",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "L-lysine",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:18019",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "L-methionine",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:16643",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "L-phenylalanine",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:17295",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "L-ribonic acid",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:87765",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "L-threonine",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:16857",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "L-tyrosine",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:17895",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "N-Acetyl-L-glutamic acid",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:17533",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "N-tri(hydroxymethyl)methyltaurine",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:44356",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "adenine",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:16708",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "adenosine",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:16335",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "adenosine 5'-monophosphate",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:16027",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "arachidic acid",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:28822",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "benzoic acid",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:30746",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "beta-maltose",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:18147",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "cis-aconitic acid",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:32805",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "decane",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:41808",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "decanoic acid",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:30813",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "diethylene glycol",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:46807",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "docosane",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:46050",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "dodecane",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:28817",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "dotriacontane",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:36020",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "erythronic acid",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:37654",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "ethanolamine",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:16000",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "fumaric acid",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:18012",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "glycerol-3-phosphate",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:14336",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "glycine",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:15428",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "glycolic acid",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:17497",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "hexatriacontane",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:72688",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "isocitric acid",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:30887",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "lactic acid",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:78320",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "lauric acid",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:30805",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "leucine",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:25017",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "malic acid",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:6650",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "nonadecane",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:32927",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "nonanoic acid",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:29019",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "octacosane",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:32943",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "octadecane",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:32926",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "oxalic acid",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:16995",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "palmitic acid",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:15756",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "pentadecane",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:28897",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "phosphoenolpyruvic acid",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:44897",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "phosphoric acid",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:26078",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "phosphoric acid monomethyl ester",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:340824",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "pyroglutamic acid",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:16010",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "siloxane",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:48141",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "stearic acid",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:28842",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "succinic acid",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:15741",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "sucrose",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:87442",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "tetradecanoic acid",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:28875",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "tetratriacontane",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:87443",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "thymine",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:17821",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
+    },
+    {
+      "name": "uridine",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:16704",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
     }
   ],
   "repository_metadata_file_list": [
@@ -700,6 +1266,7 @@
         "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/a_MTBLS5_Inorganic_Carbon_Limitation_in_Cells_of_the_Wild_Type_and_Photorespiratory_Mutants_of_the_Cyanobacterium_Synechocystis_sp._Strain_PCC_6803.txt",
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/a_MTBLS5_Inorganic_Carbon_Limitation_in_Cells_of_the_Wild_Type_and_Photorespiratory_Mutants_of_the_Cyanobacterium_Synechocystis_sp._Strain_PCC_6803.txt"
       ],
+      "extension": ".txt",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3687",
@@ -712,6 +1279,7 @@
         "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/i_Investigation.txt",
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/i_Investigation.txt"
       ],
+      "extension": ".txt",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3687",
@@ -724,6 +1292,7 @@
         "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/s_MTBLS5.txt",
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/s_MTBLS5.txt"
       ],
+      "extension": ".txt",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3687",
@@ -948,229 +1517,267 @@
       "name": "FILES/6089if_10.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_10.peg"
-      ]
+      ],
+      "extension": ".peg"
     },
     {
       "name": "FILES/6089if_11.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_11.peg"
-      ]
+      ],
+      "extension": ".peg"
     },
     {
       "name": "FILES/6089if_15.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_15.peg"
-      ]
+      ],
+      "extension": ".peg"
     },
     {
       "name": "FILES/6089if_16.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_16.peg"
-      ]
+      ],
+      "extension": ".peg"
     },
     {
       "name": "FILES/6089if_17.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_17.peg"
-      ]
+      ],
+      "extension": ".peg"
     },
     {
       "name": "FILES/6089if_24.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_24.peg"
-      ]
+      ],
+      "extension": ".peg"
     },
     {
       "name": "FILES/6089if_25.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_25.peg"
-      ]
+      ],
+      "extension": ".peg"
     },
     {
       "name": "FILES/6089if_26.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_26.peg"
-      ]
+      ],
+      "extension": ".peg"
     },
     {
       "name": "FILES/6089if_27.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_27.peg"
-      ]
+      ],
+      "extension": ".peg"
     },
     {
       "name": "FILES/6089if_28.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_28.peg"
-      ]
+      ],
+      "extension": ".peg"
     },
     {
       "name": "FILES/6089if_29.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_29.peg"
-      ]
+      ],
+      "extension": ".peg"
     },
     {
       "name": "FILES/6089if_33.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_33.peg"
-      ]
+      ],
+      "extension": ".peg"
     },
     {
       "name": "FILES/6089if_34.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_34.peg"
-      ]
+      ],
+      "extension": ".peg"
     },
     {
       "name": "FILES/6089if_35.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_35.peg"
-      ]
+      ],
+      "extension": ".peg"
     },
     {
       "name": "FILES/6089if_43.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_43.peg"
-      ]
+      ],
+      "extension": ".peg"
     },
     {
       "name": "FILES/6089if_44.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_44.peg"
-      ]
+      ],
+      "extension": ".peg"
     },
     {
       "name": "FILES/6089if_45.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_45.peg"
-      ]
+      ],
+      "extension": ".peg"
     },
     {
       "name": "FILES/6089if_46.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_46.peg"
-      ]
+      ],
+      "extension": ".peg"
     },
     {
       "name": "FILES/6089if_47.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_47.peg"
-      ]
+      ],
+      "extension": ".peg"
     },
     {
       "name": "FILES/6089if_51.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_51.peg"
-      ]
+      ],
+      "extension": ".peg"
     },
     {
       "name": "FILES/6089if_52.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_52.peg"
-      ]
+      ],
+      "extension": ".peg"
     },
     {
       "name": "FILES/6089if_53.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_53.peg"
-      ]
+      ],
+      "extension": ".peg"
     },
     {
       "name": "FILES/6089if_6.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_6.peg"
-      ]
+      ],
+      "extension": ".peg"
     },
     {
       "name": "FILES/6089if_60.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_60.peg"
-      ]
+      ],
+      "extension": ".peg"
     },
     {
       "name": "FILES/6089if_61.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_61.peg"
-      ]
+      ],
+      "extension": ".peg"
     },
     {
       "name": "FILES/6089if_62.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_62.peg"
-      ]
+      ],
+      "extension": ".peg"
     },
     {
       "name": "FILES/6089if_63.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_63.peg"
-      ]
+      ],
+      "extension": ".peg"
     },
     {
       "name": "FILES/6089if_64.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_64.peg"
-      ]
+      ],
+      "extension": ".peg"
     },
     {
       "name": "FILES/6089if_65.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_65.peg"
-      ]
+      ],
+      "extension": ".peg"
     },
     {
       "name": "FILES/6089if_69.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_69.peg"
-      ]
+      ],
+      "extension": ".peg"
     },
     {
       "name": "FILES/6089if_7.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_7.peg"
-      ]
+      ],
+      "extension": ".peg"
     },
     {
       "name": "FILES/6089if_70.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_70.peg"
-      ]
+      ],
+      "extension": ".peg"
     },
     {
       "name": "FILES/6089if_71.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_71.peg"
-      ]
+      ],
+      "extension": ".peg"
     },
     {
       "name": "FILES/6089if_8.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_8.peg"
-      ]
+      ],
+      "extension": ".peg"
     },
     {
       "name": "FILES/6089if_9.peg",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/6089if_9.peg"
-      ]
+      ],
+      "extension": ".peg"
     },
     {
       "name": "FILES/Inorganic Carbon Limitation in Cells of the Wild Type and Photorespiratory Mutants of the Cyanobacterium Synechocystis sp. Strain PCC 6803.xeml",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/Inorganic%20Carbon%20Limitation%20in%20Cells%20of%20the%20Wild%20Type%20and%20Photorespiratory%20Mutants%20of%20the%20Cyanobacterium%20Synechocystis%20sp.%20Strain%20PCC%206803.xeml"
-      ]
+      ],
+      "extension": ".xeml"
     },
     {
       "name": "FILES/TagFinderSettings.txt",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/TagFinderSettings.txt"
-      ]
+      ],
+      "extension": ".txt"
     },
     {
       "name": "FILES/readme.txt",
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/FILES/readme.txt"
-      ]
+      ],
+      "extension": ".txt"
     }
   ],
   "result_file_list": [
@@ -1180,6 +1787,7 @@
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/m_MTBLS5_Inorganic_Carbon_Limitation_in_Cells_of_the_Wild_Type_and_Photorespiratory_Mutants_of_the_Cyanobacterium_Synechocystis_sp._Strain_PCC_6803.tsv",
         "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS5/m_MTBLS5_Inorganic_Carbon_Limitation_in_Cells_of_the_Wild_Type_and_Photorespiratory_Mutants_of_the_Cyanobacterium_Synechocystis_sp._Strain_PCC_6803.tsv"
       ],
+      "extension": ".tsv",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3475",

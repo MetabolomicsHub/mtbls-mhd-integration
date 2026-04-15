@@ -39,6 +39,9 @@ from mhd_model.model.v0_1.rules.managed_cv_terms import (
 )
 from mhd_model.shared.fields import DOI
 from mhd_model.shared.model import CvTerm, Revision, UnitCvTerm
+from mhd_model.shared.validation.cv_term_helper import (
+    CvTermHelper,
+)
 from pydantic import BaseModel, HttpUrl, ValidationError
 
 import mtbls2mhd
@@ -52,6 +55,8 @@ from mtbls2mhd.v0_1.legacy.folder_metadata_collector import (
 )
 
 logger = logging.getLogger(__name__)
+
+_cv_term_helper = CvTermHelper()
 
 _mtbls_term_mappings: dict[str, dict[str, CvTerm]] | None = None
 
@@ -345,16 +350,23 @@ class ProtocolRunSummary(BaseModel):
 def create_cv_term_object(
     type_: str, accession: str, source: str, name: str
 ) -> mhd_domain.CvTermObject:
+    global _cv_term_helper
     if accession and accession.lower().startswith("mtbls"):
         accession = ""
     if source and source.lower().startswith("mtbls"):
         source = ""
-    if not source or not accession:
+    if not source and not accession:
         return mhd_domain.CvTermObject(type_=type_, name=name)
 
-    return mhd_domain.CvTermObject(
-        type_=type_, accession=accession, source=source, name=name
-    )
+    s_term = _cv_term_helper.find_cv_term(source, accession or name)
+    if s_term and s_term.name.lower() == name.lower():
+        return mhd_domain.CvTermObject(
+            type_=type_,
+            accession=s_term.accession,
+            source=s_term.source,
+            name=s_term.name,
+        )
+    return mhd_domain.CvTermObject(type_=type_, name=name)
 
 
 def create_cv_term_value_object(
@@ -378,13 +390,59 @@ def create_cv_term_value_object(
         if unit.source and unit.source.lower().startswith("mtbls"):
             unit.source = ""
         if not source or not accession:
-            unit_cv = UnitCvTerm(name=unit.name) if unit else None
+            unit_cv = UnitCvTerm(name=unit.name) if unit and unit.name else None
+    if unit_cv:
+        if not unit_cv.accession and not unit_cv.source:
+            unit_cv = UnitCvTerm(type_=type_, name=unit.name)
+        elif unit_cv.source:
+            s_unit = _cv_term_helper.find_cv_term(
+                source, unit_cv.accession or unit_cv.name
+            )
+            if s_unit and unit_cv.name.lower() == s_unit.name.lower():
+                unit_cv = UnitCvTerm(
+                    type_=type_,
+                    name=s_unit.name,
+                    accession=s_unit.accession,
+                    source=s_unit.source,
+                )
+            else:
+                logger.warning(
+                    "CV term '%s' with source '%s' and accession '%s' not found. "
+                    "CV term will be created without source and accession.",
+                    name,
+                    source,
+                    accession,
+                )
+                unit_cv = UnitCvTerm(type_=type_, name=unit.name)
 
     if not source or not accession:
         return mhd_domain.CvTermValueObject(
-            type_=type_, name=name, value=value, unit=unit_cv
+            type_=type_,
+            name=name,
+            value=value,
+            unit=unit_cv,
         )
 
+    if source:
+        s_term = _cv_term_helper.find_cv_term(source, accession or name)
+        if s_term and s_term.name.lower() == name.lower():
+            return mhd_domain.CvTermValueObject(
+                type_=type_,
+                accession=s_term.accession,
+                source=s_term.source,
+                name=s_term.name,
+                value=value,
+                unit=unit_cv,
+            )
+
+    if source or accession:
+        logger.warning(
+            "CV term '%s' with source '%s' and accession '%s' not found. "
+            "CV term will be created without source and accession.",
+            name,
+            source,
+            accession,
+        )
     return mhd_domain.CvTermValueObject(
         type_=type_,
         accession=accession,

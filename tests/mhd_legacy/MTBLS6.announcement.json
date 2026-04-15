@@ -131,26 +131,31 @@
   ],
   "submitter_keywords": [
     {
-      "source": "",
-      "accession": "",
-      "name": "PyMS"
-    },
-    {
       "source": "MS",
       "accession": "MS:1001457",
       "name": "data processing software"
     },
     {
+      "source": "",
+      "accession": "",
+      "name": "Validation"
+    },
+    {
+      "source": "",
+      "accession": "",
+      "name": "PyMS"
+    },
+    {
       "source": "CHMO",
       "accession": "CHMO:0000497",
       "name": "gas chromatography-mass spectrometry"
-    },
-    {
-      "source": "NCIT",
-      "accession": "NCIT:C16237",
-      "name": "Validation"
     }
   ],
+  "publications": {
+    "source": "MS",
+    "accession": "MS:1002858",
+    "name": "Dataset with its publication pending"
+  },
   "study_factors": [
     {
       "key": {
@@ -159,7 +164,11 @@
         "name": "gap penalty"
       },
       "values": [
-        {}
+        {
+          "source": "",
+          "accession": "",
+          "name": "0.3"
+        }
       ]
     },
     {
@@ -169,7 +178,11 @@
         "name": "min number ions"
       },
       "values": [
-        {}
+        {
+          "source": "",
+          "accession": "",
+          "name": "3"
+        }
       ]
     },
     {
@@ -179,7 +192,11 @@
         "name": "relative intensity"
       },
       "values": [
-        {}
+        {
+          "source": "",
+          "accession": "",
+          "name": "2"
+        }
       ]
     },
     {
@@ -189,7 +206,11 @@
         "name": "retention time modulation"
       },
       "values": [
-        {}
+        {
+          "source": "",
+          "accession": "",
+          "name": "2.5"
+        }
       ]
     },
     {
@@ -199,8 +220,16 @@
         "name": "sample type"
       },
       "values": [
-        {},
-        {}
+        {
+          "source": "",
+          "accession": "",
+          "name": "mixture"
+        },
+        {
+          "source": "",
+          "accession": "",
+          "name": "Spiked"
+        }
       ]
     },
     {
@@ -210,7 +239,11 @@
         "name": "skewing"
       },
       "values": [
-        {}
+        {
+          "source": "",
+          "accession": "",
+          "name": "2"
+        }
       ]
     },
     {
@@ -277,8 +310,16 @@
         "name": "threshold"
       },
       "values": [
-        {},
-        {}
+        {
+          "source": "",
+          "accession": "",
+          "name": "6000"
+        },
+        {
+          "source": "",
+          "accession": "",
+          "name": "2000"
+        }
       ]
     },
     {
@@ -288,8 +329,16 @@
         "name": "window"
       },
       "values": [
-        {},
-        {}
+        {
+          "source": "",
+          "accession": "",
+          "name": "13"
+        },
+        {
+          "source": "",
+          "accession": "",
+          "name": "5"
+        }
       ]
     }
   ],
@@ -575,6 +624,7 @@
         "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/a_MTBLS6_live10_metabolite_profiling_mass_spectrometry.txt",
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/a_MTBLS6_live10_metabolite_profiling_mass_spectrometry.txt"
       ],
+      "extension": ".txt",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3687",
@@ -587,6 +637,7 @@
         "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/i_Investigation.txt",
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/i_Investigation.txt"
       ],
+      "extension": ".txt",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3687",
@@ -599,6 +650,7 @@
         "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/s_MTBLS6.txt",
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/s_MTBLS6.txt"
       ],
+      "extension": ".txt",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3687",
@@ -612,6 +664,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA1_1.CDF"
       ],
+      "extension": ".CDF",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3650",
@@ -623,6 +676,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA1_2.CDF"
       ],
+      "extension": ".CDF",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3650",
@@ -634,6 +688,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA1_3.CDF"
       ],
+      "extension": ".CDF",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3650",
@@ -645,6 +700,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA2_1.CDF"
       ],
+      "extension": ".CDF",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3650",
@@ -656,6 +712,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA2_2.CDF"
       ],
+      "extension": ".CDF",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3650",
@@ -667,6 +724,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA2_3.CDF"
       ],
+      "extension": ".CDF",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3650",
@@ -678,6 +736,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA3_1.CDF"
       ],
+      "extension": ".CDF",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3650",
@@ -689,6 +748,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA3_2.CDF"
       ],
+      "extension": ".CDF",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3650",
@@ -700,6 +760,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA3_3.CDF"
       ],
+      "extension": ".CDF",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3650",
@@ -711,6 +772,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA4_1.CDF"
       ],
+      "extension": ".CDF",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3650",
@@ -722,6 +784,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA4_2.CDF"
       ],
+      "extension": ".CDF",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3650",
@@ -733,6 +796,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA4_3.CDF"
       ],
+      "extension": ".CDF",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3650",
@@ -744,6 +808,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA5_1.CDF"
       ],
+      "extension": ".CDF",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3650",
@@ -755,6 +820,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA5_2.CDF"
       ],
+      "extension": ".CDF",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3650",
@@ -766,6 +832,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA5_3.CDF"
       ],
+      "extension": ".CDF",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3650",
@@ -777,6 +844,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA6_1.CDF"
       ],
+      "extension": ".CDF",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3650",
@@ -788,6 +856,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA6_2.CDF"
       ],
+      "extension": ".CDF",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3650",
@@ -799,6 +868,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA6_3.CDF"
       ],
+      "extension": ".CDF",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3650",
@@ -810,6 +880,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/gc01_0812_066.cdf"
       ],
+      "extension": ".cdf",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3650",
@@ -823,6 +894,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA1_1_peaks.csv"
       ],
+      "extension": ".csv",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3752",
@@ -834,6 +906,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA1_2_peaks.csv"
       ],
+      "extension": ".csv",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3752",
@@ -845,6 +918,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA1_3_peaks.csv"
       ],
+      "extension": ".csv",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3752",
@@ -856,6 +930,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA2_1_peaks.csv"
       ],
+      "extension": ".csv",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3752",
@@ -867,6 +942,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA2_2_peaks.csv"
       ],
+      "extension": ".csv",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3752",
@@ -878,6 +954,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA2_3_peaks.csv"
       ],
+      "extension": ".csv",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3752",
@@ -889,6 +966,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA3_1_peaks.csv"
       ],
+      "extension": ".csv",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3752",
@@ -900,6 +978,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA3_2_peaks.csv"
       ],
+      "extension": ".csv",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3752",
@@ -911,6 +990,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA3_3_peaks.csv"
       ],
+      "extension": ".csv",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3752",
@@ -922,6 +1002,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA4_1_peaks.csv"
       ],
+      "extension": ".csv",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3752",
@@ -933,6 +1014,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA4_2_peaks.csv"
       ],
+      "extension": ".csv",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3752",
@@ -944,6 +1026,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA4_3_peaks.csv"
       ],
+      "extension": ".csv",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3752",
@@ -955,6 +1038,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA5_1_peaks.csv"
       ],
+      "extension": ".csv",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3752",
@@ -966,6 +1050,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA5_2_peaks.csv"
       ],
+      "extension": ".csv",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3752",
@@ -977,6 +1062,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA5_3_peaks.csv"
       ],
+      "extension": ".csv",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3752",
@@ -988,6 +1074,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA6_1_peaks.csv"
       ],
+      "extension": ".csv",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3752",
@@ -999,6 +1086,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA6_2_peaks.csv"
       ],
+      "extension": ".csv",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3752",
@@ -1010,6 +1098,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/APC_BSTFA6_3_peaks.csv"
       ],
+      "extension": ".csv",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3752",
@@ -1021,6 +1110,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/GC01_0812_066_peaks.csv"
       ],
+      "extension": ".csv",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3752",
@@ -1034,6 +1124,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/aligned_areas.csv"
       ],
+      "extension": ".csv",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3752",
@@ -1045,6 +1136,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS6/FILES/aligned_rts.csv"
       ],
+      "extension": ".csv",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3752",

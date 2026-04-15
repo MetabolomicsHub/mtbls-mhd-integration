@@ -7,6 +7,12 @@
   "profile_uri": "https://metabolomicshub.github.io/mhd-model/schemas/v0_1/announcement-v0.1.legacy-profile.json",
   "cv_definitions": [
     {
+      "label": "CHEMINF",
+      "name": "chemical information ontology (cheminf) - information entities about chemical entities",
+      "uri": "http://semanticchemistry.github.io/semanticchemistry/ontology/cheminf.owl",
+      "prefix": "http://semanticscience.org/resource/CHEMINF_"
+    },
+    {
       "label": "CHMO",
       "name": "Chemical Methods Ontology",
       "uri": "http://purl.obolibrary.org/obo/chmo.owl",
@@ -130,16 +136,6 @@
       "name": "metabolomic profiling"
     },
     {
-      "source": "CHMO",
-      "accession": "CHMO:0000497",
-      "name": "gas chromatography-mass spectrometry"
-    },
-    {
-      "source": "",
-      "accession": "",
-      "name": "obesity"
-    },
-    {
       "source": "",
       "accession": "",
       "name": "Free amino acid target analysis"
@@ -150,9 +146,19 @@
       "name": "Lipidomics"
     },
     {
+      "source": "CHMO",
+      "accession": "CHMO:0000497",
+      "name": "gas chromatography-mass spectrometry"
+    },
+    {
       "source": "",
       "accession": "",
       "name": "targeted metabolites"
+    },
+    {
+      "source": "EFO",
+      "accession": "HP:0001513",
+      "name": "Obesity"
     }
   ],
   "publications": [
@@ -169,12 +175,36 @@
         "name": "gene knockout"
       },
       "values": [
-        {},
-        {},
-        {},
-        {},
-        {},
-        {}
+        {
+          "source": "",
+          "accession": "",
+          "name": "Delta 9 fat 6"
+        },
+        {
+          "source": "",
+          "accession": "",
+          "name": "Delta 9 fat 5 fat 6"
+        },
+        {
+          "source": "",
+          "accession": "",
+          "name": "Delta 9 fat 7"
+        },
+        {
+          "source": "",
+          "accession": "",
+          "name": "Delta 9 fat 5 fat 7"
+        },
+        {
+          "source": "",
+          "accession": "",
+          "name": "Delta 9 fat 5"
+        },
+        {
+          "source": "",
+          "accession": "",
+          "name": "wild-type generic"
+        }
       ]
     }
   ],
@@ -214,7 +244,11 @@
         "name": "Organism"
       },
       "values": [
-        {}
+        {
+          "source": "NCBITAXON",
+          "accession": "NCBITaxon:6239",
+          "name": "Caenorhabditis elegans"
+        }
       ]
     },
     {
@@ -450,70 +484,246 @@
   ],
   "reported_metabolites": [
     {
-      "name": "DL-2-Aminobutyric acid"
+      "name": "DL-2-Aminobutyric acid",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:35621",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
     },
     {
-      "name": "DL-Alanine"
+      "name": "DL-Alanine",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:16449",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
     },
     {
-      "name": "DL-Asparagine"
+      "name": "DL-Asparagine",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:22653",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
     },
     {
-      "name": "DL-Aspartic acid"
+      "name": "DL-Aspartic acid",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:22660",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
     },
     {
-      "name": "DL-Cystathionine"
+      "name": "DL-Cystathionine",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:17755",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
     },
     {
-      "name": "DL-Leucine"
+      "name": "DL-Leucine",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:25017",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
     },
     {
-      "name": "DL-Lysine"
+      "name": "DL-Lysine",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:25094",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
     },
     {
-      "name": "DL-Proline"
+      "name": "DL-Proline",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:26271",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
     },
     {
-      "name": "DL-Tryptophan"
+      "name": "DL-Tryptophan",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:27897",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
     },
     {
-      "name": "DL-Tyrosine"
+      "name": "DL-Tyrosine",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:18186",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
     },
     {
-      "name": "DL-phenylalanine"
+      "name": "DL-phenylalanine",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:28044",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
     },
     {
-      "name": "Glutamic acid"
+      "name": "Glutamic acid",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:18237",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
     },
     {
-      "name": "Glycine"
+      "name": "Glycine",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:15428",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
     },
     {
-      "name": "Isoleucine"
+      "name": "Isoleucine",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:24898",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
     },
     {
-      "name": "Thioproline"
+      "name": "Thioproline",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:64564",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
     },
     {
-      "name": "alpha aminoadipic acid"
+      "name": "alpha aminoadipic acid",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:37024",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
     },
     {
-      "name": "glutamine"
+      "name": "glutamine",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:28300",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
     },
     {
-      "name": "histidine"
+      "name": "histidine",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:27570",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
     },
     {
-      "name": "methionine"
+      "name": "methionine",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:16811",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
     },
     {
-      "name": "ornithine"
+      "name": "ornithine",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:18257",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
     },
     {
-      "name": "threonine"
+      "name": "threonine",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:26986",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
     },
     {
-      "name": "valine"
+      "name": "valine",
+      "database_identifiers": [
+        {
+          "value": "CHEBI:27266",
+          "source": "CHEMINF",
+          "accession": "CHEMINF:000407",
+          "name": "ChEBI identifier"
+        }
+      ]
     }
   ],
   "repository_metadata_file_list": [
@@ -523,6 +733,7 @@
         "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/a_MTBLS3_live_metabolite_profiling_mass_spectrometry.txt",
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/a_MTBLS3_live_metabolite_profiling_mass_spectrometry.txt"
       ],
+      "extension": ".txt",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3687",
@@ -535,6 +746,7 @@
         "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/i_Investigation.txt",
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/i_Investigation.txt"
       ],
+      "extension": ".txt",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3687",
@@ -547,6 +759,7 @@
         "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/s_MTBLS3.txt",
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/s_MTBLS3.txt"
       ],
+      "extension": ".txt",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3687",
@@ -560,6 +773,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_05.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -571,6 +785,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_06.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -582,6 +797,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_07.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -593,6 +809,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_08.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -604,6 +821,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_10.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -615,6 +833,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_11.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -626,6 +845,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_12.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -637,6 +857,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_15.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -648,6 +869,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_16.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -659,6 +881,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_17.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -670,6 +893,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_18.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -681,6 +905,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_19.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -692,6 +917,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_21.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -703,6 +929,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_22.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -714,6 +941,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_23.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -725,6 +953,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_28.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -736,6 +965,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_29.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -747,6 +977,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_30.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -758,6 +989,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_31.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -769,6 +1001,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_32.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -780,6 +1013,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_33.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -791,6 +1025,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_35.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -802,6 +1037,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_36.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -813,6 +1049,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_39.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -824,6 +1061,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_40.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -835,6 +1073,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_41.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -846,6 +1085,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_42.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -857,6 +1097,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_43.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -868,6 +1109,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_45.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -879,6 +1121,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_batch23_46.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -890,6 +1133,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun05.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -901,6 +1145,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun06.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -912,6 +1157,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun07.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -923,6 +1169,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun08.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -934,6 +1181,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun10.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -945,6 +1193,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun11.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -956,6 +1205,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun12.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -967,6 +1217,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun13.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -978,6 +1229,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun15.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -989,6 +1241,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun16.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -1000,6 +1253,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun17.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -1011,6 +1265,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun18.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -1022,6 +1277,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun19.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -1033,6 +1289,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun21.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -1044,6 +1301,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun22.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -1055,6 +1313,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun23.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -1066,6 +1325,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun24.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -1077,6 +1337,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun27.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -1088,6 +1349,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun28.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -1099,6 +1361,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun29.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -1110,6 +1373,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun30.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -1121,6 +1385,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun31.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -1132,6 +1397,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun33.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -1143,6 +1409,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun34.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -1154,6 +1421,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun35.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -1165,6 +1433,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun36.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -1176,6 +1445,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun37.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -1187,6 +1457,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun39.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -1198,6 +1469,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun40.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -1209,6 +1481,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun41.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -1220,6 +1493,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun42.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -1231,6 +1505,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun43.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -1242,6 +1517,7 @@
       "url_list": [
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/FILES/Cecilia_AA_rerun45.raw"
       ],
+      "extension": ".raw",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3712",
@@ -1256,6 +1532,7 @@
         "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/m_MTBLS3_live_metabolite_profiling_mass_spectrometry_v2_maf.tsv",
         "http://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS3/m_MTBLS3_live_metabolite_profiling_mass_spectrometry_v2_maf.tsv"
       ],
+      "extension": ".tsv",
       "format": {
         "source": "EDAM",
         "accession": "EDAM:format_3475",
