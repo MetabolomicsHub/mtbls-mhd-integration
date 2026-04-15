@@ -1,3 +1,4 @@
+import re
 from datetime import datetime, timezone
 from functools import lru_cache
 from logging import getLogger
@@ -296,9 +297,13 @@ class DbMetadataCollector(AbstractDbMetadataCollector):
                 study_db_metadata.dataset_license_version.upper(),
             ),
         )
+        if not study_db_metadata.dataset_license_url:
+            study_db_metadata.dataset_license_url = (
+                "https://www.ebi.ac.uk/about/terms-of-use/"
+            )
 
         study_db_metadata.study_category = StudyCategory(study["study_category"])
-        study_db_metadata.mhd_model_version = study["mhd_model_version"]
+        study_db_metadata.mhd_model_version = study["mhd_model_version"] or ""
         study_db_metadata.reserved_mhd_accession = study["mhd_accession"] or ""
         study_db_metadata.created_at = (
             self._get_date_time_string(study["created_at"]) or ""
@@ -322,7 +327,13 @@ class DbMetadataCollector(AbstractDbMetadataCollector):
             submitter_metadata.first_name = submitter["firstname"] or ""
             submitter_metadata.last_name = submitter["lastname"] or ""
             submitter_metadata.user_name = submitter["username"] or ""
-            submitter_metadata.orcid = submitter["orcid"] or ""
+            orcid = None
+            if re.match(
+                r"^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[X0-9]$",
+                submitter_metadata.orcid or "",
+            ):
+                orcid = submitter_metadata.orcid
+            submitter_metadata.orcid = orcid or ""
             submitter_metadata.join_date = self._get_date_string(submitter["joindate"])
             submitter_metadata.role = (
                 UserRole.get_from_int(submitter["role"])

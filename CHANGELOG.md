@@ -1,3 +1,64 @@
+## v0.0.33 (2026-04-11)
+
+### Fix
+
+- cicd pipeline update
+- mhd model and dependency updates
+
+## v0.0.32 (2026-04-10)
+
+### Fix
+
+- organization creation cause errors if name is less than 2 characters
+
+## v0.0.31 (2026-04-08)
+
+### Fix
+
+- instrument class mapping updates
+
+## v0.0.30 (2026-04-07)
+
+### Fix
+
+- lookup table error
+
+## v0.0.29 (2026-04-07)
+
+### Fix
+
+- scan polarity convertion updates
+
+## v0.0.28 (2026-04-02)
+
+### Fix
+
+- ms mhd enabled convertor error
+
+## v0.0.27 (2026-04-02)
+
+### Fix
+
+- mhd model and mtbls conversion updates
+
+## v0.0.26 (2026-03-26)
+
+### Fix
+
+- mtbls conversion errors for legacy studies
+
+## v0.0.25 (2026-03-25)
+
+### Fix
+
+- mhd_model_version default value error
+
+## v0.0.24 (2026-03-25)
+
+### Fix
+
+- mtbls-conversion error
+
 ## v0.0.23 (2026-03-23)
 
 ### Fix

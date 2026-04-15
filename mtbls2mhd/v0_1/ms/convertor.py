@@ -4,7 +4,7 @@ from mhd_model.convertors.mhd.convertor import BaseMhdConvertor
 from mhd_model.shared.model import Revision
 
 from mtbls2mhd.config import Mtbls2MhdConfiguration, get_default_config
-from mtbls2mhd.v0_1.legacy.builder import BuildType, MhdLegacyDatasetBuilder
+from mtbls2mhd.v0_1.legacy.builder import MhdLegacyDatasetBuilder
 
 
 class MsProfileConvertor(BaseMhdConvertor):
@@ -28,11 +28,15 @@ class MsProfileConvertor(BaseMhdConvertor):
     ):
         if not config:
             config = get_default_config()
-        mhd_dataset_builder = MhdLegacyDatasetBuilder()
-        mtbls_study_repository_url = (
+        mhd_dataset_builder = MhdLegacyDatasetBuilder(config=config)
+        mtbls_study_repository_website_url = (
             f"{config.study_http_base_url}/{repository_identifier}"
         )
-
+        public_ftp_url = f"{config.public_ftp_base_url}/{repository_identifier}"
+        public_http_url = f"{config.public_http_base_url}/{repository_identifier}"
+        mtbls_study_path = Path(config.mtbls_studies_root_path) / Path(
+            repository_identifier
+        )
         mtbls_study_path = Path(config.mtbls_studies_root_path) / Path(
             repository_identifier
         )
@@ -43,14 +47,16 @@ class MsProfileConvertor(BaseMhdConvertor):
                 else "MHDT000000",
                 mtbls_study_id=repository_identifier,
                 mtbls_study_path=mtbls_study_path,
-                mtbls_study_repository_url=mtbls_study_repository_url,
+                mtbls_study_repository_urls=[
+                    mtbls_study_repository_website_url,
+                    public_http_url,
+                    public_ftp_url,
+                ],
                 target_mhd_model_schema_uri=self.target_mhd_model_schema_uri,
                 target_mhd_model_profile_uri=self.target_mhd_model_profile_uri,
-                config=config,
                 cached_mtbls_model_file_path=cached_mtbls_model_file_path,
                 revision=repository_revision,
                 repository_name=repository_name,
-                build_type=BuildType.FULL_AND_CUSTOM_NODES,
                 **kwargs,
             )
             return success, message

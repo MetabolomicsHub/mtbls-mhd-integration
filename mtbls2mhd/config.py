@@ -1,9 +1,17 @@
+import enum
+
 from dotenv import dotenv_values
 from pydantic import AnyUrl, BaseModel
 
-mhd_model_v0_1_schema_uri: str = "https://metabolomicshub.github.io/mhd-model/schemas/v0_1/common-data-model-v0.1.schema.json"
-mhd_model_v0_1_ms_profile_uri: str = "https://metabolomicshub.github.io/mhd-model/schemas/v0_1/common-data-model-v0.1.ms-profile.json"
-mhd_model_v0_1_legacy_profile_uri: str = "https://metabolomicshub.github.io/mhd-model/schemas/v0_1/common-data-model-v0.1.legacy-profile.json"
+MHD_MODEL_V0_1_SCHEMA_URI: str = "https://metabolomicshub.github.io/mhd-model/schemas/v0_1/common-data-model-v0.1.schema.json"
+MHD_MODEL_V0_1_MS_PROFILE_URI: str = "https://metabolomicshub.github.io/mhd-model/schemas/v0_1/common-data-model-v0.1.ms-profile.json"
+MHD_MODEL_V0_1_LEGACY_PROFILE_URI: str = "https://metabolomicshub.github.io/mhd-model/schemas/v0_1/common-data-model-v0.1.legacy-profile.json"
+
+
+class BuildType(enum.Enum):
+    MINIMUM = "minimal_mhd_model"
+    FULL = "full"
+    FULL_AND_CUSTOM_NODES = "full_and_custom_nodes"
 
 
 class Mtbls2MhdConfiguration(BaseModel):
@@ -26,6 +34,9 @@ class Mtbls2MhdConfiguration(BaseModel):
     )
     default_mhd_model_version: str = "0.1"
     mtbls_studies_root_path: None | str = None
+
+    use_label_for_invalid_cv_term: bool = False
+    build_type: BuildType = BuildType.FULL_AND_CUSTOM_NODES
 
 
 class DatabaseConfiguration(BaseModel):
