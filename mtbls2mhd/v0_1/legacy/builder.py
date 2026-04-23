@@ -432,7 +432,7 @@ def create_cv_term_object(
         accession = ""
     if source and source.lower().startswith("mtbls"):
         source = ""
-    if not source and not accession:
+    if not source or not accession:
         return mhd_domain.CvTermObject(type_=type_, name=name)
 
     s_term = _cv_term_helper.find_cv_term(source, accession or name)
