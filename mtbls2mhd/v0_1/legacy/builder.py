@@ -435,7 +435,7 @@ def create_cv_term_object(
     if not source or not accession:
         return mhd_domain.CvTermObject(type_=type_, name=name)
 
-    s_term = _cv_term_helper.check_cv_term(source, accession or name)
+    s_term = _cv_term_helper.find_cv_term(source, accession or name)
     if s_term and s_term.name.lower() == name.lower():
         return mhd_domain.CvTermObject(
             type_=type_,
