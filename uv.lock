@@ -911,7 +911,7 @@ wheels = [
 
 [[package]]
 name = "mhd-model"
-version = "0.1.79"
+version = "0.1.80"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "bioregistry" },
@@ -931,9 +931,9 @@ dependencies = [
     { name = "reachable" },
     { name = "requests" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/58/d7/e3b33bfd5601e911e193ea2fe809da1ccfdb3cb04c7fa477776018404d22/mhd_model-0.1.79.tar.gz", hash = "sha256:ddfbb587e1a93fa69d63ee64d617fc3f42ec1efba0b836341de8b3a3dc030516", size = 113436, upload-time = "2026-04-28T15:24:02.288Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/22/78/facea26a3ab0c1550fa76ce4a2a8de784a306d2ce18f5c4d7a8bbb97df3f/mhd_model-0.1.80.tar.gz", hash = "sha256:d417b44a5af38708591ea82020622cbabb0995faedafaac967f4f8e794f9c0e8", size = 113427, upload-time = "2026-05-18T12:03:21.976Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/82/d3/a4e4727ef062e8a2764641bd4735f401b1d40d2786ac41afa0177a5f1147/mhd_model-0.1.79-py3-none-any.whl", hash = "sha256:8336e90303f1aa47d0c742f158415f5bc850b175678e3f02ec85dec06b0e2c0a", size = 145281, upload-time = "2026-04-28T15:24:00.863Z" },
+    { url = "https://files.pythonhosted.org/packages/c6/36/61f43a08250667b0fe75ad1a176e893d0c570eb5ce27dd0552a4f3e51141/mhd_model-0.1.80-py3-none-any.whl", hash = "sha256:9ca18f16b6bc25c06805db1a980ce7425de75ac4b9e613dd150048e0420d5cfb", size = 145320, upload-time = "2026-05-18T12:03:23.133Z" },
 ]
 
 [[package]]
@@ -1029,8 +1029,8 @@ dependencies = [
     { name = "pydantic" },
     { name = "pydantic-settings" },
     { name = "pyyaml" },
-    { name = "requests" },
     { name = "sqlalchemy" },
+    { name = "urllib3" },
 ]
 
 [package.dev-dependencies]
@@ -1050,13 +1050,13 @@ docs = [
 requires-dist = [
     { name = "asyncpg", specifier = ">=0.30.0" },
     { name = "metabolights-utils", specifier = ">=1.4.23" },
-    { name = "mhd-model", specifier = ">=0.1.79" },
+    { name = "mhd-model", specifier = ">=0.1.80" },
     { name = "psycopg", extras = ["binary", "pool"], specifier = ">=3.3.2" },
     { name = "pydantic", specifier = ">=2.12.4" },
     { name = "pydantic-settings", specifier = ">=2.10.1" },
     { name = "pyyaml", specifier = ">=6.0.3" },
-    { name = "requests", specifier = ">=2.33.0" },
     { name = "sqlalchemy", specifier = ">=2.0.49" },
+    { name = "urllib3", specifier = ">=2.7.0" },
 ]
 
 [package.metadata.requires-dev]
@@ -1851,11 +1851,11 @@ wheels = [
 
 [[package]]
 name = "urllib3"
-version = "2.6.3"
+version = "2.7.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/c7/24/5f1b3bdffd70275f6661c76461e25f024d5a38a46f04aaca912426a2b1d3/urllib3-2.6.3.tar.gz", hash = "sha256:1b62b6884944a57dbe321509ab94fd4d3b307075e0c2eae991ac71ee15ad38ed", size = 435556, upload-time = "2026-01-07T16:24:43.925Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/53/0c/06f8b233b8fd13b9e5ee11424ef85419ba0d8ba0b3138bf360be2ff56953/urllib3-2.7.0.tar.gz", hash = "sha256:231e0ec3b63ceb14667c67be60f2f2c40a518cb38b03af60abc813da26505f4c", size = 433602, upload-time = "2026-05-07T16:13:18.596Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/39/08/aaaad47bc4e9dc8c725e68f9d04865dbcb2052843ff09c97b08904852d84/urllib3-2.6.3-py3-none-any.whl", hash = "sha256:bf272323e553dfb2e87d9bfd225ca7b0f467b919d7bbd355436d3fd37cb0acd4", size = 131584, upload-time = "2026-01-07T16:24:42.685Z" },
+    { url = "https://files.pythonhosted.org/packages/7f/3e/5db95bcf282c52709639744ca2a8b149baccf648e39c8cc87553df9eae0c/urllib3-2.7.0-py3-none-any.whl", hash = "sha256:9fb4c81ebbb1ce9531cce37674bbc6f1360472bc18ca9a553ede278ef7276897", size = 131087, upload-time = "2026-05-07T16:13:17.151Z" },
 ]
 
 [[package]]
