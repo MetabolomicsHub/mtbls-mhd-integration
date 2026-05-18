@@ -1,3 +1,10 @@
+## v0.0.37 (2026-05-18)
+
+### Fix
+
+- find-cv-term error
+- cv-term check update
+
 ## v0.0.36 (2026-04-28)
 
 ### Fix
