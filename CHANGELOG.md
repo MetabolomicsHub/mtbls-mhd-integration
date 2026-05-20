@@ -1,3 +1,9 @@
+## v0.0.38 (2026-05-20)
+
+### Fix
+
+- mhd convertor for multiple cv terms in a column
+
 ## v0.0.37 (2026-05-18)
 
 ### Fix
