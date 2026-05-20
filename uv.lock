@@ -709,11 +709,11 @@ wheels = [
 
 [[package]]
 name = "idna"
-version = "3.11"
+version = "3.15"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/6f/6d/0703ccc57f3a7233505399edb88de3cbd678da106337b9fcde432b65ed60/idna-3.11.tar.gz", hash = "sha256:795dafcc9c04ed0c1fb032c2aa73654d8e8c5023a7df64a53f39190ada629902", size = 194582, upload-time = "2025-10-12T14:55:20.501Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/82/77/7b3966d0b9d1d31a36ddf1746926a11dface89a83409bf1483f0237aa758/idna-3.15.tar.gz", hash = "sha256:ca962446ea538f7092a95e057da437618e886f4d349216d2b1e294abfdb65fdc", size = 199245, upload-time = "2026-05-12T22:45:57.011Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/0e/61/66938bbb5fc52dbdf84594873d5b51fb1f7c7794e9c0f5bd885f30bc507b/idna-3.11-py3-none-any.whl", hash = "sha256:771a87f49d9defaf64091e6e6fe9c18d4833f140bd19464795bc32d966ca37ea", size = 71008, upload-time = "2025-10-12T14:55:18.883Z" },
+    { url = "https://files.pythonhosted.org/packages/d2/23/408243171aa9aaba178d3e2559159c24c1171a641aa83b67bdd3394ead8e/idna-3.15-py3-none-any.whl", hash = "sha256:048adeaf8c2d788c40fee287673ccaa74c24ffd8dcf09ffa555a2fbb59f10ac8", size = 72340, upload-time = "2026-05-12T22:45:55.733Z" },
 ]
 
 [[package]]
@@ -892,26 +892,27 @@ wheels = [
 
 [[package]]
 name = "metabolights-utils"
-version = "1.4.23"
+version = "1.4.34"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "beautifulsoup4" },
     { name = "click" },
     { name = "httpx" },
+    { name = "idna" },
     { name = "jsonpath-ng" },
     { name = "jsonschema" },
     { name = "pydantic" },
     { name = "pydantic-settings" },
     { name = "unidecode" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/ae/8f/a3dba06ac61e6f998286029802f24dbcac6041bda930100969187c82f429/metabolights_utils-1.4.23.tar.gz", hash = "sha256:68a4f50a5131f39b429d84894caebc9d7ee04e534c60026508a2415f13446c25", size = 159365, upload-time = "2026-04-03T13:10:44.031Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/07/2a/220c895da0f668bc1c117b151c4c99c014749c3d52430b61bb404e758d54/metabolights_utils-1.4.34.tar.gz", hash = "sha256:33f4620e4236a0b877ff8c1f14574dd982fb800df9497ae390a1bcd07b98e4c4", size = 163978, upload-time = "2026-05-20T09:18:39.053Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/33/a8/945c8fc1ca61e2963c454a0d199d2189cbed895a1d008c6fd28858301c1c/metabolights_utils-1.4.23-py3-none-any.whl", hash = "sha256:0f3f67b5700e81382678dd67c76f8578c8602427db776581820206453e85426e", size = 191139, upload-time = "2026-04-03T13:10:45.385Z" },
+    { url = "https://files.pythonhosted.org/packages/f9/24/ebb4a739de07b301d359f2ff31a1bcd814aebaf8392e3c31a6b4fa961dfa/metabolights_utils-1.4.34-py3-none-any.whl", hash = "sha256:0e44b7978713aac7eedf415e94647c23671ac7d1d4e20c7a09ce69ac8a105bf9", size = 196052, upload-time = "2026-05-20T09:18:37.611Z" },
 ]
 
 [[package]]
 name = "mhd-model"
-version = "0.1.80"
+version = "0.1.83"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "bioregistry" },
@@ -924,16 +925,15 @@ dependencies = [
     { name = "jsonschema" },
     { name = "pre-commit" },
     { name = "pydantic" },
-    { name = "pygments" },
     { name = "python-dateutil" },
     { name = "pytz" },
     { name = "pyyaml" },
     { name = "reachable" },
-    { name = "requests" },
+    { name = "urllib3" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/22/78/facea26a3ab0c1550fa76ce4a2a8de784a306d2ce18f5c4d7a8bbb97df3f/mhd_model-0.1.80.tar.gz", hash = "sha256:d417b44a5af38708591ea82020622cbabb0995faedafaac967f4f8e794f9c0e8", size = 113427, upload-time = "2026-05-18T12:03:21.976Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/76/c6/247e8cb2f57489abeecfc9d08c5cc2630ffdaa4fc51ba395982f14b461db/mhd_model-0.1.83.tar.gz", hash = "sha256:8430df28d98e0475d3a8c7412897c2c70ddaf30e553d9377571449cc63ae8caf", size = 113598, upload-time = "2026-05-20T23:18:09.982Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c6/36/61f43a08250667b0fe75ad1a176e893d0c570eb5ce27dd0552a4f3e51141/mhd_model-0.1.80-py3-none-any.whl", hash = "sha256:9ca18f16b6bc25c06805db1a980ce7425de75ac4b9e613dd150048e0420d5cfb", size = 145320, upload-time = "2026-05-18T12:03:23.133Z" },
+    { url = "https://files.pythonhosted.org/packages/16/99/c6467b21de4b8a59ffec3b086e2e60d1ba8428bab3af477d0e00535bd319/mhd_model-0.1.83-py3-none-any.whl", hash = "sha256:71ec40bf9dff671593886ed69fde15ab01108b0e601b5112db1b5b17f42e0c83", size = 145515, upload-time = "2026-05-20T23:18:08.585Z" },
 ]
 
 [[package]]
@@ -1049,8 +1049,8 @@ docs = [
 [package.metadata]
 requires-dist = [
     { name = "asyncpg", specifier = ">=0.30.0" },
-    { name = "metabolights-utils", specifier = ">=1.4.23" },
-    { name = "mhd-model", specifier = ">=0.1.80" },
+    { name = "metabolights-utils", specifier = ">=1.4.34" },
+    { name = "mhd-model", specifier = ">=0.1.83" },
     { name = "psycopg", extras = ["binary", "pool"], specifier = ">=3.3.2" },
     { name = "pydantic", specifier = ">=2.12.4" },
     { name = "pydantic-settings", specifier = ">=2.10.1" },

@@ -434,8 +434,11 @@ def create_cv_term_object(
         source = ""
     if not source or not accession:
         return mhd_domain.CvTermObject(type_=type_, name=name)
-
-    s_term = _cv_term_helper.find_cv_term(source, accession or name)
+    default_cv_term = CvTerm(name=name, accession=accession, source=source)
+    search_accession = _cv_term_helper.get_uri(default_cv_term)
+    s_term = _cv_term_helper.find_cv_term(
+        source, search_accession or name, allow_synonym_search=True
+    )
     if s_term and s_term.name.lower() == name.lower():
         return mhd_domain.CvTermObject(
             type_=type_,
@@ -472,8 +475,12 @@ def create_cv_term_value_object(
         if not unit_cv.accession and not unit_cv.source:
             unit_cv = UnitCvTerm(type_=type_, name=unit.name)
         elif unit_cv.source:
+            default_cv_term = CvTerm(
+                name=unit_cv.name, accession=unit_cv.accession, source=unit_cv.source
+            )
+            search_accession = _cv_term_helper.get_uri(default_cv_term)
             s_unit = _cv_term_helper.find_cv_term(
-                source, unit_cv.accession or unit_cv.name
+                source, search_accession or unit_cv.name, allow_synonym_search=True
             )
             if s_unit and unit_cv.name.lower() == s_unit.name.lower():
                 unit_cv = UnitCvTerm(
@@ -501,7 +508,11 @@ def create_cv_term_value_object(
         )
 
     if source:
-        s_term = _cv_term_helper.find_cv_term(source, accession or name)
+        default_cv_term = CvTerm(name=name, accession=accession, source=source)
+        search_accession = _cv_term_helper.get_uri(default_cv_term)
+        s_term = _cv_term_helper.find_cv_term(
+            source, search_accession or name, allow_synonym_search=True
+        )
         if s_term and s_term.name.lower() == name.lower():
             return mhd_domain.CvTermValueObject(
                 type_=type_,
@@ -1473,27 +1484,54 @@ class MhdLegacyDatasetBuilder:
             if name not in values_map[key]:
                 item = mtbls_cv_terms_mappings.get(key, {}).get(name.lower(), None)
                 if item:
-                    item = create_cv_term_object(
-                        type_=object_name,
-                        source=item.source,
-                        accession=item.accession,
-                        name=item.name,
-                    )
+                    sources = item.source.split(";")
+                    accessions = item.accession.split(";")
+                    names = item.name.split(";")
+
+                    item = []
+                    for idx, val in enumerate(names):
+                        source_ref = sources[idx] if len(sources) > idx else ""
+                        iri = (
+                            self.convert_to_curie(source_ref, accessions[idx])
+                            if len(accessions) > idx
+                            else ""
+                        )
+                        item.append(
+                            create_cv_term_object(
+                                type_=object_name,
+                                source=source_ref,
+                                accession=iri,
+                                name=val,
+                            )
+                        )
                 elif index + 1 < len(columns) and columns[index + 1].startswith(
                     "Term Source REF"
                 ):
                     source = data[columns[index + 1]][idx]
                     accession = (
-                        self.convert_to_curie(source, data[columns[index + 2]][idx])
+                        data[columns[index + 2]][idx]
                         if index + 2 < len(columns)
                         else ""
                     )
-                    item = create_cv_term_value_object(
-                        type_=object_name,
-                        source=source,
-                        accession=accession,
-                        name=name,
-                    )
+                    sources = source.split(";")
+                    accessions = accession.split(";")
+                    names = name.split(";")
+                    item = []
+                    for idx, val in enumerate(names):
+                        source_ref = sources[idx] if len(sources) > idx else ""
+                        iri = (
+                            self.convert_to_curie(source_ref, accessions[idx])
+                            if len(accessions) > idx
+                            else ""
+                        )
+                        item.append(
+                            create_cv_term_value_object(
+                                type_=object_name,
+                                source=source_ref,
+                                accession=iri,
+                                name=val,
+                            )
+                        )
 
                 elif index + 1 < len(columns) and columns[index + 1].startswith("Unit"):
                     unit = (
@@ -1507,49 +1545,68 @@ class MhdLegacyDatasetBuilder:
                         else ""
                     )
                     accession = (
-                        self.convert_to_curie(source, data[columns[index + 3]][idx])
+                        data[columns[index + 3]][idx]
                         if index + 3 < len(columns)
                         else ""
                     )
-
-                    item = create_cv_term_value_object(
-                        type_=object_name,
-                        value=name,
-                        accession="",
-                        source="",
-                        unit=UnitCvTerm(
-                            source=source,
-                            accession=accession,
-                            name=unit,
-                        ),
-                    )
+                    sources = source.split(";")
+                    accessions = accession.split(";")
+                    names = name.split(";")
+                    units = unit.split()
+                    item = []
+                    for idx, val in enumerate(names):
+                        source_ref = sources[idx] if len(sources) > idx else ""
+                        iri = (
+                            self.convert_to_curie(source_ref, accessions[idx])
+                            if len(accessions) > idx
+                            else ""
+                        )
+                        item.append(
+                            create_cv_term_value_object(
+                                type_=object_name,
+                                value=val,
+                                accession="",
+                                source="",
+                                unit=UnitCvTerm(
+                                    source=source_ref,
+                                    accession=iri,
+                                    name=units[idx] if len(units) > idx else "",
+                                ),
+                            )
+                        )
                 else:
                     item = create_cv_term_object(
                         type_=object_name, name=name, accession="", source=""
                     )
                 if item:
-                    mhd_builder.add(
-                        item,
-                        use_label_for_invalid_cv_term=self.config.use_label_for_invalid_cv_term,
-                    )
+                    if not isinstance(item, list):
+                        item = [item]
                     values_map[key][name] = item
-                    mhd_builder.link(
-                        term,
-                        "has-instance",
-                        item,
-                        reverse_relationship_name="instance-of",
-                    )
-                    if hasattr(term, definition_type_property):
-                        if type_obj:
-                            mhd_builder.link(
-                                type_obj,
-                                "type-of",
-                                item,
-                                reverse_relationship_name="has-type",
-                            )
+                    for sub_item in item:
+                        mhd_builder.add(
+                            sub_item,
+                            use_label_for_invalid_cv_term=self.config.use_label_for_invalid_cv_term,
+                        )
+                        mhd_builder.link(
+                            term,
+                            "has-instance",
+                            sub_item,
+                            reverse_relationship_name="instance-of",
+                        )
+                        if hasattr(term, definition_type_property):
+                            if type_obj:
+                                mhd_builder.link(
+                                    type_obj,
+                                    "type-of",
+                                    sub_item,
+                                    reverse_relationship_name="has-type",
+                                )
 
             value = values_map[key][name]
-            values.append(value)
+            if isinstance(value, list):
+                values.extend(value)
+            else:
+                values.append(value)
         return values
 
     def add_sample_runs(
@@ -1768,27 +1825,32 @@ class MhdLegacyDatasetBuilder:
                             )
 
                         if item:
-                            parameter_values.append(item)
-                            mhd_builder.add(
-                                item,
-                                use_label_for_invalid_cv_term=self.config.use_label_for_invalid_cv_term,
-                            )
-                            mhd_builder.link(
-                                definition,
-                                "has-instance",
-                                item,
-                                reverse_relationship_name="instance-of",
-                            )
-                            if hasattr(definition, "parameter_type_ref"):
-                                val = getattr(definition, "parameter_type_ref")
-                                node_type = mhd_builder.objects.get(val)
-                                if node_type:
-                                    mhd_builder.link(
-                                        node_type,
-                                        "type-of",
-                                        item,
-                                        reverse_relationship_name="has-type",
-                                    )
+                            if not isinstance(item, list):
+                                item = [item]
+
+                            parameter_values.extend(item)
+                            for sub_item in item:
+                                mhd_builder.add(
+                                    sub_item,
+                                    use_label_for_invalid_cv_term=self.config.use_label_for_invalid_cv_term,
+                                )
+                                mhd_builder.link(
+                                    definition,
+                                    "has-instance",
+                                    sub_item,
+                                    reverse_relationship_name="instance-of",
+                                )
+                                if hasattr(definition, "parameter_type_ref"):
+                                    val = getattr(definition, "parameter_type_ref")
+                                    node_type = mhd_builder.objects.get(val)
+                                    if node_type:
+                                        mhd_builder.link(
+                                            node_type,
+                                            "type-of",
+                                            sub_item,
+                                            reverse_relationship_name="has-type",
+                                        )
+
                     if parameter_values:
                         config = mhd_domain.SampleRunConfiguration(
                             repository_identifier=study_id
