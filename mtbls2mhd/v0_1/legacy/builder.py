@@ -437,9 +437,9 @@ def create_cv_term_object(
     default_cv_term = CvTerm(name=name, accession=accession, source=source)
     search_accession = _cv_term_helper.get_uri(default_cv_term)
     s_term = _cv_term_helper.find_cv_term(
-        source, search_accession or name, allow_synonym_search=True
+        source, name or search_accession, allow_synonym_search=True
     )
-    if s_term and s_term.name.lower() == name.lower():
+    if s_term and s_term.accession.lower() == accession.lower():
         return mhd_domain.CvTermObject(
             type_=type_,
             accession=s_term.accession,
@@ -480,9 +480,9 @@ def create_cv_term_value_object(
             )
             search_accession = _cv_term_helper.get_uri(default_cv_term)
             s_unit = _cv_term_helper.find_cv_term(
-                source, search_accession or unit_cv.name, allow_synonym_search=True
+                source, unit_cv.name or search_accession, allow_synonym_search=True
             )
-            if s_unit and unit_cv.name.lower() == s_unit.name.lower():
+            if s_unit and unit_cv.accession.lower() == s_unit.accession.lower():
                 unit_cv = UnitCvTerm(
                     type_=type_,
                     name=s_unit.name,
@@ -511,9 +511,9 @@ def create_cv_term_value_object(
         default_cv_term = CvTerm(name=name, accession=accession, source=source)
         search_accession = _cv_term_helper.get_uri(default_cv_term)
         s_term = _cv_term_helper.find_cv_term(
-            source, search_accession or name, allow_synonym_search=True
+            source, name or search_accession, allow_synonym_search=True
         )
-        if s_term and s_term.name.lower() == name.lower():
+        if s_term and s_term.accession.lower() == accession.lower():
             return mhd_domain.CvTermValueObject(
                 type_=type_,
                 accession=s_term.accession,
@@ -533,8 +533,6 @@ def create_cv_term_value_object(
         )
     return mhd_domain.CvTermValueObject(
         type_=type_,
-        accession=accession,
-        source=source,
         name=name,
         value=value,
         unit=unit_cv,
