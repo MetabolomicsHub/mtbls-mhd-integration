@@ -1,4 +1,4 @@
-__version__ = "v0.0.39"
+__version__ = "v0.0.40"
 
 import pathlib
 import sys
