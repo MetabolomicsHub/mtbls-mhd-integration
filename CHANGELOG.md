@@ -1,3 +1,9 @@
+## v0.0.39 (2026-05-21)
+
+### Fix
+
+- cv term validation check error
+
 ## v0.0.38 (2026-05-20)
 
 ### Fix
