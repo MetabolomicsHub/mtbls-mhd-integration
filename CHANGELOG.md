@@ -1,3 +1,9 @@
+## v0.0.41 (2026-05-30)
+
+### Fix
+
+- cv node key from accession and name
+
 ## v0.0.40 (2026-05-21)
 
 ### Fix
