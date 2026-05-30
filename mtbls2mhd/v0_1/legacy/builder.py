@@ -1966,7 +1966,7 @@ class MhdLegacyDatasetBuilder:
                             accession=param_cv.accession,
                             source=param_cv.source,
                         )
-                    key = definition_type.accession or definition_type.name
+                    key = definition_type.accession + "---" + definition_type.name
                     if key not in parameters_map:
                         parameters_map[key] = definition_type
                         mhd_builder.add(
