@@ -1,3 +1,9 @@
+## v0.0.43 (2026-06-01)
+
+### Fix
+
+- use default cv terms if its name matches
+
 ## v0.0.42 (2026-06-01)
 
 ### Fix
