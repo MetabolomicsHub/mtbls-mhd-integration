@@ -3,7 +3,7 @@ import logging
 from pathlib import Path
 
 import click
-import httpx
+import httpx2
 
 logger = logging.getLogger(__name__)
 
@@ -56,7 +56,7 @@ def fetch_mtbls_data(
         output_filename = output_filename or f"{study_id}_model.json"
         study_path = data_path / Path(output_filename)
         url = f"{mtbls_ws_url}/submissions/v2/validations/{study_id}/metabolights-model"
-        response = httpx.get(url, timeout=60)
+        response = httpx2.get(url, timeout=60)
         response.raise_for_status()
         json_data = response.json()
         with study_path.open("w") as f:

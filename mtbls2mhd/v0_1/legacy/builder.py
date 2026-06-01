@@ -36,6 +36,7 @@ from mhd_model.model.v0_1.rules.managed_cv_terms import (
     COMMON_PROTOCOLS,
     COMMON_STUDY_FACTOR_DEFINITIONS,
     COMMON_TECHNOLOGY_TYPES,
+    PREDEFINED_CV_TERMS,
 )
 from mhd_model.shared.fields import DOI
 from mhd_model.shared.model import CvTerm, Revision, UnitCvTerm
@@ -167,7 +168,7 @@ MTBLS_MEASUREMENT_TYPES = {
     "semi-targeted": COMMON_MEASUREMENT_TYPES["semi-targeted"],
 }
 
-MTBLSN_TECHNOLOGY_TYPES = {
+MTBLS_TECHNOLOGY_TYPES = {
     "mass spectrometry": COMMON_TECHNOLOGY_TYPES["mass spectrometry assay"],
     "mass spectrometry assay": COMMON_TECHNOLOGY_TYPES["mass spectrometry assay"],
 }
@@ -223,7 +224,7 @@ MANAGED_CHARACTERISTICS_MAP = {
     # "geographic location": COMMON_CHARACTERISTIC_DEFINITIONS["GAZ:00000448"],
 }
 
-MTBLS_CHARACTERISTICS_MAP = MANAGED_CHARACTERISTICS_MAP.copy()
+MTBLS_CHARACTERISTICS_MAP: dict[str, CvTerm] = MANAGED_CHARACTERISTICS_MAP.copy()
 MTBLS_CHARACTERISTICS_MAP.update(
     {
         "sample type": CvTerm(
@@ -413,6 +414,28 @@ FILE_EXTENSIONS: dict[tuple[str, bool], CvTerm] = {
 # DEFAULT_DERIVED_DATA_FILE_FORMAT = CvTerm(
 #     source="EDAM", accession="EDAM:3245", name="Mass spectrometry data format"
 # )
+MTBLS_CV_TERM_MAPPINGS: dict[str, CvTerm] = {}
+for map_val in get_mtbls_terms_mapping().values():
+    MTBLS_CV_TERM_MAPPINGS.update({x.accession.lower(): x for x in map_val.values()})
+for map_val in get_mtbls_terms_mapping().values():
+    MTBLS_CV_TERM_MAPPINGS.update({x.accession.lower(): x for x in map_val.values()})
+DEFAULT_TERMS: dict[str, CvTerm] = {}
+
+for mtbls_default_term_map in [
+    PREDEFINED_CV_TERMS,
+    MTBLS_ASSAY_TYPES,
+    MTBLS_MEASUREMENT_TYPES,
+    MTBLS_TECHNOLOGY_TYPES,
+    FILE_EXTENSIONS,
+    MTBLS_PROTOCOLS_MAP,
+    MTBLS_CV_TERM_MAPPINGS,
+    MTBLS_CHARACTERISTICS_MAP,
+    MTBLS_STUDY_FACTOR_MAP,
+    ALL_COMMON_PROTOCOL_PARAMETERS,
+]:
+    DEFAULT_TERMS.update(
+        {x.accession.lower(): x for x in mtbls_default_term_map.values()}
+    )
 
 
 class ProtocolRunSummary(BaseModel):
@@ -427,6 +450,16 @@ class ProtocolRunSummary(BaseModel):
 def create_cv_term_object(
     type_: str, accession: str, source: str, name: str
 ) -> mhd_domain.CvTermObject:
+    accession_key = accession.lower() if accession else ""
+    if accession_key:
+        predefined_cv_term = DEFAULT_TERMS.get(accession_key)
+        if predefined_cv_term:
+            return mhd_domain.CvTermObject(
+                type_=type_,
+                accession=predefined_cv_term.accession,
+                source=predefined_cv_term.source,
+                name=predefined_cv_term.name,
+            )
     global _cv_term_helper
     if accession and accession.lower().startswith("mtbls"):
         accession = ""
@@ -459,6 +492,7 @@ def create_cv_term_value_object(
 ) -> mhd_domain.CvTermValueObject:
     # Remove accession and source if they start with MTBLS.
     # they are placeholders and do not have meaning outside of MTBLS context.
+
     if accession and accession.lower().startswith("mtbls"):
         accession = ""
     if source and source.lower().startswith("mtbls"):
@@ -508,6 +542,19 @@ def create_cv_term_value_object(
         )
 
     if source:
+        accession_key = accession.lower() if accession else ""
+        if accession_key:
+            predefined_cv_term = DEFAULT_TERMS.get(accession_key)
+            if predefined_cv_term:
+                return mhd_domain.CvTermValueObject(
+                    type_=type_,
+                    accession=predefined_cv_term.accession,
+                    source=predefined_cv_term.source,
+                    name=predefined_cv_term.name,
+                    value=value,
+                    unit=unit_cv,
+                )
+
         default_cv_term = CvTerm(name=name, accession=accession, source=source)
         search_accession = _cv_term_helper.get_uri(default_cv_term)
         s_term = _cv_term_helper.find_cv_term(
@@ -2548,8 +2595,8 @@ class MhdLegacyDatasetBuilder:
             mhd_builder.link(
                 mhd_study, "has-assay", mhd_assay, reverse_relationship_name="part-of"
             )
-            if assay.technology_type.term.lower() in MTBLSN_TECHNOLOGY_TYPES:
-                technology_type_cv = MTBLSN_TECHNOLOGY_TYPES[
+            if assay.technology_type.term.lower() in MTBLS_TECHNOLOGY_TYPES:
+                technology_type_cv = MTBLS_TECHNOLOGY_TYPES[
                     assay.technology_type.term.lower()
                 ]
                 technology_type = create_cv_term_object(

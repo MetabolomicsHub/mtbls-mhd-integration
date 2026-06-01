@@ -337,14 +337,14 @@ def create_mtbls_models(skip_current: bool = True, working_dir: str = ".outputs"
 def create_mhd_legacy_profile(
     force_recreate: bool = False, working_dir: str = ".outputs"
 ):
-    study_ids = [
-        x.name.replace("_model.json", "")
-        for x in Path(f"{working_dir}/mtbls_model").glob("*_model.json")
-    ]
-    study_ids.sort(
-        key=lambda x: int(x.replace("MTBLS", "").replace("REQ", "")), reverse=True
-    )
-    # study_ids = ["REQ20250108125518"]
+    # study_ids = [
+    #     x.name.replace("_model.json", "")
+    #     for x in Path(f"{working_dir}/mtbls_model").glob("*_model.json")
+    # ]
+    # study_ids.sort(
+    #     key=lambda x: int(x.replace("MTBLS", "").replace("REQ", "")), reverse=True
+    # )
+    study_ids = ["REQ202605303000384"]
     factory = Mtbls2MhdConvertorFactory()
     mhd_output_root_path = Path(f"{working_dir}/mhd_legacy")
     mtbls_config = get_default_config()
@@ -369,8 +369,8 @@ def create_mhd_legacy_profile(
         mtbls_model_source_path = mtbls_model_root_path / Path(
             f"{mtbls_study_id}_model.json"
         )
-        if not mtbls_model_source_path.exists():
-            continue
+        # if not mtbls_model_source_path.exists():
+        #     continue
 
         success, errors = convert_mtbls_study_to_mhd(
             mtbls_study_id,
@@ -421,5 +421,6 @@ def create_sdrf_file_from_mhd_file(working_dir: str = ".outputs"):
 
 if __name__ == "__main__":
     setup_basic_logging_config()
-    create_mhd_legacy_profile(force_recreate=True, working_dir="tests")
+    # create_mhd_legacy_profile(force_recreate=True, working_dir="tests")
     # create_sdrf_file_from_mhd_file()
+    create_mhd_legacy_profile(force_recreate=True, working_dir=".outputs")
