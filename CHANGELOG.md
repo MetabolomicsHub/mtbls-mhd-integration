@@ -1,3 +1,9 @@
+## v0.0.42 (2026-06-01)
+
+### Fix
+
+- if ols failes, default cv terms' accession numbers are removed
+
 ## v0.0.41 (2026-05-30)
 
 ### Fix
