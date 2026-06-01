@@ -273,7 +273,7 @@ for _, items in COMMON_PROTOCOL_PARAMETER_VALUE_MAP.items():
     for name, term in items.items():
         ALL_COMMON_PROTOCOL_PARAMETERS[name] = term
 
-MTBLS_PROTOCOL_PARAMETER_DEFINITION_MAP = {}
+MTBLS_PROTOCOL_PARAMETER_DEFINITION_MAP: dict[str, dict[str, CvTerm]] = {}
 
 MTBLS_PROTOCOL_PARAMETER_DEFINITION_MAP.update(
     {
@@ -417,8 +417,12 @@ FILE_EXTENSIONS: dict[tuple[str, bool], CvTerm] = {
 MTBLS_CV_TERM_MAPPINGS: dict[str, CvTerm] = {}
 for map_val in get_mtbls_terms_mapping().values():
     MTBLS_CV_TERM_MAPPINGS.update({x.accession.lower(): x for x in map_val.values()})
-for map_val in get_mtbls_terms_mapping().values():
-    MTBLS_CV_TERM_MAPPINGS.update({x.accession.lower(): x for x in map_val.values()})
+
+MTBLS_PROTOCOL_PARAMETERS_MAPPINGS: dict[str, CvTerm] = {}
+for map_val in MTBLS_PROTOCOL_PARAMETER_DEFINITION_MAP.values():
+    MTBLS_PROTOCOL_PARAMETERS_MAPPINGS.update(
+        {x.accession.lower(): x for x in map_val.values()}
+    )
 DEFAULT_TERMS: dict[str, CvTerm] = {}
 
 for mtbls_default_term_map in [
