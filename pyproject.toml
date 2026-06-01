@@ -31,6 +31,7 @@ dev = [
 ]
 docs = [
     "mkdocs-material>=9.5.49",
+    "pymdown-extensions>=10.21.3"
 ]
 
 [tool.uv]

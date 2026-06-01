@@ -57,7 +57,31 @@ from mtbls2mhd.v0_1.legacy.folder_metadata_collector import (
 
 logger = logging.getLogger(__name__)
 
-_cv_term_helper = CvTermHelper()
+
+_cv_term_helper: CvTermHelper = CvTermHelper()
+_cache_service: None | CvTermHelper = None
+
+
+class OntologyCacheService:
+    def get_cv_term_by_accession(self, source: str, accession: str) -> CvTerm | None:
+        return None
+
+    def get_cv_term_by_source_and_term(self, source: str, term: str) -> CvTerm | None:
+        return None
+
+
+def set_ontology_cache_service(cache_service: CvTermHelper):
+    global _cache_service
+    _cache_service = cache_service
+
+
+def get_ontology_cache_service() -> OntologyCacheService:
+    global _cache_service
+
+    if not _cache_service:
+        _cache_service = OntologyCacheService()
+    return _cache_service
+
 
 _mtbls_term_mappings: dict[str, dict[str, CvTerm]] | None = None
 
@@ -454,10 +478,31 @@ class ProtocolRunSummary(BaseModel):
 def create_cv_term_object(
     type_: str, accession: str, source: str, name: str
 ) -> mhd_domain.CvTermObject:
-    accession_key = accession.lower() if accession else ""
-    if accession_key:
+    name = name or ""
+    accession = accession or ""
+    source = source or ""
+    accession_key = accession.lower()
+    if accession_key and source:
         predefined_cv_term = DEFAULT_TERMS.get(accession_key)
-        if predefined_cv_term and predefined_cv_term.name.lower() == name.lower():
+        if (
+            predefined_cv_term
+            and predefined_cv_term.name.lower() == name.lower()
+            and predefined_cv_term.source.lower() == source.lower()
+        ):
+            return mhd_domain.CvTermObject(
+                type_=type_,
+                accession=predefined_cv_term.accession,
+                source=predefined_cv_term.source,
+                name=predefined_cv_term.name,
+            )
+        predefined_cv_term = get_ontology_cache_service().get_cv_term_by_accession(
+            source, accession
+        )
+        if (
+            predefined_cv_term
+            and predefined_cv_term.name.lower() == name.lower()
+            and predefined_cv_term.source.lower() == source.lower()
+        ):
             return mhd_domain.CvTermObject(
                 type_=type_,
                 accession=predefined_cv_term.accession,
@@ -510,17 +555,28 @@ def create_cv_term_value_object(
         if not source or not accession:
             unit_cv = UnitCvTerm(name=unit.name) if unit and unit.name else None
     if unit_cv:
-        if not unit_cv.accession and not unit_cv.source:
+        if not unit_cv.accession or not unit_cv.source:
             unit_cv = UnitCvTerm(type_=type_, name=unit.name)
-        elif unit_cv.source:
+        else:
             default_cv_term = CvTerm(
-                name=unit_cv.name, accession=unit_cv.accession, source=unit_cv.source
+                name=unit_cv.name or "",
+                accession=unit_cv.accession,
+                source=unit_cv.source,
             )
             search_accession = _cv_term_helper.get_uri(default_cv_term)
-            s_unit = _cv_term_helper.find_cv_term(
-                source, unit_cv.name or search_accession, allow_synonym_search=True
+
+            s_unit = get_ontology_cache_service().get_cv_term_by_accession(
+                unit_cv.source, unit_cv.accession
             )
-            if s_unit and unit_cv.accession.lower() == s_unit.accession.lower():
+            if not s_unit:
+                s_unit = _cv_term_helper.find_cv_term(
+                    source, unit_cv.name or search_accession, allow_synonym_search=True
+                )
+            if (
+                s_unit
+                and unit_cv.name.lower() == s_unit.name.lower()
+                and unit_cv.source.lower() == s_unit.source.lower()
+            ):
                 unit_cv = UnitCvTerm(
                     type_=type_,
                     name=s_unit.name,
@@ -547,9 +603,19 @@ def create_cv_term_value_object(
 
     if source:
         accession_key = accession.lower() if accession else ""
-        if accession_key:
+        if source and accession_key:
             predefined_cv_term = DEFAULT_TERMS.get(accession_key)
-            if predefined_cv_term and predefined_cv_term.name.lower() == name.lower():
+            if not predefined_cv_term:
+                predefined_cv_term = (
+                    get_ontology_cache_service().get_cv_term_by_accession(
+                        source, accession
+                    )
+                )
+            if (
+                predefined_cv_term
+                and predefined_cv_term.name.lower() == name.lower()
+                and predefined_cv_term.source.lower() == source.lower()
+            ):
                 return mhd_domain.CvTermValueObject(
                     type_=type_,
                     accession=predefined_cv_term.accession,
@@ -561,9 +627,14 @@ def create_cv_term_value_object(
 
         default_cv_term = CvTerm(name=name, accession=accession, source=source)
         search_accession = _cv_term_helper.get_uri(default_cv_term)
-        s_term = _cv_term_helper.find_cv_term(
-            source, name or search_accession, allow_synonym_search=True
+
+        s_term = get_ontology_cache_service().get_cv_term_by_accession(
+            source, accession
         )
+        if not s_term:
+            s_term = _cv_term_helper.find_cv_term(
+                source, name or search_accession, allow_synonym_search=True
+            )
         if s_term and s_term.accession.lower() == accession.lower():
             return mhd_domain.CvTermValueObject(
                 type_=type_,
