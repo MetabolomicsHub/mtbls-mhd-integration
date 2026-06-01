@@ -457,7 +457,7 @@ def create_cv_term_object(
     accession_key = accession.lower() if accession else ""
     if accession_key:
         predefined_cv_term = DEFAULT_TERMS.get(accession_key)
-        if predefined_cv_term:
+        if predefined_cv_term and predefined_cv_term.name.lower() == name.lower():
             return mhd_domain.CvTermObject(
                 type_=type_,
                 accession=predefined_cv_term.accession,
@@ -549,7 +549,7 @@ def create_cv_term_value_object(
         accession_key = accession.lower() if accession else ""
         if accession_key:
             predefined_cv_term = DEFAULT_TERMS.get(accession_key)
-            if predefined_cv_term:
+            if predefined_cv_term and predefined_cv_term.name.lower() == name.lower():
                 return mhd_domain.CvTermValueObject(
                     type_=type_,
                     accession=predefined_cv_term.accession,
