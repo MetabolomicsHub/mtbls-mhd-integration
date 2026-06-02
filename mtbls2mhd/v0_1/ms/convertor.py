@@ -4,6 +4,7 @@ from mhd_model.convertors.mhd.convertor import BaseMhdConvertor
 from mhd_model.shared.model import Revision
 
 from mtbls2mhd.config import Mtbls2MhdConfiguration, get_default_config
+from mtbls2mhd.utils.cv_term_creator import OntologyCacheService
 from mtbls2mhd.v0_1.legacy.builder import MhdLegacyDatasetBuilder
 
 
@@ -24,11 +25,14 @@ class MsProfileConvertor(BaseMhdConvertor):
         repository_revision: None | Revision = None,
         config: None | Mtbls2MhdConfiguration = None,  # noqa: F821
         cached_mtbls_model_file_path: None | str = None,
+        ontology_cache_service: None | OntologyCacheService = None,
         **kwargs,
     ):
         if not config:
             config = get_default_config()
-        mhd_dataset_builder = MhdLegacyDatasetBuilder(config=config)
+        mhd_dataset_builder = MhdLegacyDatasetBuilder(
+            config=config, ontology_cache_service=ontology_cache_service, **kwargs
+        )
         mtbls_study_repository_website_url = (
             f"{config.study_http_base_url}/{repository_identifier}"
         )

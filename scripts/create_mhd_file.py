@@ -99,6 +99,7 @@ def convert_mtbls_study_to_mhd(
             mhd_output_filename=mhd_output_filename,
             config=mtbls_config,
             metabolights_study_model=metabolights_study_model,
+            ontology_cache_service=None,
         )
 
     except Exception:
@@ -180,6 +181,7 @@ def convert_mtbls_study_model_to_mhd(
         mhd_output_filename=mhd_output_filename,
         config=mtbls_config,
         metabolights_study_model=metabolights_study_model,
+        ontology_cache_service=None,
     )
     mhd_file_path = mhd_output_root_path / Path(mhd_output_filename)
     mhd_announcement_output_root_path = Path("tests/mhd_announcement/legacy")

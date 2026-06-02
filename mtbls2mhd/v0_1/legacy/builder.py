@@ -47,6 +47,7 @@ from pydantic import BaseModel, HttpUrl, ValidationError
 
 import mtbls2mhd
 from mtbls2mhd.config import BuildType, Mtbls2MhdConfiguration
+from mtbls2mhd.utils.cv_term_creator import OntologyCacheService, OntologyTermCreator
 from mtbls2mhd.v0_1.legacy.db_metadata_collector import (
     DbMetadataCollector,
     create_postgresql_connection,
@@ -59,28 +60,11 @@ logger = logging.getLogger(__name__)
 
 
 _cv_term_helper: CvTermHelper = CvTermHelper()
-_cache_service: None | CvTermHelper = None
 
 
-class OntologyCacheService:
-    def get_cv_term_by_accession(self, source: str, accession: str) -> CvTerm | None:
-        return None
-
-    def get_cv_term_by_source_and_term(self, source: str, term: str) -> CvTerm | None:
-        return None
-
-
-def set_ontology_cache_service(cache_service: CvTermHelper):
-    global _cache_service
-    _cache_service = cache_service
-
-
-def get_ontology_cache_service() -> OntologyCacheService:
-    global _cache_service
-
-    if not _cache_service:
-        _cache_service = OntologyCacheService()
-    return _cache_service
+def get_cv_term_helper() -> CvTermHelper:
+    global _cv_term_helper
+    return _cv_term_helper
 
 
 _mtbls_term_mappings: dict[str, dict[str, CvTerm]] | None = None
@@ -475,195 +459,21 @@ class ProtocolRunSummary(BaseModel):
     )
 
 
-def create_cv_term_object(
-    type_: str, accession: str, source: str, name: str
-) -> mhd_domain.CvTermObject:
-    name = name or ""
-    accession = accession or ""
-    source = source or ""
-    accession_key = accession.lower()
-    if accession_key and source:
-        predefined_cv_term = DEFAULT_TERMS.get(accession_key)
-        if (
-            predefined_cv_term
-            and predefined_cv_term.name.lower() == name.lower()
-            and predefined_cv_term.source.lower() == source.lower()
-        ):
-            return mhd_domain.CvTermObject(
-                type_=type_,
-                accession=predefined_cv_term.accession,
-                source=predefined_cv_term.source,
-                name=predefined_cv_term.name,
-            )
-        predefined_cv_term = get_ontology_cache_service().get_cv_term_by_accession(
-            source, accession
-        )
-        if (
-            predefined_cv_term
-            and predefined_cv_term.name.lower() == name.lower()
-            and predefined_cv_term.source.lower() == source.lower()
-        ):
-            return mhd_domain.CvTermObject(
-                type_=type_,
-                accession=predefined_cv_term.accession,
-                source=predefined_cv_term.source,
-                name=predefined_cv_term.name,
-            )
-    global _cv_term_helper
-    if accession and accession.lower().startswith("mtbls"):
-        accession = ""
-    if source and source.lower().startswith("mtbls"):
-        source = ""
-    if not source or not accession:
-        return mhd_domain.CvTermObject(type_=type_, name=name)
-    default_cv_term = CvTerm(name=name, accession=accession, source=source)
-    search_accession = _cv_term_helper.get_uri(default_cv_term)
-    s_term = _cv_term_helper.find_cv_term(
-        source, name or search_accession, allow_synonym_search=True
-    )
-    if s_term and s_term.accession.lower() == accession.lower():
-        return mhd_domain.CvTermObject(
-            type_=type_,
-            accession=s_term.accession,
-            source=s_term.source,
-            name=s_term.name,
-        )
-    return mhd_domain.CvTermObject(type_=type_, name=name)
-
-
-def create_cv_term_value_object(
-    type_: str,
-    accession: str = "",
-    source: str = "",
-    name: str = "",
-    value: None | str = None,
-    unit: None | UnitCvTerm = None,
-) -> mhd_domain.CvTermValueObject:
-    # Remove accession and source if they start with MTBLS.
-    # they are placeholders and do not have meaning outside of MTBLS context.
-
-    if accession and accession.lower().startswith("mtbls"):
-        accession = ""
-    if source and source.lower().startswith("mtbls"):
-        source = ""
-    unit_cv = unit
-    if unit:
-        if unit.accession and unit.accession.lower().startswith("mtbls"):
-            unit.accession = ""
-        if unit.source and unit.source.lower().startswith("mtbls"):
-            unit.source = ""
-        if not source or not accession:
-            unit_cv = UnitCvTerm(name=unit.name) if unit and unit.name else None
-    if unit_cv:
-        if not unit_cv.accession or not unit_cv.source:
-            unit_cv = UnitCvTerm(type_=type_, name=unit.name)
-        else:
-            default_cv_term = CvTerm(
-                name=unit_cv.name or "",
-                accession=unit_cv.accession,
-                source=unit_cv.source,
-            )
-            search_accession = _cv_term_helper.get_uri(default_cv_term)
-
-            s_unit = get_ontology_cache_service().get_cv_term_by_accession(
-                unit_cv.source, unit_cv.accession
-            )
-            if not s_unit:
-                s_unit = _cv_term_helper.find_cv_term(
-                    source, unit_cv.name or search_accession, allow_synonym_search=True
-                )
-            if (
-                s_unit
-                and unit_cv.name.lower() == s_unit.name.lower()
-                and unit_cv.source.lower() == s_unit.source.lower()
-            ):
-                unit_cv = UnitCvTerm(
-                    type_=type_,
-                    name=s_unit.name,
-                    accession=s_unit.accession,
-                    source=s_unit.source,
-                )
-            else:
-                logger.warning(
-                    "CV term '%s' with source '%s' and accession '%s' not found. "
-                    "CV term will be created without source and accession.",
-                    name,
-                    source,
-                    accession,
-                )
-                unit_cv = UnitCvTerm(type_=type_, name=unit.name)
-
-    if not source or not accession:
-        return mhd_domain.CvTermValueObject(
-            type_=type_,
-            name=name,
-            value=value,
-            unit=unit_cv,
-        )
-
-    if source:
-        accession_key = accession.lower() if accession else ""
-        if source and accession_key:
-            predefined_cv_term = DEFAULT_TERMS.get(accession_key)
-            if not predefined_cv_term:
-                predefined_cv_term = (
-                    get_ontology_cache_service().get_cv_term_by_accession(
-                        source, accession
-                    )
-                )
-            if (
-                predefined_cv_term
-                and predefined_cv_term.name.lower() == name.lower()
-                and predefined_cv_term.source.lower() == source.lower()
-            ):
-                return mhd_domain.CvTermValueObject(
-                    type_=type_,
-                    accession=predefined_cv_term.accession,
-                    source=predefined_cv_term.source,
-                    name=predefined_cv_term.name,
-                    value=value,
-                    unit=unit_cv,
-                )
-
-        default_cv_term = CvTerm(name=name, accession=accession, source=source)
-        search_accession = _cv_term_helper.get_uri(default_cv_term)
-
-        s_term = get_ontology_cache_service().get_cv_term_by_accession(
-            source, accession
-        )
-        if not s_term:
-            s_term = _cv_term_helper.find_cv_term(
-                source, name or search_accession, allow_synonym_search=True
-            )
-        if s_term and s_term.accession.lower() == accession.lower():
-            return mhd_domain.CvTermValueObject(
-                type_=type_,
-                accession=s_term.accession,
-                source=s_term.source,
-                name=s_term.name,
-                value=value,
-                unit=unit_cv,
-            )
-
-    if source or accession:
-        logger.warning(
-            "CV term '%s' with source '%s' and accession '%s' not found. "
-            "CV term will be created without source and accession.",
-            name,
-            source,
-            accession,
-        )
-    return mhd_domain.CvTermValueObject(
-        type_=type_,
-        name=name,
-        value=value,
-        unit=unit_cv,
-    )
-
-
 class MhdLegacyDatasetBuilder:
-    def __init__(self, config: Mtbls2MhdConfiguration):
+    def __init__(
+        self,
+        config: Mtbls2MhdConfiguration,
+        ontology_cache_service: None | OntologyCacheService = None,
+        **kwargs,
+    ):
+        global _cv_term_helper
         self.config = config
+        self.ontology_cache_service = ontology_cache_service or OntologyCacheService()
+        self.otc = OntologyTermCreator(
+            self.ontology_cache_service,
+            cv_term_helper=get_cv_term_helper(),
+            default_terms=DEFAULT_TERMS,
+        )
 
     def convert_to_curie(self, source_ref: str, uri: str) -> str:
         if not uri:
@@ -960,7 +770,7 @@ class MhdLegacyDatasetBuilder:
         url: None | mhd_domain.CvTermObject = None
         for idx, related_dataset in enumerate(study.related_datasets):
             if idx == 0:
-                url = create_cv_term_object(
+                url = self.otc.create_cv_term_object(
                     accession="NCIT:C42743",
                     name="Uniform Resource Locator",
                     source="NCIT",
@@ -1022,7 +832,7 @@ class MhdLegacyDatasetBuilder:
 
         if not mhd_publications:
             if not study.study_publications.publications:
-                no_publication = create_cv_term_object(
+                no_publication = self.otc.create_cv_term_object(
                     type_="descriptor",
                     accession="MS:1002853",
                     source="MS",
@@ -1039,7 +849,7 @@ class MhdLegacyDatasetBuilder:
                     reverse_relationship_name="publication-status-of",
                 )
             else:
-                pending_publication = create_cv_term_object(
+                pending_publication = self.otc.create_cv_term_object(
                     type_="descriptor",
                     accession="MS:1002858",
                     source="MS",
@@ -1063,7 +873,7 @@ class MhdLegacyDatasetBuilder:
         data: MetabolightsStudyModel,
         selected_assays: list[Assay],
     ):
-        isa_tab_format = create_cv_term_object(
+        isa_tab_format = self.otc.create_cv_term_object(
             type_="descriptor",
             accession="EDAM:format_3687",
             source="EDAM",
@@ -1126,7 +936,7 @@ class MhdLegacyDatasetBuilder:
         data: MetabolightsStudyModel,
     ):
         result_file_map: dict[str, mhd_domain.ResultFile] = {}
-        tsv_format = create_cv_term_object(
+        tsv_format = self.otc.create_cv_term_object(
             type_="descriptor", accession="EDAM:format_3475", source="EDAM", name="TSV"
         )
         study_id = mhd_study.repository_identifier
@@ -1173,7 +983,7 @@ class MhdLegacyDatasetBuilder:
                 type_definition = "x-mtbls-factor-type"
                 if cv_term.accession in COMMON_STUDY_FACTOR_DEFINITIONS:
                     type_definition = "factor-type"
-                factor_type = create_cv_term_object(
+                factor_type = self.otc.create_cv_term_object(
                     type_=type_definition,
                     name=cv_term.name,
                     source=cv_term.source,
@@ -1185,7 +995,7 @@ class MhdLegacyDatasetBuilder:
                 else:
                     cv_term = CvTerm(name=factor_name)
 
-                factor_type = create_cv_term_object(
+                factor_type = self.otc.create_cv_term_object(
                     type_="x-mtbls-factor-type",
                     name=cv_term.name,
                     source=cv_term.source,
@@ -1289,7 +1099,7 @@ class MhdLegacyDatasetBuilder:
 
                 if name in MANAGED_CHARACTERISTICS_MAP:
                     cv_term = MANAGED_CHARACTERISTICS_MAP[name]
-                    characteristic_type = create_cv_term_object(
+                    characteristic_type = self.otc.create_cv_term_object(
                         type_="characteristic-type",
                         name=cv_term.name,
                         accession=cv_term.accession,
@@ -1300,7 +1110,7 @@ class MhdLegacyDatasetBuilder:
                         cv_term = MTBLS_CHARACTERISTICS_MAP[name]
                     else:
                         cv_term = CvTerm(name=name)
-                    characteristic_type = create_cv_term_object(
+                    characteristic_type = self.otc.create_cv_term_object(
                         type_="x-mtbls-characteristic-type",
                         name=cv_term.name,
                         accession=cv_term.accession,
@@ -1338,7 +1148,7 @@ class MhdLegacyDatasetBuilder:
         study_id = mhd_study.repository_identifier
         for name, term in MANAGED_CHARACTERISTICS_MAP.items():
             if name not in created_characteristics:
-                characteristic_type = create_cv_term_object(
+                characteristic_type = self.otc.create_cv_term_object(
                     type_="characteristic-type",
                     name=term.name,
                     accession=term.accession,
@@ -1617,7 +1427,7 @@ class MhdLegacyDatasetBuilder:
                             else ""
                         )
                         item.append(
-                            create_cv_term_object(
+                            self.otc.create_cv_term_object(
                                 type_=object_name,
                                 source=source_ref,
                                 accession=iri,
@@ -1645,7 +1455,7 @@ class MhdLegacyDatasetBuilder:
                             else ""
                         )
                         item.append(
-                            create_cv_term_value_object(
+                            self.otc.create_cv_term_value_object(
                                 type_=object_name,
                                 source=source_ref,
                                 accession=iri,
@@ -1682,7 +1492,7 @@ class MhdLegacyDatasetBuilder:
                             else ""
                         )
                         item.append(
-                            create_cv_term_value_object(
+                            self.otc.create_cv_term_value_object(
                                 type_=object_name,
                                 value=val,
                                 accession="",
@@ -1695,7 +1505,7 @@ class MhdLegacyDatasetBuilder:
                             )
                         )
                 else:
-                    item = create_cv_term_object(
+                    item = self.otc.create_cv_term_object(
                         type_=object_name, name=name, accession="", source=""
                     )
                 if item:
@@ -1918,7 +1728,7 @@ class MhdLegacyDatasetBuilder:
 
                         item = None
                         if len(values) == 1:
-                            item = create_cv_term_value_object(
+                            item = self.otc.create_cv_term_value_object(
                                 type_=object_name, name=values[0]
                             )
                             # definition_value = DefinitionValue(
@@ -1926,7 +1736,7 @@ class MhdLegacyDatasetBuilder:
                             # )
                         elif len(values) == 3:
                             accession = self.convert_to_curie(values[1], values[2])
-                            item = create_cv_term_value_object(
+                            item = self.otc.create_cv_term_value_object(
                                 type_=object_name,
                                 name=values[0],
                                 source=values[1],
@@ -1934,7 +1744,7 @@ class MhdLegacyDatasetBuilder:
                             )
                         elif len(values) == 4:
                             accession = self.convert_to_curie(values[2], values[3])
-                            item = create_cv_term_value_object(
+                            item = self.otc.create_cv_term_value_object(
                                 type_=object_name,
                                 value=values[0],
                                 unit=UnitCvTerm(
@@ -2075,14 +1885,14 @@ class MhdLegacyDatasetBuilder:
                         definition_type = "parameter-type"
                     param_cv = self.get_parameter_cv(protocol.name, x.term)
                     if not param_cv:
-                        definition_type = create_cv_term_object(
+                        definition_type = self.otc.create_cv_term_object(
                             type_=definition_type,
                             name=x.term.lower(),
                             accession=x.term_accession_number or "",
                             source=x.term_source_ref or "",
                         )
                     else:
-                        definition_type = create_cv_term_object(
+                        definition_type = self.otc.create_cv_term_object(
                             type_=definition_type,
                             name=param_cv.name,
                             accession=param_cv.accession,
@@ -2135,7 +1945,7 @@ class MhdLegacyDatasetBuilder:
             definition_refs = None
             if parameters:
                 definition_refs = [x.id_ for x in parameters]
-            protocol_type_obj = create_cv_term_object(
+            protocol_type_obj = self.otc.create_cv_term_object(
                 type_=protocol_type_name,
                 source=protocol_type.source or "",
                 accession=self.convert_to_curie(
@@ -2189,7 +1999,7 @@ class MhdLegacyDatasetBuilder:
         study: Study,
     ):
         for item in study.study_design_descriptors.design_types:
-            keyword = create_cv_term_object(
+            keyword = self.otc.create_cv_term_object(
                 type_="descriptor",
                 source=item.term_source_ref or "",
                 accession=self.convert_to_curie(
@@ -2262,7 +2072,7 @@ class MhdLegacyDatasetBuilder:
                 for desc_idx, term in enumerate(term_list):
                     if not term:
                         continue
-                    keyword = create_cv_term_object(
+                    keyword = self.otc.create_cv_term_object(
                         type_="descriptor",
                         source=term_sources_list[desc_idx]
                         if desc_idx < len(term_sources_list)
@@ -2291,7 +2101,7 @@ class MhdLegacyDatasetBuilder:
             # for item in assay.assay_descriptors:
             #     if not item or not item.term:
             #         continue
-            #     keyword = create_cv_term_object(
+            #     keyword = self.otc.create_cv_term_object(
             #         type_="descriptor",
             #         source=item.term_source_ref or "",
             #         accession=self.convert_to_curie(
@@ -2338,7 +2148,7 @@ class MhdLegacyDatasetBuilder:
         if compressed:
             file_extension += ".zip"
 
-            zip_file_format_node = create_cv_term_object(
+            zip_file_format_node = self.otc.create_cv_term_object(
                 type_="descriptor",
                 source="EDAM",
                 accession="EDAM:format_3987",
@@ -2362,7 +2172,7 @@ class MhdLegacyDatasetBuilder:
         data_format_node = None
         if data_format:
             if not cv_nodes.get(data_format.accession):
-                data_format_node = create_cv_term_object(
+                data_format_node = self.otc.create_cv_term_object(
                     type_="descriptor",
                     accession=data_format.accession,
                     source=data_format.source,
@@ -2383,7 +2193,7 @@ class MhdLegacyDatasetBuilder:
     ):
         study_id = mhd_study.repository_identifier
 
-        result_file_format = create_cv_term_object(
+        result_file_format = self.otc.create_cv_term_object(
             type_="descriptor",
             source="EDAM",
             accession="EDAM:format_3475",
@@ -2590,7 +2400,7 @@ class MhdLegacyDatasetBuilder:
                             compound_source == "CHEBI"
                             or identifier_value.upper().startswith("CHEBI")
                         ):
-                            identifier = create_cv_term_value_object(
+                            identifier = self.otc.create_cv_term_value_object(
                                 type_="metabolite-identifier",
                                 source="CHEMINF",
                                 accession="CHEMINF:000407",
@@ -2598,7 +2408,7 @@ class MhdLegacyDatasetBuilder:
                                 value=identifier_value,
                             )
                         elif identifier_value.upper().startswith("HMDB"):
-                            identifier = create_cv_term_value_object(
+                            identifier = self.otc.create_cv_term_value_object(
                                 type_="metabolite-identifier",
                                 source="CHEMINF",
                                 accession="CHEMINF:000408",
@@ -2606,7 +2416,7 @@ class MhdLegacyDatasetBuilder:
                                 value=identifier_value,
                             )
                         elif compound_source == "REFMET":
-                            identifier = create_cv_term_value_object(
+                            identifier = self.otc.create_cv_term_value_object(
                                 type_="metabolite-identifier",
                                 source="REFMET",
                                 accession="",
@@ -2674,14 +2484,14 @@ class MhdLegacyDatasetBuilder:
                 technology_type_cv = MTBLS_TECHNOLOGY_TYPES[
                     assay.technology_type.term.lower()
                 ]
-                technology_type = create_cv_term_object(
+                technology_type = self.otc.create_cv_term_object(
                     type_="descriptor",
                     source=technology_type_cv.source,
                     accession=technology_type_cv.accession,
                     name=technology_type_cv.name,
                 )
             else:
-                technology_type = create_cv_term_object(
+                technology_type = self.otc.create_cv_term_object(
                     type_="descriptor",
                     source=assay.technology_type.term_source_ref,
                     accession=self.convert_to_curie(
@@ -2701,7 +2511,7 @@ class MhdLegacyDatasetBuilder:
             if assay_file.assay_technique.name in MTBLS_ASSAY_TYPES:
                 assay_type_cv = MTBLS_ASSAY_TYPES[assay_file.assay_technique.name]
             if assay_type_cv:
-                assay_type = create_cv_term_object(
+                assay_type = self.otc.create_cv_term_object(
                     type_="descriptor",
                     source=assay_type_cv.source,
                     accession=assay_type_cv.accession,
@@ -2731,7 +2541,7 @@ class MhdLegacyDatasetBuilder:
                         measurement = MTBLS_MEASUREMENT_TYPES["targeted"]
 
                     if measurement:
-                        measurement_type = create_cv_term_object(
+                        measurement_type = self.otc.create_cv_term_object(
                             type_="descriptor",
                             source=measurement.source,
                             accession=measurement.accession,
@@ -2740,7 +2550,7 @@ class MhdLegacyDatasetBuilder:
                         measurement_types.append(measurement_type)
                 for v in COMMON_OMICS_TYPES.values():
                     if descriptor.term.lower() == v.name.lower():
-                        omics_type = create_cv_term_object(
+                        omics_type = self.otc.create_cv_term_object(
                             type_="descriptor",
                             source=v.source,
                             accession=v.accession,
@@ -2752,7 +2562,7 @@ class MhdLegacyDatasetBuilder:
                 measurement_type = measurement_types[0]
             else:
                 default_type = DEFAULT_MEASUREMENT_TYPE
-                measurement_type = create_cv_term_object(
+                measurement_type = self.otc.create_cv_term_object(
                     type_="descriptor",
                     source=default_type.source,
                     accession=default_type.accession,
@@ -2768,7 +2578,7 @@ class MhdLegacyDatasetBuilder:
                 omics_type = omics_types[0]
             else:
                 default_type = DEFAULT_OMICS_TYPE
-                omics_type = create_cv_term_object(
+                omics_type = self.otc.create_cv_term_object(
                     type_="descriptor",
                     source=default_type.source,
                     accession=default_type.accession,
@@ -2817,7 +2627,7 @@ class MhdLegacyDatasetBuilder:
         **kwargs,
     ) -> MhDatasetLegacyProfile:
         mhd_output_filename = kwargs.get("mhd_output_filename", None)
-        dataset_provider = create_cv_term_value_object(
+        dataset_provider = self.otc.create_cv_term_value_object(
             type_="data-provider",
             source="NCIT",
             accession="NCIT:C189151",
