@@ -42,6 +42,9 @@ def test_resolve_output_file_path_accepts_filename(output_dir: Path):
 @pytest.mark.parametrize(
     "output_filename",
     [
+        "",
+        ".",
+        "..",
         "../outside.json",
         "nested/outside.json",
         "/tmp/outside.json",
@@ -50,9 +53,7 @@ def test_resolve_output_file_path_accepts_filename(output_dir: Path):
         r"C:\tmp\outside.json",
     ],
 )
-def test_resolve_output_file_path_rejects_paths(
-    output_filename: str, output_dir: Path
-):
+def test_resolve_output_file_path_rejects_paths(output_filename: str, output_dir: Path):
     with pytest.raises(ValueError, match="must be a file name"):
         resolve_output_file_path(output_dir, output_filename)
 
@@ -69,9 +70,7 @@ def test_fetch_mtbls_data_rejects_traversal_output_filename(
             json=lambda: {"content": {"study": "MTBLS2"}},
         )
 
-    monkeypatch.setattr(
-        "mtbls2mhd.commands.fetch_mtbls_study.httpx2.get", fake_get
-    )
+    monkeypatch.setattr("mtbls2mhd.commands.fetch_mtbls_study.httpx2.get", fake_get)
 
     result = fetch_mtbls_data(
         "MTBLS2",
@@ -96,9 +95,7 @@ def test_fetch_mtbls_data_rejects_traversal_default_filename(
             json=lambda: {"content": {"study": "MTBLS2"}},
         )
 
-    monkeypatch.setattr(
-        "mtbls2mhd.commands.fetch_mtbls_study.httpx2.get", fake_get
-    )
+    monkeypatch.setattr("mtbls2mhd.commands.fetch_mtbls_study.httpx2.get", fake_get)
 
     result = fetch_mtbls_data(
         "../outside",
