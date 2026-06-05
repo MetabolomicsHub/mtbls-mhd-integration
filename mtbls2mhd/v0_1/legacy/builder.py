@@ -46,6 +46,7 @@ from mhd_model.shared.validation.cv_term_helper import (
 from pydantic import BaseModel, HttpUrl, ValidationError
 
 import mtbls2mhd
+from mtbls2mhd.commands.output_paths import resolve_output_file_path
 from mtbls2mhd.config import BuildType, Mtbls2MhdConfiguration
 from mtbls2mhd.v0_1.legacy.db_metadata_collector import (
     DbMetadataCollector,
@@ -3030,10 +3031,13 @@ class MhdLegacyDatasetBuilder:
             mhd_dataset.name = f"{mhd_id} ({study.identifier}) MetabolomicsHub Dataset"
         else:
             mhd_dataset.name = f"{study.identifier} Dataset"
-        mhd_output_folder_path.mkdir(parents=True, exist_ok=True)
-        output_path = mhd_output_folder_path / Path(f"{filename}.mhd.json")
+        output_path = resolve_output_file_path(
+            mhd_output_folder_path, f"{filename}.mhd.json"
+        )
         if mhd_output_filename:
-            output_path = Path(mhd_output_folder_path) / Path(mhd_output_filename)
+            output_path = resolve_output_file_path(
+                mhd_output_folder_path, mhd_output_filename
+            )
         output_path.open("w").write(
             mhd_dataset.model_dump_json(
                 indent=2, by_alias=True, exclude_none=True, serialize_as_any=True
