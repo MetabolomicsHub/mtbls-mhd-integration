@@ -1,3 +1,10 @@
+## v0.0.44 (2026-06-05)
+
+### Fix
+
+- relative path check error
+- resolve relative path
+
 ## v0.0.43 (2026-06-01)
 
 ### Fix
