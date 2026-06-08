@@ -13,4 +13,4 @@ def setup_basic_logging_config():
     logging.getLogger("mhd_model.model.v0_1.dataset.validation.base").setLevel(
         logging.WARNING
     )
-    logging.getLogger("httpx").setLevel(logging.ERROR)
+    logging.getLogger("httpx2").setLevel(logging.WARNING)

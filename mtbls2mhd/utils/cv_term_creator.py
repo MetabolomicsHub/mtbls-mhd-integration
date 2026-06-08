@@ -120,19 +120,15 @@ def create_cv_term_node(
         source = ""
     if not source or not accession:
         return mhd_domain.CvTermObject(type_=type_, name=name)
-    default_cv_term = CvTerm(name=name, accession=accession, source=source)
-    search_accession = cv_term_helper.get_uri(default_cv_term)
-    s_term = cv_term_helper.find_cv_term(
-        source, name or search_accession, allow_synonym_search=True
+
+    return find_cv_term_by_name_or_accession(
+        cv_term_helper=cv_term_helper,
+        type_=type_,
+        name=name,
+        accession=accession,
+        source=source,
+        allow_synonym_search=True,
     )
-    if s_term and s_term.accession.lower() == accession.lower():
-        return mhd_domain.CvTermObject(
-            type_=type_,
-            accession=s_term.accession,
-            source=s_term.source,
-            name=s_term.name,
-        )
-    return mhd_domain.CvTermObject(type_=type_, name=name)
 
 
 def create_cv_term_value_node(
@@ -165,13 +161,6 @@ def create_cv_term_value_node(
         if not unit_cv.accession or not unit_cv.source:
             unit_cv = UnitCvTerm(type_=type_, name=unit.name)
         else:
-            default_cv_term = CvTerm(
-                name=unit_cv.name or "",
-                accession=unit_cv.accession,
-                source=unit_cv.source,
-            )
-            search_accession = cv_term_helper.get_uri(default_cv_term)
-
             s_unit = None
             if cache_service:
                 cache_val = cache_service.get_cv_term_by_accession(
@@ -179,17 +168,20 @@ def create_cv_term_value_node(
                 )
                 if cache_val and cache_val.name.lower() == unit_cv.name.lower():
                     s_unit = cache_val
-            if not s_unit:
-                s_unit = cv_term_helper.find_cv_term(
-                    source, unit_cv.name or search_accession, allow_synonym_search=True
-                )
+            s_unit: mhd_domain.CvTermObject = find_cv_term_value_by_name_or_accession(
+                cv_term_helper=cv_term_helper,
+                type_=type_,
+                name=unit_cv.name,
+                accession=unit_cv.accession,
+                source=unit_cv.source,
+                allow_synonym_search=True,
+            )
+
             if (
-                s_unit
-                and unit_cv.name.lower() == s_unit.name.lower()
+                unit_cv.name.lower() == s_unit.name.lower()
                 and unit_cv.source.lower() == s_unit.source.lower()
             ):
                 unit_cv = UnitCvTerm(
-                    type_=type_,
                     name=s_unit.name,
                     accession=s_unit.accession,
                     source=s_unit.source,
@@ -237,37 +229,125 @@ def create_cv_term_value_node(
                         unit=unit_cv,
                     )
 
-        default_cv_term = CvTerm(name=name, accession=accession, source=source)
-        search_accession = cv_term_helper.get_uri(default_cv_term)
+        return find_cv_term_value_by_name_or_accession(
+            cv_term_helper=cv_term_helper,
+            type_=type_,
+            name=name,
+            accession=accession,
+            source=source,
+            value=value,
+            unit_cv=unit_cv,
+            allow_synonym_search=True,
+        )
 
-        s_term = None
-        if cache_service:
-            s_term = cache_service.get_cv_term_by_accession(source, accession)
-        if not s_term:
-            s_term = cv_term_helper.find_cv_term(
-                source, name or search_accession, allow_synonym_search=True
-            )
-        if s_term and s_term.accession.lower() == accession.lower():
-            return mhd_domain.CvTermValueObject(
-                type_=type_,
-                accession=s_term.accession,
-                source=s_term.source,
-                name=s_term.name,
-                value=value,
-                unit=unit_cv,
-            )
-
-    if source or accession:
+    if not source or not accession:
         logger.warning(
             "CV term '%s' with source '%s' and accession '%s' not found. "
             "CV term will be created without source and accession.",
-            name,
-            source,
-            accession,
+            name or "",
+            source or "",
+            accession or "",
         )
     return mhd_domain.CvTermValueObject(
         type_=type_,
         name=name,
         value=value,
         unit=unit_cv,
+    )
+
+
+def find_cv_term_by_name_or_accession(
+    cv_term_helper: CvTermHelper,
+    type_: str,
+    name: str | None,
+    source: str | None,
+    accession: str | None,
+    allow_synonym_search: bool = False,
+) -> mhd_domain.CvTermObject | None:
+    if not source or not accession:
+        return mhd_domain.CvTermObject(
+            type_=type_,
+            name=name,
+        )
+    s_term = cv_term_helper.find_cv_term(source, accession)
+    if s_term and s_term.name.lower() == name.lower():
+        return mhd_domain.CvTermObject(
+            type_=type_,
+            accession=s_term.accession,
+            source=s_term.source,
+            name=s_term.name,
+        )
+    s_term_with_name = cv_term_helper.find_cv_term(
+        source, name, allow_synonym_search=allow_synonym_search
+    )
+    if s_term_with_name and s_term_with_name.accession.lower() == accession.lower():
+        return mhd_domain.CvTermObject(
+            type_=type_,
+            accession=s_term_with_name.accession,
+            source=s_term_with_name.source,
+            name=s_term_with_name.name,
+        )
+    else:
+        logger.warning(
+            "CV term '%s' with source '%s' and accession '%s' does not match OLS results. "
+            "CV term will be created without source and accession.",
+            name,
+            source,
+            accession,
+        )
+        return mhd_domain.CvTermObject(
+            type_=type_,
+            name=name,
+        )
+
+
+def find_cv_term_value_by_name_or_accession(
+    cv_term_helper: CvTermHelper,
+    type_: str,
+    name: str | None,
+    source: str | None,
+    accession: str | None,
+    value: str | None,
+    unit_cv: CvTerm | None,
+    allow_synonym_search: bool = False,
+) -> mhd_domain.CvTermValueObject | None:
+    if not source or not accession:
+        return mhd_domain.CvTermValueObject(
+            type_=type_,
+            name=name,
+        )
+    s_term = cv_term_helper.find_cv_term(source, accession)
+    if s_term and s_term.name.lower() == name.lower():
+        return mhd_domain.CvTermValueObject(
+            type_=type_,
+            accession=s_term.accession,
+            source=s_term.source,
+            name=s_term.name,
+            value=value,
+            unit=unit_cv,
+        )
+    else:
+        s_term_by_name = cv_term_helper.find_cv_term(
+            source, name, allow_synonym_search=allow_synonym_search
+        )
+        if s_term_by_name and s_term_by_name.accession.lower() == accession.lower():
+            return mhd_domain.CvTermValueObject(
+                type_=type_,
+                accession=s_term_by_name.accession,
+                source=s_term_by_name.source,
+                name=s_term_by_name.name,
+                value=value,
+                unit=unit_cv,
+            )
+        else:
+            logger.warning(
+                "CV term '%s' with source '%s' and accession '%s' does not match OLS results. "
+                "CV term will be created without source and accession.",
+                name,
+                source,
+                accession,
+            )
+    return mhd_domain.CvTermValueObject(
+        type_=type_,
+        name=name,
     )
