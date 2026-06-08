@@ -2,6 +2,7 @@ import json
 import shutil
 import uuid
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 from click.testing import CliRunner
@@ -11,6 +12,8 @@ from mhd_model.model.definitions import (
 )
 
 from mtbls2mhd.commands.cli import cli
+from mtbls2mhd.commands.fetch_mtbls_study import fetch_mtbls_data
+from mtbls2mhd.commands.output_paths import resolve_output_file_path
 
 
 @pytest.fixture
@@ -28,6 +31,80 @@ def test_cli_help_01():
     result = runner.invoke(cli)
     assert result.exit_code == 2
     assert result.output.startswith("Usage")
+
+
+def test_resolve_output_file_path_accepts_filename(output_dir: Path):
+    output_path = resolve_output_file_path(output_dir, "MTBLS2_model.json")
+
+    assert output_path == output_dir / "MTBLS2_model.json"
+
+
+@pytest.mark.parametrize(
+    "output_filename",
+    [
+        "",
+        ".",
+        "..",
+        "../outside.json",
+        "nested/outside.json",
+        "/tmp/outside.json",
+        r"..\outside.json",
+        r"nested\outside.json",
+        r"C:\tmp\outside.json",
+    ],
+)
+def test_resolve_output_file_path_rejects_paths(output_filename: str, output_dir: Path):
+    with pytest.raises(ValueError, match="must be a file name"):
+        resolve_output_file_path(output_dir, output_filename)
+
+
+def test_fetch_mtbls_data_rejects_traversal_output_filename(
+    monkeypatch: pytest.MonkeyPatch, output_dir: Path
+):
+    requested_urls = []
+
+    def fake_get(*args, **kwargs):
+        requested_urls.append(args[0])
+        return SimpleNamespace(
+            raise_for_status=lambda: None,
+            json=lambda: {"content": {"study": "MTBLS2"}},
+        )
+
+    monkeypatch.setattr("mtbls2mhd.commands.fetch_mtbls_study.httpx2.get", fake_get)
+
+    result = fetch_mtbls_data(
+        "MTBLS2",
+        output_folder_path=str(output_dir),
+        output_filename="../outside.json",
+    )
+
+    assert result is None
+    assert requested_urls == []
+    assert not (output_dir.parent / "outside.json").exists()
+
+
+def test_fetch_mtbls_data_rejects_traversal_default_filename(
+    monkeypatch: pytest.MonkeyPatch, output_dir: Path
+):
+    requested_urls = []
+
+    def fake_get(*args, **kwargs):
+        requested_urls.append(args[0])
+        return SimpleNamespace(
+            raise_for_status=lambda: None,
+            json=lambda: {"content": {"study": "MTBLS2"}},
+        )
+
+    monkeypatch.setattr("mtbls2mhd.commands.fetch_mtbls_study.httpx2.get", fake_get)
+
+    result = fetch_mtbls_data(
+        "../outside",
+        output_folder_path=str(output_dir),
+    )
+
+    assert result is None
+    assert requested_urls == []
+    assert not (output_dir.parent / "outside_model.json").exists()
 
 
 @pytest.mark.parametrize(
