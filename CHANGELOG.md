@@ -1,3 +1,10 @@
+## v0.0.45 (2026-06-08)
+
+### Fix
+
+- cv term creation error
+- node creation with cache
+
 ## v0.0.44 (2026-06-05)
 
 ### Fix
