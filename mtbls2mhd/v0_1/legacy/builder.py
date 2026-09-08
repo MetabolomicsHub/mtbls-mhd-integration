@@ -1401,6 +1401,8 @@ class MhdLegacyDatasetBuilder:
                 continue
 
             column_name = column_map[key]
+            if len(data[column_name]) < idx:
+                continue
             name = data[column_name][idx]
 
             if not name:
@@ -1882,9 +1884,10 @@ class MhdLegacyDatasetBuilder:
             for x in protocol.parameters:
                 if x.term:
                     definition_type = "x-mtbls-parameter-type"
-                    if x.term in ALL_COMMON_PROTOCOL_PARAMETERS:
-                        definition_type = "parameter-type"
                     param_cv = self.get_parameter_cv(protocol.name, x.term)
+                    if x.term in ALL_COMMON_PROTOCOL_PARAMETERS and param_cv:
+                        definition_type = "parameter-type"
+
                     if not param_cv:
                         definition_type = self.otc.create_cv_term_object(
                             type_=definition_type,

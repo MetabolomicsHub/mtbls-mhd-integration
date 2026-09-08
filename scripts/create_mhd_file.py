@@ -371,6 +371,8 @@ def create_mhd_legacy_profile(
         mtbls_model_source_path = mtbls_model_root_path / Path(
             f"{mtbls_study_id}_model.json"
         )
+        # comment if cache is required
+        mtbls_model_source_path = None
         # if not mtbls_model_source_path.exists():
         #     continue
 
