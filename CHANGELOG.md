@@ -1,3 +1,11 @@
+## v0.0.46 (2026-09-09)
+
+### Fix
+
+- mhd cenversion errors
+- updates for mhd-model v1.0
+- value creation error
+
 ## v0.0.45 (2026-06-08)
 
 ### Fix
