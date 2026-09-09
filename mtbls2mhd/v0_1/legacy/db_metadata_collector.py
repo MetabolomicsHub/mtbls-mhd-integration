@@ -158,8 +158,8 @@ class DbMetadataCollector(AbstractDbMetadataCollector):
     def get_updated_public_study_ids_from_db(
         self,
         connection,
-        min_last_update_date: datetime = None,
-        max_last_update_date: datetime = None,
+        min_last_update_date: None | datetime = None,
+        max_last_update_date: None | datetime = None,
     ):
         _filter = ["status = 3"]
 

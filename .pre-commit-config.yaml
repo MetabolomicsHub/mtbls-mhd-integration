@@ -1,6 +1,6 @@
 repos:
 - repo: https://github.com/abravalheri/validate-pyproject
-  rev: v0.25
+  rev: '0.26'
   hooks:
     - id: validate-pyproject
 - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -25,17 +25,17 @@ repos:
     args: [ "--create", "--track", "--python-folders", "mhd_model" ]
 - repo: https://github.com/astral-sh/uv-pre-commit
   # uv version.
-  rev: 0.11.6
+  rev: 0.12.11
   hooks:
     - id: uv-lock
 
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.15.10
+  rev: v0.16.6
   hooks:
   - id: ruff-check
   - id: ruff-format
 - repo: https://github.com/commitizen-tools/commitizen
-  rev: v4.13.10
+  rev: v4.18.0
   hooks:
     - id: commitizen
       stages: [ commit-msg ]

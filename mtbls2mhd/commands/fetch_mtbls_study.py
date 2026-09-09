@@ -1,5 +1,6 @@
 import json
 import logging
+import sys
 from pathlib import Path
 
 import click
@@ -42,7 +43,7 @@ def fetch_mtbls_study(
     )
     if not file_path:
         click.echo(f"{mtbls_study_id} failed.")
-        exit(1)
+        sys.exit(1)
     click.echo(f"{mtbls_study_id} MetaboLights model is downloaded: {file_path}")
 
 

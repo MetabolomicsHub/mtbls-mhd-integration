@@ -16,7 +16,6 @@ warnings.filterwarnings("ignore", category=UserWarning)
 @click.version_option(__version__)
 def cli():
     """MetaboLights - MHD Integration CLI with subcommands."""
-    pass
 
 
 cli.add_command(fetch_mtbls_study)

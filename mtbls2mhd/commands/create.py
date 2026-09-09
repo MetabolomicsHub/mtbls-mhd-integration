@@ -11,7 +11,6 @@ logger = logging.getLogger(__name__)
 @click.group(name="create", no_args_is_help=True)
 def creation_cli():
     """Create MHD model or annoucenment file."""
-    pass
 
 
 creation_cli.add_command(create_mhd_file_task)

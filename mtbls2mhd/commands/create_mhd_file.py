@@ -1,5 +1,6 @@
 import json
 import logging
+import sys
 from pathlib import Path
 
 import click
@@ -97,7 +98,7 @@ def create_mhd_file_task(
         except Exception as ex:
             click.echo(f"error while parsing config file {ex}")
             click.echo("config file is not defined")
-            exit(1)
+            sys.exit(1)
     if mhd_identifier == mtbls_study_id:
         mhd_identifier = None
     factory = Mtbls2MhdConvertorFactory()

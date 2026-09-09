@@ -23,7 +23,7 @@ class LegacyProfileV01Convertor(BaseMhdConvertor):
         repository_identifier: str,
         mhd_identifier: None | str,
         repository_revision: None | Revision = None,
-        config: None | Mtbls2MhdConfiguration = None,  # noqa: F821
+        config: None | Mtbls2MhdConfiguration = None,
         cached_mtbls_model_file_path: None | str = None,
         ontology_cache_service: None | OntologyCacheService = None,
         **kwargs,

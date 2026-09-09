@@ -81,7 +81,7 @@ def convert_mtbls_study_to_mhd(
 
     if not mtbls_study_path.exists():
         logger.warning("%s folder does not exist", mtbls_study_id)
-        (False,)
+
     mhd_output_root_path.mkdir(exist_ok=True, parents=True)
     metabolights_study_model = None
     if mtbls_model_source_path and mtbls_model_source_path.exists():
@@ -154,7 +154,7 @@ def convert_mtbls_study_model_to_mhd(
 
     if not mtbls_study_path.exists():
         logger.warning("%s folder does not exist", mtbls_study_id)
-        (False,)
+
     mhd_output_root_path = Path("tests/mhd_dataset")
     mhd_output_root_path.mkdir(exist_ok=True, parents=True)
     mtbls_study_id.removeprefix("MTBLS").removeprefix("REQ")

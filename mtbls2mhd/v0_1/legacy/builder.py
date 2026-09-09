@@ -64,7 +64,7 @@ _cv_term_helper: CvTermHelper = CvTermHelper()
 
 
 def get_cv_term_helper() -> CvTermHelper:
-    global _cv_term_helper
+    # global _cv_term_helper
     return _cv_term_helper
 
 
@@ -278,7 +278,7 @@ COMMON_PROTOCOL_PARAMETER_VALUE_MAP = {
     },
 }
 ALL_COMMON_PROTOCOL_PARAMETERS = {}
-for _, items in COMMON_PROTOCOL_PARAMETER_VALUE_MAP.items():
+for items in COMMON_PROTOCOL_PARAMETER_VALUE_MAP.values():
     for name, term in items.items():
         ALL_COMMON_PROTOCOL_PARAMETERS[name] = term
 
@@ -467,7 +467,7 @@ class MhdLegacyDatasetBuilder:
         ontology_cache_service: None | OntologyCacheService = None,
         **kwargs,
     ):
-        global _cv_term_helper
+        # global _cv_term_helper
         self.config = config
         self.ontology_cache_service = ontology_cache_service or OntologyCacheService()
         self.otc = OntologyTermCreator(
@@ -1212,12 +1212,11 @@ class MhdLegacyDatasetBuilder:
 
         for idx in mhd_builder.objects:
             item = mhd_builder.objects[idx]
-            if isinstance(item, Relationship):
-                if item.source_ref == mhd_study.id_:
-                    if item.relationship_name == "has-factor-definition":
-                        factor_definitions.append(mhd_builder.objects[item.target_ref])
-                    elif item.relationship_name == "has-characteristic-definition":
-                        characteristics.append(mhd_builder.objects[item.target_ref])
+            if isinstance(item, Relationship) and item.source_ref == mhd_study.id_:
+                if item.relationship_name == "has-factor-definition":
+                    factor_definitions.append(mhd_builder.objects[item.target_ref])
+                elif item.relationship_name == "has-characteristic-definition":
+                    characteristics.append(mhd_builder.objects[item.target_ref])
 
         data = sample_file.table.data
         columns_map = {x.lower(): x for x in sample_file.table.columns}
@@ -1345,7 +1344,7 @@ class MhdLegacyDatasetBuilder:
             x.name.lower(): x for x in characteristics
         }
         missing_added = False
-        for k, v in MANAGED_CHARACTERISTICS_MAP.items():
+        for k in MANAGED_CHARACTERISTICS_MAP:
             if k not in characteristic_values_map:
                 if not missing_added:
                     mhd_builder.add(
@@ -1424,11 +1423,11 @@ class MhdLegacyDatasetBuilder:
                     names = item.name.split(";")
 
                     item = []
-                    for idx, val in enumerate(names):
-                        source_ref = sources[idx] if len(sources) > idx else ""
+                    for i, val in enumerate(names):
+                        source_ref = sources[i] if len(sources) > i else ""
                         iri = (
-                            self.convert_to_curie(source_ref, accessions[idx])
-                            if len(accessions) > idx
+                            self.convert_to_curie(source_ref, accessions[i])
+                            if len(accessions) > i
                             else ""
                         )
                         item.append(
@@ -1452,11 +1451,11 @@ class MhdLegacyDatasetBuilder:
                     accessions = accession.split(";")
                     names = name.split(";")
                     item = []
-                    for idx, val in enumerate(names):
-                        source_ref = sources[idx] if len(sources) > idx else ""
+                    for i, val in enumerate(names):
+                        source_ref = sources[i] if len(sources) > i else ""
                         iri = (
-                            self.convert_to_curie(source_ref, accessions[idx])
-                            if len(accessions) > idx
+                            self.convert_to_curie(source_ref, accessions[i])
+                            if len(accessions) > i
                             else ""
                         )
                         item.append(
@@ -1489,11 +1488,11 @@ class MhdLegacyDatasetBuilder:
                     names = name.split(";")
                     units = unit.split()
                     item = []
-                    for idx, val in enumerate(names):
-                        source_ref = sources[idx] if len(sources) > idx else ""
+                    for i, val in enumerate(names):
+                        source_ref = sources[i] if len(sources) > i else ""
                         iri = (
-                            self.convert_to_curie(source_ref, accessions[idx])
-                            if len(accessions) > idx
+                            self.convert_to_curie(source_ref, accessions[i])
+                            if len(accessions) > i
                             else ""
                         )
                         item.append(
@@ -1505,7 +1504,7 @@ class MhdLegacyDatasetBuilder:
                                 unit=UnitCvTerm(
                                     source=source_ref,
                                     accession=iri,
-                                    name=units[idx] if len(units) > idx else "",
+                                    name=units[i] if len(units) > i else "",
                                 ),
                             )
                         )
@@ -1528,14 +1527,13 @@ class MhdLegacyDatasetBuilder:
                             sub_item,
                             reverse_relationship_name="instance-of",
                         )
-                        if hasattr(term, definition_type_property):
-                            if type_obj:
-                                mhd_builder.link(
-                                    type_obj,
-                                    "type-of",
-                                    sub_item,
-                                    reverse_relationship_name="has-type",
-                                )
+                        if hasattr(term, definition_type_property) and type_obj:
+                            mhd_builder.link(
+                                type_obj,
+                                "type-of",
+                                sub_item,
+                                reverse_relationship_name="has-type",
+                            )
 
             value = values_map[key][name]
             if isinstance(value, list):
@@ -1567,14 +1565,13 @@ class MhdLegacyDatasetBuilder:
             if (
                 isinstance(x, Relationship)
                 and x.relationship_name == "has-parameter-definition"
-            ):
-                if x.source_ref in mhd_study.protocol_refs:
-                    definition_obj = mhd_builder.objects[x.target_ref]
-                    definition = mhd_builder.objects[definition_obj.parameter_type_ref]
-                    if definition.accession:
-                        parameter_definitions[definition.accession] = definition_obj
-                    else:
-                        parameter_definitions[definition.name] = definition_obj
+            ) and x.source_ref in mhd_study.protocol_refs:
+                definition_obj = mhd_builder.objects[x.target_ref]
+                definition = mhd_builder.objects[definition_obj.parameter_type_ref]
+                if definition.accession:
+                    parameter_definitions[definition.accession] = definition_obj
+                else:
+                    parameter_definitions[definition.name] = definition_obj
 
         assay_protocols: OrderedDict[str, mhd_domain.Protocol] = OrderedDict()
         for protocol_key in mhd_study.protocol_refs:
@@ -1776,7 +1773,7 @@ class MhdLegacyDatasetBuilder:
                                     reverse_relationship_name="instance-of",
                                 )
                                 if hasattr(definition, "parameter_type_ref"):
-                                    val = getattr(definition, "parameter_type_ref")
+                                    val = definition.parameter_type_ref
                                     node_type = mhd_builder.objects.get(val)
                                     if node_type:
                                         mhd_builder.link(
@@ -2449,7 +2446,6 @@ class MhdLegacyDatasetBuilder:
                         met,
                         reverse_relationship_name="reported-in",
                     )
-                result_file
                 mhd_builder.link(
                     mhd_study,
                     "reports",
@@ -2534,31 +2530,37 @@ class MhdLegacyDatasetBuilder:
             measurement = None
             if "untargeted" in assay.measurement_type.term.lower():
                 measurement = MTBLS_MEASUREMENT_TYPES["untargeted"]
-            elif "targeted" in assay.measurement_type.term.lower():
-                measurement = MTBLS_MEASUREMENT_TYPES["targeted"]
             elif "semi-targeted" in assay.measurement_type.term.lower():
+                measurement = MTBLS_MEASUREMENT_TYPES["semi-targeted"]
+            elif "targeted" in assay.measurement_type.term.lower():
                 measurement = MTBLS_MEASUREMENT_TYPES["targeted"]
 
             inv_study = data.investigation.studies[0]
-            assay_idx = [
-                idx
-                for idx, assay in enumerate(inv_study.study_assays.assays)
-                if assay.file_name == assay.file_name
-            ][0]
+            assay_idx = next(
+                iter(
+                    [
+                        idx
+                        for idx, assay in enumerate(inv_study.study_assays.assays)
+                        if assay.file_name == assay.file_name
+                    ]
+                )
+            )
             assay_omics_type = None
             for comment in inv_study.study_assays.comments:
-                if comment.name.lower() == "omics type":
-                    if len(comment.value) > assay_idx:
-                        assay_omics_name = comment.value[assay_idx]
-                        v = COMMON_OMICS_TYPES.get(assay_omics_name.lower())
-                        if v:
-                            assay_omics_type = self.otc.create_cv_term_object(
-                                type_="descriptor",
-                                source=v.source,
-                                accession=v.accession,
-                                name=v.name,
-                            )
-                        break
+                if (
+                    comment.name.lower() == "omics type"
+                    and len(comment.value) > assay_idx
+                ):
+                    assay_omics_name = comment.value[assay_idx]
+                    v = COMMON_OMICS_TYPES.get(assay_omics_name.lower())
+                    if v:
+                        assay_omics_type = self.otc.create_cv_term_object(
+                            type_="descriptor",
+                            source=v.source,
+                            accession=v.accession,
+                            name=v.name,
+                        )
+                    break
             design_types = inv_study.study_design_descriptors.design_types
 
             for descriptor in design_types:
@@ -2631,7 +2633,7 @@ class MhdLegacyDatasetBuilder:
                 samples,
                 protocol_summaries,
             )
-        for _, mhd_assay in assays.items():
+        for mhd_assay in assays.values():
             self.add_assay_protocols(mhd_builder, mhd_study, data, mhd_assay)
         return assays
 

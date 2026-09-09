@@ -109,9 +109,7 @@ class LocalFolderMetadataCollector(AbstractFolderMetadataCollector):
                 )
             )
         except Exception as exc:
-            messages.append(
-                WarningMessage(short=f"{directory} directory error {str(exc)}")
-            )
+            messages.append(WarningMessage(short=f"{directory} directory error {exc}"))
 
     def get_folder_metadata(
         self,
