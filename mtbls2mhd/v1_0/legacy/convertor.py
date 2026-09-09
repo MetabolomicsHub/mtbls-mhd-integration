@@ -8,7 +8,7 @@ from mtbls2mhd.utils.cv_term_creator import OntologyCacheService
 from mtbls2mhd.v0_1.legacy.builder import MhdLegacyDatasetBuilder
 
 
-class MsProfileV01Convertor(BaseMhdConvertor):
+class LegacyProfileV10Convertor(BaseMhdConvertor):
     def __init__(
         self,
         target_mhd_model_schema_uri: str,
@@ -41,14 +41,9 @@ class MsProfileV01Convertor(BaseMhdConvertor):
         mtbls_study_path = Path(config.mtbls_studies_root_path) / Path(
             repository_identifier
         )
-        mtbls_study_path = Path(config.mtbls_studies_root_path) / Path(
-            repository_identifier
-        )
         try:
             success, message = mhd_dataset_builder.build(
-                mhd_id=mhd_identifier
-                if mhd_identifier and mhd_identifier.startswith("MHD")
-                else "MHDT000000",
+                mhd_id=None,
                 mtbls_study_id=repository_identifier,
                 mtbls_study_path=mtbls_study_path,
                 mtbls_study_repository_urls=[

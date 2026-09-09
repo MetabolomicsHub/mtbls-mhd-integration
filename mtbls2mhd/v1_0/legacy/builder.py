@@ -479,7 +479,6 @@ class MhdLegacyDatasetBuilder:
     def convert_to_curie(self, source_ref: str, uri: str) -> str:
         if not uri:
             return ""
-
         parts = uri.split("/")
         if len(parts) > 1:
             part = parts[-1]
@@ -2480,7 +2479,6 @@ class MhdLegacyDatasetBuilder:
                 repository_identifier=assay.file_name,
                 metadata_file_ref=assay_node.id_ if assay_node else None,
             )
-
             mhd_builder.add(mhd_assay)
             assays[assay.file_name] = mhd_assay
             mhd_builder.link(
@@ -2531,13 +2529,13 @@ class MhdLegacyDatasetBuilder:
 
             omics_types: list[mhd_domain.CvTermObject] = []
             measurement_types: list[mhd_domain.CvTermObject] = []
-            measurement = None
+            measurement_type = None
             if "untargeted" in assay.measurement_type.term.lower():
-                measurement = MTBLS_MEASUREMENT_TYPES["untargeted"]
+                measurement_type = MTBLS_MEASUREMENT_TYPES["untargeted"]
             elif "targeted" in assay.measurement_type.term.lower():
-                measurement = MTBLS_MEASUREMENT_TYPES["targeted"]
+                measurement_type = MTBLS_MEASUREMENT_TYPES["targeted"]
             elif "semi-targeted" in assay.measurement_type.term.lower():
-                measurement = MTBLS_MEASUREMENT_TYPES["targeted"]
+                measurement_type = MTBLS_MEASUREMENT_TYPES["targeted"]
 
             inv_study = data.investigation.studies[0]
             assay_idx = [
@@ -2562,42 +2560,34 @@ class MhdLegacyDatasetBuilder:
             design_types = inv_study.study_design_descriptors.design_types
 
             for descriptor in design_types:
-                if not measurement:
+                if not measurement_type:
                     if "untargeted" in descriptor.term.lower():
-                        measurement = MTBLS_MEASUREMENT_TYPES["untargeted"]
+                        item = MTBLS_MEASUREMENT_TYPES["untargeted"]
+                    if "semi-targeted" in descriptor.term.lower():
+                        item = MTBLS_MEASUREMENT_TYPES["semi-targeted"]
                     elif "targeted" in descriptor.term.lower():
-                        measurement = MTBLS_MEASUREMENT_TYPES["targeted"]
+                        item = MTBLS_MEASUREMENT_TYPES["targeted"]
 
-                    if measurement:
-                        measurement_type = self.otc.create_cv_term_object(
-                            type_="descriptor",
-                            source=measurement.source,
-                            accession=measurement.accession,
-                            name=measurement.name,
-                        )
-                        measurement_types.append(measurement_type)
+                    if item:
+                        measurement_types.append(item)
                 if not assay_omics_type:
                     for v in COMMON_OMICS_TYPES.values():
                         if descriptor.term.lower() == v.name.lower():
-                            omics_type = self.otc.create_cv_term_object(
-                                type_="descriptor",
-                                source=v.source,
-                                accession=v.accession,
-                                name=v.name,
-                            )
-                            omics_types.append(omics_type)
-            if measurement:
-                measurement_type = measurement
-            if len(measurement_types) == 1:
-                measurement_type = measurement_types[0]
+                            omics_types.append(v)
+            selected_measurement_type = None
+            if measurement_type:
+                selected_measurement_type = measurement_type
+            elif len(measurement_types) == 1:
+                selected_measurement_type = measurement_types[0]
             else:
-                default_type = DEFAULT_MEASUREMENT_TYPE
-                measurement_type = self.otc.create_cv_term_object(
-                    type_="descriptor",
-                    source=default_type.source,
-                    accession=default_type.accession,
-                    name=default_type.name,
-                )
+                selected_measurement_type = DEFAULT_MEASUREMENT_TYPE
+
+            measurement_type = self.otc.create_cv_term_object(
+                type_="descriptor",
+                source=selected_measurement_type.source,
+                accession=selected_measurement_type.accession,
+                name=selected_measurement_type.name,
+            )
             mhd_builder.add(
                 measurement_type,
                 use_label_for_invalid_cv_term=self.config.use_label_for_invalid_cv_term,
@@ -2605,17 +2595,17 @@ class MhdLegacyDatasetBuilder:
             mhd_assay.measurement_type_ref = measurement_type.id_
 
             if assay_omics_type:
-                omics_type = assay_omics_type
-            if len(omics_types) == 1:
-                omics_type = omics_types[0]
+                selected_omics_type = assay_omics_type
+            elif len(omics_types) == 1:
+                selected_omics_type = omics_types[0]
             else:
-                default_type = DEFAULT_OMICS_TYPE
-                omics_type = self.otc.create_cv_term_object(
-                    type_="descriptor",
-                    source=default_type.source,
-                    accession=default_type.accession,
-                    name=default_type.name,
-                )
+                selected_omics_type = DEFAULT_OMICS_TYPE
+            omics_type = self.otc.create_cv_term_object(
+                type_="descriptor",
+                source=selected_omics_type.source,
+                accession=selected_omics_type.accession,
+                name=selected_omics_type.name,
+            )
             mhd_builder.add(
                 omics_type,
                 use_label_for_invalid_cv_term=self.config.use_label_for_invalid_cv_term,

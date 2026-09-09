@@ -12,18 +12,16 @@ from metabolights_utils.provider.study_provider import (
 )
 from mhd_model.convertors.mhd.convertor import BaseMhdConvertor
 from mhd_model.convertors.sdrf.mhd2sdrf import create_sdrf_files
-from mhd_model.model.v0_1.dataset.validation.validator import validate_mhd_model
+from mhd_model.model.definitions import (
+    MHD_MODEL_V1_0_DEFAULT_SCHEMA_NAME,
+    MHD_MODEL_V1_0_MS_PROFILE_NAME,
+)
+from mhd_model.validation import validate_mhd_model
 from psycopg import Connection
 from psycopg.rows import TupleRow
 
 from mtbls2mhd.commands.fetch_mtbls_study import fetch_mtbls_data
-from mtbls2mhd.config import (
-    MHD_MODEL_V0_1_LEGACY_PROFILE_URI,
-    # MHD_MODEL_V0_1_MS_PROFILE_URI,
-    MHD_MODEL_V0_1_SCHEMA_URI,
-    Mtbls2MhdConfiguration,
-    get_default_config,
-)
+from mtbls2mhd.config import Mtbls2MhdConfiguration, get_default_config
 from mtbls2mhd.convertor_factory import Mtbls2MhdConvertorFactory
 from mtbls2mhd.v0_1.legacy.db_metadata_collector import (
     DbMetadataCollector,
@@ -102,7 +100,8 @@ def convert_mtbls_study_to_mhd(
             ontology_cache_service=None,
         )
 
-    except Exception:
+    except Exception as ex:
+        traceback.print_exception(ex)
         if mhd_file_path.exists():
             mhd_file_path.unlink()
         if announcement_file_path.exists():
@@ -205,12 +204,10 @@ def write_to_file(errors_file_path, success, errors):
     if not success or errors:
         errors_dict = {}
         for file, val in errors.items():
-            for key, error in val:
+            for error in val:
                 if file not in errors_dict:
-                    errors_dict[file] = {}
-                if key not in errors_dict[file]:
-                    errors_dict[file][key] = []
-                errors_dict[file][key].append(error.message)
+                    errors_dict[file] = []
+                errors_dict[file].append(error)
 
         errors_file_path.write_text(json.dumps({"errors": errors_dict}, indent=2))
 
@@ -346,13 +343,13 @@ def create_mhd_legacy_profile(
     # study_ids.sort(
     #     key=lambda x: int(x.replace("MTBLS", "").replace("REQ", "")), reverse=True
     # )
-    study_ids = ["REQ202605303000384"]
+    study_ids = ["REQ202602083000316"]
     factory = Mtbls2MhdConvertorFactory()
-    mhd_output_root_path = Path(f"{working_dir}/mhd_legacy")
+    mhd_output_root_path = Path(f"{working_dir}/mhd")
     mtbls_config = get_default_config()
 
-    mtbls_config.selected_schema_uri = MHD_MODEL_V0_1_SCHEMA_URI
-    mtbls_config.selected_profile_uri = MHD_MODEL_V0_1_LEGACY_PROFILE_URI
+    mtbls_config.selected_schema_uri = MHD_MODEL_V1_0_DEFAULT_SCHEMA_NAME
+    mtbls_config.selected_profile_uri = MHD_MODEL_V1_0_MS_PROFILE_NAME
     mtbls_config.use_label_for_invalid_cv_term = True
     legacy_convertor = factory.get_convertor(
         target_mhd_model_schema_uri=mtbls_config.selected_schema_uri,

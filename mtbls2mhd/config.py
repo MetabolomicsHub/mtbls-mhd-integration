@@ -7,6 +7,10 @@ MHD_MODEL_V0_1_SCHEMA_URI: str = "https://metabolomicshub.github.io/mhd-model/sc
 MHD_MODEL_V0_1_MS_PROFILE_URI: str = "https://metabolomicshub.github.io/mhd-model/schemas/v0_1/common-data-model-v0.1.ms-profile.json"
 MHD_MODEL_V0_1_LEGACY_PROFILE_URI: str = "https://metabolomicshub.github.io/mhd-model/schemas/v0_1/common-data-model-v0.1.legacy-profile.json"
 
+MHD_MODEL_V1_0_SCHEMA_URI: str = "https://metabolomicshub.github.io/mhd-model/schemas/v1_0/common-data-model-v0.1.schema.json"
+MHD_MODEL_V1_0_MS_PROFILE_URI: str = "https://metabolomicshub.github.io/mhd-model/schemas/v1_0/common-data-model-v0.1.ms-profile.json"
+MHD_MODEL_V1_0_LEGACY_PROFILE_URI: str = "https://metabolomicshub.github.io/mhd-model/schemas/v1_0/common-data-model-v0.1.legacy-profile.json"
+
 
 class BuildType(enum.Enum):
     MINIMUM = "minimal_mhd_model"
