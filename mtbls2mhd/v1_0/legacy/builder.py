@@ -2420,9 +2420,9 @@ class MhdLegacyDatasetBuilder:
                         elif compound_source == "REFMET":
                             identifier = self.otc.create_cv_term_value_object(
                                 type_="metabolite-identifier",
-                                source="REFMET",
-                                accession="",
-                                name="RefMet identifier",
+                                source="EDAM",
+                                accession="EDAM:data_4075",
+                                name="RefMet ID",
                                 value=identifier_value,
                             )
 
