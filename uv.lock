@@ -1090,7 +1090,7 @@ wheels = [
 
 [[package]]
 name = "mtbls-mhd-integration"
-version = "0.0.46"
+version = "0.0.47"
 source = { editable = "." }
 dependencies = [
     { name = "asyncpg" },

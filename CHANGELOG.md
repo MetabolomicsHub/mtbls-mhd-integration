@@ -1,3 +1,9 @@
+## v0.0.47 (2026-09-10)
+
+### Fix
+
+- refmet id ontology term update
+
 ## v0.0.46 (2026-09-09)
 
 ### Fix
