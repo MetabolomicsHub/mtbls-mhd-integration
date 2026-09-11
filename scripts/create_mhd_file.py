@@ -23,6 +23,7 @@ from psycopg.rows import TupleRow
 from mtbls2mhd.commands.fetch_mtbls_study import fetch_mtbls_data
 from mtbls2mhd.config import Mtbls2MhdConfiguration, get_default_config
 from mtbls2mhd.convertor_factory import Mtbls2MhdConvertorFactory
+from mtbls2mhd.user_profile_utils import update_submitter_user_from_keycloak
 from mtbls2mhd.v0_1.legacy.db_metadata_collector import (
     DbMetadataCollector,
     create_postgresql_connection,
@@ -204,10 +205,12 @@ def write_to_file(errors_file_path, success, errors):
     if not success or errors:
         errors_dict = {}
         for file, val in errors.items():
-            for error in val:
+            for key, error in val:
                 if file not in errors_dict:
-                    errors_dict[file] = []
-                errors_dict[file].append(error)
+                    errors_dict[file] = {}
+                if key not in errors_dict[file]:
+                    errors_dict[file][key] = []
+                errors_dict[file][key].append(error.message)
 
         errors_file_path.write_text(json.dumps({"errors": errors_dict}, indent=2))
 
@@ -234,6 +237,8 @@ def create_mtbls_model(
             load_folder_metadata=True,
             connection=connection,
         )
+        config = get_default_config()
+        update_submitter_user_from_keycloak(data, config)
     else:
         data_json = json.loads(mtbls_model_target_path.read_text())
         version = data_json.get("studyDbMetadata", {}).get("mhdModelVersion", "")
@@ -343,7 +348,7 @@ def create_mhd_legacy_profile(
     # study_ids.sort(
     #     key=lambda x: int(x.replace("MTBLS", "").replace("REQ", "")), reverse=True
     # )
-    study_ids = ["REQ202602083000316"]
+    study_ids = ["REQ202505303000044"]
     factory = Mtbls2MhdConvertorFactory()
     mhd_output_root_path = Path(f"{working_dir}/mhd")
     mtbls_config = get_default_config()

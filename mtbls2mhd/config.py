@@ -41,6 +41,10 @@ class Mtbls2MhdConfiguration(BaseModel):
 
     use_label_for_invalid_cv_term: bool = False
     build_type: BuildType = BuildType.FULL_AND_CUSTOM_NODES
+    mtbls_auth_server_url: None | str = None
+    mtbls_auth_realm_name: None | str = None
+    mtbls_auth_client_id: None | str = None
+    mtbls_auth_client_secret: None | str = None
 
 
 class DatabaseConfiguration(BaseModel):
@@ -70,11 +74,19 @@ class FoldersConfiguration(BaseModel):
     mtbls_studies_root_path: str
 
 
+class KeycloakConfigiguration(BaseModel):
+    server_url: str
+    realm_name: str
+    client_id: str
+    client_secret: str
+
+
 class ConfigurationFile(BaseModel):
     db: None | DatabaseConfiguration = None
     urls: UrlConfiguration = UrlConfiguration()
     license: LicenseConfiguration = LicenseConfiguration()
     folders: None | FoldersConfiguration = None
+    auth: None | KeycloakConfigiguration = None
 
 
 def get_default_config() -> Mtbls2MhdConfiguration:

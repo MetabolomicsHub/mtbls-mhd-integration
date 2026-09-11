@@ -114,6 +114,10 @@ def create_mhd_file_task(
         public_ftp_base_url=str(config.urls.public_ftp_base_url),
         study_http_base_url=str(config.urls.study_http_base_url),
         default_dataset_licence_url=str(config.license.url),
+        mtbls_auth_server_url=config.auth.server_url,
+        mtbls_auth_realm_name=config.auth.realm_name,
+        mtbls_auth_client_id=config.auth.client_id,
+        mtbls_auth_client_secret=config.auth.client_secret,
     )
     convertor = factory.get_convertor(
         target_mhd_model_schema_uri=schema_uri,

@@ -31,7 +31,10 @@ class MsProfileV10Convertor(BaseMhdConvertor):
         if not config:
             config = get_default_config()
         mhd_dataset_builder = MhdLegacyDatasetBuilder(
-            config=config, ontology_cache_service=ontology_cache_service, **kwargs
+            config=config,
+            ontology_cache_service=ontology_cache_service,
+            min_affiliation_length=9,
+            **kwargs,
         )
         mtbls_study_repository_website_url = (
             f"{config.study_http_base_url}/{repository_identifier}"

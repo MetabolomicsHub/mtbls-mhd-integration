@@ -48,6 +48,7 @@ from pydantic import BaseModel, HttpUrl, ValidationError
 import mtbls2mhd
 from mtbls2mhd.commands.output_paths import resolve_output_file_path
 from mtbls2mhd.config import BuildType, Mtbls2MhdConfiguration
+from mtbls2mhd.user_profile_utils import update_submitter_user_from_keycloak
 from mtbls2mhd.utils.cv_term_creator import OntologyCacheService, OntologyTermCreator
 from mtbls2mhd.v0_1.legacy.db_metadata_collector import (
     DbMetadataCollector,
@@ -465,6 +466,7 @@ class MhdLegacyDatasetBuilder:
         self,
         config: Mtbls2MhdConfiguration,
         ontology_cache_service: None | OntologyCacheService = None,
+        min_affiliation_length: int = 2,
         **kwargs,
     ):
         # global _cv_term_helper
@@ -475,6 +477,7 @@ class MhdLegacyDatasetBuilder:
             cv_term_helper=get_cv_term_helper(),
             default_terms=DEFAULT_TERMS,
         )
+        self.min_affiliation_length = min_affiliation_length
 
     def convert_to_curie(self, source_ref: str, uri: str) -> str:
         if not uri:
@@ -619,7 +622,14 @@ class MhdLegacyDatasetBuilder:
 
                 affiliation = contact.affiliation or None
                 organization = None
-                if not affiliation or len(affiliation) < 2:
+                if not affiliation:
+                    continue
+                if len(affiliation) < self.min_affiliation_length:
+                    logger.warning(
+                        "Affiliation will be skipped for %s. Its min lenght does not comply with MHD requirements %s",
+                        contact.email,
+                        affiliation,
+                    )
                     continue
                 if affiliation not in organizations:
                     organization = mhd_domain.Organization(
@@ -2683,6 +2693,7 @@ class MhdLegacyDatasetBuilder:
                 load_folder_metadata=True,
                 connection=connection,
             )
+            update_submitter_user_from_keycloak(data, self.config)
             if cached_mtbls_model_file_path:
                 with cached_mtbls_model_file_path.open("w") as fr:
                     json.dump(data.model_dump(by_alias=True), fr)

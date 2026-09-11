@@ -5,7 +5,7 @@ from mhd_model.shared.model import Revision
 
 from mtbls2mhd.config import Mtbls2MhdConfiguration, get_default_config
 from mtbls2mhd.utils.cv_term_creator import OntologyCacheService
-from mtbls2mhd.v0_1.legacy.builder import MhdLegacyDatasetBuilder
+from mtbls2mhd.v1_0.legacy.builder import MhdLegacyDatasetBuilder
 
 
 class LegacyProfileV10Convertor(BaseMhdConvertor):
