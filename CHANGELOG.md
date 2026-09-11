@@ -1,3 +1,9 @@
+## v0.0.48 (2026-09-11)
+
+### Fix
+
+- keycloak auth user profile update
+
 ## v0.0.47 (2026-09-10)
 
 ### Fix
