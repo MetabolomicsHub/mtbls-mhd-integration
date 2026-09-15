@@ -1,3 +1,9 @@
+## v0.0.49 (2026-09-15)
+
+### Fix
+
+- Merge branch 'main' of https://github.com/MetabolomicsHub/mtbls-mhd-integration
+
 ## v0.0.48 (2026-09-11)
 
 ### Fix
