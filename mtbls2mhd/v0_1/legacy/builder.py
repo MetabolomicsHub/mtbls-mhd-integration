@@ -2678,6 +2678,9 @@ class MhdLegacyDatasetBuilder:
             name="Study Data Repository",
             value=repository_name,
         )
+        revisions: list[Revision] = []
+        current_revision: None | Revision = None
+
         if metabolights_study_model:
             data = metabolights_study_model
         elif cached_mtbls_model_file_path and cached_mtbls_model_file_path.exists():
@@ -2688,21 +2691,47 @@ class MhdLegacyDatasetBuilder:
                     )
                 )
         else:
-            connection = create_postgresql_connection(self.config)
-            db_collector = DbMetadataCollector(self.config)
-            provider = MetabolightsStudyProvider(
-                db_metadata_collector=db_collector,
-                folder_metadata_collector=LocalFolderMetadataCollector(),
-            )
-            data: MetabolightsStudyModel = provider.load_study(
-                mtbls_study_id,
-                study_path=str(mtbls_study_path),
-                load_assay_files=True,
-                load_sample_file=True,
-                load_maf_files=True,
-                load_folder_metadata=True,
-                connection=connection,
-            )
+            connection = None
+            try:
+                connection = create_postgresql_connection(self.config)
+                db_collector = DbMetadataCollector(self.config)
+                provider = MetabolightsStudyProvider(
+                    db_metadata_collector=db_collector,
+                    folder_metadata_collector=LocalFolderMetadataCollector(),
+                )
+                data: MetabolightsStudyModel = provider.load_study(
+                    mtbls_study_id,
+                    study_path=str(mtbls_study_path),
+                    load_assay_files=True,
+                    load_sample_file=True,
+                    load_maf_files=True,
+                    load_folder_metadata=True,
+                    connection=connection,
+                )
+                cursor = connection.cursor()
+                cursor.execute(
+                    "select * from study_revisions "
+                    "where accession_number = %(study_id)s "
+                    "order by revision_number desc;",
+                    {"study_id": mtbls_study_id},
+                )
+                results = cursor.fetchall()
+                requested_revision = data.study_db_metadata.revision_number
+                for _, item in enumerate(results):
+                    revision_no = item["revision_number"]
+                    if revision_no > requested_revision:
+                        continue
+                    rev = Revision(
+                        revision=item["revision_number"],
+                        comment=item["revision_comment"],
+                        revision_datetime=item["revision_datetime"],
+                    )
+                    if revision_no == data.study_db_metadata.revision_number:
+                        current_revision = rev
+                    revisions.append(rev)
+            finally:
+                if connection:
+                    connection.close()
             update_submitter_user_from_keycloak(data, self.config)
 
             if cached_mtbls_model_file_path:
@@ -2770,16 +2799,14 @@ class MhdLegacyDatasetBuilder:
             repository_identifier=study.identifier,
             schema_name=target_mhd_model_schema_uri,
             profile_uri=target_mhd_model_profile_uri,
-            repository_revision=revision.revision
-            if revision and revision.revision
-            else 0,
-            repository_revision_datetime=revision.revision_datetime
-            if revision and revision.revision_datetime
+            repository_revision=current_revision.revision if current_revision else 0,
+            repository_revision_datetime=current_revision.revision_datetime
+            if current_revision
             else None,
-            repository_revision_comment=revision.comment
-            if revision and revision.comment
+            repository_revision_comment=current_revision.comment
+            if current_revision
             else None,
-            change_log=[revision] if revision else None,
+            change_log=revisions if revisions else None,
         )
 
         if data.study_db_metadata.submission_date != study.submission_date:

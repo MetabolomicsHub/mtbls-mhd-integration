@@ -10,13 +10,18 @@ from metabolights_utils.models.metabolights.model import (
 from metabolights_utils.provider.study_provider import (
     MetabolightsStudyProvider,
 )
+from mhd_model.convertors.announcement.convertor import create_announcement_file
 from mhd_model.convertors.mhd.convertor import BaseMhdConvertor
 from mhd_model.convertors.sdrf.mhd2sdrf import create_sdrf_files
 from mhd_model.model.definitions import (
     MHD_MODEL_V1_0_DEFAULT_SCHEMA_NAME,
     MHD_MODEL_V1_0_MS_PROFILE_NAME,
 )
-from mhd_model.validation import validate_mhd_model
+from mhd_model.validation import (
+    validate_announcement_file_json,
+    validate_mhd_file_json,
+    validate_mhd_model,
+)
 from psycopg import Connection
 from psycopg.rows import TupleRow
 
@@ -121,18 +126,29 @@ def convert_mtbls_study_to_mhd(
             + "/"
             + mhd_output_filename
         )
-        return validate_mhd_model(
-            repository_study_id=mtbls_study_id,
-            mhd_file_path=mhd_file_path,
-            validate_announcement_file=True,
+
+        mhd_file_json = json.loads(Path(mhd_file_path).read_text())
+        errors = validate_mhd_file_json(mhd_file_json)
+        if errors:
+            raise Exception(str([str(x) for x in errors]))
+
+        create_announcement_file(
+            mhd_file=mhd_file_json,
             announcement_file_path=announcement_file_path,
             mhd_file_url=mhd_file_url,
         )
-    except Exception:
+        if not Path(announcement_file_path).exists():
+            raise Exception(f"FIle does not exist: {announcement_file_path}")
+        announcement_file_json = json.loads(Path(announcement_file_path).read_text())
+        errors = validate_announcement_file_json(announcement_file_json)
+        if errors:
+            raise Exception(str([str(x) for x in errors]))
+    except Exception as ex:
         if mhd_file_path.exists():
             mhd_file_path.unlink()
         if announcement_file_path.exists():
             announcement_file_path.unlink()
+        traceback.print_exception(ex)
         return False, {
             "input": [
                 ("error", jsonschema.ValidationError(message=traceback.format_exc()))
@@ -348,7 +364,7 @@ def create_mhd_legacy_profile(
     # study_ids.sort(
     #     key=lambda x: int(x.replace("MTBLS", "").replace("REQ", "")), reverse=True
     # )
-    study_ids = ["REQ202505303000044"]
+    study_ids = ["MTBLS30009004"]
     factory = Mtbls2MhdConvertorFactory()
     mhd_output_root_path = Path(f"{working_dir}/mhd")
     mtbls_config = get_default_config()
@@ -378,7 +394,7 @@ def create_mhd_legacy_profile(
         # if not mtbls_model_source_path.exists():
         #     continue
 
-        success, errors = convert_mtbls_study_to_mhd(
+        errors = convert_mtbls_study_to_mhd(
             mtbls_study_id,
             mtbls_config,
             mhd_output_root_path=mhd_output_root_path,
@@ -388,10 +404,10 @@ def create_mhd_legacy_profile(
             errors_file_path=errors_file_path,
             force_recreate=force_recreate,
         )
-        if success is None:
+        if errors:
             logger.info("%s is skipped", mtbls_study_id)
             continue
-        write_to_file(errors_file_path, success, errors)
+        write_to_file(errors_file_path, True, errors)
 
         # ms_mtbls_config = get_default_config()
         # ms_mtbls_config.selected_schema_uri = MHD_MODEL_V0_1_SCHEMA_URI
