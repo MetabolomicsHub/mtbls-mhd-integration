@@ -2295,7 +2295,14 @@ class MhdLegacyDatasetBuilder:
                         use_label_for_invalid_cv_term=self.config.use_label_for_invalid_cv_term,
                     )
                 referenced_assay = metadata_files.get(assay.file_path)
-                file_node = mhd_domain.DerivedDataFile(
+
+                # Metabolights accepts mzML files as Derived Data File
+                # It must be converted as Raw Data File
+                if file_extension and file_extension.lower() in {".mzml"}:
+                    selected_file_class = mhd_domain.RawDataFile
+                else:
+                    selected_file_class = mhd_domain.DerivedDataFile
+                file_node = selected_file_class(
                     repository_identifier=study_id + ":" + file,
                     name=file,
                     metadata_file_refs=[referenced_assay.id_]
