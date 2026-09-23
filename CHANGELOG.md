@@ -1,3 +1,9 @@
+## v0.0.50 (2026-09-23)
+
+### Fix
+
+- mzml files will be converted as mhd raw files
+
 ## v0.0.49 (2026-09-15)
 
 ### Fix
