@@ -1,3 +1,9 @@
+## v0.0.51 (2026-09-23)
+
+### Fix
+
+- mtbls raw file exceptions are extended
+
 ## v0.0.50 (2026-09-23)
 
 ### Fix
