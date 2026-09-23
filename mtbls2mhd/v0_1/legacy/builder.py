@@ -60,6 +60,7 @@ from mtbls2mhd.v0_1.legacy.folder_metadata_collector import (
 
 logger = logging.getLogger(__name__)
 
+RAW_FILE_EXCEPTIONS = {".mzml", ".imzml", ".mzmlb", ".mzxml", ".cdf"}
 
 _cv_term_helper: CvTermHelper = CvTermHelper()
 
@@ -2298,7 +2299,7 @@ class MhdLegacyDatasetBuilder:
 
                 # Metabolights accepts mzML files as Derived Data File
                 # It must be converted as Raw Data File
-                if file_extension and file_extension.lower() in {".mzml"}:
+                if file_extension and file_extension.lower() in RAW_FILE_EXCEPTIONS:
                     selected_file_class = mhd_domain.RawDataFile
                 else:
                     selected_file_class = mhd_domain.DerivedDataFile
