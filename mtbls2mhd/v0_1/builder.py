@@ -19,13 +19,10 @@ from metabolights_utils.provider.study_provider import (
     MetabolightsStudyProvider,
 )
 from mhd_model.model.v0_1.dataset.profiles.base import graph_nodes as mhd_domain
-from mhd_model.model.v0_1.dataset.profiles.base.base import (
-    KeyValue,
-)
+from mhd_model.model.v0_1.dataset.profiles.base.base import KeyValue
 from mhd_model.model.v0_1.dataset.profiles.base.dataset_builder import MhDatasetBuilder
 from mhd_model.model.v0_1.dataset.profiles.base.profile import MhDatasetBaseProfile
 from mhd_model.model.v0_1.dataset.profiles.base.relationships import Relationship
-from mhd_model.model.v0_1.dataset.profiles.legacy.profile import MhDatasetLegacyProfile
 from mhd_model.model.v0_1.rules.managed_cv_terms import (
     COMMON_ASSAY_TYPES,
     COMMON_CHARACTERISTIC_DEFINITIONS,
@@ -49,14 +46,14 @@ import mtbls2mhd
 from mtbls2mhd.commands.output_paths import resolve_output_file_path
 from mtbls2mhd.config import BuildType, Mtbls2MhdConfiguration
 from mtbls2mhd.user_profile_utils import update_submitter_user_from_keycloak
-from mtbls2mhd.utils.cv_term_creator import OntologyCacheService, OntologyTermCreator
-from mtbls2mhd.v0_1.legacy.db_metadata_collector import (
+from mtbls2mhd.utils.db_metadata_collector import (
     DbMetadataCollector,
     create_postgresql_connection,
 )
-from mtbls2mhd.v0_1.legacy.folder_metadata_collector import (
+from mtbls2mhd.utils.folder_metadata_collector import (
     LocalFolderMetadataCollector,
 )
+from mtbls2mhd.v0_1.cv_term_creator import OntologyCacheService, OntologyTermCreator
 
 logger = logging.getLogger(__name__)
 
@@ -2494,7 +2491,6 @@ class MhdLegacyDatasetBuilder:
                 repository_identifier=assay.file_name,
                 metadata_file_ref=assay_node.id_ if assay_node else None,
             )
-
             mhd_builder.add(mhd_assay)
             assays[assay.file_name] = mhd_assay
             mhd_builder.link(
@@ -2545,13 +2541,13 @@ class MhdLegacyDatasetBuilder:
 
             omics_types: list[mhd_domain.CvTermObject] = []
             measurement_types: list[mhd_domain.CvTermObject] = []
-            measurement = None
+            measurement_type = None
             if "untargeted" in assay.measurement_type.term.lower():
-                measurement = MTBLS_MEASUREMENT_TYPES["untargeted"]
+                measurement_type = MTBLS_MEASUREMENT_TYPES["untargeted"]
             elif "semi-targeted" in assay.measurement_type.term.lower():
-                measurement = MTBLS_MEASUREMENT_TYPES["semi-targeted"]
+                measurement_type = MTBLS_MEASUREMENT_TYPES["semi-targeted"]
             elif "targeted" in assay.measurement_type.term.lower():
-                measurement = MTBLS_MEASUREMENT_TYPES["targeted"]
+                measurement_type = MTBLS_MEASUREMENT_TYPES["targeted"]
 
             inv_study = data.investigation.studies[0]
             assay_idx = next(
@@ -2582,42 +2578,35 @@ class MhdLegacyDatasetBuilder:
             design_types = inv_study.study_design_descriptors.design_types
 
             for descriptor in design_types:
-                if not measurement:
+                if not measurement_type:
+                    item = None
                     if "untargeted" in descriptor.term.lower():
-                        measurement = MTBLS_MEASUREMENT_TYPES["untargeted"]
+                        item = MTBLS_MEASUREMENT_TYPES["untargeted"]
+                    if "semi-targeted" in descriptor.term.lower():
+                        item = MTBLS_MEASUREMENT_TYPES["semi-targeted"]
                     elif "targeted" in descriptor.term.lower():
-                        measurement = MTBLS_MEASUREMENT_TYPES["targeted"]
+                        item = MTBLS_MEASUREMENT_TYPES["targeted"]
 
-                    if measurement:
-                        measurement_type = self.otc.create_cv_term_object(
-                            type_="descriptor",
-                            source=measurement.source,
-                            accession=measurement.accession,
-                            name=measurement.name,
-                        )
-                        measurement_types.append(measurement_type)
+                    if item:
+                        measurement_types.append(item)
                 if not assay_omics_type:
                     for v in COMMON_OMICS_TYPES.values():
                         if descriptor.term.lower() == v.name.lower():
-                            omics_type = self.otc.create_cv_term_object(
-                                type_="descriptor",
-                                source=v.source,
-                                accession=v.accession,
-                                name=v.name,
-                            )
-                            omics_types.append(omics_type)
-            if measurement:
-                measurement_type = measurement
-            if len(measurement_types) == 1:
-                measurement_type = measurement_types[0]
+                            omics_types.append(v)
+            selected_measurement_type = None
+            if measurement_type:
+                selected_measurement_type = measurement_type
+            elif len(measurement_types) == 1:
+                selected_measurement_type = measurement_types[0]
             else:
-                default_type = DEFAULT_MEASUREMENT_TYPE
-                measurement_type = self.otc.create_cv_term_object(
-                    type_="descriptor",
-                    source=default_type.source,
-                    accession=default_type.accession,
-                    name=default_type.name,
-                )
+                selected_measurement_type = DEFAULT_MEASUREMENT_TYPE
+
+            measurement_type = self.otc.create_cv_term_object(
+                type_="descriptor",
+                source=selected_measurement_type.source,
+                accession=selected_measurement_type.accession,
+                name=selected_measurement_type.name,
+            )
             mhd_builder.add(
                 measurement_type,
                 use_label_for_invalid_cv_term=self.config.use_label_for_invalid_cv_term,
@@ -2625,17 +2614,17 @@ class MhdLegacyDatasetBuilder:
             mhd_assay.measurement_type_ref = measurement_type.id_
 
             if assay_omics_type:
-                omics_type = assay_omics_type
-            if len(omics_types) == 1:
-                omics_type = omics_types[0]
+                selected_omics_type = assay_omics_type
+            elif len(omics_types) == 1:
+                selected_omics_type = omics_types[0]
             else:
-                default_type = DEFAULT_OMICS_TYPE
-                omics_type = self.otc.create_cv_term_object(
-                    type_="descriptor",
-                    source=default_type.source,
-                    accession=default_type.accession,
-                    name=default_type.name,
-                )
+                selected_omics_type = DEFAULT_OMICS_TYPE
+            omics_type = self.otc.create_cv_term_object(
+                type_="descriptor",
+                source=selected_omics_type.source,
+                accession=selected_omics_type.accession,
+                name=selected_omics_type.name,
+            )
             mhd_builder.add(
                 omics_type,
                 use_label_for_invalid_cv_term=self.config.use_label_for_invalid_cv_term,
@@ -2665,6 +2654,7 @@ class MhdLegacyDatasetBuilder:
 
     def build(
         self,
+        dataset_class: type[MhDatasetBaseProfile],
         mhd_id: None | str,
         mhd_output_folder_path: Path,
         mtbls_study_id: str,
@@ -2677,7 +2667,7 @@ class MhdLegacyDatasetBuilder:
         revision: None | Revision = None,
         metabolights_study_model: None | MetabolightsStudyModel = None,
         **kwargs,
-    ) -> MhDatasetLegacyProfile:
+    ) -> MhDatasetBaseProfile:
         mhd_output_filename = kwargs.get("mhd_output_filename", None)
         dataset_provider = self.otc.create_cv_term_value_object(
             type_="data-provider",
@@ -2800,18 +2790,22 @@ class MhdLegacyDatasetBuilder:
             error = f"Study {study.identifier} has unsupported assays: {str(unsupported_assays)}"
             logger.error(error)
             return False, error
-        # TODO get revision, dataset_licence from study
+        mhd_id = study.mhd_accession or mhd_id
+        mhd_id = mhd_id if mhd_id and mhd_id.startswith("MHD") else None
+        identifier = mhd_id if mhd_id else study.identifier
         mhd_builder = MhDatasetBuilder(
             repository_name=repository_name,
-            mhd_identifier=mhd_id if mhd_id and mhd_id.startswith("MHD") else None,
+            name=f"{identifier}: {study.title}",
+            description=f"{repository_name} dataset with {study.identifier} accession",
+            mhd_identifier=mhd_id,
             repository_identifier=study.identifier,
             schema_name=target_mhd_model_schema_uri,
             profile_uri=target_mhd_model_profile_uri,
             repository_revision=current_revision.revision if current_revision else 0,
-            repository_revision_datetime=current_revision.revision_datetime
+            repository_revision_datetime=current_revision.revision_datetime or None
             if current_revision
             else None,
-            repository_revision_comment=current_revision.comment
+            repository_revision_comment=current_revision.comment or None
             if current_revision
             else None,
             change_log=revisions if revisions else None,
@@ -2853,7 +2847,7 @@ class MhdLegacyDatasetBuilder:
         mhd_study = mhd_domain.Study(
             repository_identifier=study.identifier,
             created_by_ref=dataset_provider.id_,
-            mhd_identifier=mhd_id if mhd_id and mhd_id.startswith("MHD") else None,
+            mhd_identifier=mhd_id,
             title=study.title,
             description=study.description,
             submission_date=submission_date,
@@ -2913,14 +2907,11 @@ class MhdLegacyDatasetBuilder:
             self.add_assay_keywords(mhd_builder, mhd_assays, study)
 
         mhd_dataset: MhDatasetBaseProfile = mhd_builder.create_dataset(
-            start_item_refs=[mhd_study.id_], dataset_class=MhDatasetLegacyProfile
+            start_item_refs=[mhd_study.id_], dataset_class=dataset_class
         )
         # mhd_dataset.created_by_ref = dataset_provider.id_
         filename = study.identifier
-        if mhd_id:
-            mhd_dataset.name = f"{mhd_id} ({study.identifier}) MetabolomicsHub Dataset"
-        else:
-            mhd_dataset.name = f"{study.identifier} Dataset"
+
         output_path = resolve_output_file_path(
             mhd_output_folder_path, f"{filename}.mhd.json"
         )

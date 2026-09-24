@@ -41,3 +41,10 @@ repos:
       stages: [ commit-msg ]
     - id: commitizen-branch
       stages: [pre-push]
+- repo: https://github.com/seddonym/import-linter.git
+  rev: "v2.15"
+  hooks:
+  - id: import-linter
+    name: architecture and package structure check (lint-importer)
+    # additional_dependencies: [ dependency_injector ]
+    args: [ "--no-cache" ]

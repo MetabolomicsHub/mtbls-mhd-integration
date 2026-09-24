@@ -137,6 +137,7 @@ def create_mhd_file_task(
     metabolights_study_model = MetabolightsStudyModel.model_validate(json_data)
     mhd_output_root_path = Path(output_dir)
     mhd_output_root_path.mkdir(exist_ok=True, parents=True)
+
     try:
         success, result = convertor.convert(
             repository_name="MetaboLights",

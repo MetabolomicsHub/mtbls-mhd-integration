@@ -1,11 +1,12 @@
 from pathlib import Path
 
 from mhd_model.convertors.mhd.convertor import BaseMhdConvertor
+from mhd_model.model.v0_1.dataset.profiles.legacy.profile import MhDatasetLegacyProfile
 from mhd_model.shared.model import Revision
 
 from mtbls2mhd.config import Mtbls2MhdConfiguration, get_default_config
-from mtbls2mhd.utils.cv_term_creator import OntologyCacheService
-from mtbls2mhd.v0_1.legacy.builder import MhdLegacyDatasetBuilder
+from mtbls2mhd.v0_1.builder import MhdLegacyDatasetBuilder
+from mtbls2mhd.v0_1.cv_term_creator import OntologyCacheService
 
 
 class LegacyProfileV01Convertor(BaseMhdConvertor):
@@ -43,6 +44,7 @@ class LegacyProfileV01Convertor(BaseMhdConvertor):
         )
         try:
             success, message = mhd_dataset_builder.build(
+                dataset_class=MhDatasetLegacyProfile,
                 mhd_id=None,
                 mtbls_study_id=repository_identifier,
                 mtbls_study_path=mtbls_study_path,

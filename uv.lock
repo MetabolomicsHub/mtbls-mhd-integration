@@ -176,7 +176,7 @@ wheels = [
 
 [[package]]
 name = "bioregistry"
-version = "0.14.4"
+version = "0.14.8"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
@@ -191,9 +191,9 @@ dependencies = [
     { name = "tqdm" },
     { name = "urllib3" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/3d/37/ced79c3e83d2c097322f2cf6fad6d47c3c7a7f195a1e92b56eb2e53422c1/bioregistry-0.14.4.tar.gz", hash = "sha256:6bcd4a1892048492119f877f7f23be772fa2aeff5f1cd6ccf7d099a6385389bf", size = 6130173, upload-time = "2026-08-29T07:16:04.439Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/11/fc/9607838c5607e72bec7a54461080f4c13b3ec8eeb9ea8a193b84b253d84d/bioregistry-0.14.8.tar.gz", hash = "sha256:b521dfb6716ce6ace1d9ffd92bd420397d088b624971c43833eec1c71d759cc9", size = 7233339, upload-time = "2026-09-19T04:50:22.412Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/63/c5/be897f1f8d0b6b9671bf93c0cc61541334317967b6be1d7f64af26d3ea2e/bioregistry-0.14.4-py3-none-any.whl", hash = "sha256:2e2373364a11d1c8ab1c52cd01344a7b237322ffc769c6d97ce998cdd5cebc26", size = 6216687, upload-time = "2026-08-29T07:16:01.867Z" },
+    { url = "https://files.pythonhosted.org/packages/17/ff/52f99a86348122a7abee174f5d274b26e23b6905cd9c47029280c0bf6489/bioregistry-0.14.8-py3-none-any.whl", hash = "sha256:2c15fdf7b56f226b9e46f5b6f089cbe8570456e4f4b57b9d4893742808e4ddf8", size = 7321897, upload-time = "2026-09-19T04:50:20.004Z" },
 ]
 
 [[package]]
@@ -236,11 +236,11 @@ wheels = [
 
 [[package]]
 name = "cachetools"
-version = "7.1.8"
+version = "7.2.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/4b/39/9a4689914dd907915cee74733b95888fc1d8a21aad47a24a0a2deec73ac4/cachetools-7.1.8.tar.gz", hash = "sha256:1221d547a0b24b7f26fa891d40d488b5258beab9aebd8ed68c729be3af849c43", size = 40909, upload-time = "2026-08-31T19:02:53.985Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/29/2c/3f18755527b03ca9ff6be724bd5370cb777c76a87f17301377cf04a4729b/cachetools-7.2.0.tar.gz", hash = "sha256:bcac1a1b8da6909994a2957238a57b8140dab7c5c5c69a43669654fe87a33c1d", size = 41129, upload-time = "2026-09-16T20:48:27.209Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/d7/3d/9487690d0e937854db587205c66bab3c3cf88d9f00ed380b74cb88cc94ee/cachetools-7.1.8-py3-none-any.whl", hash = "sha256:a81e3844acaa7355b6567f97bd67a94a14ec3a9bc2cbbdae45b9592cc036775b", size = 16842, upload-time = "2026-08-31T19:02:52.554Z" },
+    { url = "https://files.pythonhosted.org/packages/cc/bb/1c6e7a89b11da19f137e4ef5a5c5fe47a5bb686449ba343944ccf8fb34b2/cachetools-7.2.0-py3-none-any.whl", hash = "sha256:3045213f186b89fdd95d94441354c4bd87c570b7a38d8c3fd1d9dd37f6dc90d8", size = 16918, upload-time = "2026-09-16T20:48:25.575Z" },
 ]
 
 [[package]]
@@ -599,15 +599,16 @@ wheels = [
 
 [[package]]
 name = "curies"
-version = "0.15.0"
+version = "0.15.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pydantic" },
     { name = "pystow" },
+    { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/ab/c7/9f82321225b2554ffa22877e75905501589f89a6856ec460421cbefb0ecf/curies-0.15.0.tar.gz", hash = "sha256:969cbc7aa6668ee2a6d2be8f3b036c1d9c66d4860644fb517cfd80b7232626b2", size = 73297, upload-time = "2026-08-10T10:40:06.012Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/12/ba/1419008f223e84fc6164c481db4ed8397f2eadfa39c9f52339d12348696d/curies-0.15.1.tar.gz", hash = "sha256:f0c0c2dccc1e34dc9fa508c1bcb4bd87931f143986a5cd93d44bb8f429736310", size = 73726, upload-time = "2026-09-11T18:04:57.644Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/55/62/3bcf988945065eb9f6ce91d8f5ecdcab59093a539549c3d0d9ec777d75e5/curies-0.15.0-py3-none-any.whl", hash = "sha256:cea20aa3f9911aeb2c955ad03112dfe1df658a8c8b260336bb84595df6838001", size = 82584, upload-time = "2026-08-10T10:40:04.504Z" },
+    { url = "https://files.pythonhosted.org/packages/52/43/883eeb9fe0d68268f82523805809d7842902077fb88da276114810b4b19f/curies-0.15.1-py3-none-any.whl", hash = "sha256:97868ccc6fb8af20468c4a617e9596984c3bbd6f7b1f215a916da1ed64256a16", size = 82935, upload-time = "2026-09-11T18:04:56.108Z" },
 ]
 
 [[package]]
@@ -1151,8 +1152,8 @@ wheels = [
 
 [[package]]
 name = "mhd-model"
-version = "0.1.112"
-source = { registry = "https://pypi.org/simple" }
+version = "0.1.111"
+source = { git = "https://github.com/MetabolomicsHub/mhd-model?rev=development#9b7bd916c5044a0d1035eb3904568e960a1bff8b" }
 dependencies = [
     { name = "anyio" },
     { name = "bioregistry" },
@@ -1174,10 +1175,6 @@ dependencies = [
     { name = "reachable" },
     { name = "soupsieve" },
     { name = "urllib3" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/04/3d/2feae217168ed049db9018f73d44cb3697fffde34032e57b679e919e8fe2/mhd_model-0.1.112.tar.gz", hash = "sha256:ea99b138588d046b28d18d69e56e1862bbbf0f59a8f71b559792cd0f2f22738b", size = 236907, upload-time = "2026-09-22T11:23:19.419Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/2a/a2/f0b60582a6ac6b619d28a5e8251eaa3cb9bf0d1177ec0b9fa3c2f105b4d3/mhd_model-0.1.112-py3-none-any.whl", hash = "sha256:e57467598a79596a625a485fa5c5fcc0886daafc0dddc07b03c5b46bd5a73220", size = 298138, upload-time = "2026-09-22T11:23:18.028Z" },
 ]
 
 [[package]]
@@ -1299,7 +1296,7 @@ requires-dist = [
     { name = "asyncpg", specifier = ">=0.30.0" },
     { name = "httpx2", specifier = ">=2.13.1" },
     { name = "metabolights-utils", specifier = ">=1.4.34" },
-    { name = "mhd-model", specifier = ">=0.1.112" },
+    { name = "mhd-model", git = "https://github.com/MetabolomicsHub/mhd-model?rev=development" },
     { name = "psycopg", extras = ["binary", "pool"], specifier = ">=3.3.3" },
     { name = "pydantic", specifier = ">=2.12.4" },
     { name = "pydantic-settings", specifier = ">=2.14.2" },
@@ -1604,11 +1601,11 @@ wheels = [
 
 [[package]]
 name = "pyjwt"
-version = "2.14.0"
+version = "2.15.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/af/c3/8a3b59c25070cc61dc517fbdfa5dc0904670c96f605cc69759dc09166b99/pyjwt-2.14.0.tar.gz", hash = "sha256:77283c83fb56ecf566a886c757a714bc83668e38156de2cce8263302f42e0b86", size = 113177, upload-time = "2026-09-11T13:11:54.638Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/02/a5/5197bfd06417837ac079921c66fa6393f1dea3557272a263cebfef69e432/pyjwt-2.15.0.tar.gz", hash = "sha256:b11c5f9791d7bf51c2b39a81ed669f6b2dbbd669df2942f6c60167e9e3d1abe4", size = 120513, upload-time = "2026-09-23T16:56:00.689Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/9c/97/672cb32ce0dfea44b740cb7b4f97038463b9cf7c0ead1aacf595572851d6/pyjwt-2.14.0-py3-none-any.whl", hash = "sha256:ad0cef71c756a56e74863c2919cf0985f72decbcfcb550ee2f422e7c62b5eedc", size = 32896, upload-time = "2026-09-11T13:11:53.409Z" },
+    { url = "https://files.pythonhosted.org/packages/e8/55/40e45bf052ee8ee12a4dfd785519660f8effa7b065442b91646ec6828619/pyjwt-2.15.0-py3-none-any.whl", hash = "sha256:7a3742debf6b879e912dbb9819ceec1594be812452b78c5f2e2dfc56564954f8", size = 33680, upload-time = "2026-09-23T16:55:59.241Z" },
 ]
 
 [[package]]
@@ -1626,16 +1623,16 @@ wheels = [
 
 [[package]]
 name = "pystow"
-version = "0.9.3"
+version = "0.9.5"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "backports-zstd", marker = "python_full_version < '3.14'" },
     { name = "tqdm" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/b6/49/35c8a3eee950e51c15af6663ed0e5bfcbb3c291fab81d4ac176794e797aa/pystow-0.9.3.tar.gz", hash = "sha256:29f772b9f0b55e56b46343e42a72b54082d684467d6737f6b2712ecbda4e022e", size = 55574, upload-time = "2026-09-04T11:25:45.718Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/7f/7a/75133e2e76cc1ef6fa5e49db45872c29608ab0e428770ebbdec402a2fc6e/pystow-0.9.5.tar.gz", hash = "sha256:d3f8d5f37aff02f8b8e7a7e58cc946721be2ba598947ce58140f307bb8c9a51b", size = 56743, upload-time = "2026-09-18T12:03:33.98Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/90/21/086922452d745b61a49cf4e6e153d7af5fa8e3a6fcde78b42acac7daaad2/pystow-0.9.3-py3-none-any.whl", hash = "sha256:8064ba13077cf1fb6e37037ed6f398fa68b8a069e94a72470ca7c30132c40613", size = 62846, upload-time = "2026-09-04T11:25:44.308Z" },
+    { url = "https://files.pythonhosted.org/packages/f0/37/26da52f41d9ccde2268f818523e2ba0deffe90768b1119eb5691be171f4c/pystow-0.9.5-py3-none-any.whl", hash = "sha256:9b9a2d74564698952c814345642fd1ae1da1a425d4e73ac2ac11ed5ecce54428", size = 64071, upload-time = "2026-09-18T12:03:32.429Z" },
 ]
 
 [[package]]
@@ -1730,11 +1727,11 @@ wheels = [
 
 [[package]]
 name = "pytz"
-version = "2026.3.post1"
+version = "2026.4"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/fb/48/fb042503b6ca6cd271261dc559fd6432f7d8c713153e9ec5c591af4dfc1c/pytz-2026.3.post1.tar.gz", hash = "sha256:2211d3fcf9a797d3405cac96ac7f61d80e6a644f72a3309607282fe8a2010c5d", size = 319745, upload-time = "2026-07-25T15:12:07.385Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/b0/ed/fa23d28713004418bbf2407127f80f385bfb0bf4e677bef02c25c27b00ee/pytz-2026.4.tar.gz", hash = "sha256:464303645bafafd72418898368b2429458f709cf1eb6a15372fbcc396b64da63", size = 318444, upload-time = "2026-09-24T03:58:40.443Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/0f/7b/39c34ca613b0b198cb866466651b26b045e2009864c5183c979a3b83f383/pytz-2026.3.post1-py2.py3-none-any.whl", hash = "sha256:dd95840dd199baea12d9cc096a1d452caa6596a1c1e4b5f3dbd1541855d5e815", size = 508283, upload-time = "2026-07-25T15:12:05.782Z" },
+    { url = "https://files.pythonhosted.org/packages/d5/11/e3df59614bebe0ca50c905442603eda64ae7ac19811d4e4f74aa2d51ca85/pytz-2026.4-py2.py3-none-any.whl", hash = "sha256:9d514388fbc89ca0833203464272ac485b8828568ab73532f5020f17e892a0ff", size = 506747, upload-time = "2026-09-24T03:58:38.629Z" },
 ]
 
 [[package]]
@@ -2062,7 +2059,7 @@ wheels = [
 
 [[package]]
 name = "sssom-pydantic"
-version = "0.6.4"
+version = "0.6.9"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "curies" },
@@ -2071,9 +2068,9 @@ dependencies = [
     { name = "pyyaml" },
     { name = "tqdm" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/2f/e4/def6245975df57c7e5021d06e2bb1c3b7599c73725b8437dd9dc1240b253/sssom_pydantic-0.6.4.tar.gz", hash = "sha256:25e45d59d15e824c30eb7915f7a8749afb9b6eea3dea87f94f25c9cfbc6e1747", size = 93040, upload-time = "2026-09-02T11:54:23.068Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/3a/04/867461dfd00ea26d770a521b764da59b55630549100936a183380f4ec120/sssom_pydantic-0.6.9.tar.gz", hash = "sha256:b6d478d9ebcb204c0f982667946e17def3574d217b30ae515ec80f2202233dca", size = 97979, upload-time = "2026-09-23T12:51:24.116Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/7f/d4/cfc1cabdd680296174183c8a4a2007b7db63ccf854f5c5a080bffdd0b6a9/sssom_pydantic-0.6.4-py3-none-any.whl", hash = "sha256:57e0ce5fd6446dd776e8669dcbd526ba92e2873d5db2df7c647526abf53e448d", size = 108574, upload-time = "2026-09-02T11:54:21.444Z" },
+    { url = "https://files.pythonhosted.org/packages/80/8c/e7e6b117e825cf74a41c49e715d9f4295ea923db352911ce9f5f520a70cc/sssom_pydantic-0.6.9-py3-none-any.whl", hash = "sha256:a9b42609a6d49af60f0d33e2adc45c34d5c7ace2b967225084352c3a4a9ecea0", size = 115267, upload-time = "2026-09-23T12:51:22.863Z" },
 ]
 
 [[package]]
@@ -2111,14 +2108,14 @@ wheels = [
 
 [[package]]
 name = "tqdm"
-version = "4.70.0"
+version = "4.70.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "colorama", marker = "sys_platform == 'win32'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/21/3b/6c24bec5be5e743ffd99576daa5cc077722fc7d5bbc00bd133fa0c698dc6/tqdm-4.70.0.tar.gz", hash = "sha256:55b0b0dbd97462d06ebee91e4dac24ed4d4702be82b24f07e6c1d27e08cea220", size = 795438, upload-time = "2026-07-27T11:33:15.271Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/0d/ea/b2a5bd54b28a324dae8211928b2d730b6547500342c7e6c6dea08bd0a485/tqdm-4.70.1.tar.gz", hash = "sha256:cefd0eca11b2a37a3aee776544d4f4ae913f02688135b5556b8788dfa474afc4", size = 171846, upload-time = "2026-09-11T07:25:16.601Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f9/1c/01bfd571a64e7f270e6bab5e33777debe0edc56759233ce84f27dec92d14/tqdm-4.70.0-py3-none-any.whl", hash = "sha256:7f585706bfddbdebf89daac705b2dfcc16890130727d3197ca62c732b4310953", size = 80184, upload-time = "2026-07-27T11:33:13.167Z" },
+    { url = "https://files.pythonhosted.org/packages/a7/03/921a3d3c75785aca9ebfbfcabfbc3a1be12e2ab5265deb026d55a5a3f83e/tqdm-4.70.1-py3-none-any.whl", hash = "sha256:c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73", size = 80199, upload-time = "2026-09-11T07:25:14.599Z" },
 ]
 
 [[package]]

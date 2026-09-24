@@ -14,6 +14,8 @@ from mhd_model.convertors.announcement.convertor import create_announcement_file
 from mhd_model.convertors.mhd.convertor import BaseMhdConvertor
 from mhd_model.convertors.sdrf.mhd2sdrf import create_sdrf_files
 from mhd_model.model.definitions import (
+    MHD_MODEL_V0_1_DEFAULT_SCHEMA_NAME,
+    MHD_MODEL_V0_1_LEGACY_PROFILE_NAME,
     MHD_MODEL_V1_0_DEFAULT_SCHEMA_NAME,
     MHD_MODEL_V1_0_MS_PROFILE_NAME,
 )
@@ -29,11 +31,11 @@ from mtbls2mhd.commands.fetch_mtbls_study import fetch_mtbls_data
 from mtbls2mhd.config import Mtbls2MhdConfiguration, get_default_config
 from mtbls2mhd.convertor_factory import Mtbls2MhdConvertorFactory
 from mtbls2mhd.user_profile_utils import update_submitter_user_from_keycloak
-from mtbls2mhd.v0_1.legacy.db_metadata_collector import (
+from mtbls2mhd.utils.db_metadata_collector import (
     DbMetadataCollector,
     create_postgresql_connection,
 )
-from mtbls2mhd.v0_1.legacy.folder_metadata_collector import LocalFolderMetadataCollector
+from mtbls2mhd.utils.folder_metadata_collector import LocalFolderMetadataCollector
 from scripts.utils import setup_basic_logging_config
 
 logger = logging.getLogger(__name__)
@@ -364,13 +366,15 @@ def create_mhd_legacy_profile(
     # study_ids.sort(
     #     key=lambda x: int(x.replace("MTBLS", "").replace("REQ", "")), reverse=True
     # )
-    study_ids = ["MTBLS30009004"]
+    study_ids = ["MTBLS30008982"]
     factory = Mtbls2MhdConvertorFactory()
     mhd_output_root_path = Path(f"{working_dir}/mhd")
     mtbls_config = get_default_config()
 
     mtbls_config.selected_schema_uri = MHD_MODEL_V1_0_DEFAULT_SCHEMA_NAME
     mtbls_config.selected_profile_uri = MHD_MODEL_V1_0_MS_PROFILE_NAME
+    mtbls_config.selected_schema_uri = MHD_MODEL_V0_1_DEFAULT_SCHEMA_NAME
+    mtbls_config.selected_profile_uri = MHD_MODEL_V0_1_LEGACY_PROFILE_NAME
     mtbls_config.use_label_for_invalid_cv_term = True
     legacy_convertor = factory.get_convertor(
         target_mhd_model_schema_uri=mtbls_config.selected_schema_uri,
