@@ -14,8 +14,8 @@ from mhd_model.convertors.announcement.convertor import create_announcement_file
 from mhd_model.convertors.mhd.convertor import BaseMhdConvertor
 from mhd_model.convertors.sdrf.mhd2sdrf import create_sdrf_files
 from mhd_model.model.definitions import (
-    MHD_MODEL_V0_1_DEFAULT_SCHEMA_NAME,
-    MHD_MODEL_V0_1_LEGACY_PROFILE_NAME,
+    # MHD_MODEL_V0_1_DEFAULT_SCHEMA_NAME,
+    # MHD_MODEL_V0_1_LEGACY_PROFILE_NAME,
     MHD_MODEL_V1_0_DEFAULT_SCHEMA_NAME,
     MHD_MODEL_V1_0_MS_PROFILE_NAME,
 )
@@ -119,7 +119,8 @@ def convert_mtbls_study_to_mhd(
                 ("error", jsonschema.ValidationError(message=traceback.format_exc()))
             ]
         }
-
+    if not Path(mhd_file_path).exists():
+        raise ValueError(f"File not found {mhd_file_path}")
     try:
         mhd_file_url = (
             mtbls_config.public_http_base_url
@@ -146,6 +147,7 @@ def convert_mtbls_study_to_mhd(
         if errors:
             raise Exception(str([str(x) for x in errors]))
     except Exception as ex:
+        traceback.print_exc()
         if mhd_file_path.exists():
             mhd_file_path.unlink()
         if announcement_file_path.exists():
@@ -366,15 +368,15 @@ def create_mhd_legacy_profile(
     # study_ids.sort(
     #     key=lambda x: int(x.replace("MTBLS", "").replace("REQ", "")), reverse=True
     # )
-    study_ids = ["MTBLS30008982"]
+    study_ids = ["MTBLS30009012"]
     factory = Mtbls2MhdConvertorFactory()
     mhd_output_root_path = Path(f"{working_dir}/mhd")
     mtbls_config = get_default_config()
 
     mtbls_config.selected_schema_uri = MHD_MODEL_V1_0_DEFAULT_SCHEMA_NAME
     mtbls_config.selected_profile_uri = MHD_MODEL_V1_0_MS_PROFILE_NAME
-    mtbls_config.selected_schema_uri = MHD_MODEL_V0_1_DEFAULT_SCHEMA_NAME
-    mtbls_config.selected_profile_uri = MHD_MODEL_V0_1_LEGACY_PROFILE_NAME
+    # mtbls_config.selected_schema_uri = MHD_MODEL_V0_1_DEFAULT_SCHEMA_NAME
+    # mtbls_config.selected_profile_uri = MHD_MODEL_V0_1_LEGACY_PROFILE_NAME
     mtbls_config.use_label_for_invalid_cv_term = True
     legacy_convertor = factory.get_convertor(
         target_mhd_model_schema_uri=mtbls_config.selected_schema_uri,
@@ -410,7 +412,7 @@ def create_mhd_legacy_profile(
         )
         if errors:
             logger.info("%s is skipped", mtbls_study_id)
-            continue
+            raise ValueError(errors)
         write_to_file(errors_file_path, True, errors)
 
         # ms_mtbls_config = get_default_config()

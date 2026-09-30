@@ -1,7 +1,7 @@
 import logging
 
 from mhd_model.model.v1_0.dataset.profiles.base import graph_nodes as mhd_domain
-from mhd_model.shared.model import CvTerm, UnitCvTerm
+from mhd_model.shared.base import CvTerm, UnitCvTerm
 from mhd_model.shared.validation.cv_term_helper import (
     CvTermHelper,
 )

@@ -40,7 +40,7 @@ docs = [
 default-groups = []
 
 [tool.uv.sources]
-mhd-model = { git = "https://github.com/MetabolomicsHub/mhd-model", rev = "development" }
+mhd-model = { git = "https://github.com/MetabolomicsHub/mhd-model", rev = "test" }
 
 
 [project.scripts]

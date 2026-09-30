@@ -35,8 +35,8 @@ from mhd_model.model.v0_1.rules.managed_cv_terms import (
     COMMON_TECHNOLOGY_TYPES,
     PREDEFINED_CV_TERMS,
 )
+from mhd_model.shared.base import CvTerm, Revision, UnitCvTerm
 from mhd_model.shared.fields import DOI
-from mhd_model.shared.model import CvTerm, Revision, UnitCvTerm
 from mhd_model.shared.validation.cv_term_helper import (
     CvTermHelper,
 )

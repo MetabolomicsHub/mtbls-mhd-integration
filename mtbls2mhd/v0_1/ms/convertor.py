@@ -2,7 +2,7 @@ from pathlib import Path
 
 from mhd_model.convertors.mhd.convertor import BaseMhdConvertor
 from mhd_model.model.v0_1.dataset.profiles.ms.profile import MhDatasetMsProfile
-from mhd_model.shared.model import Revision
+from mhd_model.shared.base import Revision
 
 from mtbls2mhd.config import Mtbls2MhdConfiguration, get_default_config
 from mtbls2mhd.v0_1.builder import MhdLegacyDatasetBuilder

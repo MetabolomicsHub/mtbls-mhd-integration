@@ -1153,7 +1153,7 @@ wheels = [
 [[package]]
 name = "mhd-model"
 version = "0.1.111"
-source = { git = "https://github.com/MetabolomicsHub/mhd-model?rev=development#9b7bd916c5044a0d1035eb3904568e960a1bff8b" }
+source = { git = "https://github.com/MetabolomicsHub/mhd-model?rev=test#e791ca69879cc104c4d3353182dd75f399fa337f" }
 dependencies = [
     { name = "anyio" },
     { name = "bioregistry" },
@@ -1296,7 +1296,7 @@ requires-dist = [
     { name = "asyncpg", specifier = ">=0.30.0" },
     { name = "httpx2", specifier = ">=2.13.1" },
     { name = "metabolights-utils", specifier = ">=1.4.34" },
-    { name = "mhd-model", git = "https://github.com/MetabolomicsHub/mhd-model?rev=development" },
+    { name = "mhd-model", git = "https://github.com/MetabolomicsHub/mhd-model?rev=test" },
     { name = "psycopg", extras = ["binary", "pool"], specifier = ">=3.3.3" },
     { name = "pydantic", specifier = ">=2.12.4" },
     { name = "pydantic-settings", specifier = ">=2.14.2" },
@@ -1601,11 +1601,11 @@ wheels = [
 
 [[package]]
 name = "pyjwt"
-version = "2.15.0"
+version = "2.15.1"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/02/a5/5197bfd06417837ac079921c66fa6393f1dea3557272a263cebfef69e432/pyjwt-2.15.0.tar.gz", hash = "sha256:b11c5f9791d7bf51c2b39a81ed669f6b2dbbd669df2942f6c60167e9e3d1abe4", size = 120513, upload-time = "2026-09-23T16:56:00.689Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/43/ea/5194e52748b0da83d71e082d75496eaec6e58f419f5e184786ded517e6a9/pyjwt-2.15.1.tar.gz", hash = "sha256:4f259e80cdfb6b3fc18a7de51fd1ef9ec79652f25019bae68975ca2468a34df8", size = 121252, upload-time = "2026-09-28T18:40:42.598Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/e8/55/40e45bf052ee8ee12a4dfd785519660f8effa7b065442b91646ec6828619/pyjwt-2.15.0-py3-none-any.whl", hash = "sha256:7a3742debf6b879e912dbb9819ceec1594be812452b78c5f2e2dfc56564954f8", size = 33680, upload-time = "2026-09-23T16:55:59.241Z" },
+    { url = "https://files.pythonhosted.org/packages/50/ca/44de4e75f8aadc457f0634be3b542815078ded46dca30efb960edeecad6e/pyjwt-2.15.1-py3-none-any.whl", hash = "sha256:42d59d631f7768a1028a64c7ff581a9bf7519804daf91fc5b6c56e30eec5e193", size = 33860, upload-time = "2026-09-28T18:40:41.429Z" },
 ]
 
 [[package]]
@@ -1623,16 +1623,16 @@ wheels = [
 
 [[package]]
 name = "pystow"
-version = "0.9.5"
+version = "0.10.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "backports-zstd", marker = "python_full_version < '3.14'" },
     { name = "tqdm" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/7f/7a/75133e2e76cc1ef6fa5e49db45872c29608ab0e428770ebbdec402a2fc6e/pystow-0.9.5.tar.gz", hash = "sha256:d3f8d5f37aff02f8b8e7a7e58cc946721be2ba598947ce58140f307bb8c9a51b", size = 56743, upload-time = "2026-09-18T12:03:33.98Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/0e/8a/c20fae5ee36a03f1e1ad303e70ef962ecbc43fcab0ea4c7195768fe985c7/pystow-0.10.0.tar.gz", hash = "sha256:8f6e8601ba43e6250d5c489f872f35972dfd12ea5387c7aa57667b4cfc7eb5d5", size = 57504, upload-time = "2026-09-29T11:58:41.604Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f0/37/26da52f41d9ccde2268f818523e2ba0deffe90768b1119eb5691be171f4c/pystow-0.9.5-py3-none-any.whl", hash = "sha256:9b9a2d74564698952c814345642fd1ae1da1a425d4e73ac2ac11ed5ecce54428", size = 64071, upload-time = "2026-09-18T12:03:32.429Z" },
+    { url = "https://files.pythonhosted.org/packages/82/d1/188aecfda35a44734221181a62112865870a4b2e37f4aa699fb2deb7d734/pystow-0.10.0-py3-none-any.whl", hash = "sha256:0d989ea0d146e131e681d499daa8a40d294f04cf1999c7034b4616152ac152e2", size = 64778, upload-time = "2026-09-29T11:58:40.157Z" },
 ]
 
 [[package]]
@@ -2059,7 +2059,7 @@ wheels = [
 
 [[package]]
 name = "sssom-pydantic"
-version = "0.6.9"
+version = "0.6.10"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "curies" },
@@ -2068,9 +2068,9 @@ dependencies = [
     { name = "pyyaml" },
     { name = "tqdm" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/3a/04/867461dfd00ea26d770a521b764da59b55630549100936a183380f4ec120/sssom_pydantic-0.6.9.tar.gz", hash = "sha256:b6d478d9ebcb204c0f982667946e17def3574d217b30ae515ec80f2202233dca", size = 97979, upload-time = "2026-09-23T12:51:24.116Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/df/63/168a94ec8503876e44d0dd1803b58a2be4e65a4cf67a3da14662334df308/sssom_pydantic-0.6.10.tar.gz", hash = "sha256:fcb340dcd79c922bc530ab95d3007f05486e66b10d9e49114d3a55c730136a11", size = 98160, upload-time = "2026-09-29T09:39:38.142Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/80/8c/e7e6b117e825cf74a41c49e715d9f4295ea923db352911ce9f5f520a70cc/sssom_pydantic-0.6.9-py3-none-any.whl", hash = "sha256:a9b42609a6d49af60f0d33e2adc45c34d5c7ace2b967225084352c3a4a9ecea0", size = 115267, upload-time = "2026-09-23T12:51:22.863Z" },
+    { url = "https://files.pythonhosted.org/packages/5c/1d/b2c54ed53fa3b2f86ee3d6d11efe498d844d45ae025ad561e084a9e99434/sssom_pydantic-0.6.10-py3-none-any.whl", hash = "sha256:685ab7cf749bffd4906ccbe0259be79e98b444c7c675fa1ae9998605a64f3166", size = 115459, upload-time = "2026-09-29T09:39:36.633Z" },
 ]
 
 [[package]]
