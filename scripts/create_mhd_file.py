@@ -13,11 +13,13 @@ from metabolights_utils.provider.study_provider import (
 from mhd_model.convertors.announcement.convertor import create_announcement_file
 from mhd_model.convertors.mhd.convertor import BaseMhdConvertor
 from mhd_model.convertors.sdrf.mhd2sdrf import create_sdrf_files
+from mhd_model.domain_utils import get_file_hashes
 from mhd_model.model.definitions import (
     # MHD_MODEL_V0_1_DEFAULT_SCHEMA_NAME,
     # MHD_MODEL_V0_1_LEGACY_PROFILE_NAME,
     MHD_MODEL_V1_0_DEFAULT_SCHEMA_NAME,
-    MHD_MODEL_V1_0_MS_PROFILE_NAME,
+    # MHD_MODEL_V1_0_MS_PROFILE_NAME,
+    MHD_MODEL_V1_0_LEGACY_PROFILE_NAME,
 )
 from mhd_model.validation import (
     validate_announcement_file_json,
@@ -129,16 +131,17 @@ def convert_mtbls_study_to_mhd(
             + "/"
             + mhd_output_filename
         )
-
-        mhd_file_json = json.loads(Path(mhd_file_path).read_text())
+        file_bytes = Path(mhd_file_path).read_bytes()
+        mhd_file_json = json.loads(file_bytes)
         errors = validate_mhd_file_json(mhd_file_json)
         if errors:
             raise Exception(str([str(x) for x in errors]))
-
+        mhd_metadata_file_hashes = get_file_hashes(file_bytes)
         create_announcement_file(
             mhd_file=mhd_file_json,
             announcement_file_path=announcement_file_path,
             mhd_file_url=mhd_file_url,
+            mhd_metadata_file_hashes=mhd_metadata_file_hashes,
         )
         if not Path(announcement_file_path).exists():
             raise Exception(f"FIle does not exist: {announcement_file_path}")
@@ -146,18 +149,14 @@ def convert_mtbls_study_to_mhd(
         errors = validate_announcement_file_json(announcement_file_json)
         if errors:
             raise Exception(str([str(x) for x in errors]))
-    except Exception as ex:
+    except Exception:
         traceback.print_exc()
         if mhd_file_path.exists():
             mhd_file_path.unlink()
         if announcement_file_path.exists():
             announcement_file_path.unlink()
-        traceback.print_exception(ex)
-        return False, {
-            "input": [
-                ("error", jsonschema.ValidationError(message=traceback.format_exc()))
-            ]
-        }
+        raise
+        # return jsonschema.ValidationError(message=traceback.format_exc())
 
 
 def convert_mtbls_study_model_to_mhd(
@@ -368,13 +367,20 @@ def create_mhd_legacy_profile(
     # study_ids.sort(
     #     key=lambda x: int(x.replace("MTBLS", "").replace("REQ", "")), reverse=True
     # )
-    study_ids = ["MTBLS30009012"]
+    # study_ids = ["MTBLS30009010", "MTBLS30009011", "MTBLS30009024"]
+
+    study_ids = ["MTBLS1878", "MTBLS1897"]
+    # study_ids = [
+    #     x.strip()
+    #     for x in Path("public_studies.csv").read_text().splitlines()
+    #     if x and x.strip()
+    # ]
     factory = Mtbls2MhdConvertorFactory()
     mhd_output_root_path = Path(f"{working_dir}/mhd")
     mtbls_config = get_default_config()
 
     mtbls_config.selected_schema_uri = MHD_MODEL_V1_0_DEFAULT_SCHEMA_NAME
-    mtbls_config.selected_profile_uri = MHD_MODEL_V1_0_MS_PROFILE_NAME
+    mtbls_config.selected_profile_uri = MHD_MODEL_V1_0_LEGACY_PROFILE_NAME
     # mtbls_config.selected_schema_uri = MHD_MODEL_V0_1_DEFAULT_SCHEMA_NAME
     # mtbls_config.selected_profile_uri = MHD_MODEL_V0_1_LEGACY_PROFILE_NAME
     mtbls_config.use_label_for_invalid_cv_term = True
@@ -397,8 +403,10 @@ def create_mhd_legacy_profile(
         )
         # comment if cache is required
         mtbls_model_source_path = None
-        # if not mtbls_model_source_path.exists():
-        #     continue
+        mhd_output_filename = f"{mtbls_study_id}.mhd.json"
+        mhd_file_path = mhd_output_root_path / mhd_output_filename
+        if mhd_file_path.exists() and len(study_ids) > 10:
+            continue
 
         errors = convert_mtbls_study_to_mhd(
             mtbls_study_id,

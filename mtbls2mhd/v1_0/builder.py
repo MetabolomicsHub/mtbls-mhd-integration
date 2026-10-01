@@ -18,7 +18,7 @@ from metabolights_utils.models.metabolights.model import (
 from metabolights_utils.provider.study_provider import (
     MetabolightsStudyProvider,
 )
-from mhd_model.domain_utils import get_urn
+from mhd_model.domain_utils import get_urn as default_get_urn
 from mhd_model.model.v1_0.dataset.profiles.base import graph_nodes as mhd_domain
 from mhd_model.model.v1_0.dataset.profiles.base.profile import (
     MhDatasetBaseProfile_v1_0,
@@ -66,14 +66,14 @@ RAW_FILE_EXCEPTIONS = {".mzml", ".imzml", ".mzmlb", ".mzxml", ".cdf"}
 _cv_term_helper: CvTermHelper = CvTermHelper()
 
 
-def get_urn2(
+def get_urn(
     dataset_id: str,
     node_class: type[IdentifiableMhdModel],
     identifier: None | str,
     urn_namespace: str = "mhd",
     repository_short_name: None | str = "mtbls",
 ) -> str:
-    return get_urn(
+    return default_get_urn(
         urn_namespace=urn_namespace,
         dataset_id=dataset_id,
         repository_short_name=repository_short_name,
@@ -206,38 +206,38 @@ DEFAULT_MEASUREMENT_TYPE = COMMON_MEASUREMENT_TYPES["untargeted"]
 DEFAULT_OMICS_TYPE = COMMON_OMICS_TYPES["metabolomics"]
 
 COMMON_PROTOCOLS_MAP = {
-    "Mass spectrometry": COMMON_PROTOCOLS["mass spectrometry"],
-    "Chromatography": COMMON_PROTOCOLS["chromatography"],
-    "Sample collection": COMMON_PROTOCOLS["sample collection"],
-    "Extraction": COMMON_PROTOCOLS["sample preparation"],
-    "Treatment": COMMON_PROTOCOLS["treatment"],
+    "mass spectrometry": COMMON_PROTOCOLS["mass spectrometry"],
+    "chromatography": COMMON_PROTOCOLS["chromatography"],
+    "sample collection": COMMON_PROTOCOLS["sample collection"],
+    "extraction": COMMON_PROTOCOLS["sample preparation"],
+    "treatment": COMMON_PROTOCOLS["treatment"],
 }
 
 MTBLS_PROTOCOLS_MAP = COMMON_PROTOCOLS_MAP.copy()
 
 MTBLS_PROTOCOLS_MAP.update(
     {
-        "Direct infusion": CvTerm(
+        "direct infusion": CvTerm(
             source="MS",
             accession="MS:1000060",
             name="infusion",
         ),
-        "Data transformation": CvTerm(
+        "data transformation": CvTerm(
             source="OBI",
             accession="OBI:0200000",
             name="data transformation",
         ),
-        "Metabolite identification": CvTerm(
+        "metabolite identification": CvTerm(
             source="MI",
             accession="MI:2131",
             name="metabolite identification",
         ),
-        "Flow Injection Analysis": CvTerm(
+        "flow injection analysis": CvTerm(
             source="CHMO",
             accession="CHMO:0002891",
             name="flow-injection analysis",
         ),
-        "Capillary Electrophoresis": CvTerm(
+        "capillary electrophoresis": CvTerm(
             source="CHMO",
             accession="CHMO:0001024",
             name="capillary electrophoresis",
@@ -273,25 +273,25 @@ MTBLS_STUDY_FACTOR_MAP.update({})
 
 
 COMMON_PROTOCOL_PARAMETER_VALUE_MAP = {
-    "Mass spectrometry": {
-        "Instrument": COMMON_PARAMETER_DEFINITIONS["mass spectrometry instrument"],
-        "Scan polarity": COMMON_PARAMETER_DEFINITIONS["acquisition polarity"],
-        "Ion source": COMMON_PARAMETER_DEFINITIONS["ionization type"],
-        "Mass analyzer": COMMON_PARAMETER_DEFINITIONS["instrument class"],
+    "mass spectrometry": {
+        "instrument": COMMON_PARAMETER_DEFINITIONS["mass spectrometry instrument"],
+        "scan polarity": COMMON_PARAMETER_DEFINITIONS["acquisition polarity"],
+        "ion source": COMMON_PARAMETER_DEFINITIONS["ionization type"],
+        "mass analyzer": COMMON_PARAMETER_DEFINITIONS["instrument class"],
         # "Inlet type": COMMON_PARAMETER_DEFINITIONS["inlet type"],
     },
-    "Chromatography": {
-        "Chromatography Instrument": COMMON_PARAMETER_DEFINITIONS[
+    "chromatography": {
+        "chromatography instrument": COMMON_PARAMETER_DEFINITIONS[
             "chromatography instrument"
         ],
-        "Column model": COMMON_PARAMETER_DEFINITIONS["chromatography column"],
-        "Column type": COMMON_PARAMETER_DEFINITIONS["chromatography separation"],
+        "column model": COMMON_PARAMETER_DEFINITIONS["chromatography column"],
+        "column type": COMMON_PARAMETER_DEFINITIONS["chromatography separation"],
         # "Solvent": COMMON_PARAMETER_DEFINITIONS["solvent"],
         # "Chromatographic additive": COMMON_PARAMETER_DEFINITIONS["chromatographic additive"],
     },
-    "Capillary Electrophoresis": {
-        "Column model": COMMON_PARAMETER_DEFINITIONS["chromatography column"],
-        "Column type": COMMON_PARAMETER_DEFINITIONS["chromatography separation"],
+    "capillary electrophoresis": {
+        "column model": COMMON_PARAMETER_DEFINITIONS["chromatography column"],
+        "column type": COMMON_PARAMETER_DEFINITIONS["chromatography separation"],
         # "Solvent": COMMON_PARAMETER_DEFINITIONS["solvent"],
         # "Chromatographic additive": COMMON_PARAMETER_DEFINITIONS["chromatographic additive"],
     },
@@ -305,27 +305,27 @@ MTBLS_PROTOCOL_PARAMETER_DEFINITION_MAP: dict[str, dict[str, CvTerm]] = {}
 
 MTBLS_PROTOCOL_PARAMETER_DEFINITION_MAP.update(
     {
-        "Mass spectrometry": {
-            **COMMON_PROTOCOL_PARAMETER_VALUE_MAP["Mass spectrometry"],
-            # "Scan m/z range": COMMON_PARAMETER_DEFINITIONS["MTBLS:50020"],
-            # "FIA instrument": COMMON_PARAMETER_DEFINITIONS["MTBLS:50021"],
+        "mass spectrometry": {
+            **COMMON_PROTOCOL_PARAMETER_VALUE_MAP["mass spectrometry"],
+            # "scan m/z range": COMMON_PARAMETER_DEFINITIONS["MTBLS:50020"],
+            # "fia instrument": COMMON_PARAMETER_DEFINITIONS["MTBLS:50021"],
         },
-        "Chromatography": {
-            **COMMON_PROTOCOL_PARAMETER_VALUE_MAP["Chromatography"],
-            # "Guard column": COMMON_PARAMETER_DEFINITIONS["MTBLS:50003"],
-            # "Autosampler model": COMMON_PARAMETER_DEFINITIONS["MTBLS:50004"],
+        "chromatography": {
+            **COMMON_PROTOCOL_PARAMETER_VALUE_MAP["chromatography"],
+            # "guard column": COMMON_PARAMETER_DEFINITIONS["MTBLS:50003"],
+            # "autosampler model": COMMON_PARAMETER_DEFINITIONS["MTBLS:50004"],
         },
-        "Capillary Electrophoresis": {
-            "CE instrument": CvTerm(
+        "capillary electrophoresis": {
+            "ce instrument": CvTerm(
                 source="OBI",
                 accession="OBI:0001132",
                 name="capillary electrophoresis instrument",
             ),
-            **COMMON_PROTOCOL_PARAMETER_VALUE_MAP["Capillary Electrophoresis"],
+            **COMMON_PROTOCOL_PARAMETER_VALUE_MAP["capillary electrophoresis"],
         },
-        "Extraction": {
-            # "Post Extraction": COMMON_PARAMETER_DEFINITIONS["MTBLS:50010"],
-            # "Derivatization": COMMON_PARAMETER_DEFINITIONS["MTBLS:50011"],
+        "extraction": {
+            # "post extraction": COMMON_PARAMETER_DEFINITIONS["MTBLS:50010"],
+            # "derivatization": COMMON_PARAMETER_DEFINITIONS["MTBLS:50011"],
         },
     }
 )
@@ -916,14 +916,14 @@ class MhdDatasetBuilder_v1_0:
         data: MetabolightsStudyModel,
         selected_assays: list[Assay],
     ):
-        isa_tab_format = self.otc.create_cv_term_object(
-            type_="descriptor",
-            accession="EDAM:format_3687",
-            source="EDAM",
-            name="ISA-TAB",
-        )
+        # isa_tab_format = self.otc.create_cv_term_object(
+        #     type_="descriptor",
+        #     accession="EDAM:format_3687",
+        #     source="EDAM",
+        #     name="ISA-TAB",
+        # )
         study_id = ""
-        metadata_files = []
+        metadata_files: list[str] = []
         metadata_files_map = {}
         metadata_files.append(data.investigation_file_path)
         if data.investigation.studies:
@@ -935,7 +935,33 @@ class MhdDatasetBuilder_v1_0:
             for assay in selected_assays:
                 if assay.file_name in data.assays:
                     metadata_files.append(assay.file_name)
-        format_appended = False
+        appended_formats: set[str] = set()
+        formats = {
+            "EDAM:format_4066": self.otc.create_cv_term_object(
+                type_="descriptor",
+                accession="EDAM:format_4066",
+                source="EDAM",
+                name="ISA-Tab Investigation file",
+            ),
+            "EDAM:format_4067": self.otc.create_cv_term_object(
+                type_="descriptor",
+                accession="EDAM:format_4067",
+                source="EDAM",
+                name="ISA-Tab Study file",
+            ),
+            "EDAM:format_4068": self.otc.create_cv_term_object(
+                type_="descriptor",
+                accession="EDAM:format_4068",
+                source="EDAM",
+                name="ISA-Tab Assay file",
+            ),
+            "EDAM:format_3687": self.otc.create_cv_term_object(
+                type_="descriptor",
+                accession="EDAM:format_3687",
+                source="EDAM",
+                name="ISA-Tab",
+            ),
+        }
         if study_id:
             for file in metadata_files:
                 if self.config.build_type == BuildType.MINIMUM:
@@ -948,12 +974,22 @@ class MhdDatasetBuilder_v1_0:
                         ],
                     )
                 else:
-                    format_appended = True
+                    selected_format = None
+                    if file.startswith("i_"):
+                        selected_format = "EDAM:format_4066"
+                    elif file.startswith("s_"):
+                        selected_format = "EDAM:format_4067"
+                    elif file.startswith("a_"):
+                        selected_format = "EDAM:format_4068"
+                    else:
+                        selected_format = "EDAM:format_3687"
+                    appended_formats.add(selected_format)
+                    format_object = formats[selected_format]
                     meta = mhd_domain.MetadataFile(
                         uri=get_urn(study_id, mhd_domain.MetadataFile, file),
                         name=file,
                         extension=Path(file).suffix,
-                        format_ref=isa_tab_format.id_,
+                        format_ref=format_object.id_,
                         url_list=[
                             f"{self.config.public_http_base_url}/{study_id}/{file}",
                             f"{self.config.public_ftp_base_url}/{study_id}/{file}",
@@ -964,9 +1000,9 @@ class MhdDatasetBuilder_v1_0:
                 mhd_builder.link(meta, "describes", mhd_study)
                 metadata_files_map[file] = meta
 
-            if format_appended:
+            for x in appended_formats or []:
                 mhd_builder.add_node(
-                    isa_tab_format,
+                    formats[x],
                     use_label_for_invalid_cv_term=self.config.use_label_for_invalid_cv_term,
                 )
 
@@ -980,7 +1016,10 @@ class MhdDatasetBuilder_v1_0:
     ):
         result_file_map: dict[str, mhd_domain.ResultFile] = {}
         tsv_format = self.otc.create_cv_term_object(
-            type_="descriptor", accession="EDAM:format_3475", source="EDAM", name="TSV"
+            type_="descriptor",
+            accession="EDAM:format_4073",
+            source="EDAM",
+            name="MetaboLights MAF",
         )
         study_id = mhd_study.repository_identifier
 
@@ -1101,7 +1140,7 @@ class MhdDatasetBuilder_v1_0:
                 continue
             protocol_name = assay_table.data[column.column_name][0]
             if protocol_name in COMMON_PROTOCOLS_MAP:
-                protocol_type = COMMON_PROTOCOLS_MAP[protocol_name]
+                protocol_type = COMMON_PROTOCOLS_MAP[protocol_name.lower()]
             else:
                 protocol_type = CvTerm(
                     source="",
@@ -1627,7 +1666,7 @@ class MhdDatasetBuilder_v1_0:
         for header in assay_table.headers:
             if header.column_header == "Protocol REF":
                 protocol_name = assay_table.data[header.column_name][0]
-                protocol_type = MTBLS_PROTOCOLS_MAP.get(protocol_name)
+                protocol_type = MTBLS_PROTOCOLS_MAP.get(protocol_name.lower())
                 if protocol_type:
                     if protocol_type in protocols:
                         protocol = protocols[protocol_type]
@@ -1909,43 +1948,46 @@ class MhdDatasetBuilder_v1_0:
         self, protocol_name: str, parameter_name: str
     ) -> CvTerm | None:
         parameters_dict = MTBLS_PROTOCOL_PARAMETER_DEFINITION_MAP.get(protocol_name, {})
-        return parameters_dict.get(parameter_name, None)
+        return parameters_dict.get(parameter_name.lower(), None)
 
     def add_protocols(
         self, mhd_builder: MhDatasetBuilder, mhd_study: mhd_domain.Study, study: Study
     ) -> dict[str, mhd_domain.Protocol]:
-        parameters_map: dict[str, mhd_domain.CvTermObject] = {}
+        protocol_types: dict[str, mhd_domain.CvTermObject] = {}
+        parameter_types: dict[str, mhd_domain.CvTermObject] = {}
         protocols: dict[str, mhd_domain.Protocol] = {}
         study_id = mhd_study.repository_identifier
+        protocol_parameter_types: dict[str, mhd_domain.CvTermObject] = {}
         for protocol in study.study_protocols.protocols:
             name = protocol.name
-
+            protocol_parameter_types[name] = {}
             mhd_protocol = None
             parameters: list[mhd_domain.CvTermObject] = []
             for x in protocol.parameters:
                 if x.term:
-                    definition_type = "x-mtbls-parameter-type"
-                    param_cv = self.get_parameter_cv(protocol.name, x.term)
-                    if x.term in ALL_COMMON_PROTOCOL_PARAMETERS and param_cv:
-                        definition_type = "parameter-type"
+                    param_type = re.sub(r"\s+\d+$", "", x.term.strip()).lower()
+                    selected_parameter_type = parameter_types.get(param_type)
+                    if not selected_parameter_type:
+                        definition_type = "x-mtbls-parameter-type"
+                        param_cv = self.get_parameter_cv(protocol.name, param_type)
+                        if x.term in ALL_COMMON_PROTOCOL_PARAMETERS and param_cv:
+                            definition_type = "parameter-type"
 
-                    if not param_cv:
-                        definition_type = self.otc.create_cv_term_object(
-                            type_=definition_type,
-                            name=x.term.lower(),
-                            accession=x.term_accession_number or "",
-                            source=x.term_source_ref or "",
-                        )
-                    else:
-                        definition_type = self.otc.create_cv_term_object(
-                            type_=definition_type,
-                            name=param_cv.name,
-                            accession=param_cv.accession,
-                            source=param_cv.source,
-                        )
-                    key = definition_type.accession + "---" + definition_type.name
-                    if key not in parameters_map:
-                        parameters_map[key] = definition_type
+                        if not param_cv:
+                            definition_type = self.otc.create_cv_term_object(
+                                type_=definition_type,
+                                name=x.term.lower(),
+                                accession=x.term_accession_number or "",
+                                source=x.term_source_ref or "",
+                            )
+                        else:
+                            definition_type = self.otc.create_cv_term_object(
+                                type_=definition_type,
+                                name=param_cv.name,
+                                accession=param_cv.accession,
+                                source=param_cv.source,
+                            )
+
                         mhd_builder.add(
                             definition_type,
                             use_label_for_invalid_cv_term=self.config.use_label_for_invalid_cv_term,
@@ -1956,57 +1998,64 @@ class MhdDatasetBuilder_v1_0:
                             definition_type,
                             reverse_relationship_name="defined-in",
                         )
-                    definition_type = parameters_map.get(key)
-                    type_name = f"{x.term}:{x.term_accession_number}"
+                        parameter_types[param_type] = definition_type
+                        selected_parameter_type = definition_type
+                        protocol_parameter_types[name][x.term] = selected_parameter_type
+
+                    definition_name = f"{name}:{x.term}:{x.term_accession_number}"
                     definition = mhd_domain.ParameterDefinition(
                         uri=get_urn(
-                            study_id, mhd_domain.ParameterDefinition, type_name
+                            study_id, mhd_domain.ParameterDefinition, definition_name
                         ),
-                        parameter_type_ref=definition_type.id_,
+                        parameter_type_ref=selected_parameter_type.id_,
                         name=x.term,
                     )
                     mhd_builder.link(
                         definition,
                         "has-type",
-                        definition_type,
+                        selected_parameter_type,
                         reverse_relationship_name="type-of",
                     )
                     mhd_builder.add(definition)
                     parameters.append(definition)
-
-            if name in COMMON_PROTOCOLS_MAP:
-                protocol_type = COMMON_PROTOCOLS_MAP[name]
-            else:
-                if name in MTBLS_PROTOCOLS_MAP:
-                    protocol_type = MTBLS_PROTOCOLS_MAP[name]
                 else:
-                    protocol_type = CvTerm(name=protocol.name)
+                    logger.warning(
+                        "Protocol parameter '%s' in protocol '%s' does not have a term",
+                        x.term,
+                        protocol.name,
+                    )
+            protocol_type_term = re.sub(r"\s+\d+$", "", name.strip()).lower()
+            protocol_type = COMMON_PROTOCOLS_MAP.get(protocol_type_term)
+            if not protocol_type:
+                protocol_type = MTBLS_PROTOCOLS_MAP.get(protocol_type_term)
+            if not protocol_type:
+                protocol_type = CvTerm(name=protocol.name.lower())
+
             protocol_type_name = (
                 "protocol-type"
-                if name in COMMON_PROTOCOLS_MAP
+                if protocol_type_term in COMMON_PROTOCOLS_MAP
                 else "x-mtbls-protocol-type"
             )
-            if protocol_type_name == "x-mtbls-protocol-type":
-                pass
-            else:
-                pass
             definition_refs = None
             if parameters:
                 definition_refs = [x.id_ for x in parameters]
-            protocol_type_obj = self.otc.create_cv_term_object(
-                type_=protocol_type_name,
-                source=protocol_type.source or "",
-                accession=self.convert_to_curie(
-                    protocol_type.source,
-                    protocol_type.accession,
+            protocol_type_obj = protocol_types.get(protocol_type)
+            if not protocol_type_obj:
+                protocol_type_obj = self.otc.create_cv_term_object(
+                    type_=protocol_type_name,
+                    source=protocol_type.source or "",
+                    accession=self.convert_to_curie(
+                        protocol_type.source,
+                        protocol_type.accession,
+                    )
+                    or "",
+                    name=protocol_type.name or "",
                 )
-                or "",
-                name=protocol_type.name or "",
-            )
-            mhd_builder.add(
-                protocol_type_obj,
-                use_label_for_invalid_cv_term=self.config.use_label_for_invalid_cv_term,
-            )
+                mhd_builder.add(
+                    protocol_type_obj,
+                    use_label_for_invalid_cv_term=self.config.use_label_for_invalid_cv_term,
+                )
+                protocol_types[protocol_type] = protocol_type_obj
             mhd_protocol = mhd_domain.Protocol(
                 uri=get_urn(study_id, mhd_domain.Protocol, name),
                 name=name,
@@ -2338,7 +2387,11 @@ class MhdDatasetBuilder_v1_0:
                 else:
                     selected_file_class = mhd_domain.DerivedDataFile
                 file_node = selected_file_class(
-                    repository_identifier=study_id + ":" + file,
+                    uri=get_urn(
+                        dataset_id=study_id,
+                        node_class=selected_file_class,
+                        identifier=file,
+                    ),
                     name=file,
                     metadata_file_refs=[referenced_assay.id_]
                     if referenced_assay
@@ -2712,7 +2765,7 @@ class MhdDatasetBuilder_v1_0:
     ) -> InstanceOf[BaseMhdDataset]:
         mhd_output_filename = kwargs.get("mhd_output_filename", None)
         dataset_provider = self.otc.create_cv_term_value_object(
-            type_="data-provider",
+            type_="creator",
             source="NCIT",
             accession="NCIT:C189151",
             name="Study Data Repository",

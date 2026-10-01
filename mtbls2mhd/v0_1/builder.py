@@ -1593,7 +1593,7 @@ class MhdLegacyDatasetBuilder:
         for header in assay_table.headers:
             if header.column_header == "Protocol REF":
                 protocol_name = assay_table.data[header.column_name][0]
-                protocol_type = MTBLS_PROTOCOLS_MAP.get(protocol_name)
+                protocol_type = MTBLS_PROTOCOLS_MAP.get(protocol_name.lower())
                 if protocol_type:
                     if protocol_type in protocols:
                         protocol = protocols[protocol_type]
@@ -1606,7 +1606,7 @@ class MhdLegacyDatasetBuilder:
                             assay_file.file_path,
                         )
                 else:
-                    protocol_key = CvTerm(name=protocol_name)
+                    protocol_key = CvTerm(name=protocol_name.lower())
                     protocol = protocols.get(protocol_key)
                     if protocol:
                         assay_protocols[protocol_name] = protocol

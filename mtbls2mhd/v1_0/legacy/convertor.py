@@ -1,6 +1,9 @@
 from pathlib import Path
 
 from mhd_model.convertors.mhd.convertor import BaseMhdConvertor
+from mhd_model.model.v1_0.dataset.profiles.legacy.profile import (
+    MhDatasetLegacyProfile_v1_0,
+)
 from mhd_model.shared.base import Revision
 
 from mtbls2mhd.config import Mtbls2MhdConfiguration, get_default_config
@@ -43,7 +46,7 @@ class LegacyProfileV10Convertor(BaseMhdConvertor):
         )
         try:
             success, message = mhd_dataset_builder.build(
-                dataset_class=MhdDatasetBuilder_v1_0,
+                dataset_class=MhDatasetLegacyProfile_v1_0,
                 mhd_id=None,
                 mtbls_study_id=repository_identifier,
                 mtbls_study_path=mtbls_study_path,

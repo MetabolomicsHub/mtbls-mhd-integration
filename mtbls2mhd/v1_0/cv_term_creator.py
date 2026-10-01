@@ -1,9 +1,11 @@
 import logging
 
+from cachetools import cached
 from mhd_model.model.v1_0.dataset.profiles.base import graph_nodes as mhd_domain
 from mhd_model.shared.base import CvTerm, UnitCvTerm
 from mhd_model.shared.validation.cv_term_helper import (
     CvTermHelper,
+    TTLCache,
 )
 
 logger = logging.getLogger(__name__)
@@ -256,6 +258,16 @@ def create_cv_term_value_node(
     )
 
 
+@cached(
+    key=lambda cv_term_helper, type_, name, source, accession, allow_synonym_search: (
+        type_,
+        name,
+        source,
+        accession,
+        allow_synonym_search,
+    ),
+    cache=TTLCache(maxsize=2048, ttl=60),
+)
 def find_cv_term_by_name_or_accession(
     cv_term_helper: CvTermHelper,
     type_: str,
@@ -288,7 +300,7 @@ def find_cv_term_by_name_or_accession(
             name=s_term_with_name.name,
         )
     else:
-        logger.warning(
+        logger.debug(
             "CV term '%s' with source '%s' and accession '%s' does not match OLS results. "
             "CV term will be created without source and accession.",
             name,
@@ -301,6 +313,18 @@ def find_cv_term_by_name_or_accession(
         )
 
 
+@cached(
+    key=lambda cv_term_helper, type_, name, source, accession, value, unit_cv, allow_synonym_search: (
+        type_,
+        name,
+        source,
+        accession,
+        str(value),
+        str(unit_cv),
+        allow_synonym_search,
+    ),
+    cache=TTLCache(maxsize=2048, ttl=60),
+)
 def find_cv_term_value_by_name_or_accession(
     cv_term_helper: CvTermHelper,
     type_: str,
