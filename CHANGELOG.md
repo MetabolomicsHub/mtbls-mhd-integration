@@ -1,3 +1,13 @@
+## v1.0.0 (2026-10-01)
+
+### BREAKING CHANGE
+
+- v1.0 update
+
+### Fix
+
+- mtbls raw file exceptions are extended
+
 ## v0.0.50 (2026-09-23)
 
 ### Fix
