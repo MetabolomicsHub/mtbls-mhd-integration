@@ -2419,23 +2419,23 @@ class MhdLegacyDatasetBuilder:
                             or identifier_value.upper().startswith("CHEBI")
                         ):
                             identifier = self.otc.create_cv_term_value_object(
-                                type_="metabolite-identifier",
-                                source="CHEMINF",
-                                accession="CHEMINF:000407",
-                                name="ChEBI identifier",
+                                type_="molecular-entity-identifier",
+                                source="EDAM",
+                                accession="EDAM:data_1174",
+                                name="ChEBI ID",
                                 value=identifier_value,
                             )
                         elif identifier_value.upper().startswith("HMDB"):
                             identifier = self.otc.create_cv_term_value_object(
-                                type_="metabolite-identifier",
-                                source="CHEMINF",
-                                accession="CHEMINF:000408",
-                                name="HMDB identifier",
+                                type_="molecular-entity-identifier",
+                                source="EDAM",
+                                accession="EDAM:data_2622",
+                                name="Compound ID (HMDB)",
                                 value=identifier_value,
                             )
                         elif compound_source == "REFMET":
                             identifier = self.otc.create_cv_term_value_object(
-                                type_="metabolite-identifier",
+                                type_="molecular-entity-identifier",
                                 source="EDAM",
                                 accession="EDAM:data_4075",
                                 name="RefMet ID",

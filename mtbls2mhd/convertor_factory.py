@@ -8,8 +8,6 @@ from mhd_model.model.definitions import (
     MHD_MODEL_V1_0_MS_PROFILE_NAME,
 )
 
-from mtbls2mhd.v0_1.legacy.convertor import LegacyProfileV01Convertor
-from mtbls2mhd.v0_1.ms.convertor import MsProfileV01Convertor
 from mtbls2mhd.v1_0.legacy.convertor import LegacyProfileV10Convertor
 from mtbls2mhd.v1_0.ms.convertor import MsProfileV10Convertor
 
@@ -22,12 +20,12 @@ class Mtbls2MhdConvertorFactory(BaseMhdConvertorFactory):
     ) -> BaseMhdConvertor:
         if target_mhd_model_schema_uri == MHD_MODEL_V0_1_DEFAULT_SCHEMA_NAME:
             if target_mhd_model_profile_uri == MHD_MODEL_V0_1_LEGACY_PROFILE_NAME:
-                return LegacyProfileV01Convertor(
+                return LegacyProfileV10Convertor(
                     target_mhd_model_schema_uri=target_mhd_model_schema_uri,
                     target_mhd_model_profile_uri=target_mhd_model_profile_uri,
                 )
             elif target_mhd_model_profile_uri == MHD_MODEL_V0_1_MS_PROFILE_NAME:
-                return MsProfileV01Convertor(
+                return MsProfileV10Convertor(
                     target_mhd_model_schema_uri=target_mhd_model_schema_uri,
                     target_mhd_model_profile_uri=target_mhd_model_profile_uri,
                 )

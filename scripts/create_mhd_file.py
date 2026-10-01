@@ -15,11 +15,10 @@ from mhd_model.convertors.mhd.convertor import BaseMhdConvertor
 from mhd_model.convertors.sdrf.mhd2sdrf import create_sdrf_files
 from mhd_model.domain_utils import get_file_hashes
 from mhd_model.model.definitions import (
-    # MHD_MODEL_V0_1_DEFAULT_SCHEMA_NAME,
-    # MHD_MODEL_V0_1_LEGACY_PROFILE_NAME,
-    MHD_MODEL_V1_0_DEFAULT_SCHEMA_NAME,
+    MHD_MODEL_V0_1_DEFAULT_SCHEMA_NAME,
+    MHD_MODEL_V0_1_LEGACY_PROFILE_NAME,
+    # MHD_MODEL_V1_0_DEFAULT_SCHEMA_NAME,
     # MHD_MODEL_V1_0_MS_PROFILE_NAME,
-    MHD_MODEL_V1_0_LEGACY_PROFILE_NAME,
 )
 from mhd_model.validation import (
     validate_announcement_file_json,
@@ -367,22 +366,37 @@ def create_mhd_legacy_profile(
     # study_ids.sort(
     #     key=lambda x: int(x.replace("MTBLS", "").replace("REQ", "")), reverse=True
     # )
-    # study_ids = ["MTBLS30009010", "MTBLS30009011", "MTBLS30009024"]
+    mtbls_config = get_default_config()
 
-    study_ids = ["MTBLS1878", "MTBLS1897"]
+    connection = create_postgresql_connection(mtbls_config)
+
+    sql = "select acc from studies where status = 3 and study_category in (1, 5);"
+    try:
+        cursor = connection.cursor()
+        cursor.execute(sql)
+        data = cursor.fetchall()
+    except Exception as ex:
+        raise ex
+    study_ids = [x.get("acc") for x in data]
+    study_ids.sort(
+        key=lambda x: int(x.replace("MTBLS", "").replace("REQ", "")), reverse=False
+    )
+    # study_ids = ["MTBLS1878", "MTBLS1897"]
     # study_ids = [
     #     x.strip()
     #     for x in Path("public_studies.csv").read_text().splitlines()
     #     if x and x.strip()
     # ]
+    study_ids = ["MTBLS30009012"]
+    study_ids = ["MTBLS30008971"]
     factory = Mtbls2MhdConvertorFactory()
     mhd_output_root_path = Path(f"{working_dir}/mhd")
     mtbls_config = get_default_config()
-
-    mtbls_config.selected_schema_uri = MHD_MODEL_V1_0_DEFAULT_SCHEMA_NAME
-    mtbls_config.selected_profile_uri = MHD_MODEL_V1_0_LEGACY_PROFILE_NAME
-    # mtbls_config.selected_schema_uri = MHD_MODEL_V0_1_DEFAULT_SCHEMA_NAME
-    # mtbls_config.selected_profile_uri = MHD_MODEL_V0_1_LEGACY_PROFILE_NAME
+    # mtbls_config.selected_profile_uri = MHD_MODEL_V1_0_MS_PROFILE_NAME
+    # mtbls_config.selected_schema_uri = MHD_MODEL_V1_0_DEFAULT_SCHEMA_NAME
+    # mtbls_config.selected_profile_uri = MHD_MODEL_V1_0_LEGACY_PROFILE_NAME
+    mtbls_config.selected_schema_uri = MHD_MODEL_V0_1_DEFAULT_SCHEMA_NAME
+    mtbls_config.selected_profile_uri = MHD_MODEL_V0_1_LEGACY_PROFILE_NAME
     mtbls_config.use_label_for_invalid_cv_term = True
     legacy_convertor = factory.get_convertor(
         target_mhd_model_schema_uri=mtbls_config.selected_schema_uri,

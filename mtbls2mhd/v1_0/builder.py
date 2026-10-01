@@ -29,6 +29,7 @@ from mhd_model.model.v1_0.rules.managed_cv_terms import (
     COMMON_CHARACTERISTIC_DEFINITIONS,
     COMMON_MEASUREMENT_TYPES,
     COMMON_MISSING_DATA_TERMS,
+    COMMON_MOLECULAR_ENTITY_IDENTIFIERS,
     COMMON_OMICS_TYPES,
     COMMON_PARAMETER_DEFINITIONS,
     COMMON_PROTOCOLS,
@@ -1063,7 +1064,7 @@ class MhdDatasetBuilder_v1_0:
             if factor_name in MANAGED_STUDY_FACTOR_MAP:
                 cv_term = MANAGED_STUDY_FACTOR_MAP[factor_name]
                 type_definition = "x-mtbls-factor-type"
-                if cv_term.accession in COMMON_STUDY_FACTOR_DEFINITIONS:
+                if factor_name in COMMON_STUDY_FACTOR_DEFINITIONS:
                     type_definition = "factor-type"
                 factor_type = self.otc.create_cv_term_object(
                     type_=type_definition,
@@ -1139,7 +1140,7 @@ class MhdDatasetBuilder_v1_0:
             if column.column_header != "Protocol REF":
                 continue
             protocol_name = assay_table.data[column.column_name][0]
-            if protocol_name in COMMON_PROTOCOLS_MAP:
+            if protocol_name.lower() in COMMON_PROTOCOLS_MAP:
                 protocol_type = COMMON_PROTOCOLS_MAP[protocol_name.lower()]
             else:
                 protocol_type = CvTerm(
@@ -1782,10 +1783,12 @@ class MhdDatasetBuilder_v1_0:
                         # term_name = (
                         #     definition.name.lower().replace("   ", " ").replace(" ", "-")
                         # )
-                        if parameter in ALL_COMMON_PROTOCOL_PARAMETERS:
+                        if parameter.lower() in ALL_COMMON_PROTOCOL_PARAMETERS:
                             object_name = "parameter-value"
 
-                        term = ALL_COMMON_PROTOCOL_PARAMETERS.get(parameter, None)
+                        term = ALL_COMMON_PROTOCOL_PARAMETERS.get(
+                            parameter.lower(), None
+                        )
                         if (
                             values
                             and term
@@ -1947,7 +1950,9 @@ class MhdDatasetBuilder_v1_0:
     def get_parameter_cv(
         self, protocol_name: str, parameter_name: str
     ) -> CvTerm | None:
-        parameters_dict = MTBLS_PROTOCOL_PARAMETER_DEFINITION_MAP.get(protocol_name, {})
+        parameters_dict = MTBLS_PROTOCOL_PARAMETER_DEFINITION_MAP.get(
+            protocol_name.lower(), {}
+        )
         return parameters_dict.get(parameter_name.lower(), None)
 
     def add_protocols(
@@ -1970,7 +1975,10 @@ class MhdDatasetBuilder_v1_0:
                     if not selected_parameter_type:
                         definition_type = "x-mtbls-parameter-type"
                         param_cv = self.get_parameter_cv(protocol.name, param_type)
-                        if x.term in ALL_COMMON_PROTOCOL_PARAMETERS and param_cv:
+                        if (
+                            x.term.lower() in ALL_COMMON_PROTOCOL_PARAMETERS
+                            and param_cv
+                        ):
                             definition_type = "parameter-type"
 
                         if not param_cv:
@@ -2411,7 +2419,10 @@ class MhdDatasetBuilder_v1_0:
                     file_node,
                     reverse_relationship_name="created-in",
                 )
-        for file in data.study_folder_metadata.files:
+        for file in data.study_folder_metadata.files or []:
+            descriptor = data.study_folder_metadata.files[file]
+            if not descriptor or descriptor.is_directory:
+                continue
             if (
                 file not in files_map
                 and file not in metadata_files
@@ -2501,38 +2512,44 @@ class MhdDatasetBuilder_v1_0:
 
                 for identifiers, compound_source in [
                     (submitted_identifiers, ""),
-                    (assigned_chebi_identifiers, "CHEBI"),
-                    (assigned_refmet_identifiers, "REFMET"),
+                    (assigned_chebi_identifiers, "chebi"),
+                    (assigned_refmet_identifiers, "refmet"),
                 ]:
                     if not identifiers:
                         continue
                     for identifier_value in identifiers:
                         identifier = None
                         if (
-                            compound_source == "CHEBI"
-                            or identifier_value.upper().startswith("CHEBI")
+                            compound_source == "chebi"
+                            or identifier_value.lower().startswith("chebi")
                         ):
+                            identifier_type = COMMON_MOLECULAR_ENTITY_IDENTIFIERS[
+                                "chebi"
+                            ]
                             identifier = self.otc.create_cv_term_value_object(
-                                type_="metabolite-identifier",
-                                source="CHEMINF",
-                                accession="CHEMINF:000407",
-                                name="ChEBI identifier",
+                                type_="molecular-entity-identifier",
+                                source=identifier_type.source,
+                                accession=identifier_type.accession,
+                                name=identifier_type.name,
                                 value=identifier_value,
                             )
-                        elif identifier_value.upper().startswith("HMDB"):
+                        elif identifier_value.lower().startswith("hmdb"):
                             identifier = self.otc.create_cv_term_value_object(
-                                type_="metabolite-identifier",
-                                source="CHEMINF",
-                                accession="CHEMINF:000408",
-                                name="HMDB identifier",
-                                value=identifier_value,
-                            )
-                        elif compound_source == "REFMET":
-                            identifier = self.otc.create_cv_term_value_object(
-                                type_="metabolite-identifier",
+                                type_="molecular-entity-identifier",
                                 source="EDAM",
-                                accession="EDAM:data_4075",
-                                name="RefMet ID",
+                                accession="EDAM:data_2622",
+                                name="Compound ID (HMDB)",
+                                value=identifier_value,
+                            )
+                        elif compound_source == "refmet":
+                            identifier_type = COMMON_MOLECULAR_ENTITY_IDENTIFIERS[
+                                "refmet"
+                            ]
+                            identifier = self.otc.create_cv_term_value_object(
+                                type_="molecular-entity-identifier",
+                                source=identifier_type.source,
+                                accession=identifier_type.accession,
+                                name=identifier_type.name,
                                 value=identifier_value,
                             )
 
@@ -2765,7 +2782,7 @@ class MhdDatasetBuilder_v1_0:
     ) -> InstanceOf[BaseMhdDataset]:
         mhd_output_filename = kwargs.get("mhd_output_filename", None)
         dataset_provider = self.otc.create_cv_term_value_object(
-            type_="creator",
+            type_="data-provider",
             source="NCIT",
             accession="NCIT:C189151",
             name="Study Data Repository",
