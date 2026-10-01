@@ -1274,7 +1274,7 @@ wheels = [
 [[package]]
 name = "mhd-model"
 version = "1.0.0"
-source = { git = "https://github.com/MetabolomicsHub/mhd-model?rev=test#50404c63f0f52342ae236b73b9f757c37378dc42" }
+source = { git = "https://github.com/MetabolomicsHub/mhd-model?rev=test#33c643ecc1e704881342f7eb8f3fe9cb98ecb793" }
 dependencies = [
     { name = "anyio" },
     { name = "bioregistry" },

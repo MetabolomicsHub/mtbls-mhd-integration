@@ -2974,13 +2974,11 @@ class MhdDatasetBuilder_v1_0:
 
         self.add_study_factor_definitions(mhd_builder, mhd_study, data)
         samples = self.add_samples(mhd_builder, mhd_study, sample_file)
+        mhd_study.license = data.study_db_metadata.dataset_license_url
+        mhd_study.license_name = data.study_db_metadata.dataset_license
+        if not mhd_study.license:
+            mhd_study.license = HttpUrl(self.config.default_dataset_licence_url) or None
         if self.config.build_type in (BuildType.FULL, BuildType.FULL_AND_CUSTOM_NODES):
-            mhd_study.license = data.study_db_metadata.dataset_license_url
-            if not mhd_study.license:
-                mhd_study.license = (
-                    HttpUrl(self.config.default_dataset_licence_url) or ""
-                )
-
             self.add_publications(data, mhd_builder, mhd_study)
             self.add_protocols(mhd_builder, mhd_study, study)
 
