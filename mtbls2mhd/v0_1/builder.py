@@ -2852,7 +2852,7 @@ class MhdLegacyDatasetBuilder:
             description=study.description,
             submission_date=submission_date,
             public_release_date=public_release_date,
-            dataset_url_list=mtbls_study_repository_urls or None,
+            url_list=mtbls_study_repository_urls or None,
         )
 
         mhd_builder.add(mhd_study)

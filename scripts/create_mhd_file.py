@@ -17,8 +17,8 @@ from mhd_model.domain_utils import get_file_hashes
 from mhd_model.model.definitions import (
     MHD_MODEL_V0_1_DEFAULT_SCHEMA_NAME,
     MHD_MODEL_V0_1_LEGACY_PROFILE_NAME,
-    # MHD_MODEL_V1_0_DEFAULT_SCHEMA_NAME,
-    # MHD_MODEL_V1_0_MS_PROFILE_NAME,
+    MHD_MODEL_V1_0_DEFAULT_SCHEMA_NAME,
+    MHD_MODEL_V1_0_MS_PROFILE_NAME,
 )
 from mhd_model.validation import (
     validate_announcement_file_json,
@@ -387,16 +387,16 @@ def create_mhd_legacy_profile(
     #     for x in Path("public_studies.csv").read_text().splitlines()
     #     if x and x.strip()
     # ]
-    study_ids = ["MTBLS30009012"]
     study_ids = ["MTBLS30008971"]
+    study_ids = ["MTBLS30009012"]
     factory = Mtbls2MhdConvertorFactory()
     mhd_output_root_path = Path(f"{working_dir}/mhd")
     mtbls_config = get_default_config()
-    # mtbls_config.selected_profile_uri = MHD_MODEL_V1_0_MS_PROFILE_NAME
-    # mtbls_config.selected_schema_uri = MHD_MODEL_V1_0_DEFAULT_SCHEMA_NAME
     # mtbls_config.selected_profile_uri = MHD_MODEL_V1_0_LEGACY_PROFILE_NAME
     mtbls_config.selected_schema_uri = MHD_MODEL_V0_1_DEFAULT_SCHEMA_NAME
     mtbls_config.selected_profile_uri = MHD_MODEL_V0_1_LEGACY_PROFILE_NAME
+    mtbls_config.selected_profile_uri = MHD_MODEL_V1_0_MS_PROFILE_NAME
+    mtbls_config.selected_schema_uri = MHD_MODEL_V1_0_DEFAULT_SCHEMA_NAME
     mtbls_config.use_label_for_invalid_cv_term = True
     legacy_convertor = factory.get_convertor(
         target_mhd_model_schema_uri=mtbls_config.selected_schema_uri,

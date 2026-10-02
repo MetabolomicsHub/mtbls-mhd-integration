@@ -2948,9 +2948,9 @@ class MhdDatasetBuilder_v1_0:
             description=study.description,
             submission_date=submission_date,
             public_release_date=public_release_date,
-            dataset_url_list=mtbls_study_repository_urls or None,
+            url_list=mtbls_study_repository_urls or None,
         )
-
+        dataset.url_list = mtbls_study_repository_urls or None
         mhd_builder.add(mhd_study)
         mhd_builder.add_node(
             dataset_provider,
@@ -2978,6 +2978,8 @@ class MhdDatasetBuilder_v1_0:
         mhd_study.license_name = data.study_db_metadata.dataset_license
         if not mhd_study.license:
             mhd_study.license = HttpUrl(self.config.default_dataset_licence_url) or None
+        dataset.license = mhd_study.license
+        dataset.license_name = mhd_study.license_name
         if self.config.build_type in (BuildType.FULL, BuildType.FULL_AND_CUSTOM_NODES):
             self.add_publications(data, mhd_builder, mhd_study)
             self.add_protocols(mhd_builder, mhd_study, study)
