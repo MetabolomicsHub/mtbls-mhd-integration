@@ -1,3 +1,9 @@
+## v0.0.52 (2026-10-06)
+
+### Fix
+
+- cv term search error if there is no source or accession
+
 ## v0.0.51 (2026-09-23)
 
 ### Fix
