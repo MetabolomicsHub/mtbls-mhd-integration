@@ -649,7 +649,7 @@ class MhdDatasetBuilder_v1_0:
                     continue
                 if len(affiliation) < self.min_affiliation_length:
                     logger.warning(
-                        "Affiliation will be skipped for %s. Its min lenght does not comply with MHD requirements %s",
+                        "Affiliation will be skipped for %s. Its min length does not comply with MHD requirements %s",
                         contact.email,
                         affiliation,
                     )
@@ -765,10 +765,17 @@ class MhdDatasetBuilder_v1_0:
             else:
                 funders = comments["Funder"].value[0].split(";") or []
             for funder in funders:
-                if not funder:
+                if not funder or len(funder or "") < self.min_affiliation_length:
+                    logger.warning(
+                        "Funder will be skipped for %s. "
+                        "Its min length does not comply with MHD requirements %s",
+                        study_id,
+                        funder,
+                    )
                     continue
+
                 organization = organizations.get(funder)
-                if not organization and funder and len(funder) > 9:
+                if not organization and funder:
                     organization = mhd_domain.Organization(
                         uri=get_urn(study_id, mhd_domain.Organization, funder),
                         name=funder,

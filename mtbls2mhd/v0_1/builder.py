@@ -723,6 +723,7 @@ class MhdLegacyDatasetBuilder:
         mhd_builder: MhDatasetBuilder,
         mhd_study: mhd_domain.Study,
         organizations: dict[str, mhd_domain.Organization],
+        min_affiliation_length: int,
     ):
         if self.config.build_type == BuildType.MINIMUM:
             return
@@ -738,7 +739,7 @@ class MhdLegacyDatasetBuilder:
                 if not funder:
                     continue
                 organization = organizations.get(funder)
-                if not organization and funder and len(funder) > 1:
+                if not organization and funder and len(funder) > min_affiliation_length:
                     organization = mhd_domain.Organization(
                         repository_identifier=funder, name=funder
                     )
@@ -2868,7 +2869,13 @@ class MhdLegacyDatasetBuilder:
         )
 
         organizations = self.add_contacts(data, mhd_builder, mhd_study)
-        self.add_funders(data, mhd_builder, mhd_study, organizations)
+        self.add_funders(
+            data,
+            mhd_builder,
+            mhd_study,
+            organizations,
+            min_affiliation_length=self.min_affiliation_length,
+        )
 
         metadata_files = self.add_metadata_files(
             mhd_builder, mhd_study, data, selected_assays=selected_assays
