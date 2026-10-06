@@ -326,7 +326,7 @@ def find_cv_term_value_by_name_or_accession(
             value=value,
             unit=unit_cv,
         )
-    else:
+    elif source and name:
         s_term_by_name = cv_term_helper.find_cv_term(
             source, name, allow_synonym_search=allow_synonym_search
         )
@@ -347,6 +347,14 @@ def find_cv_term_value_by_name_or_accession(
                 source,
                 accession,
             )
+    else:
+        logger.warning(
+            "CV term '%s' with source '%s' and accession '%s' OLS result is skipped. "
+            "CV term will be created without source and accession.",
+            name or "",
+            source or "",
+            accession or "",
+        )
     return mhd_domain.CvTermValueObject(
         type_=type_,
         name=name,
