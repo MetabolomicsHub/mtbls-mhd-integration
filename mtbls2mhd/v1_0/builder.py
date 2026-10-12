@@ -36,7 +36,8 @@ from mhd_model.shared.base import ConfigDict, CvTerm, KeyValue, Revision, UnitCv
 from mhd_model.shared.dataset_builder import BaseMhDatasetProfile, MhDatasetBuilder
 from mhd_model.shared.fields import DOI
 from mhd_model.shared.model import BaseMhdDataset, IdentifiableMhdModel
-from mhd_model.shared.validation.cv_term_helper import BaseCvTermHelper, CvTermHelper
+from mhd_model.shared.validation.cv_term_helper import BaseCvTermHelper
+from mhd_model.validation import select_cv_term_helper
 from pydantic import BaseModel, HttpUrl, InstanceOf, ValidationError
 
 from mtbls2mhd.commands.output_paths import resolve_output_file_path
@@ -54,8 +55,6 @@ from mtbls2mhd.v1_0.cv_term_creator import OntologyCacheService, OntologyTermCre
 
 logger = logging.getLogger(__name__)
 
-_cv_term_helper: BaseCvTermHelper = CvTermHelper()
-
 
 def get_urn(
     dataset_id: str,
@@ -71,10 +70,6 @@ def get_urn(
         node_class=node_class,
         identifier=identifier,
     )
-
-
-def get_cv_term_helper() -> BaseCvTermHelper:
-    return _cv_term_helper
 
 
 class ParameterDefinitionSummary(BaseModel):
@@ -227,7 +222,12 @@ class MhdDatasetBuilder_v1_0:
         self.config = config
         self.ontology_cache_service = ontology_cache_service or OntologyCacheService()
 
-        self.cv_term_helper = cv_term_helper or get_cv_term_helper()
+        self.cv_term_helper = cv_term_helper
+        if not self.cv_term_helper:
+            self.cv_term_helper = select_cv_term_helper(
+                db_path=self.config.ontology_lookup_db_path
+            )
+
         self.otc = OntologyTermCreator(
             self.ontology_cache_service,
             cv_term_helper=self.cv_term_helper,

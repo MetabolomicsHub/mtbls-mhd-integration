@@ -12,14 +12,11 @@ from mhd_model.model.definitions import (
     MHD_MODEL_V0_1_DEFAULT_SCHEMA_NAME,
     MHD_MODEL_V0_1_LEGACY_PROFILE_NAME,
 )
-from mhd_model.shared.validation.ontology_lookup_cv_term_helper import (
-    OntologyLookupCvTermHelper,
-)
+from mhd_model.validation import select_cv_term_helper
 
 from mtbls2mhd.commands.fetch_mtbls_study import fetch_mtbls_data
 from mtbls2mhd.config import ConfigurationFile, Mtbls2MhdConfiguration
 from mtbls2mhd.convertor_factory import Mtbls2MhdConvertorFactory
-from mtbls2mhd.v1_0.builder import get_cv_term_helper
 
 logger = logging.getLogger(__name__)
 
@@ -99,10 +96,8 @@ def create_mhd_file_task(
     """
 
     ontology_cache_service = None
-    if ontology_lookup_db_path:
-        cv_term_helper = OntologyLookupCvTermHelper(db_path=ontology_lookup_db_path)
-    else:
-        cv_term_helper = get_cv_term_helper()
+
+    cv_term_helper = select_cv_term_helper(db_path=ontology_lookup_db_path)
 
     config: ConfigurationFile = None
     if not config_file:
@@ -136,6 +131,7 @@ def create_mhd_file_task(
         mtbls_auth_realm_name=config.auth.realm_name,
         mtbls_auth_client_id=config.auth.client_id,
         mtbls_auth_client_secret=config.auth.client_secret,
+        ontology_lookup_db_path=ontology_lookup_db_path,
     )
     convertor = factory.get_convertor(
         target_mhd_model_schema_uri=schema_uri,
