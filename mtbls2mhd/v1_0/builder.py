@@ -1,16 +1,18 @@
-import csv
+from __future__ import annotations
+
 import datetime
+import hashlib
 import json
 import logging
 import re
-from importlib import resources
 from pathlib import Path
 from typing import OrderedDict
 
+from bs4 import BeautifulSoup
+from metabolights_utils.models.isa import investigation_file
 from metabolights_utils.models.isa.assay_file import AssayFile
-from metabolights_utils.models.isa.common import IsaTableColumn
+from metabolights_utils.models.isa.common import IsaTableColumn, IsaTableFile
 from metabolights_utils.models.isa.enums import ColumnsStructure
-from metabolights_utils.models.isa.investigation_file import Assay, Study
 from metabolights_utils.models.isa.samples_file import SamplesFile
 from metabolights_utils.models.metabolights.model import (
     MetabolightsStudyModel,
@@ -25,28 +27,18 @@ from mhd_model.model.v1_0.dataset.profiles.base.profile import (
 )
 from mhd_model.model.v1_0.dataset.profiles.base.relationships import Relationship
 from mhd_model.model.v1_0.rules.managed_cv_terms import (
-    COMMON_ASSAY_TYPES,
-    COMMON_CHARACTERISTIC_DEFINITIONS,
-    COMMON_MEASUREMENT_TYPES,
     COMMON_MISSING_DATA_TERMS,
     COMMON_MOLECULAR_ENTITY_IDENTIFIERS,
     COMMON_OMICS_TYPES,
-    COMMON_PARAMETER_DEFINITIONS,
-    COMMON_PROTOCOLS,
     COMMON_STUDY_FACTOR_DEFINITIONS,
-    COMMON_TECHNOLOGY_TYPES,
-    PREDEFINED_CV_TERMS,
 )
-from mhd_model.shared.base import CvTerm, KeyValue, Revision, UnitCvTerm
+from mhd_model.shared.base import ConfigDict, CvTerm, KeyValue, Revision, UnitCvTerm
 from mhd_model.shared.dataset_builder import BaseMhDatasetProfile, MhDatasetBuilder
 from mhd_model.shared.fields import DOI
 from mhd_model.shared.model import BaseMhdDataset, IdentifiableMhdModel
-from mhd_model.shared.validation.cv_term_helper import (
-    CvTermHelper,
-)
+from mhd_model.shared.validation.cv_term_helper import BaseCvTermHelper, CvTermHelper
 from pydantic import BaseModel, HttpUrl, InstanceOf, ValidationError
 
-import mtbls2mhd
 from mtbls2mhd.commands.output_paths import resolve_output_file_path
 from mtbls2mhd.config import BuildType, Mtbls2MhdConfiguration
 from mtbls2mhd.user_profile_utils import update_submitter_user_from_keycloak
@@ -57,14 +49,12 @@ from mtbls2mhd.utils.db_metadata_collector import (
 from mtbls2mhd.utils.folder_metadata_collector import (
     LocalFolderMetadataCollector,
 )
+from mtbls2mhd.v1_0 import definitions as mtbls_definitions
 from mtbls2mhd.v1_0.cv_term_creator import OntologyCacheService, OntologyTermCreator
 
 logger = logging.getLogger(__name__)
 
-REPOSITORY_NAME = "MetaboLights"
-RAW_FILE_EXCEPTIONS = {".mzml", ".imzml", ".mzmlb", ".mzxml", ".cdf"}
-
-_cv_term_helper: CvTermHelper = CvTermHelper()
+_cv_term_helper: BaseCvTermHelper = CvTermHelper()
 
 
 def get_urn(
@@ -83,401 +73,146 @@ def get_urn(
     )
 
 
-def get_cv_term_helper() -> CvTermHelper:
-    # global _cv_term_helper
+def get_cv_term_helper() -> BaseCvTermHelper:
     return _cv_term_helper
 
 
-_mtbls_term_mappings: dict[str, dict[str, CvTerm]] | None = None
-
-
-def get_mtbls_terms_mapping() -> dict[str, dict[str, CvTerm]]:
-    """loads MTBLS term 2 MS ontology term mappings file
-
-    Returns:
-        dict[str, dict[str, CvTerm]]: dictionary of MTBLS term name (lowercase)
-        to a CvTerm object grouped by MHD common parameter definition
-    """
-    global _mtbls_term_mappings
-    if _mtbls_term_mappings:
-        return _mtbls_term_mappings
-    with (
-        resources.files(mtbls2mhd.__name__)
-        .joinpath("cv_mapping_table.csv")
-        .open("r", encoding="utf-8") as f
-    ):
-        # MAP TO MHD common parameter/characteristic definition
-        definition_mappings = {
-            "mass spectrometry instrument": "mass spectrometry instrument",
-            "liquid chromatography instrument": "chromatography instrument",
-            "gas chromatography instrument": "chromatography instrument",
-            "ionization type": "ionization type",
-            "chromatography separation": "chromatography separation",
-            "inlet type": "inlet type",
-            "acquisition polarity": "acquisition polarity",
-            # TODO: Define mappings for the following parameters.
-            # "Ionization polarity": "ionization polarity",
-            # "Instrument class": "instrument class",
-            # "Chromatography column": "chromatography column?",
-            "organism": "organism",
-            "organism part": "organism part",
-            "cell type": "cell type",
-            "disease": "disease",
-        }
-        # Column names and their index in the cv_mappings.csv file.
-        HEADERS = {
-            "REF_ACCESSION": 0,
-            "REF_TERM": 1,
-            "MTBLS_CV_NAMES": 1,
-            "MTBLS_CV_NAMES2": 2,
-            "MTBLS_CV_NAMES3": 3,
-            "INSTANCE": 5,
-        }
-
-        reader = csv.reader(f)
-        mtbls_term_mappings = {}
-        for idx, row in enumerate(reader):
-            if idx == 0:
-                continue
-            accession = row[HEADERS["REF_ACCESSION"]].replace("_", ":")
-            source = accession.split(":")[0]
-            term = row[HEADERS["REF_TERM"]]
-            mtbls_cv_names_set: set[str] = set()
-            for x in ["MTBLS_CV_NAMES", "MTBLS_CV_NAMES2", "MTBLS_CV_NAMES3"]:
-                mtbls_cv_names_set.update(
-                    {
-                        name.strip().lower().split(":")[1]
-                        if ":" in name
-                        else name.strip().lower()
-                        for name in row[HEADERS[x]].split(";")
-                        if name and name.strip()
-                    }
-                )
-            # mtbls_cv_names = list(mtbls_cv_names_set)
-            instance = row[HEADERS["INSTANCE"]]
-            if not mtbls_cv_names_set or not term or not accession:
-                continue
-            if not instance:
-                logger.warning(
-                    "MTBLS term mapping file row %s with accession %s and term '%s' "
-                    "does not have an instance value. Row will be ignored.",
-                    idx + 1,
-                    accession,
-                    term,
-                )
-                continue
-            definition = definition_mappings.get(instance.lower())
-            if definition not in mtbls_term_mappings:
-                mtbls_term_mappings[definition] = {}
-            for mtbls_cv_name in mtbls_cv_names_set:
-                mtbls_term_mappings[definition][mtbls_cv_name.lower()] = CvTerm(
-                    source=source,
-                    accession=accession,
-                    name=term,
-                )
-    _mtbls_term_mappings = mtbls_term_mappings
-    return _mtbls_term_mappings
-
-
-## MTBLS RELATED CONFIGURATION ###
-##############################################################################################################
-MTBLS_ASSAY_TYPES = {
-    "LC-MS": COMMON_ASSAY_TYPES["lc-ms"],
-    "GC-MS": COMMON_ASSAY_TYPES["gc-ms"],
-    "CE-MS": COMMON_ASSAY_TYPES["ce-ms"],
-    "GCxGC-MS": COMMON_ASSAY_TYPES["gc-ms"],
-    "FIA-MS": COMMON_ASSAY_TYPES["ms"],
-    "MALDI-MS": COMMON_ASSAY_TYPES["ms"],
-    "DI-MS": COMMON_ASSAY_TYPES["ms"],
-    "MS": COMMON_ASSAY_TYPES["ms"],
-}
-MTBLS_MEASUREMENT_TYPES = {
-    "targeted": COMMON_MEASUREMENT_TYPES["targeted"],
-    "untargeted": COMMON_MEASUREMENT_TYPES["untargeted"],
-    "semi-targeted": COMMON_MEASUREMENT_TYPES["semi-targeted"],
-}
-
-MTBLS_TECHNOLOGY_TYPES = {
-    "mass spectrometry": COMMON_TECHNOLOGY_TYPES["mass spectrometry assay"],
-    "mass spectrometry assay": COMMON_TECHNOLOGY_TYPES["mass spectrometry assay"],
-}
-
-DEFAULT_MEASUREMENT_TYPE = COMMON_MEASUREMENT_TYPES["untargeted"]
-
-DEFAULT_OMICS_TYPE = COMMON_OMICS_TYPES["metabolomics"]
-
-COMMON_PROTOCOLS_MAP = {
-    "mass spectrometry": COMMON_PROTOCOLS["mass spectrometry"],
-    "chromatography": COMMON_PROTOCOLS["chromatography"],
-    "sample collection": COMMON_PROTOCOLS["sample collection"],
-    "extraction": COMMON_PROTOCOLS["sample preparation"],
-    "treatment": COMMON_PROTOCOLS["treatment"],
-}
-
-MTBLS_PROTOCOLS_MAP = COMMON_PROTOCOLS_MAP.copy()
-
-MTBLS_PROTOCOLS_MAP.update(
-    {
-        "direct infusion": CvTerm(
-            source="MS",
-            accession="MS:1000060",
-            name="infusion",
-        ),
-        "data transformation": CvTerm(
-            source="OBI",
-            accession="OBI:0200000",
-            name="data transformation",
-        ),
-        "metabolite identification": CvTerm(
-            source="MI",
-            accession="MI:2131",
-            name="metabolite identification",
-        ),
-        "flow injection analysis": CvTerm(
-            source="CHMO",
-            accession="CHMO:0002891",
-            name="flow-injection analysis",
-        ),
-        "capillary electrophoresis": CvTerm(
-            source="CHMO",
-            accession="CHMO:0001024",
-            name="capillary electrophoresis",
-        ),
-    }
-)
-MANAGED_CHARACTERISTICS_MAP = {
-    "organism": COMMON_CHARACTERISTIC_DEFINITIONS["organism"],
-    "organism part": COMMON_CHARACTERISTIC_DEFINITIONS["organism part"],
-    "disease": COMMON_CHARACTERISTIC_DEFINITIONS["disease"],
-    "cell type": COMMON_CHARACTERISTIC_DEFINITIONS["cell type"],
-    # "geographic location": COMMON_CHARACTERISTIC_DEFINITIONS["GAZ:00000448"],
-}
-
-MTBLS_CHARACTERISTICS_MAP: dict[str, CvTerm] = MANAGED_CHARACTERISTICS_MAP.copy()
-MTBLS_CHARACTERISTICS_MAP.update(
-    {
-        "sample type": CvTerm(
-            source="NCIT", accession="NCIT:C210102", name="Sample Type"
-        ),
-        "variant": CvTerm(source="ENVO", accession="PATO:0001227", name="variant"),
-        "phenotype": CvTerm(source="EFO", accession="EFO:0000651", name="phenotype"),
-        "cell line": CvTerm(source="CLO", accession="CLO:0000031", name="cell line"),
-    }
-)
-
-MANAGED_STUDY_FACTOR_MAP = {
-    "disease": COMMON_STUDY_FACTOR_DEFINITIONS["disease"],
-    "treatment": CvTerm(source="EFO", accession="EFO:0000727", name="treatment"),
-}
-MTBLS_STUDY_FACTOR_MAP = MANAGED_STUDY_FACTOR_MAP.copy()
-MTBLS_STUDY_FACTOR_MAP.update({})
-
-
-COMMON_PROTOCOL_PARAMETER_VALUE_MAP = {
-    "mass spectrometry": {
-        "instrument": COMMON_PARAMETER_DEFINITIONS["mass spectrometry instrument"],
-        "scan polarity": COMMON_PARAMETER_DEFINITIONS["acquisition polarity"],
-        "ion source": COMMON_PARAMETER_DEFINITIONS["ionization type"],
-        "mass analyzer": COMMON_PARAMETER_DEFINITIONS["instrument class"],
-        # "Inlet type": COMMON_PARAMETER_DEFINITIONS["inlet type"],
-    },
-    "chromatography": {
-        "chromatography instrument": COMMON_PARAMETER_DEFINITIONS[
-            "chromatography instrument"
-        ],
-        "column model": COMMON_PARAMETER_DEFINITIONS["chromatography column"],
-        "column type": COMMON_PARAMETER_DEFINITIONS["chromatography separation"],
-        # "Solvent": COMMON_PARAMETER_DEFINITIONS["solvent"],
-        # "Chromatographic additive": COMMON_PARAMETER_DEFINITIONS["chromatographic additive"],
-    },
-    "capillary electrophoresis": {
-        "column model": COMMON_PARAMETER_DEFINITIONS["chromatography column"],
-        "column type": COMMON_PARAMETER_DEFINITIONS["chromatography separation"],
-        # "Solvent": COMMON_PARAMETER_DEFINITIONS["solvent"],
-        # "Chromatographic additive": COMMON_PARAMETER_DEFINITIONS["chromatographic additive"],
-    },
-}
-ALL_COMMON_PROTOCOL_PARAMETERS = {}
-for items in COMMON_PROTOCOL_PARAMETER_VALUE_MAP.values():
-    for name, term in items.items():
-        ALL_COMMON_PROTOCOL_PARAMETERS[name] = term
-
-MTBLS_PROTOCOL_PARAMETER_DEFINITION_MAP: dict[str, dict[str, CvTerm]] = {}
-
-MTBLS_PROTOCOL_PARAMETER_DEFINITION_MAP.update(
-    {
-        "mass spectrometry": {
-            **COMMON_PROTOCOL_PARAMETER_VALUE_MAP["mass spectrometry"],
-            # "scan m/z range": COMMON_PARAMETER_DEFINITIONS["MTBLS:50020"],
-            # "fia instrument": COMMON_PARAMETER_DEFINITIONS["MTBLS:50021"],
-        },
-        "chromatography": {
-            **COMMON_PROTOCOL_PARAMETER_VALUE_MAP["chromatography"],
-            # "guard column": COMMON_PARAMETER_DEFINITIONS["MTBLS:50003"],
-            # "autosampler model": COMMON_PARAMETER_DEFINITIONS["MTBLS:50004"],
-        },
-        "capillary electrophoresis": {
-            "ce instrument": CvTerm(
-                source="OBI",
-                accession="OBI:0001132",
-                name="capillary electrophoresis instrument",
-            ),
-            **COMMON_PROTOCOL_PARAMETER_VALUE_MAP["capillary electrophoresis"],
-        },
-        "extraction": {
-            # "post extraction": COMMON_PARAMETER_DEFINITIONS["MTBLS:50010"],
-            # "derivatization": COMMON_PARAMETER_DEFINITIONS["MTBLS:50011"],
-        },
-    }
-)
-
-
-FILE_EXTENSIONS: dict[tuple[str, bool], CvTerm] = {
-    # --- Raw file formats ---
-    # baf, cmp, d, dat, fid, hr, ibd, jpf, lcd, ms, peg, qgd, raw, ser,
-    # wiff + wiff.scan, smp
-    (".baf", False): CvTerm(
-        source="MS", accession="MS:1000815", name="Bruker BAF format"
-    ),
-    (".d", True): CvTerm(
-        source="MS", accession="MS:1002302", name="Bruker Container format"
-    ),
-    (".fid", False): CvTerm(
-        source="MS", accession="MS:1000825", name="Bruker FID format"
-    ),
-    (".ibd", False): CvTerm(
-        source="EDAM", accession="EDAM:format_3839", name="ibd"
-    ),  # imaging MS binary; no MS ontology equivalent
-    (".lcd", False): CvTerm(
-        source="MS", accession="MS:1003009", name="Shimadzu Biotech LCD format"
-    ),
-    (".ms", False): CvTerm(
-        source="MS", accession="MS:1001509", name="Agilent MassHunter format"
-    ),
-    (".qgd", False): CvTerm(
-        source="MS", accession="MS:1000930", name="Shimadzu Biotech database entity"
-    ),
-    (".raw", False): CvTerm(
-        source="MS", accession="MS:1000563", name="Thermo RAW format"
-    ),
-    (".raw", True): CvTerm(
-        source="MS", accession="MS:1000526", name="Waters raw format"
-    ),
-    (".wiff", False): CvTerm(
-        source="MS", accession="MS:1000562", name="ABI WIFF format"
-    ),
-    (".wiff.scan", False): CvTerm(
-        source="MS", accession="MS:1000562", name="ABI WIFF format"
-    ),  # .wiff.scan companion; Path.suffix returns ".scan"
-    # placeholder: pending ontology PR
-    # (".cmp", False): CvTerm(
-    #     source="MS", accession="MS:1000560", name="mass spectrometer file format"
-    # ),
-    # (".dat", False): CvTerm(
-    #     source="MS", accession="MS:1000560", name="mass spectrometer file format"
-    # ),
-    # (".hr", False): CvTerm(
-    #     source="MS", accession="MS:1000560", name="mass spectrometer file format"
-    # ),
-    # (".jpf", False): CvTerm(
-    #     source="MS",
-    #     accession="MS:1000560",
-    #     name="mass spectrometer file format",
-    #     # JEOL Systems binary data format
-    # ),
-    # (".peg", False): CvTerm(
-    #     source="MS",
-    #     accession="MS:1000560",
-    #     name="mass spectrometer file format",
-    #     # LECO Pegasus data format
-    # ),
-    # (".smp", False): CvTerm(
-    #     source="MS", accession="MS:1000560", name="mass spectrometer file format"
-    # ),
-    # --- Derived file formats ---
-    # cdf, cef, cnx, dx, imzml, mgf, msp, mzml, mzPeak, mzxml, peakml, xlsx, xy
-    (".cdf", False): CvTerm(source="MS", accession="MS:1002441", name="Andi-MS format"),
-    (".dx", False): CvTerm(
-        source="EDAM", accession="EDAM:format_3859", name="JCAMP-DX"
-    ),
-    (".imzml", False): CvTerm(source="MS", accession="MS:1003611", name="imzML format"),
-    (".mgf", False): CvTerm(
-        source="MS", accession="MS:1001062", name="Mascot MGF format"
-    ),
-    (".msp", False): CvTerm(source="EDAM", accession="EDAM:format_4039", name="MSP"),
-    (".mzdata", False): CvTerm(
-        source="MS", accession="MS:1000564", name="PSI mzData format"
-    ),
-    (".mzml", False): CvTerm(source="MS", accession="MS:1000584", name="mzML format"),
-    (".mzpeak", False): CvTerm(
-        source="MS", accession="MS:1003610", name="mzPeak format"
-    ),
-    (".mzxml", False): CvTerm(
-        source="MS", accession="MS:1000566", name="ISB mzXML format"
-    ),
-    (".xlsx", False): CvTerm(source="EDAM", accession="EDAM:format_3620", name="xlsx"),
-    # placeholder: pending ontology PR
-    # (".cef", False): CvTerm(
-    #     source="EDAM",
-    #     accession="EDAM:format_3245",
-    #     name="Mass spectrometry data format",
-    # ),
-    # (".peakml", False): CvTerm(
-    #     source="EDAM",
-    #     accession="EDAM:format_3245",
-    #     name="Mass spectrometry data format",
-    # ),
-    # (".xy", False): CvTerm(
-    #     source="EDAM",
-    #     accession="EDAM:format_3245",
-    #     name="Mass spectrometry data format",
-    # ),
-    (".csv", False): CvTerm(source="EDAM", accession="EDAM:format_3752", name="CSV"),
-    (".xml", False): CvTerm(source="EDAM", accession="EDAM:format_2332", name="XML"),
-}
-
-# DEFAULT_RAW_DATA_FILE_FORMAT = CvTerm(
-#     source="EDAM", accession="EDAM:3245", name="Mass spectrometry data format"
-# )
-
-# DEFAULT_DERIVED_DATA_FILE_FORMAT = CvTerm(
-#     source="EDAM", accession="EDAM:3245", name="Mass spectrometry data format"
-# )
-MTBLS_CV_TERM_MAPPINGS: dict[str, CvTerm] = {}
-for map_val in get_mtbls_terms_mapping().values():
-    MTBLS_CV_TERM_MAPPINGS.update({x.accession.lower(): x for x in map_val.values()})
-
-MTBLS_PROTOCOL_PARAMETERS_MAPPINGS: dict[str, CvTerm] = {}
-for map_val in MTBLS_PROTOCOL_PARAMETER_DEFINITION_MAP.values():
-    MTBLS_PROTOCOL_PARAMETERS_MAPPINGS.update(
-        {x.accession.lower(): x for x in map_val.values()}
-    )
-DEFAULT_TERMS: dict[str, CvTerm] = {}
-
-for mtbls_default_term_map in [
-    PREDEFINED_CV_TERMS,
-    MTBLS_ASSAY_TYPES,
-    MTBLS_MEASUREMENT_TYPES,
-    MTBLS_TECHNOLOGY_TYPES,
-    FILE_EXTENSIONS,
-    MTBLS_PROTOCOLS_MAP,
-    MTBLS_CV_TERM_MAPPINGS,
-    MTBLS_CHARACTERISTICS_MAP,
-    MTBLS_STUDY_FACTOR_MAP,
-    ALL_COMMON_PROTOCOL_PARAMETERS,
-]:
-    DEFAULT_TERMS.update(
-        {x.accession.lower(): x for x in mtbls_default_term_map.values()}
-    )
+class ParameterDefinitionSummary(BaseModel):
+    index: None | int = None
+    isa_parameter: None | investigation_file.ParameterDefinition = None
+    cv_term: None | CvTerm = None
+    definition_node: None | mhd_domain.ParameterDefinition = None
+    definition_type: None | mhd_domain.CvTermObject = None
 
 
 class ProtocolRunSummary(BaseModel):
     protocol_name: str = ""
-    protocol: None | mhd_domain.Protocol = None
-    column: None | IsaTableColumn = None
+    assay_protocol: None | AssayProtocolSummary = None
     sample_run_configurations: OrderedDict[str, mhd_domain.SampleRunConfiguration] = (
         OrderedDict()
     )
+
+
+class SampleRunSummary(BaseModel):
+    index: None | int = None
+    sample_name: None | str = None
+    run_name: None | str = None
+    assay_summary: None | AssaySummary = None
+    sample_summary: None | SampleSummary = None
+    node: None | mhd_domain.SampleRunConfiguration = None
+    sample_run_configurations: list[SampleRunConfigurationSummary] = []
+    raw_data_files: dict[str, DataFileSummary] = {}
+    derived_data_files: dict[str, DataFileSummary] = {}
+    result_files: dict[str, AssignmentFileSummary] = {}
+
+
+class SampleRunConfigurationSummary(BaseModel):
+    first_row_index: None | int = None
+    first_assay_summary: None | AssaySummary = None
+    key: None | str = None
+    node: None | mhd_domain.SampleRunConfiguration = None
+    protocol_summary: None | ProtocolSummary = None
+    parameter_values: dict[
+        str, mhd_domain.CvTermObject | mhd_domain.CvTermValueObject
+    ] = {}
+
+
+class ProtocolSummary(BaseModel):
+    index: None | int = None
+    isa_protocol: None | investigation_file.Protocol = None
+    protocol_name: str = ""
+    protocol_node: None | mhd_domain.Protocol = None
+    column: None | IsaTableColumn = None
+    protocol_type_node: None | mhd_domain.CvTermObject = None
+    protocol_type: None | CvTerm = None
+    parameter_definitions: dict[str, ParameterDefinitionSummary] = {}
+    parameters: None | list[str] = []
+    protocol_configs: dict[str, SampleRunConfigurationSummary] = {}
+
+
+class AssayProtocolSummary(BaseModel):
+    index: None | int = None
+    column: None | IsaTableColumn = None
+    name: None | str = None
+    assay_summary: None | AssaySummary = None
+    protocol_summary: None | ProtocolSummary = None
+
+
+class StudyFactorSummary(BaseModel):
+    index: None | int = None
+
+
+class DescriptorSummary(BaseModel):
+    index: None | int = None
+
+
+class SampleSummary(BaseModel):
+    index: None | int = None
+    name: None | str = None
+    sample_node: None | mhd_domain.Sample = None
+    subject_nodes: None | list[mhd_domain.Subject] = None
+
+
+class AssignmentFileSummary(BaseModel):
+    index: None | int = None
+    name: None | str = None
+    file_node: mhd_domain.ResultFile = None
+    isa_file_content: None | IsaTableFile = None
+
+
+class MetadataFileSummary(BaseModel):
+    index: None | int = None
+    name: None | str = None
+    file_node: mhd_domain.MetadataFile = None
+    isa_file_content: None | IsaTableFile | investigation_file.Investigation = None
+
+
+class DataFileSummary(BaseModel):
+    index: None | int = None
+    name: None | str = None
+    file_node: (
+        None
+        | mhd_domain.RawDataFile
+        | mhd_domain.DerivedDataFile
+        | mhd_domain.SupplementaryFile
+    ) = None
+    raw_file: bool = False
+
+
+class AssaySummary(BaseModel):
+    index: None | int = None
+    name: None | str = None
+    isa_assay: None | investigation_file.Assay = None
+    protocols: None | list[AssayProtocolSummary] = []
+    assay_node: None | mhd_domain.Assay = None
+    isa_file_content: None | AssayFile = None
+    sample_runs: dict[str, SampleRunSummary] = {}
+    assignment_files: list[AssignmentFileSummary] = []
+    raw_data_files: list[DataFileSummary] = []
+    derived_data_files: list[DataFileSummary] = []
+
+
+class StudySummary(BaseModel):
+    isa_study: None | investigation_file.Study = None
+    study_node: None | mhd_domain.Study = None
+    protocols: list[ProtocolSummary] = []
+    assays: list[AssaySummary] = []
+    assignment_files: list[AssignmentFileSummary] = []
+    factors: list[StudyFactorSummary] = []
+    design_descriptors: list[DescriptorSummary] = []
+    metadata_files: dict[str, MetadataFileSummary] = {}
+    raw_data_files: dict[str, DataFileSummary] = {}
+    derived_data_files: dict[str, DataFileSummary] = {}
+    supplementary_data_files: dict[str, DataFileSummary] = {}
+    samples: dict[str, SampleSummary] = {}
+
+
+class DatasetBuildContext(BaseModel):
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+    study_id: str
+    study: None | StudySummary = None
+    data: None | MetabolightsStudyModel = None
+    mhd_builder: None | MhDatasetBuilder = None
 
 
 class MhdDatasetBuilder_v1_0:
@@ -485,16 +220,18 @@ class MhdDatasetBuilder_v1_0:
         self,
         config: Mtbls2MhdConfiguration,
         ontology_cache_service: None | OntologyCacheService = None,
+        cv_term_helper: None | BaseCvTermHelper = None,
         min_affiliation_length: int = 2,
         **kwargs,
     ):
-        # global _cv_term_helper
         self.config = config
         self.ontology_cache_service = ontology_cache_service or OntologyCacheService()
+
+        self.cv_term_helper = cv_term_helper or get_cv_term_helper()
         self.otc = OntologyTermCreator(
             self.ontology_cache_service,
-            cv_term_helper=get_cv_term_helper(),
-            default_terms=DEFAULT_TERMS,
+            cv_term_helper=self.cv_term_helper,
+            default_terms=mtbls_definitions.DEFAULT_TERMS,
         )
         self.min_affiliation_length = min_affiliation_length
 
@@ -521,13 +258,12 @@ class MhdDatasetBuilder_v1_0:
         result = f"{source_ref}:{uri}"
         return result
 
-    def add_contacts(
-        self,
-        data: MetabolightsStudyModel,
-        mhd_builder: MhDatasetBuilder,
-        mhd_study: mhd_domain.Study,
-    ):
-        study_id = mhd_study.repository_identifier
+    def add_contacts(self, context: DatasetBuildContext):
+        study_id = context.study_id
+        data = context.data
+        mhd_builder = context.mhd_builder
+        mhd_study = context.study.study_node
+        study = data.investigation.studies[0]
 
         organizations = {}
         if self.config.build_type == BuildType.MINIMUM:
@@ -536,6 +272,7 @@ class MhdDatasetBuilder_v1_0:
                 for submitter in data.study_db_metadata.submitters:
                     mhd_contact = mhd_domain.Person(
                         uri=get_urn(study_id, mhd_domain.Person, submitter.user_name),
+                        orcid=submitter.orcid or None,
                         full_name=" ".join(
                             [
                                 x if len(x) > 1 else f"{x}."
@@ -547,6 +284,7 @@ class MhdDatasetBuilder_v1_0:
                             ]
                         ),
                         email_list=[submitter.user_name],
+                        address_list=[submitter.address] if submitter.address else None,
                     )
                     mhd_builder.add(mhd_contact)
                     mhd_builder.link(
@@ -556,10 +294,9 @@ class MhdDatasetBuilder_v1_0:
                         reverse_relationship_name="submitted-by",
                     )
         else:
-            study = data.investigation.studies[0]
             contacts: dict[str, mhd_domain.Person] = {}
             contributers = {}
-            for idx, contact in enumerate(study.study_contacts.people, start=1):
+            for contact_idx, contact in enumerate(study.study_contacts.people, start=1):
                 mhd_contact = None
                 fullname = " ".join(
                     [
@@ -573,20 +310,22 @@ class MhdDatasetBuilder_v1_0:
                     ]
                 )
                 try:
+                    email_list = [contact.email] if contact.email else []
+                    if contact.additional_emails:
+                        email_list.extend(contact.additional_emails)
                     mhd_contact = mhd_domain.Person(
-                        uri=get_urn(
-                            study_id, mhd_domain.Person, contact.email or fullname
-                        ),
+                        uri=get_urn(study_id, mhd_domain.Person, f"{contact_idx:03}"),
                         full_name=fullname,
-                        email_list=[contact.email] if contact.email else None,
+                        email_list=email_list or None,
+                        orcid=contact.orcid or None,
                         address_list=[contact.address] if contact.address else None,
                         phone_list=[contact.phone] if contact.phone else None,
                     )
                 except ValidationError as e:
                     logger.error(
-                        "%s study %s. contact email format is not valid. Contact will be ignored. '%s' %s",
+                        "%s study %s. contact email or orcid format is not valid. Contact will be ignored. '%s' %s",
                         mhd_study.repository_identifier,
-                        idx,
+                        contact_idx,
                         contact.email,
                         e,
                     )
@@ -596,19 +335,21 @@ class MhdDatasetBuilder_v1_0:
                     logger.warning(
                         "%s study %s. contact's name is empty",
                         mhd_study.repository_identifier,
-                        idx,
+                        contact_idx,
                     )
                     continue
                 if contact.additional_emails:
                     if mhd_contact.email_list:
-                        mhd_contact.email_list.extend(contact.additional_emails)
+                        mhd_contact.email_list.extend(
+                            [x for x in contact.additional_emails if x]
+                        )
                     else:
                         mhd_contact.email_list = contact.additional_emails
                 if not mhd_contact.email_list:
                     logger.warning(
                         "%s study %s. contact's ('%s') email is empty. Contact will be ignored.",
                         mhd_study.repository_identifier,
-                        idx,
+                        contact_idx,
                         mhd_contact.full_name,
                     )
                     # continue
@@ -645,6 +386,17 @@ class MhdDatasetBuilder_v1_0:
 
                 affiliation = contact.affiliation or None
                 organization = None
+                ror_id = contact.affiliation_ror_id or ""
+                if ror_id:
+                    term, _ = self.cv_term_helper.find_cv_term_with_accession(
+                        "ror", ror_id
+                    )
+                    if term:
+                        affiliation = term.name
+                    ror_id = term.accession if term else None
+                    if ror_id and not ror_id.startswith(("http://", "https://")):
+                        ror_id = self.cv_term_helper.get_uri(term)
+
                 if not affiliation:
                     continue
                 if len(affiliation) < self.min_affiliation_length:
@@ -654,10 +406,12 @@ class MhdDatasetBuilder_v1_0:
                         affiliation,
                     )
                     continue
+
                 if affiliation not in organizations:
                     organization = mhd_domain.Organization(
                         uri=get_urn(study_id, mhd_domain.Organization, affiliation),
                         name=affiliation,
+                        ror_id=ror_id or None,
                         address=contact.address if contact.address else None,
                     )
                     mhd_builder.add(organization)
@@ -673,6 +427,19 @@ class MhdDatasetBuilder_v1_0:
                 for submitter in data.study_db_metadata.submitters:
                     if submitter.user_name not in contacts:
                         affiliation = submitter.affiliation or None
+                        ror_id = submitter.affiliation_ror_id or None
+                        if ror_id:
+                            term, _ = self.cv_term_helper.find_cv_term_with_accession(
+                                "ror", ror_id
+                            )
+                            if term:
+                                affiliation = term.name
+                            ror_id = term.accession if term else None
+                            if ror_id and not ror_id.startswith(
+                                ("http://", "https://")
+                            ):
+                                ror_id = self.cv_term_helper.get_uri(term)
+                        address = submitter.address or None
                         organization = None
                         if not affiliation or len(affiliation) < 2:
                             continue
@@ -682,6 +449,8 @@ class MhdDatasetBuilder_v1_0:
                                     study_id, mhd_domain.Organization, affiliation
                                 ),
                                 name=affiliation,
+                                ror_id=ror_id,
+                                address=address,
                             )
                             mhd_builder.add(organization)
                             organizations[affiliation] = organization
@@ -713,7 +482,7 @@ class MhdDatasetBuilder_v1_0:
                             address_list=[submitter.address]
                             if submitter.address
                             else None,
-                            orcid=orcid,
+                            orcid=orcid or None,
                         )
                         mhd_builder.add(mhd_contact)
                         if organization:
@@ -748,46 +517,31 @@ class MhdDatasetBuilder_v1_0:
 
     def add_funders(
         self,
-        data: MetabolightsStudyModel,
-        mhd_builder: MhDatasetBuilder,
-        mhd_study: mhd_domain.Study,
+        context: DatasetBuildContext,
         organizations: dict[str, mhd_domain.Organization],
     ):
+        study_id = context.study_id
+        data = context.data
+        mhd_builder = context.mhd_builder
+        mhd_study = context.study.study_node
         if self.config.build_type == BuildType.MINIMUM:
             return
-        study: Study = data.investigation.studies[0]
+        study: investigation_file.Study = data.investigation.studies[0]
         study_id = study.identifier
         comments = {x.name: x for x in study.comments if x and x.name}
         grant_ids = []
+        funders = []
+        funder_ror_ids = []
         if comments.get("Funder") and comments["Funder"].value:
             if isinstance(comments["Funder"].value, str):
                 funders = comments["Funder"].value.split(";") or []
             else:
                 funders = comments["Funder"].value[0].split(";") or []
-            for funder in funders:
-                if not funder or len(funder or "") < self.min_affiliation_length:
-                    logger.warning(
-                        "Funder will be skipped for %s. "
-                        "Its min length does not comply with MHD requirements %s",
-                        study_id,
-                        funder,
-                    )
-                    continue
-
-                organization = organizations.get(funder)
-                if not organization and funder:
-                    organization = mhd_domain.Organization(
-                        uri=get_urn(study_id, mhd_domain.Organization, funder),
-                        name=funder,
-                    )
-                    mhd_builder.add(organization)
-                    organizations[funder] = organization
-                mhd_builder.link(
-                    mhd_study,
-                    "funded-by",
-                    organization,
-                    reverse_relationship_name="funds",
-                )
+        if comments.get("Funder ROR ID") and comments["Funder ROR ID"].value:
+            if isinstance(comments["Funder ROR ID"].value, str):
+                funder_ror_ids = comments["Funder ROR ID"].value.split(";") or []
+            else:
+                funder_ror_ids = comments["Funder ROR ID"].value[0].split(";") or []
         grants = comments.get("Grant Identifier")
         if grants and grants.value:
             if isinstance(grants.value, str):
@@ -803,21 +557,75 @@ class MhdDatasetBuilder_v1_0:
                     if x and len(x.strip()) > 1
                 ]
             if identifiers:
-                grant_ids.extend(identifiers)
-        if grant_ids:
-            mhd_study.grant_identifier_list = grant_ids
+                grant_ids.extend([x for x in identifiers if x])
+        funder_links = {}
+        for idx, funder in enumerate(funders or []):
+            ror_id = funder_ror_ids[idx] if len(funder_ror_ids) > idx else None
+            if ror_id:
+                term, _ = self.cv_term_helper.find_cv_term_with_accession("ror", ror_id)
+                if term:
+                    funder = term.name
+                ror_id = term.accession if term else None
+                if ror_id and not ror_id.startswith(("http://", "https://")):
+                    ror_id = self.cv_term_helper.get_uri(term)
+            if not funder:
+                continue
+            if len(funder or "") < self.min_affiliation_length:
+                logger.warning(
+                    "Funder '%s' will be skipped for %s. "
+                    "Its min length does not comply with MHD requirements",
+                    study_id,
+                    funder,
+                )
+                continue
+            organization = organizations.get(funder)
+            if not organization and funder:
+                organization = mhd_domain.Organization(
+                    uri=get_urn(study_id, mhd_domain.Organization, funder),
+                    ror_id=ror_id or None,
+                    name=funder,
+                )
+                mhd_builder.add(organization)
+                organizations[funder] = organization
+            grant_id = grant_ids[idx] if len(grant_ids) > idx else None
+            grant_key = None
+            if grant_id:
+                grant_key = KeyValue(
+                    key=CvTerm(
+                        source="OBI",
+                        accession="OBI:0001629",
+                        name="grant identifier",
+                    ),
+                    value=grant_id,
+                )
+            if organization.name in funder_links:
+                if grant_key:
+                    for link in funder_links[organization.name]:
+                        if link.tag_list:
+                            link.tag_list.append(grant_key)
+                        else:
+                            link.tag_list = [grant_key]
+            else:
+                links = mhd_builder.link(
+                    mhd_study,
+                    "funded-by",
+                    organization,
+                    reverse_relationship_name="funds",
+                    tag_list=[grant_key] if grant_key else None,
+                )
+                funder_links[organization.name] = links
 
-    def add_related_datasets(
-        self,
-        data: MetabolightsStudyModel,
-        mhd_builder: MhDatasetBuilder,
-        mhd_study: mhd_domain.Study,
-    ):
+    def add_related_datasets(self, context: DatasetBuildContext):
+        data = context.data
+        mhd_builder = context.mhd_builder
+        mhd_study = context.study.study_node
         study = data.investigation.studies[0]
 
         study.related_datasets = study.related_datasets or []
         url: None | mhd_domain.CvTermObject = None
         for idx, related_dataset in enumerate(study.related_datasets):
+            if not related_dataset.url:
+                continue
             if idx == 0:
                 url = self.otc.create_cv_term_object(
                     accession="NCIT:C42743",
@@ -832,14 +640,12 @@ class MhdDatasetBuilder_v1_0:
                 )
             )
 
-    def add_publications(
-        self,
-        data: MetabolightsStudyModel,
-        mhd_builder: MhDatasetBuilder,
-        mhd_study: mhd_domain.Study,
-    ):
+    def add_publications(self, context: DatasetBuildContext):
+        study_id = context.study_id
+        data = context.data
+        mhd_builder = context.mhd_builder
+        mhd_study = context.study.study_node
         study = data.investigation.studies[0]
-        study_id = study.identifier
         mhd_publications = []
         valid_doi = False
         for publication in study.study_publications.publications:
@@ -861,7 +667,7 @@ class MhdDatasetBuilder_v1_0:
                     uri=get_urn(study_id, mhd_domain.Publication, doi),
                     title=title,
                     doi=doi,
-                    pub_med_id=publication.pub_med_id or None,
+                    pubmed_id=publication.pub_med_id or None,
                     authors=(
                         [
                             x.strip()
@@ -917,32 +723,39 @@ class MhdDatasetBuilder_v1_0:
                     reverse_relationship_name="publication-status-of",
                 )
 
-    def add_metadata_files(
-        self,
-        mhd_builder: MhDatasetBuilder,
-        mhd_study: mhd_domain.Study,
-        data: MetabolightsStudyModel,
-        selected_assays: list[Assay],
-    ):
-        # isa_tab_format = self.otc.create_cv_term_object(
-        #     type_="descriptor",
-        #     accession="EDAM:format_3687",
-        #     source="EDAM",
-        #     name="ISA-TAB",
-        # )
-        study_id = ""
-        metadata_files: list[str] = []
-        metadata_files_map = {}
-        metadata_files.append(data.investigation_file_path)
-        if data.investigation.studies:
-            study = data.investigation.studies[0]
-            study_id = study.identifier
-            if study.file_name in data.samples:
-                metadata_files.append(study.file_name)
+    def add_metadata_files(self, context: DatasetBuildContext):
+        study_id = context.study_id
+        data = context.data
+        mhd_builder = context.mhd_builder
+        mhd_study = context.study.study_node
+        isa_study = context.study.isa_study
+        metadata_files: list[
+            tuple[str, IsaTableFile | investigation_file.Investigation, int]
+        ] = []
 
-            for assay in selected_assays:
-                if assay.file_name in data.assays:
-                    metadata_files.append(assay.file_name)
+        metadata_files.append(
+            (
+                data.investigation_file_path,
+                data.investigation,
+                "isa-investigation/000",
+                None,
+            )
+        )
+        sample_content = data.samples.get(isa_study.file_name)
+        metadata_files.append(
+            (isa_study.file_name, sample_content, "isa-study/000", None)
+        )
+        for assay_summary in context.study.assays:
+            assay_content = data.assays.get(assay_summary.isa_assay.file_name)
+            metadata_files.append(
+                (
+                    assay_summary.isa_assay.file_name,
+                    assay_content,
+                    f"isa-assay/{assay_summary.index:03}",
+                    assay_summary.index,
+                )
+            )
+
         appended_formats: set[str] = set()
         formats = {
             "EDAM:format_4066": self.otc.create_cv_term_object(
@@ -970,106 +783,103 @@ class MhdDatasetBuilder_v1_0:
                 name="ISA-Tab",
             ),
         }
-        if study_id:
-            for file in metadata_files:
-                if self.config.build_type == BuildType.MINIMUM:
-                    meta = mhd_domain.MetadataFile(
-                        uri=get_urn(study_id, mhd_domain.MetadataFile, file),
-                        name=file,
-                        url_list=[
-                            f"{self.config.public_http_base_url}/{study_id}/{file}",
-                            f"{self.config.public_ftp_base_url}/{study_id}/{file}",
-                        ],
-                    )
-                else:
-                    selected_format = None
-                    if file.startswith("i_"):
-                        selected_format = "EDAM:format_4066"
-                    elif file.startswith("s_"):
-                        selected_format = "EDAM:format_4067"
-                    elif file.startswith("a_"):
-                        selected_format = "EDAM:format_4068"
-                    else:
-                        selected_format = "EDAM:format_3687"
-                    appended_formats.add(selected_format)
-                    format_object = formats[selected_format]
-                    meta = mhd_domain.MetadataFile(
-                        uri=get_urn(study_id, mhd_domain.MetadataFile, file),
-                        name=file,
-                        extension=Path(file).suffix,
-                        format_ref=format_object.id_,
-                        url_list=[
-                            f"{self.config.public_http_base_url}/{study_id}/{file}",
-                            f"{self.config.public_ftp_base_url}/{study_id}/{file}",
-                        ],
-                    )
-                mhd_builder.add_node(meta)
-                mhd_builder.link(mhd_study, "has-metadata-file", meta)
-                mhd_builder.link(meta, "describes", mhd_study)
-                metadata_files_map[file] = meta
 
-            for x in appended_formats or []:
-                mhd_builder.add_node(
-                    formats[x],
-                    use_label_for_invalid_cv_term=self.config.use_label_for_invalid_cv_term,
+        for file, content, file_id, file_index in metadata_files:
+            if self.config.build_type == BuildType.MINIMUM:
+                meta = mhd_domain.MetadataFile(
+                    uri=get_urn(study_id, mhd_domain.MetadataFile, file),
+                    name=file,
+                    url_list=[
+                        f"{self.config.public_http_base_url}/{study_id}/{file}",
+                        f"{self.config.public_ftp_base_url}/{study_id}/{file}",
+                    ],
                 )
+            else:
+                selected_format = None
+                if file.startswith("i_"):
+                    selected_format = "EDAM:format_4066"
+                elif file.startswith("s_"):
+                    selected_format = "EDAM:format_4067"
+                elif file.startswith("a_"):
+                    selected_format = "EDAM:format_4068"
+                else:
+                    selected_format = "EDAM:format_3687"
+                appended_formats.add(selected_format)
+                format_object = formats[selected_format]
+                meta = mhd_domain.MetadataFile(
+                    uri=get_urn(study_id, mhd_domain.MetadataFile, file_id),
+                    name=file,
+                    extension=Path(file).suffix,
+                    format_ref=format_object.id_,
+                    url_list=[
+                        f"{self.config.public_http_base_url}/{study_id}/{file}",
+                        f"{self.config.public_ftp_base_url}/{study_id}/{file}",
+                    ],
+                )
+            mhd_builder.add_node(meta)
+            context.study.metadata_files[file] = MetadataFileSummary(
+                index=file_index,
+                file_node=meta,
+                isa_file_content=content,
+                name=file,
+            )
 
-        return metadata_files_map
+            mhd_builder.link(mhd_study, "has-metadata-file", meta)
+            mhd_builder.link(meta, "describes", mhd_study)
 
-    def add_result_files(
-        self,
-        mhd_builder: MhDatasetBuilder,
-        mhd_study: mhd_domain.Study,
-        data: MetabolightsStudyModel,
-    ):
-        result_file_map: dict[str, mhd_domain.ResultFile] = {}
+        for x in appended_formats or []:
+            mhd_builder.add_node(
+                formats[x],
+                use_label_for_invalid_cv_term=self.config.use_label_for_invalid_cv_term,
+            )
+
+    def add_result_files(self, context: DatasetBuildContext):
+        study_id = context.study_id
+        mhd_builder = context.mhd_builder
+        mhd_study = context.study.study_node
+
         tsv_format = self.otc.create_cv_term_object(
             type_="descriptor",
             accession="EDAM:format_4073",
             source="EDAM",
             name="MetaboLights MAF",
         )
-        study_id = mhd_study.repository_identifier
-
-        for idx, file in enumerate(data.metabolite_assignments):
+        for assignment_file in context.study.assignment_files:
+            maf_idx = assignment_file.index
+            file_name = assignment_file.name
             result_file = mhd_domain.ResultFile(
-                uri=get_urn(study_id, mhd_domain.ResultFile, file),
-                name=file,
-                extension=Path(file).suffix,
+                uri=get_urn(study_id, mhd_domain.ResultFile, f"{maf_idx:03}"),
+                name=file_name,
+                extension=Path(file_name).suffix,
                 format_ref=tsv_format.id_,
                 url_list=[
-                    f"{self.config.public_ftp_base_url}/{study_id}/{file}",
-                    f"{self.config.public_http_base_url}/{study_id}/{file}",
+                    f"{self.config.public_ftp_base_url}/{study_id}/{file_name}",
+                    f"{self.config.public_http_base_url}/{study_id}/{file_name}",
                 ],
             )
             mhd_builder.add_node(result_file)
-
-            if idx == 0:
+            assignment_file.file_node = result_file
+            if maf_idx == 0:
                 mhd_builder.add_node(
                     tsv_format,
                     use_label_for_invalid_cv_term=self.config.use_label_for_invalid_cv_term,
                 )
-
-            # mhd_study.result_file_refs.append(result_file.id_)
             mhd_builder.link(mhd_study, "has-result-file", result_file)
             mhd_builder.link(result_file, "created-in", mhd_study)
-            result_file_map[file] = result_file
-        return result_file_map
 
-    def add_study_factor_definitions(
-        self,
-        mhd_builder: MhDatasetBuilder,
-        mhd_study: mhd_domain.Study,
-        data: MetabolightsStudyModel,
-    ):
+    def add_study_factor_definitions(self, context: DatasetBuildContext):
+        study_id = context.study_id
+        data = context.data
+        mhd_builder = context.mhd_builder
+        mhd_study = context.study.study_node
         if self.config.build_type == BuildType.MINIMUM:
             return
         study = data.investigation.studies[0]
         study_id = study.identifier
-        for item in study.study_factors.factors:
+        for factor_idx, item in enumerate(study.study_factors.factors):
             factor_name = item.name.lower()
-            if factor_name in MANAGED_STUDY_FACTOR_MAP:
-                cv_term = MANAGED_STUDY_FACTOR_MAP[factor_name]
+            if factor_name in mtbls_definitions.MANAGED_STUDY_FACTOR_MAP:
+                cv_term = mtbls_definitions.MANAGED_STUDY_FACTOR_MAP[factor_name]
                 type_definition = "x-mtbls-factor-type"
                 if factor_name in COMMON_STUDY_FACTOR_DEFINITIONS:
                     type_definition = "factor-type"
@@ -1080,8 +890,8 @@ class MhdDatasetBuilder_v1_0:
                     accession=cv_term.accession,
                 )
             else:
-                if factor_name in MTBLS_STUDY_FACTOR_MAP:
-                    cv_term = MTBLS_STUDY_FACTOR_MAP[factor_name]
+                if factor_name in mtbls_definitions.MTBLS_STUDY_FACTOR_MAP:
+                    cv_term = mtbls_definitions.MTBLS_STUDY_FACTOR_MAP[factor_name]
                 else:
                     cv_term = CvTerm(name=factor_name)
 
@@ -1096,7 +906,7 @@ class MhdDatasetBuilder_v1_0:
                 use_label_for_invalid_cv_term=self.config.use_label_for_invalid_cv_term,
             )
             factor_definition = mhd_domain.FactorDefinition(
-                uri=get_urn(study_id, mhd_domain.FactorDefinition, item.name),
+                uri=get_urn(study_id, mhd_domain.FactorDefinition, f"{factor_idx:03}"),
                 factor_type_ref=factor_type.id_,
                 name=item.name,
             )
@@ -1114,65 +924,15 @@ class MhdDatasetBuilder_v1_0:
                 reverse_relationship_name="used-in",
             )
 
-    def add_assay_protocols(
-        self,
-        mhd_builder: MhDatasetBuilder,
-        mhd_study: mhd_domain.Study,
-        data: MetabolightsStudyModel,
-        mhd_assay: mhd_domain.Assay,
-    ):
-        assay_table = data.assays[mhd_assay.name].table
-
-        protocols = {}
-        for protocol_key in mhd_study.protocol_refs:
-            protocol = mhd_builder.objects[protocol_key]
-            protocols[protocol.name] = protocol
-            protocol_type = mhd_builder.objects.get(protocol.protocol_type_ref)
-            if (
-                protocol_type
-                and protocol_type.accession
-                == "EFO:0005518"  # sample collection protocol
-            ):
-                if not mhd_assay.protocol_refs:
-                    mhd_assay.protocol_refs = []
-                mhd_assay.protocol_refs.append(protocol_key)
-                mhd_builder.link(
-                    mhd_assay, "follows", protocol, reverse_relationship_name="used-in"
-                )
-
-        if "Sample Name" not in assay_table.data or not assay_table.data["Sample Name"]:
-            return
-        for column in assay_table.headers:
-            protocol_type = None
-            if column.column_header != "Protocol REF":
-                continue
-            protocol_name = assay_table.data[column.column_name][0]
-            if protocol_name.lower() in COMMON_PROTOCOLS_MAP:
-                protocol_type = COMMON_PROTOCOLS_MAP[protocol_name.lower()]
-            else:
-                protocol_type = CvTerm(
-                    source="",
-                    accession="",
-                    name=protocol_name,
-                )
-
-            if protocol_name and protocol_name in protocols:
-                ref = protocols[protocol_name].id_
-                if not mhd_assay.protocol_refs:
-                    mhd_assay.protocol_refs = []
-                mhd_assay.protocol_refs.append(ref)
-                mhd_builder.link(mhd_assay, "follows", protocols[protocol_name])
-                mhd_builder.link(protocols[protocol_name], "used-in", mhd_assay)
-
-    def add_characteristic_definitions(
-        self,
-        mhd_builder: MhDatasetBuilder,
-        mhd_study: mhd_domain.Study,
-        sample_file: SamplesFile,
-    ):
+    def add_characteristic_definitions(self, context: DatasetBuildContext):
+        study_id = context.study_id
+        mhd_builder = context.mhd_builder
+        mhd_study = context.study.study_node
+        study = context.study.isa_study
+        sample_file = context.data.samples[study.file_name]
         characteristics_map: dict[str, mhd_domain.CvTermObject] = {}
         created_characteristics = {}
-        study_id = mhd_study.repository_identifier
+        characteristic_idx = 0
         for item in sample_file.table.headers:
             if item.column_header.startswith("Characteristics["):
                 name = (
@@ -1181,13 +941,13 @@ class MhdDatasetBuilder_v1_0:
                     .lower()
                 )
                 if (
-                    name not in MANAGED_CHARACTERISTICS_MAP
+                    name not in mtbls_definitions.MANAGED_CHARACTERISTICS_MAP
                     and self.config.build_type in (BuildType.MINIMUM, BuildType.FULL)
                 ):
                     continue
 
-                if name in MANAGED_CHARACTERISTICS_MAP:
-                    cv_term = MANAGED_CHARACTERISTICS_MAP[name]
+                if name in mtbls_definitions.MANAGED_CHARACTERISTICS_MAP:
+                    cv_term = mtbls_definitions.MANAGED_CHARACTERISTICS_MAP[name]
                     characteristic_type = self.otc.create_cv_term_object(
                         type_="characteristic-type",
                         name=cv_term.name,
@@ -1195,8 +955,8 @@ class MhdDatasetBuilder_v1_0:
                         source=cv_term.source,
                     )
                 else:
-                    if name in MTBLS_CHARACTERISTICS_MAP:
-                        cv_term = MTBLS_CHARACTERISTICS_MAP[name]
+                    if name in mtbls_definitions.MTBLS_CHARACTERISTICS_MAP:
+                        cv_term = mtbls_definitions.MTBLS_CHARACTERISTICS_MAP[name]
                     else:
                         cv_term = CvTerm(name=name)
                     characteristic_type = self.otc.create_cv_term_object(
@@ -1214,10 +974,14 @@ class MhdDatasetBuilder_v1_0:
                         characteristic_type,
                         use_label_for_invalid_cv_term=self.config.use_label_for_invalid_cv_term,
                     )
-
+                characteristic_idx += 1
                 characteristic_type = characteristics_map.get(key)
                 characteristic = mhd_domain.CharacteristicDefinition(
-                    uri=get_urn(study_id, mhd_domain.CharacteristicDefinition, name),
+                    uri=get_urn(
+                        study_id,
+                        mhd_domain.CharacteristicDefinition,
+                        f"{characteristic_idx:03}",
+                    ),
                     characteristic_type_ref=characteristic_type.id_,
                     name=name,
                 )
@@ -1235,7 +999,8 @@ class MhdDatasetBuilder_v1_0:
                     reverse_relationship_name="used-in",
                 )
         study_id = mhd_study.repository_identifier
-        for name, term in MANAGED_CHARACTERISTICS_MAP.items():
+        characteristic_idx = 900
+        for name, term in mtbls_definitions.MANAGED_CHARACTERISTICS_MAP.items():
             if name not in created_characteristics:
                 characteristic_type = self.otc.create_cv_term_object(
                     type_="characteristic-type",
@@ -1248,8 +1013,13 @@ class MhdDatasetBuilder_v1_0:
                     characteristic_type,
                     use_label_for_invalid_cv_term=self.config.use_label_for_invalid_cv_term,
                 )
+                characteristic_idx += 1
                 characteristic = mhd_domain.CharacteristicDefinition(
-                    uri=get_urn(study_id, mhd_domain.CharacteristicDefinition, name),
+                    uri=get_urn(
+                        study_id,
+                        mhd_domain.CharacteristicDefinition,
+                        f"{characteristic_idx:03}",
+                    ),
                     characteristic_type_ref=characteristic_type.id_,
                     name=name,
                 )
@@ -1286,12 +1056,12 @@ class MhdDatasetBuilder_v1_0:
                     reverse_relationship_name="type-of",
                 )
 
-    def add_samples(
-        self,
-        mhd_builder: MhDatasetBuilder,
-        mhd_study: mhd_domain.Study,
-        sample_file: SamplesFile,
-    ) -> dict[str, mhd_domain.Sample]:
+    def add_samples(self, context: DatasetBuildContext) -> dict[str, mhd_domain.Sample]:
+        study_id = context.study_id
+        mhd_builder = context.mhd_builder
+        mhd_study = context.study.study_node
+        study = context.study.isa_study
+        sample_file = context.data.samples[study.file_name]
         samples_map: dict[str, mhd_domain.Sample] = {}
         factor_definitions: list[mhd_domain.CvTermObject] = []
         characteristics: list[mhd_domain.CvTermObject] = []
@@ -1328,38 +1098,40 @@ class MhdDatasetBuilder_v1_0:
         characteristic_values_map: dict[str, dict[str, mhd_domain.CvTermObject]] = {}
         factors_values_map: dict[str, dict[str, mhd_domain.CvTermObject]] = {}
         study_id = mhd_study.repository_identifier
-        for idx, name in enumerate(data["Sample Name"]):
+        for sample_idx, name in enumerate(data["Sample Name"]):
             if not name:
-                logger.warning("Sample name is not defined at row: %s", idx + 1)
+                logger.warning("Sample name is not defined at row: %s", sample_idx + 1)
                 continue
             if self.config.build_type == BuildType.MINIMUM:
                 characteristic_values = self.create_values(
                     mhd_builder,
-                    idx,
+                    sample_idx,
                     sample_file,
                     characteristics,
                     characteristics_map,
                     characteristic_values_map,
-                    MANAGED_CHARACTERISTICS_MAP,
+                    mtbls_definitions.MANAGED_CHARACTERISTICS_MAP,
                     "characteristic-value",
                     definition_type_property="characteristic_type_ref",
                 )
                 continue
 
-            subject_name = data["Source Name"][idx] or data["Sample Name"][idx]
+            subject_name = (
+                data["Source Name"][sample_idx] or data["Sample Name"][sample_idx]
+            )
             if not subject_name:
                 pass
             if subject_name not in subject_map:
                 subject_map[subject_name] = mhd_domain.Subject(
                     name=subject_name,
-                    uri=get_urn(study_id, mhd_domain.Subject, subject_name),
+                    uri=get_urn(study_id, mhd_domain.Subject, f"{sample_idx:05}"),
                 )
                 mhd_builder.add(subject_map[subject_name])
             subject = subject_map[subject_name]
             if name not in sample_map:
                 samples_map[name] = mhd_domain.Sample(
                     name=name,
-                    uri=get_urn(study_id, mhd_domain.Sample, name),
+                    uri=get_urn(study_id, mhd_domain.Sample, f"{sample_idx:05}"),
                 )
                 sample_sources_map[name] = set()
                 mhd_builder.add(samples_map[name])
@@ -1372,7 +1144,12 @@ class MhdDatasetBuilder_v1_0:
                     subject,
                     reverse_relationship_name="source-of",
                 )
-
+            context.study.samples[name] = SampleSummary(
+                index=sample_idx,
+                name=name,
+                sample_node=sample,
+                subject_nodes=[subject],
+            )
             mhd_builder.link(
                 mhd_study,
                 "has-sample",
@@ -1382,12 +1159,12 @@ class MhdDatasetBuilder_v1_0:
 
             characteristic_values = self.create_values(
                 mhd_builder,
-                idx,
+                sample_idx,
                 sample_file,
                 characteristics,
                 characteristics_map,
                 characteristic_values_map,
-                MANAGED_CHARACTERISTICS_MAP,
+                mtbls_definitions.MANAGED_CHARACTERISTICS_MAP,
                 "characteristic-value",
                 definition_type_property="characteristic_type_ref",
             )
@@ -1403,12 +1180,12 @@ class MhdDatasetBuilder_v1_0:
 
             factor_values = self.create_values(
                 mhd_builder,
-                idx,
+                sample_idx,
                 sample_file,
                 factor_definitions,
                 factors_map,
                 factors_values_map,
-                MANAGED_STUDY_FACTOR_MAP,
+                mtbls_definitions.MANAGED_STUDY_FACTOR_MAP,
                 "factor-value",
                 definition_type_property="factor_type_ref",
             )
@@ -1433,7 +1210,7 @@ class MhdDatasetBuilder_v1_0:
             x.name.lower(): x for x in characteristics
         }
         missing_added = False
-        for k in MANAGED_CHARACTERISTICS_MAP:
+        for k in mtbls_definitions.MANAGED_CHARACTERISTICS_MAP:
             if k not in characteristic_values_map:
                 if not missing_added:
                     mhd_builder.add(
@@ -1478,7 +1255,7 @@ class MhdDatasetBuilder_v1_0:
         name_prefix: str,
         definition_type_property: str,
     ):
-        mtbls_cv_terms_mappings = get_mtbls_terms_mapping()
+        mtbls_cv_terms_mappings = mtbls_definitions.get_mtbls_terms_mapping()
         data = sample_file.table.data
         values = []
         columns = sample_file.table.columns
@@ -1632,99 +1409,134 @@ class MhdDatasetBuilder_v1_0:
         return values
 
     def add_sample_runs(
-        self,
-        mhd_builder: MhDatasetBuilder,
-        mhd_study: mhd_domain.Study,
-        mhd_assay: mhd_domain.Assay,
-        assay_file: AssayFile,
-        files_map: dict[str, mhd_domain.BaseFile],
-        samples: dict[str, mhd_domain.Sample],
-        protocol_summaries: OrderedDict[str, ProtocolRunSummary],
+        self, context: DatasetBuildContext, assay_summary: AssaySummary
     ) -> dict[str, OrderedDict[str, str]]:
-        mtbls_cv_terms_mappings = get_mtbls_terms_mapping()
-        assay_table = assay_file.table
-        if "Sample Name" not in assay_table.data or not assay_table.data["Sample Name"]:
+        study_id = context.study_id
+        assay_table = assay_summary.isa_file_content.table
+        mhd_builder = context.mhd_builder
+        if not assay_table.data.get("Sample Name"):
             return
-        protocol_run_map: dict[str, OrderedDict[str, str]] = {}
-        protocols = {}
-        study_id = mhd_study.repository_identifier
-        parameter_definitions: OrderedDict[str, mhd_domain.CvTermObject] = OrderedDict()
+        mtbls_cv_terms_mappings = mtbls_definitions.get_mtbls_terms_mapping()
 
-        for x in mhd_builder.objects.values():
-            if (
-                isinstance(x, Relationship)
-                and x.relationship_name == "has-parameter-definition"
-            ) and x.source_ref in mhd_study.protocol_refs:
-                definition_obj = mhd_builder.objects[x.target_ref]
-                definition = mhd_builder.objects[definition_obj.parameter_type_ref]
-                if definition.accession:
-                    parameter_definitions[definition.accession] = definition_obj
-                else:
-                    parameter_definitions[definition.name] = definition_obj
-
-        assay_protocols: OrderedDict[str, mhd_domain.Protocol] = OrderedDict()
-        for protocol_key in mhd_study.protocol_refs:
-            protocol: mhd_domain.Protocol = mhd_builder.objects[protocol_key]
-            protocol_type_obj = mhd_builder.objects[protocol.protocol_type_ref]
-            protocol_type = CvTerm.model_validate(
-                protocol_type_obj.model_dump(by_alias=True)
-            )
-            protocols[protocol_type] = protocol
+        study_protocols = {x.protocol_name: x for x in context.study.protocols}
+        assay_protocols: dict[str, AssayProtocolSummary] = {}
 
         for header in assay_table.headers:
             if header.column_header == "Protocol REF":
+                column_idx = assay_table.columns.index(header.column_name)
                 protocol_name = assay_table.data[header.column_name][0]
-                protocol_type = MTBLS_PROTOCOLS_MAP.get(protocol_name.lower())
-                if protocol_type:
-                    if protocol_type in protocols:
-                        protocol = protocols[protocol_type]
-                        assay_protocols[protocol_name] = protocol
-                    else:
-                        logger.error(
-                            "Assay protocol name '%s' is not consistent in %s %s",
-                            protocol_name,
-                            mhd_study.mhd_identifier,
-                            assay_file.file_path,
-                        )
-                else:
-                    protocol_key = CvTerm(name=protocol_name)
-                    protocol = protocols.get(protocol_key)
-                    if protocol:
-                        assay_protocols[protocol_name] = protocol
-                    else:
-                        logger.error(
-                            "Assay protocol name '%s' is not consistent in %s %s",
-                            protocol_name,
-                            mhd_study.mhd_identifier,
-                            assay_file.file_path,
-                        )
-
-        protocol_columns: OrderedDict[str, ProtocolRunSummary] = OrderedDict()
-        for header in assay_table.headers:
-            if header.column_header == "Protocol REF":
-                protocol_name = assay_table.data[header.column_name][0]
-                if protocol_name not in assay_protocols:
-                    continue
-                if header.column_name not in protocol_summaries:
-                    protocol_summaries[header.column_name] = ProtocolRunSummary(
-                        protocol_name=protocol_name,
-                        column=header,
-                        protocol=assay_protocols[protocol_name],
+                protocol_summary = study_protocols.get(protocol_name)
+                if not protocol_name or not protocol_summary:
+                    logger.warning(
+                        "%s in %s is not in study protocols",
+                        assay_summary.name,
+                        protocol_name,
                     )
-                protocol_columns[header.column_name] = protocol_summaries[
-                    header.column_name
-                ]
+                    continue
+                assay_protocol_summary = AssayProtocolSummary(
+                    index=column_idx,
+                    protocol_summary=protocol_summary,
+                    assay_summary=assay_summary,
+                    column=header,
+                    name=protocol_name,
+                )
+                assay_summary.protocols.append(assay_protocol_summary)
+                context.mhd_builder.link(
+                    assay_summary.assay_node,
+                    "follows",
+                    assay_protocol_summary.protocol_summary.protocol_node,
+                    reverse_relationship_name="used-in",
+                )
+                assay_protocols[protocol_name] = assay_protocol_summary
         idx = 1
         sample_row_indices: dict[str, int] = {}
+
+        parameter_definitions: dict[str, dict[str, ParameterDefinitionSummary]] = {}
+        for protocol_name, assay_protocol in assay_protocols.items():
+            definitions = assay_protocol.protocol_summary.parameter_definitions
+            params = {}
+            parameter_definitions[protocol_name] = params
+            for definition_summary in definitions.values():
+                isa_definition = definition_summary.isa_parameter
+                if isa_definition.term_accession_number:
+                    params[isa_definition.term_accession_number] = definition_summary
+                if isa_definition.term:
+                    params[isa_definition.term.lower()] = definition_summary
+        file_colums = []
+        for header in assay_table.headers:
+            if header.column_header.endswith(" Data File"):
+                file_colums.append(header.column_name)
+        assignment_files = {x.name: x for x in context.study.assignment_files or []}
+        raw_data_files = context.study.raw_data_files
+        derived_data_files = context.study.derived_data_files
+
         for row_idx, sample_name in enumerate(assay_table.data["Sample Name"]):
             sample_row_indices[sample_name] = row_idx
-            protocol_run_map[sample_name] = OrderedDict()
+            run_name = None
+            if "MS Assay Name" in assay_table.data:
+                run_name = assay_table.data["MS Assay Name"][row_idx]
+            if not run_name and "NMR Assay Name" in assay_table.data:
+                run_name = assay_table.data["NMR Assay Name"][row_idx]
+            if not run_name:
+                run_name = sample_name
+            sample_run_summary = SampleRunSummary(
+                index=row_idx,
+                sample_name=sample_name,
+                run_name=run_name,
+                assay_summary=assay_summary,
+                sample_summary=context.study.samples.get(sample_name),
+                node=None,
+            )
+            if "Metabolite Assignment File" in assay_table.data:
+                filename = assay_table.data["Metabolite Assignment File"][row_idx]
+                result_file = assignment_files.get(filename)
+                if result_file and filename not in sample_run_summary.result_files:
+                    sample_run_summary.result_files[filename] = result_file
+
+            for data_file_column in file_colums:
+                filename = assay_table.data[data_file_column][row_idx]
+                data_file = derived_data_files.get(filename)
+                if data_file:
+                    if filename not in sample_run_summary.derived_data_files:
+                        sample_run_summary.derived_data_files[filename] = data_file
+                else:
+                    data_file = raw_data_files.get(filename)
+                    if data_file and filename not in sample_run_summary.raw_data_files:
+                        sample_run_summary.raw_data_files[filename] = data_file
+
+            raw_data_file_refs = []
+            for v in sample_run_summary.raw_data_files.values() or []:
+                raw_data_file_refs.append(v.file_node.id_)
+
+            derived_data_file_refs = []
+            for v in sample_run_summary.derived_data_files.values() or []:
+                derived_data_file_refs.append(v.file_node.id_)
+
+            result_file_refs = []
+            for v in sample_run_summary.result_files.values() or []:
+                result_file_refs.append(v.file_node.id_)
+            sample_ref = None
+            if sample_run_summary.sample_summary:
+                sample_ref = sample_run_summary.sample_summary.sample_node.id_
+
+            sample_run_idx = f"{assay_summary.index:03}/{row_idx:06}"
+            mhd_sample_run = mhd_domain.SampleRun(
+                uri=get_urn(study_id, mhd_domain.SampleRun, sample_run_idx),
+                name=sample_name,
+                sample_ref=sample_ref or None,
+                raw_data_file_refs=raw_data_file_refs or None,
+                derived_file_refs=derived_data_file_refs or None,
+                result_file_refs=result_file_refs or None,
+            )
+            context.mhd_builder.add(mhd_sample_run)
+            sample_run_summary.node = mhd_sample_run
+            assay_summary.sample_runs[sample_name] = sample_run_summary
             value = ""
-            for column_name, protocol_run_summary in protocol_columns.items():
-                header = protocol_run_summary.column
+            for protocol_name, assay_protocol_summary in assay_protocols.items():
+                header = assay_protocol_summary.column
                 col_idx = header.column_index
-                protocol_name = protocol_run_summary.protocol_name
                 current_idx = col_idx
+                protocol_params = parameter_definitions.get(protocol_name)
                 params: OrderedDict[str, tuple] = OrderedDict()
                 while current_idx < len(assay_table.headers) - 1:
                     current_idx += 1
@@ -1768,32 +1580,36 @@ class MhdDatasetBuilder_v1_0:
                     params[column_name] = value
                 if not "".join(["".join(x) for x in params.values()]):
                     continue
-                key = ",".join([":".join(x) for x in params.values()])
-                if key not in protocol_run_summary.sample_run_configurations:
+                key_str = ",".join([":".join(x) for x in params.values()])
+                key = hashlib.sha256(key_str.encode()).hexdigest()
+                configs = assay_protocol_summary.protocol_summary.protocol_configs
+                if key not in configs:
                     parameter_values = []
-
                     for name, values in params.items():
                         parameter = name.split("]")[0].split("[")[-1]
                         cv = self.get_parameter_cv(protocol_name, parameter)
                         definition = None
                         if not cv:
-                            definition = parameter_definitions.get(parameter.lower())
+                            definition_summary = protocol_params.get(parameter.lower())
+                            if definition_summary:
+                                definition = definition_summary.definition_node
                         else:
-                            definition = parameter_definitions.get(cv.accession)
-                            # definition = parameter_definitions[cv.accession]
+                            definition_summary = protocol_params.get(parameter.lower())
+                            if definition_summary:
+                                definition = definition_summary.definition_node
                         if not definition:
                             continue
                         definition_value = "".join([x for x in values if x])
                         if not definition_value:
                             continue
                         object_name = "x-mtbls-parameter-value"
-                        # term_name = (
-                        #     definition.name.lower().replace("   ", " ").replace(" ", "-")
-                        # )
-                        if parameter.lower() in ALL_COMMON_PROTOCOL_PARAMETERS:
+                        if (
+                            parameter.lower()
+                            in mtbls_definitions.ALL_COMMON_PROTOCOL_PARAMETERS
+                        ):
                             object_name = "parameter-value"
 
-                        term = ALL_COMMON_PROTOCOL_PARAMETERS.get(
+                        term = mtbls_definitions.ALL_COMMON_PROTOCOL_PARAMETERS.get(
                             parameter.lower(), None
                         )
                         if (
@@ -1824,9 +1640,6 @@ class MhdDatasetBuilder_v1_0:
                             item = self.otc.create_cv_term_value_object(
                                 type_=object_name, name=values[0]
                             )
-                            # definition_value = DefinitionValue(
-                            #     key=definition_ref, value=values[0]
-                            # )
                         elif len(values) == 3:
                             accession = self.convert_to_curie(values[1], values[2])
                             item = self.otc.create_cv_term_value_object(
@@ -1873,109 +1686,61 @@ class MhdDatasetBuilder_v1_0:
                                             sub_item,
                                             reverse_relationship_name="has-type",
                                         )
-
+                    run_config = None
                     if parameter_values:
-                        name = (
-                            f"{assay_file.file_path}:"
-                            f"{protocol_run_summary.protocol.name}:{idx:02}"
-                        )
-                        config = mhd_domain.SampleRunConfiguration(
+                        assay_idx = assay_protocol_summary.assay_summary.index
+                        protocol_idx = assay_protocol_summary.index
+                        name = f"{assay_idx:03}/{protocol_idx:02}/{row_idx:06}"
+                        run_config = mhd_domain.SampleRunConfiguration(
                             uri=get_urn(
                                 study_id, mhd_domain.SampleRunConfiguration, name
                             ),
-                            protocol_ref=protocol_run_summary.protocol.id_,
+                            protocol_ref=assay_protocol_summary.protocol_summary.protocol_node.id_,
                             parameter_value_refs=[x.id_ for x in parameter_values],
                         )
-                        protocol_run_summary.sample_run_configurations[key] = config
+                        context.mhd_builder.add(run_config)
+                        configs[key] = SampleRunConfigurationSummary(
+                            first_assay_summary=assay_protocol_summary.assay_summary,
+                            first_row_index=row_idx,
+                            key=key,
+                            node=run_config,
+                            protocol_summary=assay_protocol_summary.protocol_summary,
+                            parameter_values={x.id_: x for x in parameter_values},
+                        )
                         idx = idx + 1
-                    else:
-                        protocol_run_summary.sample_run_configurations[key] = None
-                if key in protocol_run_summary.sample_run_configurations:
-                    config = protocol_run_summary.sample_run_configurations[key]
-                    if config:
-                        protocol_run_map[sample_name][protocol_name] = config.id_
 
-        for protocol_run_summary in protocol_columns.values():
-            for item in protocol_run_summary.sample_run_configurations.values():
-                if item:
-                    mhd_builder.add(item)
-        file_colums = []
-        for header in assay_table.headers:
-            if header.column_header.endswith(" Data File"):
-                file_colums.append(header.column_name)
+                run_config = configs.get(key)
 
-        for sample_name, protocols in protocol_run_map.items():
-            # if not sample:
-            idx = sample_row_indices[sample_name]
-            result_file_refs = []
-            if "Metabolite Assignment File" in assay_table.data:
-                filename = assay_table.data["Metabolite Assignment File"][idx]
-                if filename and filename in files_map:
-                    result_file_refs = [files_map[filename].id_]
-
-            data_files = []
-
-            for column in file_colums:
-                filename = assay_table.data[column][idx]
-                if filename and filename in files_map:
-                    data_files.append(files_map[filename])
-
-            raw_file_refs = [
-                x.id_ for x in data_files if isinstance(x, mhd_domain.RawDataFile)
-            ]
-            derived_file_refs = [
-                x.id_ for x in data_files if isinstance(x, mhd_domain.DerivedDataFile)
-            ]
-            if "MS Assay Name" in assay_table.data:
-                name = assay_table.data["MS Assay Name"][idx]
-            if not name and "NMR Assay Name" in assay_table.data:
-                name = assay_table.data["NMR Assay Name"][idx]
-            else:
-                name = sample_name
-
-            sample_run_configuration_refs = list(protocols.values())
-
-            sample = samples.get(sample_name)
-            mhd_sample_run = mhd_domain.SampleRun(
-                uri=get_urn(study_id, mhd_domain.SampleRun, name),
-                name=name,
-                sample_ref=sample.id_ if sample else None,
-                sample_run_configuration_refs=(
-                    sample_run_configuration_refs
-                    if sample_run_configuration_refs
-                    else None
-                ),
-                raw_data_file_refs=raw_file_refs if raw_file_refs else None,
-                derived_file_refs=derived_file_refs if derived_file_refs else None,
-                result_file_refs=result_file_refs if result_file_refs else None,
-            )
-            mhd_builder.add(mhd_sample_run)
-            if not mhd_assay.sample_run_refs:
-                mhd_assay.sample_run_refs = []
-            mhd_assay.sample_run_refs.append(mhd_sample_run.id_)
+                if run_config:
+                    sample_run_summary.sample_run_configurations.append(run_config)
 
     def get_parameter_cv(
         self, protocol_name: str, parameter_name: str
     ) -> CvTerm | None:
-        parameters_dict = MTBLS_PROTOCOL_PARAMETER_DEFINITION_MAP.get(
+        parameters_dict = mtbls_definitions.MTBLS_PROTOCOL_PARAMETER_DEFINITION_MAP.get(
             protocol_name.lower(), {}
         )
         return parameters_dict.get(parameter_name.lower(), None)
 
-    def add_protocols(
-        self, mhd_builder: MhDatasetBuilder, mhd_study: mhd_domain.Study, study: Study
-    ) -> dict[str, mhd_domain.Protocol]:
+    def add_protocols(self, context: DatasetBuildContext):
+        study_id = context.study_id
+        data = context.data
+        mhd_builder = context.mhd_builder
+        mhd_study = context.study.study_node
+        study = data.investigation.studies[0]
         protocol_types: dict[str, mhd_domain.CvTermObject] = {}
         parameter_types: dict[str, mhd_domain.CvTermObject] = {}
-        protocols: dict[str, mhd_domain.Protocol] = {}
-        study_id = mhd_study.repository_identifier
         protocol_parameter_types: dict[str, mhd_domain.CvTermObject] = {}
-        for protocol in study.study_protocols.protocols:
+        for protocol_idx, protocol in enumerate(study.study_protocols.protocols):
             name = protocol.name
+            protocol_summary = ProtocolSummary(
+                index=protocol_idx, isa_protocol=protocol, protocol_name=protocol.name
+            )
+            context.study.protocols.append(protocol_summary)
             protocol_parameter_types[name] = {}
             mhd_protocol = None
             parameters: list[mhd_domain.CvTermObject] = []
-            for x in protocol.parameters:
+            for param_idx, x in enumerate(protocol.parameters):
                 if x.term:
                     param_type = re.sub(r"\s+\d+$", "", x.term.strip()).lower()
                     selected_parameter_type = parameter_types.get(param_type)
@@ -1983,7 +1748,8 @@ class MhdDatasetBuilder_v1_0:
                         definition_type = "x-mtbls-parameter-type"
                         param_cv = self.get_parameter_cv(protocol.name, param_type)
                         if (
-                            x.term.lower() in ALL_COMMON_PROTOCOL_PARAMETERS
+                            x.term.lower()
+                            in mtbls_definitions.ALL_COMMON_PROTOCOL_PARAMETERS
                             and param_cv
                         ):
                             definition_type = "parameter-type"
@@ -2017,7 +1783,7 @@ class MhdDatasetBuilder_v1_0:
                         selected_parameter_type = definition_type
                         protocol_parameter_types[name][x.term] = selected_parameter_type
 
-                    definition_name = f"{name}:{x.term}:{x.term_accession_number}"
+                    definition_name = f"{protocol_idx:03}/{param_idx:03}"
                     definition = mhd_domain.ParameterDefinition(
                         uri=get_urn(
                             study_id, mhd_domain.ParameterDefinition, definition_name
@@ -2025,6 +1791,19 @@ class MhdDatasetBuilder_v1_0:
                         parameter_type_ref=selected_parameter_type.id_,
                         name=x.term,
                     )
+                    protocol_summary.parameters.append(x.term)
+                    protocol_summary.parameter_definitions[x.term] = (
+                        ParameterDefinitionSummary(
+                            index=param_idx,
+                            isa_parameter=x,
+                            cv_term=CvTerm.model_validate(
+                                x.model_dump(by_alias=True), from_attributes=True
+                            ),
+                            definition_node=definition,
+                            definition_type=selected_parameter_type,
+                        )
+                    )
+
                     mhd_builder.link(
                         definition,
                         "has-type",
@@ -2039,16 +1818,21 @@ class MhdDatasetBuilder_v1_0:
                         x.term,
                         protocol.name,
                     )
+
             protocol_type_term = re.sub(r"\s+\d+$", "", name.strip()).lower()
-            protocol_type = COMMON_PROTOCOLS_MAP.get(protocol_type_term)
+            protocol_type = mtbls_definitions.COMMON_PROTOCOLS_MAP.get(
+                protocol_type_term
+            )
             if not protocol_type:
-                protocol_type = MTBLS_PROTOCOLS_MAP.get(protocol_type_term)
+                protocol_type = mtbls_definitions.MTBLS_PROTOCOLS_MAP.get(
+                    protocol_type_term
+                )
             if not protocol_type:
                 protocol_type = CvTerm(name=protocol.name.lower())
 
             protocol_type_name = (
                 "protocol-type"
-                if protocol_type_term in COMMON_PROTOCOLS_MAP
+                if protocol_type_term in mtbls_definitions.COMMON_PROTOCOLS_MAP
                 else "x-mtbls-protocol-type"
             )
             definition_refs = None
@@ -2072,12 +1856,17 @@ class MhdDatasetBuilder_v1_0:
                 )
                 protocol_types[protocol_type] = protocol_type_obj
             mhd_protocol = mhd_domain.Protocol(
-                uri=get_urn(study_id, mhd_domain.Protocol, name),
+                uri=get_urn(study_id, mhd_domain.Protocol, f"{protocol_idx:03}"),
                 name=name,
                 protocol_type_ref=protocol_type_obj.id_,
-                description=protocol.description,
+                description=BeautifulSoup(
+                    protocol.description, "html.parser"
+                ).get_text(),
                 parameter_definition_refs=definition_refs,
             )
+            protocol_summary.protocol_node = mhd_protocol
+            protocol_summary.protocol_type_node = protocol_type_obj
+
             mhd_builder.link(
                 mhd_protocol,
                 "has-type",
@@ -2091,7 +1880,6 @@ class MhdDatasetBuilder_v1_0:
                     param,
                     reverse_relationship_name="used-in",
                 )
-            protocols[name] = mhd_protocol
             if mhd_study.protocol_refs is None:
                 mhd_study.protocol_refs = []
             mhd_builder.add(mhd_protocol)
@@ -2102,14 +1890,12 @@ class MhdDatasetBuilder_v1_0:
                 mhd_protocol,
                 reverse_relationship_name="used-in",
             )
-        return protocols
 
-    def add_keywords(
-        self,
-        mhd_builder: MhDatasetBuilder,
-        mhd_study: mhd_domain.Study,
-        study: Study,
-    ):
+    def add_keywords(self, context: DatasetBuildContext):
+        data = context.data
+        mhd_builder = context.mhd_builder
+        mhd_study = context.study.study_node
+        study = data.investigation.studies[0]
         for item in study.study_design_descriptors.design_types:
             keyword = self.otc.create_cv_term_object(
                 type_="descriptor",
@@ -2143,15 +1929,18 @@ class MhdDatasetBuilder_v1_0:
 
     def add_assay_keywords(
         self,
-        mhd_builder: MhDatasetBuilder,
-        assays: dict[str, mhd_domain.Assay],
-        study: Study,
+        context: DatasetBuildContext,
     ):
+        data = context.data
+        mhd_builder = context.mhd_builder
+        study = data.investigation.studies[0]
         assay_comments = {x.name: x for x in study.study_assays.comments}
+        selected_assay_indices = {x.index for x in context.study.assays}
+        assay_summaries = {x.name: x for x in context.study.assays}
         for idx, assay in enumerate(study.study_assays.assays):
-            mhd_assay = assays.get(assay.file_name)
-            if not mhd_assay:
+            if idx in selected_assay_indices or assay.file_name not in assay_summaries:
                 continue
+
             assay_descriptors = assay_comments.get("Assay Descriptor", [])
             assay_descriptor_term_sources = assay_comments.get(
                 "Assay Descriptor Term Source REF", []
@@ -2204,41 +1993,13 @@ class MhdDatasetBuilder_v1_0:
                         keyword,
                         use_label_for_invalid_cv_term=self.config.use_label_for_invalid_cv_term,
                     )
+                    mhd_assay = assay_summaries.get(assay.file_name)
                     mhd_builder.link(
                         mhd_assay,
                         "has-submitter-keyword",
                         keyword,
                         reverse_relationship_name="keyword-of",
                     )
-            # for item in assay.assay_descriptors:
-            #     if not item or not item.term:
-            #         continue
-            #     keyword = self.otc.create_cv_term_object(
-            #         type_="descriptor",
-            #         source=item.term_source_ref or "",
-            #         accession=self.convert_to_curie(
-            #             item.term_source_ref,
-            #             item.term_accession_number,
-            #         )
-            #         or "",
-            #         name=item.term or "",
-            #     )
-            #     mhd_builder.add_node(keyword)
-
-            #     if not item.source or item.source.lower() in ("submitter",):
-            #         mhd_builder.link(
-            #             mhd_assay,
-            #             "has-submitter-keyword",
-            #             keyword,
-            #             reverse_relationship_name="keyword-of",
-            #         )
-            #     else:
-            #         mhd_builder.link(
-            #             mhd_assay,
-            #             "has-repository-keyword",
-            #             keyword,
-            #             reverse_relationship_name="keyword-of",
-            #         )
 
     def find_file_format(
         self,
@@ -2257,6 +2018,7 @@ class MhdDatasetBuilder_v1_0:
             compressed = True
         zip_file_format_node = None
         file_extension = file_path.suffix
+
         if compressed:
             file_extension += ".zip"
 
@@ -2266,60 +2028,54 @@ class MhdDatasetBuilder_v1_0:
                 accession="EDAM:format_3987",
                 name="ZIP Format",
             )
+
         folder = False
-        if file in data.study_folder_metadata.files:
-            folder = data.study_folder_metadata.files[file].is_directory
-        elif file in data.study_folder_metadata.folders:
-            folder = data.study_folder_metadata.folders[file].is_directory
-        # else:
-        #     return None, None, None
-
-        data_format = FILE_EXTENSIONS.get((suffix.lower(), folder))
-
-        if not data_format:
-            if compressed:
-                data_format = FILE_EXTENSIONS.get((suffix.lower(), not folder))
-            if not data_format:
-                data_format = default_format
         data_format_node = None
-        if data_format:
-            if not cv_nodes.get(data_format.accession):
-                data_format_node = self.otc.create_cv_term_object(
-                    type_="descriptor",
-                    accession=data_format.accession,
-                    source=data_format.source,
-                    name=data_format.name,
-                )
-                cv_nodes[data_format_node.accession] = data_format_node
+        if not compressed:
+            if file in data.study_folder_metadata.files:
+                folder = data.study_folder_metadata.files[file].is_directory
+            elif file in data.study_folder_metadata.folders:
+                folder = data.study_folder_metadata.folders[file].is_directory
 
-            data_format_node = cv_nodes[data_format.accession]
+            data_format = mtbls_definitions.FILE_EXTENSIONS.get(
+                (suffix.lower(), folder)
+            )
+            if not data_format:
+                double_extension = f"{Path(file_path.stem).suffix}{suffix}".lower()
+                data_format = mtbls_definitions.FILE_EXTENSIONS.get(
+                    (double_extension.lower(), folder)
+                )
+                if not data_format:
+                    data_format = default_format
+
+            if data_format:
+                if not cv_nodes.get(data_format.accession):
+                    data_format_node = self.otc.create_cv_term_object(
+                        type_="descriptor",
+                        accession=data_format.accession,
+                        source=data_format.source,
+                        name=data_format.name,
+                    )
+                    cv_nodes[data_format_node.accession] = data_format_node
+
+                data_format_node = cv_nodes[data_format.accession]
         return zip_file_format_node, data_format_node, file_extension
 
-    def add_data_files(
-        self,
-        mhd_builder: MhDatasetBuilder,
-        mhd_study: mhd_domain.Study,
-        data: MetabolightsStudyModel,
-        metadata_files: dict[str, mhd_domain.CvTermObject],
-        result_files: dict[str, mhd_domain.CvTermObject],
-    ):
-        study_id = mhd_study.repository_identifier
-
-        result_file_format = self.otc.create_cv_term_object(
-            type_="descriptor",
-            source="EDAM",
-            accession="EDAM:format_3475",
-            name="TSV",
-        )
-
-        mhd_builder.add(
-            result_file_format,
-            use_label_for_invalid_cv_term=self.config.use_label_for_invalid_cv_term,
-        )
-
+    def add_data_files(self, context: DatasetBuildContext):
+        study_id = context.study_id
+        data = context.data
+        mhd_builder = context.mhd_builder
+        mhd_study = context.study.study_node
         files_map: dict[str, mhd_domain.CvTermObject] = {}
         cv_nodes: dict[str, mhd_domain.CvTermObject] = {}
+
+        metadata_files = context.study.metadata_files
+        assays_summary = {x.name: x for x in context.study.assays}
+        result_files = {x.name: x for x in context.study.assignment_files}
         for assay in data.assays.values():
+            assay_summary = assays_summary.get(assay.file_path)
+            if not assay_summary:
+                continue
             for file in assay.referenced_raw_files:
                 if file in files_map:
                     continue
@@ -2329,7 +2085,7 @@ class MhdDatasetBuilder_v1_0:
                     default_format=None,
                     cv_nodes=cv_nodes,
                 )
-                if not data_format:
+                if not data_format and not compression_format:
                     logger.warning(
                         "File format is not found in folder metadata for study %s: %s",
                         study_id,
@@ -2345,7 +2101,7 @@ class MhdDatasetBuilder_v1_0:
                         compression_format,
                         use_label_for_invalid_cv_term=self.config.use_label_for_invalid_cv_term,
                     )
-                referenced_assay = metadata_files.get(assay.file_path)
+                referenced_assay = metadata_files.get(assay.file_path).file_node
                 file_node = mhd_domain.RawDataFile(
                     uri=get_urn(study_id, mhd_domain.RawDataFile, file),
                     name=file,
@@ -2359,6 +2115,10 @@ class MhdDatasetBuilder_v1_0:
                     extension=file_extension if file_extension else None,
                     url_list=[f"{self.config.public_ftp_base_url}/{study_id}/{file}"],
                 )
+                summary = DataFileSummary(name=file, file_node=file_node, raw_file=True)
+                assay_summary.raw_data_files.append(summary)
+                if file not in context.study.raw_data_files:
+                    context.study.raw_data_files[file] = summary
                 files_map[file] = file_node
                 mhd_builder.add(file_node)
                 mhd_builder.link(
@@ -2393,11 +2153,14 @@ class MhdDatasetBuilder_v1_0:
                         compression_format,
                         use_label_for_invalid_cv_term=self.config.use_label_for_invalid_cv_term,
                     )
-                referenced_assay = metadata_files.get(assay.file_path)
+                referenced_assay = metadata_files.get(assay.file_path).file_node
 
                 # Metabolights accepts mzML files as Derived Data File
                 # It must be converted as Raw Data File
-                if file_extension and file_extension.lower() in RAW_FILE_EXCEPTIONS:
+                if (
+                    file_extension
+                    and file_extension.lower() in mtbls_definitions.RAW_FILE_EXCEPTIONS
+                ):
                     selected_file_class = mhd_domain.RawDataFile
                 else:
                     selected_file_class = mhd_domain.DerivedDataFile
@@ -2418,6 +2181,19 @@ class MhdDatasetBuilder_v1_0:
                     extension=file_extension if file_extension else None,
                     url_list=[f"{self.config.public_ftp_base_url}/{study_id}/{file}"],
                 )
+
+                if selected_file_class == mhd_domain.DerivedDataFile:
+                    summary = DataFileSummary(name=file, file_node=file_node)
+                    assay_summary.derived_data_files.append(summary)
+                    if file not in context.study.derived_data_files:
+                        context.study.derived_data_files[file] = summary
+                else:
+                    summary = DataFileSummary(
+                        name=file, file_node=file_node, raw_file=True
+                    )
+                    assay_summary.raw_data_files.append(summary)
+                    if file not in context.study.raw_data_files:
+                        context.study.raw_data_files[file] = summary
                 files_map[file] = file_node
                 mhd_builder.add(file_node)
                 mhd_builder.link(
@@ -2461,6 +2237,9 @@ class MhdDatasetBuilder_v1_0:
                     extension=file_extension if file_extension else None,
                     url_list=[f"{self.config.public_ftp_base_url}/{study_id}/{file}"],
                 )
+                if file not in context.study.supplementary_data_files:
+                    summary = DataFileSummary(name=file, file_node=file_node)
+                    context.study.supplementary_data_files[file] = summary
                 files_map[file] = file_node
                 mhd_builder.add(file_node)
                 mhd_builder.link(
@@ -2472,48 +2251,81 @@ class MhdDatasetBuilder_v1_0:
 
         return files_map
 
-    def add_reported_metabolites(
-        self,
-        mhd_builder: MhDatasetBuilder,
-        mhd_study: mhd_domain.Study,
-        data: MetabolightsStudyModel,
-        result_files: dict[str, mhd_domain.ResultFile],
-    ):
-        study_id = mhd_study.repository_identifier
-        for maf_filename, maf_file in data.metabolite_assignments.items():
+    def add_reported_metabolites(self, context: DatasetBuildContext):
+        study_id = context.study_id
+        mhd_builder = context.mhd_builder
+        mhd_study = context.study.study_node
+        maf_table_column_descriptors = {}
+        used_maf_table_column_descriptors = set()
+
+        for field, term in mtbls_definitions.MAF_TABLE_COLUMN_TERMS.items():
+            maf_table_column_descriptors[field] = self.otc.create_cv_term_value_object(
+                type_="descriptor",
+                source=term.source,
+                accession=term.accession,
+                name=term.name,
+            )
+        for assignment_file in context.study.assignment_files:
+            maf_idx = assignment_file.index
+            result_file = assignment_file.file_node
+            maf_file = assignment_file.isa_file_content
+
             if not maf_file.table.data.get("metabolite_identification"):
                 continue
-            result_file = result_files.get(maf_filename)
-            for idx, name in enumerate(
+
+            for row_idx, name in enumerate(
                 maf_file.table.data["metabolite_identification"]
             ):
                 if not name or not name.strip() or len(name.strip()) < 2:
                     continue
                 entity = name.strip()
                 met = mhd_domain.MolecularEntity(
-                    uri=get_urn(study_id, mhd_domain.MolecularEntity, entity),
+                    uri=get_urn(
+                        study_id,
+                        mhd_domain.MolecularEntity,
+                        f"{maf_idx:03}/{row_idx:06}",
+                    ),
                     name=entity,
                 )
-                data: dict[str, str] = maf_file.table.data
+                table_data: dict[str, str] = maf_file.table.data
                 submitted_identifiers = []
                 assigned_chebi_identifiers = []
                 assigned_refmet_identifiers = []
-                if maf_file.table.data.get("database_identifier"):
+                for field in mtbls_definitions.MAF_TABLE_COLUMN_TERMS:
+                    values = table_data.get(field, [])
+                    selected_value = None
+                    if values and len(values) > row_idx:
+                        selected_value = values[row_idx] or None
+
+                    if selected_value:
+                        descriptor_node = maf_table_column_descriptors[field]
+                        used_maf_table_column_descriptors.add(field)
+                        tag = KeyValue(key=descriptor_node.id_, value=selected_value)
+                        if not met.tag_list:
+                            met.tag_list = [tag]
+                        else:
+                            met.tag_list.append(tag)
+
+                if table_data.get("database_identifier"):
                     submitted_identifiers = [
                         x.strip()
-                        for x in data["database_identifier"][idx].split("|")
+                        for x in table_data["database_identifier"][row_idx].split("|")
                         if x
                     ]
-                if maf_file.table.data.get("assigned_chebi_identifier"):
+                if table_data.get("assigned_chebi_identifier"):
                     assigned_chebi_identifiers = [
                         x.strip()
-                        for x in data["assigned_chebi_identifier"][idx].split("|")
+                        for x in table_data["assigned_chebi_identifier"][row_idx].split(
+                            "|"
+                        )
                         if x
                     ]
-                if maf_file.table.data.get("assigned_refmet_identifier"):
+                if table_data.get("assigned_refmet_identifier"):
                     assigned_refmet_identifiers = [
                         x.strip()
-                        for x in data["assigned_refmet_identifier"][idx].split("|")
+                        for x in table_data["assigned_refmet_identifier"][
+                            row_idx
+                        ].split("|")
                         if x
                     ]
 
@@ -2586,38 +2398,41 @@ class MhdDatasetBuilder_v1_0:
                     reverse_relationship_name="reported-in",
                 )
 
-    def add_assays(
-        self,
-        mhd_builder: MhDatasetBuilder,
-        mhd_study: mhd_domain.Study,
-        data: MetabolightsStudyModel,
-        selected_assays: list[Assay],
-        metadata_files: dict[str, mhd_domain.CvTermObject],
-        samples: dict[str, mhd_domain.Sample],
-        files_map,
-    ) -> dict[str, mhd_domain.Assay]:
-        study_id = mhd_study.repository_identifier
-        protocol_summaries: OrderedDict[str, ProtocolRunSummary] = OrderedDict()
-        assays: OrderedDict[str, mhd_domain.Assay] = OrderedDict()
-        for assay in selected_assays:
-            if assay.file_name not in data.assays:
-                continue
-            assay_node = None
-            if assay.file_name in metadata_files:
-                assay_node = metadata_files[assay.file_name]
+        for field in used_maf_table_column_descriptors:
+            node = maf_table_column_descriptors.get(field)
+            if node:
+                context.mhd_builder.add(node)
+
+    def add_assays(self, context: DatasetBuildContext) -> dict[str, mhd_domain.Assay]:
+        study_id = context.study_id
+        data = context.data
+        mhd_builder = context.mhd_builder
+        mhd_study = context.study.study_node
+
+        assays: OrderedDict[str, AssaySummary] = OrderedDict()
+        metadata_files = context.study.metadata_files
+        for assay_summary in context.study.assays:
+            assay_idx = assay_summary.index
+            metadata_file = metadata_files.get(assay_summary.name)
             mhd_assay = mhd_domain.Assay(
-                name=assay.file_name,
-                uri=get_urn(study_id, mhd_domain.Assay, assay.file_name),
-                metadata_file_ref=assay_node.id_ if assay_node else None,
+                name=assay_summary.name,
+                uri=get_urn(study_id, mhd_domain.Assay, f"000/{assay_idx:03}"),
+                metadata_file_ref=metadata_file.file_node.id_
+                if metadata_file
+                else None,
             )
             mhd_builder.add(mhd_assay)
-            assays[assay.file_name] = mhd_assay
+            assay_summary.assay_node = mhd_assay
+            assays[assay_summary.name] = assay_summary
             mhd_builder.link(
                 mhd_study, "has-assay", mhd_assay, reverse_relationship_name="part-of"
             )
-            if assay.technology_type.term.lower() in MTBLS_TECHNOLOGY_TYPES:
-                technology_type_cv = MTBLS_TECHNOLOGY_TYPES[
-                    assay.technology_type.term.lower()
+            if (
+                assay_summary.isa_assay.technology_type.term.lower()
+                in mtbls_definitions.MTBLS_TECHNOLOGY_TYPES
+            ):
+                technology_type_cv = mtbls_definitions.MTBLS_TECHNOLOGY_TYPES[
+                    assay_summary.isa_assay.technology_type.term.lower()
                 ]
                 technology_type = self.otc.create_cv_term_object(
                     type_="descriptor",
@@ -2628,12 +2443,12 @@ class MhdDatasetBuilder_v1_0:
             else:
                 technology_type = self.otc.create_cv_term_object(
                     type_="descriptor",
-                    source=assay.technology_type.term_source_ref,
+                    source=assay_summary.isa_assay.technology_type.term_source_ref,
                     accession=self.convert_to_curie(
-                        assay.technology_type.term_source_ref,
-                        assay.technology_type.term_accession_number,
+                        assay_summary.isa_assay.technology_type.term_source_ref,
+                        assay_summary.isa_assay.technology_type.term_accession_number,
                     ),
-                    name=assay.technology_type.term,
+                    name=assay_summary.isa_assay.technology_type.term,
                 )
 
             mhd_builder.add(
@@ -2641,10 +2456,12 @@ class MhdDatasetBuilder_v1_0:
                 use_label_for_invalid_cv_term=self.config.use_label_for_invalid_cv_term,
             )
             mhd_assay.technology_type_ref = technology_type.id_
-            assay_file = data.assays[assay.file_name]
+            assay_file: AssayFile = metadata_file.isa_file_content
             assay_type_cv = None
-            if assay_file.assay_technique.name in MTBLS_ASSAY_TYPES:
-                assay_type_cv = MTBLS_ASSAY_TYPES[assay_file.assay_technique.name]
+            if assay_file.assay_technique.name in mtbls_definitions.MTBLS_ASSAY_TYPES:
+                assay_type_cv = mtbls_definitions.MTBLS_ASSAY_TYPES[
+                    assay_file.assay_technique.name
+                ]
             if assay_type_cv:
                 assay_type = self.otc.create_cv_term_object(
                     type_="descriptor",
@@ -2661,23 +2478,20 @@ class MhdDatasetBuilder_v1_0:
             omics_types: list[mhd_domain.CvTermObject] = []
             measurement_types: list[mhd_domain.CvTermObject] = []
             measurement_type = None
-            if "untargeted" in assay.measurement_type.term.lower():
-                measurement_type = MTBLS_MEASUREMENT_TYPES["untargeted"]
-            elif "semi-targeted" in assay.measurement_type.term.lower():
-                measurement_type = MTBLS_MEASUREMENT_TYPES["semi-targeted"]
-            elif "targeted" in assay.measurement_type.term.lower():
-                measurement_type = MTBLS_MEASUREMENT_TYPES["targeted"]
+            if "untargeted" in assay_summary.isa_assay.measurement_type.term.lower():
+                measurement_type = mtbls_definitions.MTBLS_MEASUREMENT_TYPES[
+                    "untargeted"
+                ]
+            elif (
+                "semi-targeted" in assay_summary.isa_assay.measurement_type.term.lower()
+            ):
+                measurement_type = mtbls_definitions.MTBLS_MEASUREMENT_TYPES[
+                    "semi-targeted"
+                ]
+            elif "targeted" in assay_summary.isa_assay.measurement_type.term.lower():
+                measurement_type = mtbls_definitions.MTBLS_MEASUREMENT_TYPES["targeted"]
 
             inv_study = data.investigation.studies[0]
-            assay_idx = next(
-                iter(
-                    [
-                        idx
-                        for idx, assay in enumerate(inv_study.study_assays.assays)
-                        if assay.file_name == assay.file_name
-                    ]
-                )
-            )
             assay_omics_type = None
             for comment in inv_study.study_assays.comments:
                 if (
@@ -2700,11 +2514,13 @@ class MhdDatasetBuilder_v1_0:
                 if not measurement_type:
                     item = None
                     if "untargeted" in descriptor.term.lower():
-                        item = MTBLS_MEASUREMENT_TYPES["untargeted"]
+                        item = mtbls_definitions.MTBLS_MEASUREMENT_TYPES["untargeted"]
                     if "semi-targeted" in descriptor.term.lower():
-                        item = MTBLS_MEASUREMENT_TYPES["semi-targeted"]
+                        item = mtbls_definitions.MTBLS_MEASUREMENT_TYPES[
+                            "semi-targeted"
+                        ]
                     elif "targeted" in descriptor.term.lower():
-                        item = MTBLS_MEASUREMENT_TYPES["targeted"]
+                        item = mtbls_definitions.MTBLS_MEASUREMENT_TYPES["targeted"]
 
                     if item:
                         measurement_types.append(item)
@@ -2718,7 +2534,7 @@ class MhdDatasetBuilder_v1_0:
             elif len(measurement_types) == 1:
                 selected_measurement_type = measurement_types[0]
             else:
-                selected_measurement_type = DEFAULT_MEASUREMENT_TYPE
+                selected_measurement_type = mtbls_definitions.DEFAULT_MEASUREMENT_TYPE
 
             measurement_type = self.otc.create_cv_term_object(
                 type_="descriptor",
@@ -2737,7 +2553,7 @@ class MhdDatasetBuilder_v1_0:
             elif len(omics_types) == 1:
                 selected_omics_type = omics_types[0]
             else:
-                selected_omics_type = DEFAULT_OMICS_TYPE
+                selected_omics_type = mtbls_definitions.DEFAULT_OMICS_TYPE
             omics_type = self.otc.create_cv_term_object(
                 type_="descriptor",
                 source=selected_omics_type.source,
@@ -2750,17 +2566,7 @@ class MhdDatasetBuilder_v1_0:
             )
             mhd_assay.omics_type_ref = omics_type.id_
 
-            self.add_sample_runs(
-                mhd_builder,
-                mhd_study,
-                mhd_assay,
-                assay_file,
-                files_map,
-                samples,
-                protocol_summaries,
-            )
-        for mhd_assay in assays.values():
-            self.add_assay_protocols(mhd_builder, mhd_study, data, mhd_assay)
+            self.add_sample_runs(context, assay_summary)
         return assays
 
     def convert_str_to_datetime(self, val: str):
@@ -2785,6 +2591,7 @@ class MhdDatasetBuilder_v1_0:
         cached_mtbls_model_file_path: None | Path = None,
         revision: None | Revision = None,
         metabolights_study_model: None | MetabolightsStudyModel = None,
+        cv_term_helper: None | BaseCvTermHelper = None,
         **kwargs,
     ) -> InstanceOf[BaseMhdDataset]:
         mhd_output_filename = kwargs.get("mhd_output_filename", None)
@@ -2858,7 +2665,8 @@ class MhdDatasetBuilder_v1_0:
             logger.warning(error)
             return False, error
         db_metadata = data.study_db_metadata
-        selected_assays: list[Assay] = []
+        selected_assays: list[tuple[int, investigation_file.Assay]] = []
+        selected_assignment_files: dict[str, list[str]] = {}
         study = data.investigation.studies[0]
 
         if data.study_db_metadata.study_id != study.identifier:
@@ -2868,11 +2676,17 @@ class MhdDatasetBuilder_v1_0:
                 data.study_db_metadata.study_id,
             )
         unsupported_assays = []
-        for assay in study.study_assays.assays:
+        for idx, assay in enumerate(study.study_assays.assays):
             if assay.file_name in data.assays:
                 assay_file = data.assays[assay.file_name]
-                if assay_file.assay_technique.name in MTBLS_ASSAY_TYPES:
-                    selected_assays.append(assay)
+                selected_assignment_files[assay.file_name] = (
+                    assay_file.referenced_assignment_files
+                )
+                if (
+                    assay_file.assay_technique.name
+                    in mtbls_definitions.MTBLS_ASSAY_TYPES
+                ):
+                    selected_assays.append((idx, assay))
                 else:
                     unsupported_assays.append(
                         (assay.file_name, assay_file.assay_technique.name)
@@ -2911,7 +2725,7 @@ class MhdDatasetBuilder_v1_0:
             change_log=revisions if revisions else None,
         )
 
-        mhd_builder = MhDatasetBuilder(dataset=dataset)
+        mhd_builder = MhDatasetBuilder(dataset=dataset, cv_term_helper=cv_term_helper)
 
         if data.study_db_metadata.submission_date != study.submission_date:
             logger.warning(
@@ -2947,12 +2761,12 @@ class MhdDatasetBuilder_v1_0:
                 )
 
         mhd_study = mhd_domain.Study(
-            uri=get_urn(study.identifier, mhd_domain.Study, None),
+            uri=get_urn(study.identifier, mhd_domain.Study, "000"),
             repository_identifier=study.identifier,
             created_by_ref=dataset_provider.id_,
             mhd_identifier=mhd_id if mhd_id and mhd_id.startswith("MHD") else None,
             title=study.title,
-            description=study.description,
+            description=BeautifulSoup(study.description, "html.parser").get_text(),
             submission_date=submission_date,
             public_release_date=public_release_date,
             url_list=mtbls_study_repository_urls or None,
@@ -2969,18 +2783,54 @@ class MhdDatasetBuilder_v1_0:
             mhd_study,
             reverse_relationship_name="provided-by",
         )
+        study_summary = StudySummary(study_node=mhd_study, isa_study=study)
+        assignment_files_set = set()
+        for x in selected_assignment_files.values():
+            assignment_files_set.update(x)
+        assignment_file_indices = {
+            v: k for k, v in enumerate(sorted(assignment_files_set))
+        }
 
-        organizations = self.add_contacts(data, mhd_builder, mhd_study)
-        self.add_funders(data, mhd_builder, mhd_study, organizations)
-
-        metadata_files = self.add_metadata_files(
-            mhd_builder, mhd_study, data, selected_assays=selected_assays
+        assignment_files = {
+            x: AssignmentFileSummary(
+                index=assignment_file_indices.get(x),
+                name=x,
+                isa_file_content=data.metabolite_assignments.get(x),
+            )
+            for x in assignment_files_set
+        }
+        study_summary.assignment_files = sorted(
+            assignment_files.values(), key=lambda x: x.index
         )
-        sample_file = data.samples[study.file_name]
-        self.add_characteristic_definitions(mhd_builder, mhd_study, sample_file)
+        for idx, assay in selected_assays:
+            study_summary.assays.append(
+                AssaySummary(
+                    index=idx,
+                    isa_assay=assay,
+                    name=assay.file_name,
+                    isa_file_content=data.assays.get(assay.file_name),
+                    assignment_files=[
+                        x
+                        for x in study_summary.assignment_files
+                        if x.name in selected_assignment_files[assay.file_name]
+                    ],
+                )
+            )
+        context = DatasetBuildContext(
+            study_id=mhd_study.repository_identifier,
+            study=study_summary,
+            mhd_builder=mhd_builder,
+            data=data,
+        )
+        organizations = self.add_contacts(context)
+        self.add_funders(context, organizations)
 
-        self.add_study_factor_definitions(mhd_builder, mhd_study, data)
-        samples = self.add_samples(mhd_builder, mhd_study, sample_file)
+        self.add_metadata_files(context)
+
+        self.add_characteristic_definitions(context)
+
+        self.add_study_factor_definitions(context)
+        self.add_samples(context)
         mhd_study.license = data.study_db_metadata.dataset_license_url
         mhd_study.license_name = data.study_db_metadata.dataset_license
         if not mhd_study.license:
@@ -2988,26 +2838,16 @@ class MhdDatasetBuilder_v1_0:
         dataset.license = mhd_study.license
         dataset.license_name = mhd_study.license_name
         if self.config.build_type in (BuildType.FULL, BuildType.FULL_AND_CUSTOM_NODES):
-            self.add_publications(data, mhd_builder, mhd_study)
-            self.add_protocols(mhd_builder, mhd_study, study)
+            self.add_publications(context)
+            self.add_protocols(context)
 
-            result_files = self.add_result_files(mhd_builder, mhd_study, data)
-            self.add_reported_metabolites(mhd_builder, mhd_study, data, result_files)
+            self.add_result_files(context)
+            self.add_reported_metabolites(context)
 
-            files_map = self.add_data_files(
-                mhd_builder, mhd_study, data, metadata_files, result_files
-            )
-            mhd_assays = self.add_assays(
-                mhd_builder,
-                mhd_study,
-                data,
-                selected_assays,
-                metadata_files,
-                samples,
-                files_map,
-            )
-            self.add_keywords(mhd_builder, mhd_study, study)
-            self.add_assay_keywords(mhd_builder, mhd_assays, study)
+            self.add_data_files(context)
+            self.add_assays(context)
+            self.add_keywords(context)
+            self.add_assay_keywords(context)
 
         mhd_dataset: BaseMhDatasetProfile = mhd_builder.build_dataset(
             start_item_refs=[mhd_study.id_]

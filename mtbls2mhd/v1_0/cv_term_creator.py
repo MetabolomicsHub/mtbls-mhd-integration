@@ -3,10 +3,7 @@ import logging
 from cachetools import cached
 from mhd_model.model.v1_0.dataset.profiles.base import graph_nodes as mhd_domain
 from mhd_model.shared.base import CvTerm, UnitCvTerm
-from mhd_model.shared.validation.cv_term_helper import (
-    CvTermHelper,
-    TTLCache,
-)
+from mhd_model.shared.validation.cv_term_helper import CvTermHelper, TTLCache
 
 logger = logging.getLogger(__name__)
 
@@ -277,16 +274,14 @@ def find_cv_term_by_name_or_accession(
     allow_synonym_search: bool = False,
 ) -> mhd_domain.CvTermObject | None:
     if not source or not accession:
-        return mhd_domain.CvTermObject(
-            type_=type_,
-            name=name,
-        )
+        return mhd_domain.CvTermObject(type_=type_, name=name)
+
     s_term = cv_term_helper.find_cv_term(source, accession)
     if s_term and s_term.name.lower() == name.lower():
         return mhd_domain.CvTermObject(
             type_=type_,
             accession=s_term.accession,
-            source=s_term.source,
+            source=s_term.source.upper(),
             name=s_term.name,
         )
     s_term_with_name = cv_term_helper.find_cv_term(
@@ -307,10 +302,7 @@ def find_cv_term_by_name_or_accession(
             source,
             accession,
         )
-        return mhd_domain.CvTermObject(
-            type_=type_,
-            name=name,
-        )
+        return mhd_domain.CvTermObject(type_=type_, name=name)
 
 
 @cached(
@@ -336,16 +328,14 @@ def find_cv_term_value_by_name_or_accession(
     allow_synonym_search: bool = False,
 ) -> mhd_domain.CvTermValueObject | None:
     if not source or not accession:
-        return mhd_domain.CvTermValueObject(
-            type_=type_,
-            name=name,
-        )
+        return mhd_domain.CvTermValueObject(type_=type_, name=name)
+
     s_term = cv_term_helper.find_cv_term(source, accession)
     if s_term and s_term.name.lower() == name.lower():
         return mhd_domain.CvTermValueObject(
             type_=type_,
             accession=s_term.accession,
-            source=s_term.source,
+            source=s_term.source.upper(),
             name=s_term.name,
             value=value,
             unit=unit_cv,
@@ -371,7 +361,4 @@ def find_cv_term_value_by_name_or_accession(
                 source,
                 accession,
             )
-    return mhd_domain.CvTermValueObject(
-        type_=type_,
-        name=name,
-    )
+    return mhd_domain.CvTermValueObject(type_=type_, name=name)

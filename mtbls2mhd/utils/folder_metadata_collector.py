@@ -1,8 +1,8 @@
 import glob
+import json
 import logging
 import os
 import re
-import subprocess
 from pathlib import Path
 from typing import Dict, List, Tuple, Union
 
@@ -53,6 +53,9 @@ class LocalFolderMetadataCollector(AbstractFolderMetadataCollector):
             # entries = os.listdir(directory)
             for entry in dir_path.iterdir():
                 full_path: Path = entry
+                if not full_path.exists():
+                    logger.warning("File does not exist: %s", full_path)
+                    continue
                 relative_path = Path(dir_relative_path) / Path(entry.name)
                 base_name = relative_path.name
                 parent_directory = ""
@@ -84,6 +87,7 @@ class LocalFolderMetadataCollector(AbstractFolderMetadataCollector):
                 descriptor.base_name = base_name
                 descriptor.parent_directory = parent_directory
                 descriptor.file_path = str(relative_path)
+
                 descriptor.is_directory = full_path.is_dir()
                 descriptor.is_link = full_path.is_symlink()
                 if full_path.exists():
@@ -124,7 +128,61 @@ class LocalFolderMetadataCollector(AbstractFolderMetadataCollector):
         messages: List[GenericMessage] = []
         study_folder_metadata = StudyFolderMetadata()
         metadata: Dict[str, StudyFileDescriptor] = {}
-        self.visit_folder(study_path, study_path, metadata=metadata, messages=messages)
+        data_files_json = (
+            Path(study_path) / "INTERNAL_FILES/DATA_FILES/data_file_index.json"
+        )
+        data_files = json.loads(data_files_json.read_bytes())
+        public_data_files = data_files.get("public_data_files", {})
+        private_data_files = data_files.get("private_data_files", {})
+
+        for k in public_data_files:
+            file = None
+            if k in private_data_files:
+                file = private_data_files[k]
+            else:
+                file = public_data_files[k]
+
+            desc = StudyFileDescriptor(
+                file_path=file.get("relative_path", ""),
+                base_name=file.get("name", ""),
+                parent_directory=file.get("parent_relative_path", ""),
+                modified_at=file.get("modified_time", 0),
+                extension=file.get("extension"),
+                is_directory=file.get("is_dir"),
+                size_in_bytes=file.get("file_size"),
+            )
+            metadata[k] = desc
+        for k in private_data_files:
+            if k in metadata:
+                file = private_data_files[k]
+                desc = StudyFileDescriptor(
+                    file_path=file.get("relative_path", ""),
+                    base_name=file.get("name", ""),
+                    parent_directory=file.get("parent_relative_path", ""),
+                    modified_at=file.get("modified_time", 0),
+                    extension=file.get("extension"),
+                    is_directory=file.get("is_dir"),
+                    size_in_bytes=file.get("file_size"),
+                )
+                metadata[k] = desc
+        metadata_files = glob.glob(f"{study_path}/[asi]_*.txt")  # noqa: PTH207
+        metadata_files = [x for x in metadata_files]
+        maf_files = glob.glob(f"{study_path}/m_*.tsv")  # noqa: PTH207
+        metadata_files.extend([x for x in maf_files])
+
+        for item in metadata_files:
+            file = Path(item)
+            basename = file.name
+            metadata[basename] = StudyFileDescriptor(
+                file_path=basename,
+                base_name=basename,
+                parent_directory="",
+                modified_at=int(file.stat().st_mtime),
+                extension=file.suffix,
+                is_directory=file.is_dir(),
+                size_in_bytes=file.stat().st_size,
+            )
+
         study_folder_metadata.folders = {
             x: metadata[x] for x in metadata if metadata[x].is_directory
         }
@@ -133,23 +191,25 @@ class LocalFolderMetadataCollector(AbstractFolderMetadataCollector):
         }
         data_folder_size = 0
         if calculate_data_folder_size:
-            files_folder_path = os.path.join(study_path, "FILES")  # noqa: PTH118
-            size = self.folder_size(files_folder_path)
-            data_folder_size = size if size else 0
+            data_folder_size = sum(
+                [
+                    metadata[x].size_in_bytes
+                    for x in metadata
+                    if metadata[x].file_path.startswith("FILES/")
+                ]
+            )
 
             study_folder_metadata.folder_size_in_bytes = data_folder_size
 
         if calculate_metadata_size:
-            metadata_size = 0
-            metadata_files = glob.glob(f"{study_path}/[asi]_*.txt")  # noqa: PTH207
-            metadata_files = [x for x in metadata_files]
-            maf_files = glob.glob(f"{study_path}/m_*.tsv")  # noqa: PTH207
-            metadata_files.extend([x for x in maf_files])
-
-            for item in metadata_files:
-                stats = os.stat(item)  # noqa: PTH116
-                metadata_size += stats.st_size
-
+            metadata_size = sum(
+                [
+                    metadata[x].size_in_bytes
+                    for x in metadata
+                    if metadata[x].file_path.startswith("FILES/")
+                ]
+            )
+            study_folder_metadata.metadata_folder_size_calculated = metadata_size
             if study_folder_metadata.folder_size_in_bytes >= 0:
                 study_folder_metadata.folder_size_in_bytes += metadata_size
             else:
@@ -167,26 +227,3 @@ class LocalFolderMetadataCollector(AbstractFolderMetadataCollector):
                 )
 
         return study_folder_metadata, messages
-
-    def folder_size(self, directory: str) -> Union[int, None]:
-        try:
-            # Run the 'du' command to get the size of the directory in bytes
-            directory = os.path.realpath(directory)
-            result = subprocess.run(
-                ["du", "-s", directory],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
-            )
-            if result.returncode == 0:
-                size_str = result.stdout.split()[0]
-                return int(size_str) * 1000
-            else:
-                logger.error("Error: %s", result.stderr.strip())
-                return None
-        except FileNotFoundError as e:
-            logger.error("File not found:  %s", e)
-            return None
-        except Exception as e:
-            logger.exception(e)
-            return None

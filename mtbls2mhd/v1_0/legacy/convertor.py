@@ -5,6 +5,7 @@ from mhd_model.model.v1_0.dataset.profiles.legacy.profile import (
     MhDatasetLegacyProfile_v1_0,
 )
 from mhd_model.shared.base import Revision
+from mhd_model.shared.validation.cv_term_helper import BaseCvTermHelper
 
 from mtbls2mhd.config import Mtbls2MhdConfiguration, get_default_config
 from mtbls2mhd.v1_0.builder import MhdDatasetBuilder_v1_0
@@ -29,6 +30,7 @@ class LegacyProfileV10Convertor(BaseMhdConvertor):
         config: None | Mtbls2MhdConfiguration = None,
         cached_mtbls_model_file_path: None | str = None,
         ontology_cache_service: None | OntologyCacheService = None,
+        cv_term_helper: None | BaseCvTermHelper = None,
         **kwargs,
     ):
         if not config:
@@ -37,6 +39,7 @@ class LegacyProfileV10Convertor(BaseMhdConvertor):
             config=config,
             ontology_cache_service=ontology_cache_service,
             min_affiliation_length=2,
+            cv_term_helper=cv_term_helper,
             **kwargs,
         )
         mtbls_study_repository_website_url = (
@@ -61,8 +64,8 @@ class LegacyProfileV10Convertor(BaseMhdConvertor):
                 target_mhd_model_schema_uri=self.target_mhd_model_schema_uri,
                 target_mhd_model_profile_uri=self.target_mhd_model_profile_uri,
                 cached_mtbls_model_file_path=cached_mtbls_model_file_path,
-                revision=repository_revision,
                 repository_name=repository_name,
+                cv_term_helper=cv_term_helper,
                 **kwargs,
             )
             return success, message

@@ -7,16 +7,16 @@ license = "Apache-2.0"
 readme = "README.md"
 requires-python = ">=3.12,<4.0"
 dependencies = [
-    "asyncpg>=0.30.0",
+    "asyncpg>=0.32.0",
     "httpx2>=2.13.1",
-    "metabolights-utils>=1.4.34",
-    "psycopg[binary,pool]>=3.3.3",
-    "pydantic>=2.12.4",
-    "pydantic-settings>=2.14.2",
+    "metabolights-utils>=1.4.36",
+    "psycopg[binary,pool]>=3.3.6",
+    "pydantic>=2.13.5",
+    "pydantic-settings>=2.15.0",
     "python-keycloak>=7.1.1",
     "pyyaml>=6.0.3",
     "sqlalchemy>=2.0.49",
-    "urllib3>=2.7.0",
+    "urllib3>=2.8.0",
     "soupsieve>=2.8.4",
     "greenlet>=3.5.6",
     "mhd-model",
@@ -95,7 +95,6 @@ root_packages = ["mtbls2mhd", "mhd_model"]
 name = "Version independence"
 type = "independence"
 modules = [
-   "mtbls2mhd.v0_1",
    "mtbls2mhd.v1_0",
 ]
 ignore_imports = [
@@ -108,7 +107,6 @@ source_modules = [
    "mtbls2mhd.utils",
 ]
 forbidden_modules = [
-   "mtbls2mhd.v0_1",
    "mtbls2mhd.v1_0",
 ]
 ignore_imports = [
@@ -123,18 +121,6 @@ source_modules = [
 ]
 forbidden_modules = [
    "mhd_model.model.v0_1",
-]
-ignore_imports = [
-]
-
-[[tool.importlinter.contracts]]
-name = "Do not import MHD v1_0 for v0_1 convertor"
-type = "forbidden"
-source_modules = [
-   "mtbls2mhd.v0_1",
-]
-forbidden_modules = [
-   "mhd_model.model.v1_0",
 ]
 ignore_imports = [
 ]

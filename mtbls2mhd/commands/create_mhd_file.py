@@ -12,10 +12,14 @@ from mhd_model.model.definitions import (
     MHD_MODEL_V0_1_DEFAULT_SCHEMA_NAME,
     MHD_MODEL_V0_1_LEGACY_PROFILE_NAME,
 )
+from mhd_model.shared.validation.ontology_lookup_cv_term_helper import (
+    OntologyLookupCvTermHelper,
+)
 
 from mtbls2mhd.commands.fetch_mtbls_study import fetch_mtbls_data
 from mtbls2mhd.config import ConfigurationFile, Mtbls2MhdConfiguration
 from mtbls2mhd.convertor_factory import Mtbls2MhdConvertorFactory
+from mtbls2mhd.v1_0.builder import get_cv_term_helper
 
 logger = logging.getLogger(__name__)
 
@@ -62,6 +66,12 @@ logger = logging.getLogger(__name__)
     show_default=True,
     help="MetaboLights Metadata (ISA-TAB + DB) json file path",
 )
+@click.option(
+    "--ontology-lookup-db-path",
+    default=None,
+    show_default=True,
+    help="Ontology Lookup Sqlite database file path",
+)
 @click.argument("mtbls_study_id")
 @click.argument("mhd_identifier")
 def create_mhd_file_task(
@@ -74,6 +84,7 @@ def create_mhd_file_task(
     config_file: str,
     mtbls_ws_url: str,
     mtbls_model_file_path: None | str = None,
+    ontology_lookup_db_path: None | str = None,
 ):
     """Convert a MetaboLights study to MHD file format.
 
@@ -86,6 +97,13 @@ def create_mhd_file_task(
 
 
     """
+
+    ontology_cache_service = None
+    if ontology_lookup_db_path:
+        cv_term_helper = OntologyLookupCvTermHelper(db_path=ontology_lookup_db_path)
+    else:
+        cv_term_helper = get_cv_term_helper()
+
     config: ConfigurationFile = None
     if not config_file:
         click.echo("config file is not defined. Default one will be used.")
@@ -147,6 +165,8 @@ def create_mhd_file_task(
             mhd_output_filename=output_filename,
             config=mtbls2mhd_config,
             metabolights_study_model=metabolights_study_model,
+            ontology_cache_service=ontology_cache_service,
+            cv_term_helper=cv_term_helper,
         )
         if success:
             click.echo(f"{mtbls_study_id} is converted successfully. {result}")

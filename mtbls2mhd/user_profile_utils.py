@@ -57,4 +57,7 @@ def update_submitter_user_from_keycloak(
                     + " "
                     + (payload.get("country") or [""])[0]
                 )
+                submitter.affiliation_ror_id = (
+                    payload.get("AffiliationRorId") or [""]
+                )[0]
                 submitter.affiliation_url = (payload.get("affiliationUrl") or [""])[0]

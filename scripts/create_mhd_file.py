@@ -15,10 +15,13 @@ from mhd_model.convertors.mhd.convertor import BaseMhdConvertor
 from mhd_model.convertors.sdrf.mhd2sdrf import create_sdrf_files
 from mhd_model.domain_utils import get_file_hashes
 from mhd_model.model.definitions import (
-    MHD_MODEL_V0_1_DEFAULT_SCHEMA_NAME,
-    MHD_MODEL_V0_1_LEGACY_PROFILE_NAME,
     MHD_MODEL_V1_0_DEFAULT_SCHEMA_NAME,
+    MHD_MODEL_V1_0_LEGACY_PROFILE_NAME,
     MHD_MODEL_V1_0_MS_PROFILE_NAME,
+)
+from mhd_model.shared.validation.cv_term_helper import BaseCvTermHelper
+from mhd_model.shared.validation.ontology_lookup_cv_term_helper import (
+    OntologyLookupCvTermHelper,
 )
 from mhd_model.validation import (
     validate_announcement_file_json,
@@ -41,6 +44,8 @@ from scripts.utils import setup_basic_logging_config
 
 logger = logging.getLogger(__name__)
 
+local_ontology_lookup_db_path = ""
+
 
 def convert_mtbls_study_to_mhd(
     mtbls_study_id: str,
@@ -51,6 +56,8 @@ def convert_mtbls_study_to_mhd(
     convertor: None | BaseMhdConvertor = None,
     errors_file_path: None | Path = None,
     force_recreate: bool = False,
+    cv_term_helper: None | BaseCvTermHelper = None,
+    ontology_lookup_db_path: None | str = None,
 ) -> tuple[bool | None, dict[str, list[jsonschema.ValidationError]]]:
     root_path = mtbls_config.mtbls_studies_root_path
 
@@ -97,6 +104,7 @@ def convert_mtbls_study_to_mhd(
         metabolights_study_model = MetabolightsStudyModel.model_validate_json(
             mtbls_model_source_path.read_text(), by_alias=True
         )
+
     try:
         convertor.convert(
             repository_name="MetaboLights",
@@ -107,6 +115,7 @@ def convert_mtbls_study_to_mhd(
             config=mtbls_config,
             metabolights_study_model=metabolights_study_model,
             ontology_cache_service=None,
+            cv_term_helper=cv_term_helper,
         )
 
     except Exception as ex:
@@ -132,7 +141,9 @@ def convert_mtbls_study_to_mhd(
         )
         file_bytes = Path(mhd_file_path).read_bytes()
         mhd_file_json = json.loads(file_bytes)
-        errors = validate_mhd_file_json(mhd_file_json)
+        errors = validate_mhd_file_json(
+            mhd_file_json, ontology_lookup_file_path=ontology_lookup_db_path
+        )
         if errors:
             raise Exception(str([str(x) for x in errors]))
         mhd_metadata_file_hashes = get_file_hashes(file_bytes)
@@ -145,9 +156,14 @@ def convert_mtbls_study_to_mhd(
         if not Path(announcement_file_path).exists():
             raise Exception(f"FIle does not exist: {announcement_file_path}")
         announcement_file_json = json.loads(Path(announcement_file_path).read_text())
-        errors = validate_announcement_file_json(announcement_file_json)
+        errors = validate_announcement_file_json(
+            announcement_file_json, ontology_lookup_file_path=ontology_lookup_db_path
+        )
         if errors:
             raise Exception(str([str(x) for x in errors]))
+        logger.info("Announcement file is validated: %s", announcement_file_path)
+        logger.info("%s MHD file creation and validation is completed", mtbls_study_id)
+
     except Exception:
         traceback.print_exc()
         if mhd_file_path.exists():
@@ -162,6 +178,7 @@ def convert_mtbls_study_model_to_mhd(
     mtbls_study_id: str,
     mtbls_config: Mtbls2MhdConfiguration,
     mtbls_ws_url: str = "https://www.ebi.ac.uk/metabolights/ws3",
+    cv_term_helper: None | BaseCvTermHelper = None,
 ) -> tuple[bool, dict[str, list[jsonschema.ValidationError]]]:
     root_path = mtbls_config.mtbls_studies_root_path
     factory = Mtbls2MhdConvertorFactory()
@@ -200,6 +217,7 @@ def convert_mtbls_study_model_to_mhd(
         config=mtbls_config,
         metabolights_study_model=metabolights_study_model,
         ontology_cache_service=None,
+        cv_term_helper=cv_term_helper,
     )
     mhd_file_path = mhd_output_root_path / Path(mhd_output_filename)
     mhd_announcement_output_root_path = Path("tests/mhd_announcement/legacy")
@@ -356,21 +374,11 @@ def create_mtbls_models(skip_current: bool = True, working_dir: str = ".outputs"
         )
 
 
-def create_mhd_legacy_profile(
-    force_recreate: bool = False, working_dir: str = ".outputs"
-):
-    # study_ids = [
-    #     x.name.replace("_model.json", "")
-    #     for x in Path(f"{working_dir}/mtbls_model").glob("*_model.json")
-    # ]
-    # study_ids.sort(
-    #     key=lambda x: int(x.replace("MTBLS", "").replace("REQ", "")), reverse=True
-    # )
+def get_all_legacy_study_ids(reverse: bool = False) -> list[str]:
     mtbls_config = get_default_config()
 
     connection = create_postgresql_connection(mtbls_config)
-
-    sql = "select acc from studies where status = 3 and study_category in (1, 5);"
+    sql = "select acc from studies where status = 3 and study_category in (5);"
     try:
         cursor = connection.cursor()
         cursor.execute(sql)
@@ -379,39 +387,42 @@ def create_mhd_legacy_profile(
         raise ex
     study_ids = [x.get("acc") for x in data]
     study_ids.sort(
-        key=lambda x: int(x.replace("MTBLS", "").replace("REQ", "")), reverse=False
+        key=lambda x: int(x.replace("MTBLS", "").replace("REQ", "")), reverse=reverse
     )
-    # study_ids = ["MTBLS1878", "MTBLS1897"]
-    # study_ids = [
-    #     x.strip()
-    #     for x in Path("public_studies.csv").read_text().splitlines()
-    #     if x and x.strip()
-    # ]
-    study_ids = ["MTBLS30008971"]
-    study_ids = ["MTBLS30009012"]
+    return study_ids
+
+
+def create_mhd_files(force_recreate: bool = False, working_dir: str = ".outputs"):
+
+    study_ids = get_all_legacy_study_ids(reverse=True)
+    # study_ids = ["MTBLS3"]
+
+    limit = 20
     factory = Mtbls2MhdConvertorFactory()
     mhd_output_root_path = Path(f"{working_dir}/mhd")
+    ontology_lookup_db_path = ".db/ontology_lookup.db"
+    cv_term_helper = OntologyLookupCvTermHelper(db_path=ontology_lookup_db_path)
     mtbls_config = get_default_config()
-    # mtbls_config.selected_profile_uri = MHD_MODEL_V1_0_LEGACY_PROFILE_NAME
-    mtbls_config.selected_schema_uri = MHD_MODEL_V0_1_DEFAULT_SCHEMA_NAME
-    mtbls_config.selected_profile_uri = MHD_MODEL_V0_1_LEGACY_PROFILE_NAME
     mtbls_config.selected_profile_uri = MHD_MODEL_V1_0_MS_PROFILE_NAME
+
+    mtbls_config.selected_profile_uri = MHD_MODEL_V1_0_LEGACY_PROFILE_NAME
     mtbls_config.selected_schema_uri = MHD_MODEL_V1_0_DEFAULT_SCHEMA_NAME
     mtbls_config.use_label_for_invalid_cv_term = True
-    legacy_convertor = factory.get_convertor(
+    convertor = factory.get_convertor(
         target_mhd_model_schema_uri=mtbls_config.selected_schema_uri,
         target_mhd_model_profile_uri=mtbls_config.selected_profile_uri,
     )
     mtbls_model_root_path = Path(f"{working_dir}/mtbls_model")
 
-    for mtbls_study_id in study_ids:
+    for idx, mtbls_study_id in enumerate(study_ids):
+        if idx >= limit:
+            break
         errors_file_path = mhd_output_root_path / f"{mtbls_study_id}.mhd.errors.json"
-        # if errors_file_path.exists():
-        #     # if "characteristic-value node at index" not in errors_file_path.read_text():
-        #     #     continue
-        #     pass
-        # else:
-        #     continue
+        announcement_file_path = (
+            mhd_output_root_path / f"{mtbls_study_id}.announcement.json"
+        )
+        if announcement_file_path.exists() and not force_recreate:
+            continue
         mtbls_model_source_path = mtbls_model_root_path / Path(
             f"{mtbls_study_id}_model.json"
         )
@@ -428,36 +439,16 @@ def create_mhd_legacy_profile(
             mhd_output_root_path=mhd_output_root_path,
             mhd_announcement_output_root_path=mhd_output_root_path,
             mtbls_model_source_path=mtbls_model_source_path,
-            convertor=legacy_convertor,
+            convertor=convertor,
             errors_file_path=errors_file_path,
             force_recreate=force_recreate,
+            cv_term_helper=cv_term_helper,
+            ontology_lookup_db_path=ontology_lookup_db_path,
         )
         if errors:
             logger.info("%s is skipped", mtbls_study_id)
             raise ValueError(errors)
         write_to_file(errors_file_path, True, errors)
-
-        # ms_mtbls_config = get_default_config()
-        # ms_mtbls_config.selected_schema_uri = MHD_MODEL_V0_1_SCHEMA_URI
-        # ms_mtbls_config.selected_profile_uri = MHD_MODEL_V0_1_MS_PROFILE_URI
-        # ms_mhd_output_root_path = Path(".outputs/mhd")
-
-        # ms_convertor = factory.get_convertor(
-        #     target_mhd_model_schema_uri=ms_mtbls_config.selected_schema_uri,
-        #     target_mhd_model_profile_uri=ms_mtbls_config.selected_profile_uri,
-        # )
-
-        # errors_file_path = ms_mhd_output_root_path / f"{mtbls_study_id}.mhd.errors.json"
-        # success, errors = convert_mtbls_study_to_mhd(
-        #     mtbls_study_id,
-        #     ms_mtbls_config,
-        #     mhd_output_root_path=ms_mhd_output_root_path,
-        #     mhd_announcement_output_root_path=ms_mhd_output_root_path,
-        #     mtbls_model_source_path=mtbls_model_source_path,
-        #     convertor=ms_convertor,
-        #     errors_file_path=errors_file_path,
-        # )
-        # write_to_file(errors_file_path, success, errors)
 
 
 def create_sdrf_file_from_mhd_file(working_dir: str = ".outputs"):
@@ -471,6 +462,5 @@ def create_sdrf_file_from_mhd_file(working_dir: str = ".outputs"):
 
 if __name__ == "__main__":
     setup_basic_logging_config()
-    # create_mhd_legacy_profile(force_recreate=True, working_dir="tests")
     # create_sdrf_file_from_mhd_file()
-    create_mhd_legacy_profile(force_recreate=True, working_dir=".outputs")
+    create_mhd_files(force_recreate=True, working_dir=".outputs")
