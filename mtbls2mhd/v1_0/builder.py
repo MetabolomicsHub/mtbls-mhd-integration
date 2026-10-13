@@ -559,6 +559,13 @@ class MhdDatasetBuilder_v1_0:
             if identifiers:
                 grant_ids.extend([x for x in identifiers if x])
         funder_links = {}
+        grant_id_node = self.otc.create_cv_term_object(
+            type_="descriptor",
+            source="OBI",
+            accession="OBI:0001629",
+            name="grant identifier",
+        )
+        grant_id_node_is_used = False
         for idx, funder in enumerate(funders or []):
             ror_id = funder_ror_ids[idx] if len(funder_ror_ids) > idx else None
             if ror_id:
@@ -590,12 +597,9 @@ class MhdDatasetBuilder_v1_0:
             grant_id = grant_ids[idx] if len(grant_ids) > idx else None
             grant_key = None
             if grant_id:
+                grant_id_node_is_used = True
                 grant_key = KeyValue(
-                    key=CvTerm(
-                        source="OBI",
-                        accession="OBI:0001629",
-                        name="grant identifier",
-                    ),
+                    key=grant_id_node.id_,
                     value=grant_id,
                 )
             if organization.name in funder_links:
@@ -614,6 +618,8 @@ class MhdDatasetBuilder_v1_0:
                     tag_list=[grant_key] if grant_key else None,
                 )
                 funder_links[organization.name] = links
+        if grant_id_node_is_used:
+            mhd_builder.add(grant_id_node)
 
     def add_related_datasets(self, context: DatasetBuildContext):
         data = context.data
