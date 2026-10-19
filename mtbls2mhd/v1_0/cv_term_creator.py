@@ -38,6 +38,11 @@ class OntologyTermCreator:
         source: str,
         name: str,
     ) -> mhd_domain.CvTermObject:
+        if not name and (not source or not accession):
+            source = ""
+            accession = ""
+        if not name and not source and not accession:
+            return None
         return create_cv_term_node(
             cv_term_helper=self.cv_term_helper,
             type_=type_,
@@ -56,7 +61,19 @@ class OntologyTermCreator:
         name: str = "",
         value: None | str = None,
         unit: None | UnitCvTerm = None,
-    ) -> mhd_domain.CvTermValueObject:
+    ) -> None | mhd_domain.CvTermValueObject:
+        if not name and (not source or not accession):
+            source = ""
+            accession = ""
+        if not name and not source and not accession and not value:
+            return None
+        if unit:
+            if not unit.name and (not unit.source or not unit.accession):
+                unit.source = ""
+                unit.accession = ""
+            if not unit.name and not unit.source and not unit.accession:
+                unit = None
+        name = name or ""
         return create_cv_term_value_node(
             cv_term_helper=self.cv_term_helper,
             type_=type_,
@@ -140,7 +157,7 @@ def create_cv_term_value_node(
     unit: None | UnitCvTerm = None,
     cache_service: None | OntologyCacheService = None,
     default_terms: None | dict[str, CvTerm] = None,
-) -> mhd_domain.CvTermValueObject:
+) -> mhd_domain.CvTermValueObject | None:
     # Remove accession and source if they start with MTBLS.
     # they are placeholders and do not have meaning outside of MTBLS context.
 
@@ -361,4 +378,6 @@ def find_cv_term_value_by_name_or_accession(
                 source,
                 accession,
             )
+    if not name:
+        return None
     return mhd_domain.CvTermValueObject(type_=type_, name=name)

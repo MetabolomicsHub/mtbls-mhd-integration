@@ -160,7 +160,7 @@ def convert_mtbls_study_to_mhd(
             announcement_file_json, ontology_lookup_file_path=ontology_lookup_db_path
         )
         if errors:
-            raise Exception(str([str(x) for x in errors]))
+            raise Exception(mtbls_study_id, str([str(x) for x in errors]))
         logger.info("Announcement file is validated: %s", announcement_file_path)
         logger.info("%s MHD file creation and validation is completed", mtbls_study_id)
 
@@ -170,7 +170,6 @@ def convert_mtbls_study_to_mhd(
             mhd_file_path.unlink()
         if announcement_file_path.exists():
             announcement_file_path.unlink()
-        raise
         # return jsonschema.ValidationError(message=traceback.format_exc())
 
 
@@ -392,14 +391,40 @@ def get_all_legacy_study_ids(reverse: bool = False) -> list[str]:
     return study_ids
 
 
+def find_missing_mhd_files(working_dir: str = ".outputs"):
+
+    study_ids = get_all_legacy_study_ids(reverse=False)
+    mhd_output_root_path = Path(f"{working_dir}/mhd")
+    missing_studies = []
+    for mtbls_study_id in study_ids:
+        mhd_output_filename = f"{mtbls_study_id}.mhd.json"
+        mhd_file_path = mhd_output_root_path / mhd_output_filename
+        if not mhd_file_path.exists():
+            missing_studies.append(mtbls_study_id)
+    if not missing_studies:
+        logger.info("MHD files are created for all public studies.")
+        return
+    logger.info("Missing MHD files for some public studies.")
+    for study_id in missing_studies:
+        logger.info("%s", study_id)
+
+
 def create_mhd_files(force_recreate: bool = False, working_dir: str = ".outputs"):
 
-    study_ids = get_all_legacy_study_ids(reverse=True)
-    # study_ids = ["MTBLS3"]
-
-    limit = 20
+    # study_ids = get_all_legacy_study_ids(reverse=False)
+    study_ids = [
+        "MTBLS12625",
+        "MTBLS13105",
+        "MTBLS10665",
+        "MTBLS13211",
+        "MTBLS14124",
+    ]
+    # study_ids = ["MTBLS8329"]
+    limit = 2000000
     factory = Mtbls2MhdConvertorFactory()
     mhd_output_root_path = Path(f"{working_dir}/mhd")
+    sdrf_output_root_path = Path(f"{working_dir}/sdrf")
+    sdrf_output_root_path.mkdir(exist_ok=True, parents=True)
     ontology_lookup_db_path = ".db/ontology_lookup.db"
     cv_term_helper = OntologyLookupCvTermHelper(db_path=ontology_lookup_db_path)
     mtbls_config = get_default_config()
@@ -430,9 +455,9 @@ def create_mhd_files(force_recreate: bool = False, working_dir: str = ".outputs"
         mtbls_model_source_path = None
         mhd_output_filename = f"{mtbls_study_id}.mhd.json"
         mhd_file_path = mhd_output_root_path / mhd_output_filename
-        if mhd_file_path.exists() and len(study_ids) > 10:
+        if mhd_file_path.exists() and len(study_ids) > 15:
             continue
-
+        logger.info("Study %s conversion started.", mtbls_study_id)
         errors = convert_mtbls_study_to_mhd(
             mtbls_study_id,
             mtbls_config,
@@ -445,10 +470,11 @@ def create_mhd_files(force_recreate: bool = False, working_dir: str = ".outputs"
             cv_term_helper=cv_term_helper,
             ontology_lookup_db_path=ontology_lookup_db_path,
         )
+        if mhd_file_path.exists():
+            create_sdrf_files(str(mhd_file_path), str(sdrf_output_root_path))
         if errors:
             logger.info("%s is skipped", mtbls_study_id)
             raise ValueError(errors)
-        write_to_file(errors_file_path, True, errors)
 
 
 def create_sdrf_file_from_mhd_file(working_dir: str = ".outputs"):
@@ -463,4 +489,5 @@ def create_sdrf_file_from_mhd_file(working_dir: str = ".outputs"):
 if __name__ == "__main__":
     setup_basic_logging_config()
     # create_sdrf_file_from_mhd_file()
+    # find_missing_mhd_files(working_dir=".outputs")
     create_mhd_files(force_recreate=True, working_dir=".outputs")

@@ -31,6 +31,7 @@ from mhd_model.model.v1_0.rules.managed_cv_terms import (
     COMMON_MOLECULAR_ENTITY_IDENTIFIERS,
     COMMON_OMICS_TYPES,
     COMMON_STUDY_FACTOR_DEFINITIONS,
+    MISSING_PUBLICATION_REASON,
 )
 from mhd_model.shared.base import ConfigDict, CvTerm, KeyValue, Revision, UnitCvTerm
 from mhd_model.shared.dataset_builder import BaseMhDatasetProfile, MhDatasetBuilder
@@ -94,7 +95,7 @@ class SampleRunSummary(BaseModel):
     run_name: None | str = None
     assay_summary: None | AssaySummary = None
     sample_summary: None | SampleSummary = None
-    node: None | mhd_domain.SampleRunConfiguration = None
+    node: None | mhd_domain.SampleRun = None
     sample_run_configurations: list[SampleRunConfigurationSummary] = []
     raw_data_files: dict[str, DataFileSummary] = {}
     derived_data_files: dict[str, DataFileSummary] = {}
@@ -235,6 +236,16 @@ class MhdDatasetBuilder_v1_0:
         )
         self.min_affiliation_length = min_affiliation_length
 
+    def find_cv_term_by_label(
+        self, group: str, label: str, allow_synonyms: bool = False
+    ):
+        mapping = mtbls_definitions.get_cv_terms_mapping()
+        item = mapping.get(group, {}).get(label.lower(), None)
+        if item:
+            return item
+        self.cv_term_helper.find_cv_term()
+        return None
+
     def convert_to_curie(self, source_ref: str, uri: str) -> str:
         if not uri:
             return ""
@@ -264,7 +275,8 @@ class MhdDatasetBuilder_v1_0:
         mhd_builder = context.mhd_builder
         mhd_study = context.study.study_node
         study = data.investigation.studies[0]
-
+        contacts_by_fullname: dict[str, mhd_domain.Person] = {}
+        contacts_by_email: dict[str, mhd_domain.Person] = {}
         organizations = {}
         if self.config.build_type == BuildType.MINIMUM:
             # Add submitters as contacts only
@@ -308,19 +320,39 @@ class MhdDatasetBuilder_v1_0:
                         )
                         if x
                     ]
-                )
+                ).strip()
+                email_list = [contact.email] if contact.email else []
+                if contact.additional_emails:
+                    email_list.extend(contact.additional_emails)
+
                 try:
-                    email_list = [contact.email] if contact.email else []
-                    if contact.additional_emails:
-                        email_list.extend(contact.additional_emails)
-                    mhd_contact = mhd_domain.Person(
-                        uri=get_urn(study_id, mhd_domain.Person, f"{contact_idx:03}"),
-                        full_name=fullname,
-                        email_list=email_list or None,
-                        orcid=contact.orcid or None,
-                        address_list=[contact.address] if contact.address else None,
-                        phone_list=[contact.phone] if contact.phone else None,
-                    )
+                    mhd_contact = None
+                    existing_contact = False
+                    if contact.email:
+                        mhd_contact = contacts_by_email.get(contact.email.lower())
+                    if not mhd_contact and fullname:
+                        mhd_contact = contacts_by_fullname.get(fullname.lower())
+                    if mhd_contact:
+                        self.update_contact_from_isa_contact(mhd_contact, contact)
+                        existing_contact = True
+                    else:
+                        mhd_contact = mhd_domain.Person(
+                            uri=get_urn(
+                                study_id, mhd_domain.Person, f"{contact_idx:03}"
+                            ),
+                            full_name=fullname,
+                            email_list=email_list or None,
+                            orcid=contact.orcid or None,
+                            address_list=[contact.address.strip()]
+                            if contact.address
+                            else None,
+                            phone_list=[contact.phone] if contact.phone else None,
+                        )
+                        if fullname:
+                            contacts_by_fullname[fullname.lower()] = mhd_contact
+                        if email_list:
+                            contacts_by_email[email_list[0].lower()] = mhd_contact
+
                 except ValidationError as e:
                     logger.error(
                         "%s study %s. contact email or orcid format is not valid. Contact will be ignored. '%s' %s",
@@ -355,7 +387,8 @@ class MhdDatasetBuilder_v1_0:
                     # continue
                 else:
                     contacts[mhd_contact.email_list[0]] = mhd_contact
-                mhd_builder.add(mhd_contact)
+                if not existing_contact:
+                    mhd_builder.add(mhd_contact)
                 roles = set()
                 for role in contact.roles:
                     if role.term.lower() in roles:
@@ -462,29 +495,58 @@ class MhdDatasetBuilder_v1_0:
                             submitter.orcid or "",
                         ):
                             orcid = submitter.orcid
-                        mhd_contact = mhd_domain.Person(
-                            uri=get_urn(
-                                study_id, mhd_domain.Person, submitter.user_name
-                            ),
-                            full_name=" ".join(
-                                [
-                                    x if len(x) > 1 else f"{x}."
-                                    for x in (
-                                        submitter.first_name,
-                                        submitter.last_name,
-                                    )
-                                    if x
-                                ]
-                            ),
-                            email_list=[submitter.user_name]
-                            if submitter.user_name
-                            else None,
-                            address_list=[submitter.address]
-                            if submitter.address
-                            else None,
-                            orcid=orcid or None,
-                        )
-                        mhd_builder.add(mhd_contact)
+                        mhd_contact = None
+                        existing_contact = False
+                        fullname = " ".join(
+                            [
+                                x if len(x) > 1 else f"{x}."
+                                for x in (
+                                    submitter.first_name,
+                                    submitter.last_name,
+                                )
+                                if x
+                            ]
+                        ).strip()
+                        if submitter.user_name:
+                            mhd_contact = contacts_by_email.get(
+                                submitter.user_name.lower()
+                            )
+                        if not mhd_contact and fullname:
+                            mhd_contact = contacts_by_fullname.get(fullname.lower())
+
+                        if mhd_contact:
+                            existing_contact = True
+                            mhd_contact.full_name = mhd_contact.full_name or fullname
+                            mhd_contact.orcid = mhd_contact.orcid or orcid
+                            if mhd_contact.email_list:
+                                if submitter.user_name:
+                                    mhd_contact.email_list.append(submitter.user_name)
+                                else:
+                                    mhd_contact.email_list = [submitter.user_name]
+                            elif submitter.user_name:
+                                mhd_contact.email_list = [submitter.user_name]
+
+                        else:
+                            mhd_contact = mhd_domain.Person(
+                                uri=get_urn(
+                                    study_id, mhd_domain.Person, submitter.user_name
+                                ),
+                                full_name=fullname,
+                                email_list=[submitter.user_name]
+                                if submitter.user_name
+                                else None,
+                                address_list=[submitter.address.strip()]
+                                if submitter.address
+                                else None,
+                                orcid=orcid or None,
+                            )
+                            if fullname:
+                                contacts_by_fullname[fullname.lower()] = mhd_contact
+                            if email_list:
+                                contacts_by_email[email_list[0].lower()] = mhd_contact
+
+                        if not existing_contact:
+                            mhd_builder.add(mhd_contact)
                         if organization:
                             mhd_builder.link(
                                 mhd_contact,
@@ -514,6 +576,44 @@ class MhdDatasetBuilder_v1_0:
                         )
 
         return organizations
+
+    def update_contact_from_isa_contact(
+        self,
+        mhd_contact: mhd_domain.Person,
+        contact: investigation_file.Person,
+    ):
+        fullname = " ".join(
+            [
+                x if len(x) > 1 else f"{x}."
+                for x in (
+                    contact.first_name,
+                    contact.mid_initials,
+                    contact.last_name,
+                )
+                if x
+            ]
+        ).strip()
+        contact_email = contact.email.lower() if contact.email else None
+        if contact_email:
+            if mhd_contact.email_list:
+                mhd_contact.email_list.append(contact_email)
+            else:
+                mhd_contact.email_list = [contact_email]
+
+        mhd_contact.full_name = mhd_contact.full_name or fullname or None
+        mhd_contact.orcid = mhd_contact.orcid or contact.orcid or None
+        contact_address = contact.address.strip() if contact.address else None
+        if contact_address:
+            if mhd_contact.address_list:
+                mhd_contact.address_list.append(contact_address)
+            else:
+                mhd_contact.address_list = [contact_address]
+        contact_phone = contact.phone or None
+        if contact_phone:
+            if mhd_contact.phone_list:
+                mhd_contact.phone_list.append(contact_phone)
+            else:
+                mhd_contact.phone_list = [contact_phone]
 
     def add_funders(
         self,
@@ -694,12 +794,16 @@ class MhdDatasetBuilder_v1_0:
                 )
 
         if not mhd_publications:
+            no_publication_cv_term = MISSING_PUBLICATION_REASON.get("no publication")
+            pending_publication_cv_term = MISSING_PUBLICATION_REASON.get(
+                "pending publication"
+            )
             if not study.study_publications.publications:
                 no_publication = self.otc.create_cv_term_object(
                     type_="descriptor",
-                    accession="MS:1002853",
-                    source="MS",
-                    name="Dataset with no associated published manuscript",
+                    accession=no_publication_cv_term.accession,
+                    source=no_publication_cv_term.source,
+                    name=no_publication_cv_term.name,
                 )
                 mhd_builder.add(
                     no_publication,
@@ -714,9 +818,9 @@ class MhdDatasetBuilder_v1_0:
             else:
                 pending_publication = self.otc.create_cv_term_object(
                     type_="descriptor",
-                    accession="MS:1002858",
-                    source="MS",
-                    name="Dataset with its publication pending",
+                    accession=pending_publication_cv_term.accession,
+                    source=pending_publication_cv_term.source,
+                    name=pending_publication_cv_term.name,
                 )
                 mhd_builder.add(
                     pending_publication,
@@ -1245,6 +1349,41 @@ class MhdDatasetBuilder_v1_0:
         sanitized = re.sub(r"[^0-9a-zA-Z-]", "", input_string)
         return sanitized
 
+    def append_cv_term_object(
+        self,
+        item_list: list,
+        type_: str,
+        source: None | str = None,
+        accession: None | str = None,
+        name: None | str = None,
+    ):
+        item = self.otc.create_cv_term_object(
+            type_=type_, source=source, accession=accession, name=name
+        )
+        if item:
+            item_list.append(item)
+
+    def append_cv_term_value_object(
+        self,
+        item_list: list,
+        type_: str,
+        source: None | str = "",
+        accession: None | str = "",
+        name: None | str = "",
+        value: None | str = None,
+        unit: None | UnitCvTerm = None,
+    ):
+        item = self.otc.create_cv_term_value_object(
+            type_=type_,
+            source=source,
+            accession=accession,
+            name=name,
+            value=value,
+            unit=unit,
+        )
+        if item:
+            item_list.append(item)
+
     def create_values(
         self,
         mhd_builder: MhDatasetBuilder,
@@ -1261,7 +1400,7 @@ class MhdDatasetBuilder_v1_0:
         name_prefix: str,
         definition_type_property: str,
     ):
-        mtbls_cv_terms_mappings = mtbls_definitions.get_mtbls_terms_mapping()
+        mtbls_cv_terms_mappings = mtbls_definitions.get_cv_terms_mapping()
         data = sample_file.table.data
         values = []
         columns = sample_file.table.columns
@@ -1330,13 +1469,12 @@ class MhdDatasetBuilder_v1_0:
                             if len(accessions) > i
                             else ""
                         )
-                        item.append(
-                            self.otc.create_cv_term_value_object(
-                                type_=object_name,
-                                source=source_ref,
-                                accession=iri,
-                                name=val,
-                            )
+                        self.append_cv_term_value_object(
+                            item_list=item,
+                            type_=object_name,
+                            source=source_ref,
+                            accession=iri,
+                            name=val,
                         )
 
                 elif index + 1 < len(columns) and columns[index + 1].startswith("Unit"):
@@ -1367,18 +1505,15 @@ class MhdDatasetBuilder_v1_0:
                             if len(accessions) > i
                             else ""
                         )
-                        item.append(
-                            self.otc.create_cv_term_value_object(
-                                type_=object_name,
-                                value=val,
-                                accession="",
-                                source="",
-                                unit=UnitCvTerm(
-                                    source=source_ref,
-                                    accession=iri,
-                                    name=units[i] if len(units) > i else "",
-                                ),
-                            )
+                        self.append_cv_term_value_object(
+                            item_list=item,
+                            type_=object_name,
+                            value=val,
+                            unit=UnitCvTerm(
+                                source=source_ref,
+                                accession=iri,
+                                name=units[i] if len(units) > i else "",
+                            ),
                         )
                 else:
                     item = self.otc.create_cv_term_object(
@@ -1422,11 +1557,18 @@ class MhdDatasetBuilder_v1_0:
         mhd_builder = context.mhd_builder
         if not assay_table.data.get("Sample Name"):
             return
-        mtbls_cv_terms_mappings = mtbls_definitions.get_mtbls_terms_mapping()
-
+        mtbls_cv_terms_mappings = mtbls_definitions.get_cv_terms_mapping()
+        index_number_node = self.otc.create_cv_term_object(
+            type_="descriptor",
+            source="NCIT",
+            accession="NCIT:C25390",
+            name="Index",
+        )
+        if index_number_node.id_ not in mhd_builder.objects:
+            mhd_builder.add(index_number_node)
         study_protocols = {x.protocol_name: x for x in context.study.protocols}
         assay_protocols: dict[str, AssayProtocolSummary] = {}
-
+        index = 0
         for header in assay_table.headers:
             if header.column_header == "Protocol REF":
                 column_idx = assay_table.columns.index(header.column_name)
@@ -1452,7 +1594,9 @@ class MhdDatasetBuilder_v1_0:
                     "follows",
                     assay_protocol_summary.protocol_summary.protocol_node,
                     reverse_relationship_name="used-in",
+                    tag_list=[KeyValue(key=index_number_node.id_, value=index)],
                 )
+                index += 1
                 assay_protocols[protocol_name] = assay_protocol_summary
         idx = 1
         sample_row_indices: dict[str, int] = {}
@@ -1536,6 +1680,20 @@ class MhdDatasetBuilder_v1_0:
             )
             context.mhd_builder.add(mhd_sample_run)
             sample_run_summary.node = mhd_sample_run
+            mhd_builder.link(
+                assay_summary.assay_node,
+                "has-sample-run",
+                mhd_sample_run,
+                reverse_relationship_name="part-of",
+                tag_list=[KeyValue(key=index_number_node.id_, value=row_idx)],
+            )
+            mhd_builder.link(
+                context.study.study_node,
+                "has-sample-run",
+                mhd_sample_run,
+                reverse_relationship_name="used-in",
+                tag_list=[KeyValue(key=index_number_node.id_, value=row_idx)],
+            )
             assay_summary.sample_runs[sample_name] = sample_run_summary
             value = ""
             for protocol_name, assay_protocol_summary in assay_protocols.items():
@@ -1718,6 +1876,11 @@ class MhdDatasetBuilder_v1_0:
                 run_config = configs.get(key)
 
                 if run_config:
+                    if not sample_run_summary.node.sample_run_configuration_refs:
+                        sample_run_summary.node.sample_run_configuration_refs = []
+                    sample_run_summary.node.sample_run_configuration_refs.append(
+                        run_config.node.id_
+                    )
                     sample_run_summary.sample_run_configurations.append(run_config)
 
     def get_parameter_cv(
@@ -1737,6 +1900,16 @@ class MhdDatasetBuilder_v1_0:
         protocol_types: dict[str, mhd_domain.CvTermObject] = {}
         parameter_types: dict[str, mhd_domain.CvTermObject] = {}
         protocol_parameter_types: dict[str, mhd_domain.CvTermObject] = {}
+
+        index_number_node = self.otc.create_cv_term_object(
+            type_="descriptor",
+            source="NCIT",
+            accession="NCIT:C25390",
+            name="Index",
+        )
+        if index_number_node.id_ not in mhd_builder.objects:
+            mhd_builder.add(index_number_node)
+
         for protocol_idx, protocol in enumerate(study.study_protocols.protocols):
             name = protocol.name
             protocol_summary = ProtocolSummary(
@@ -1886,15 +2059,14 @@ class MhdDatasetBuilder_v1_0:
                     param,
                     reverse_relationship_name="used-in",
                 )
-            if mhd_study.protocol_refs is None:
-                mhd_study.protocol_refs = []
+
             mhd_builder.add(mhd_protocol)
-            mhd_study.protocol_refs.append(mhd_protocol.id_)
             mhd_builder.link(
                 mhd_study,
                 "has-protocol",
                 mhd_protocol,
                 reverse_relationship_name="used-in",
+                tag_list=[KeyValue(key=index_number_node.id_, value=protocol_idx)],
             )
 
     def add_keywords(self, context: DatasetBuildContext):
@@ -1913,6 +2085,8 @@ class MhdDatasetBuilder_v1_0:
                 or "",
                 name=item.term or "",
             )
+            if not keyword:
+                continue
             mhd_builder.add_node(
                 keyword,
                 use_label_for_invalid_cv_term=self.config.use_label_for_invalid_cv_term,
@@ -1995,6 +2169,8 @@ class MhdDatasetBuilder_v1_0:
                         or "",
                         name=term or "",
                     )
+                    if not keyword:
+                        continue
                     mhd_builder.add_node(
                         keyword,
                         use_label_for_invalid_cv_term=self.config.use_label_for_invalid_cv_term,
@@ -2062,7 +2238,8 @@ class MhdDatasetBuilder_v1_0:
                         source=data_format.source,
                         name=data_format.name,
                     )
-                    cv_nodes[data_format_node.accession] = data_format_node
+                    if data_format_node:
+                        cv_nodes[data_format_node.accession] = data_format_node
 
                 data_format_node = cv_nodes[data_format.accession]
         return zip_file_format_node, data_format_node, file_extension
@@ -2257,12 +2434,24 @@ class MhdDatasetBuilder_v1_0:
 
         return files_map
 
-    def add_reported_metabolites(self, context: DatasetBuildContext):
+    def add_reported_metabolites(
+        self, context: DatasetBuildContext, max_molecular_entity_limit: int
+    ):
         study_id = context.study_id
         mhd_builder = context.mhd_builder
         mhd_study = context.study.study_node
         maf_table_column_descriptors = {}
         used_maf_table_column_descriptors = set()
+
+        if len(context.study.assignment_files) < 1:
+            return
+        total_number_node = self.otc.create_cv_term_object(
+            type_="descriptor",
+            source="NCIT",
+            accession="NCIT:C127787",
+            name="Total Number",
+        )
+        mhd_builder.add(total_number_node)
 
         for field, term in mtbls_definitions.MAF_TABLE_COLUMN_TERMS.items():
             maf_table_column_descriptors[field] = self.otc.create_cv_term_value_object(
@@ -2271,6 +2460,10 @@ class MhdDatasetBuilder_v1_0:
                 accession=term.accession,
                 name=term.name,
             )
+        molecular_entity_count = 0
+        max_molecular_entity_limit_in_a_file = int(
+            1.0 * max_molecular_entity_limit / len(context.study.assignment_files)
+        )
         for assignment_file in context.study.assignment_files:
             maf_idx = assignment_file.index
             result_file = assignment_file.file_node
@@ -2279,11 +2472,28 @@ class MhdDatasetBuilder_v1_0:
             if not maf_file.table.data.get("metabolite_identification"):
                 continue
 
+            count = len(
+                assignment_file.isa_file_content.table.data.get(
+                    "metabolite_identification", []
+                )
+            )
+            assignment_file.file_node.tag_list = [
+                KeyValue(key=total_number_node.id_, value=f"{count}")
+            ]
+            molecular_entity_count_in_a_file = 0
             for row_idx, name in enumerate(
                 maf_file.table.data["metabolite_identification"]
             ):
                 if not name or not name.strip() or len(name.strip()) < 2:
                     continue
+                if molecular_entity_count >= max_molecular_entity_limit:
+                    break
+                if (
+                    molecular_entity_count_in_a_file
+                    >= max_molecular_entity_limit_in_a_file
+                ):
+                    break
+
                 entity = name.strip()
                 met = mhd_domain.MolecularEntity(
                     uri=get_urn(
@@ -2390,6 +2600,9 @@ class MhdDatasetBuilder_v1_0:
                                 reverse_relationship_name="reported-identifier-of",
                             )
                 mhd_builder.add(met)
+                molecular_entity_count += 1
+                molecular_entity_count_in_a_file += 1
+
                 if result_file:
                     mhd_builder.link(
                         result_file,
@@ -2598,6 +2811,7 @@ class MhdDatasetBuilder_v1_0:
         revision: None | Revision = None,
         metabolights_study_model: None | MetabolightsStudyModel = None,
         cv_term_helper: None | BaseCvTermHelper = None,
+        max_molecular_entity_limit: None | int = 10000,
         **kwargs,
     ) -> InstanceOf[BaseMhdDataset]:
         mhd_output_filename = kwargs.get("mhd_output_filename", None)
@@ -2848,7 +3062,7 @@ class MhdDatasetBuilder_v1_0:
             self.add_protocols(context)
 
             self.add_result_files(context)
-            self.add_reported_metabolites(context)
+            self.add_reported_metabolites(context, max_molecular_entity_limit)
 
             self.add_data_files(context)
             self.add_assays(context)

@@ -21,8 +21,16 @@ import mtbls2mhd
 logger = logging.getLogger(__name__)
 
 REPOSITORY_NAME = "MetaboLights"
-RAW_FILE_EXCEPTIONS = {".mzml", ".imzml", ".mzmlb", ".mzxml", ".cdf"}
-
+RAW_FILE_EXCEPTIONS = {
+    ".mzml",
+    ".imzml",
+    ".mzmlb",
+    ".mzxml",
+    ".cdf",
+    ".wiff",
+    ".scan",
+    ".wiff.scan",
+}
 
 ## MTBLS RELATED CONFIGURATION ###
 ##############################################################################################################
@@ -249,102 +257,84 @@ FILE_EXTENSIONS: dict[tuple[str, bool], CvTerm] = {
 # )
 
 
-_mtbls_term_mappings: dict[str, dict[str, CvTerm]] | None = None
+_term_mappings: dict[str, dict[str, CvTerm]] | None = None
 
 
-@cached(
-    cache=TTLCache(maxsize=1, ttl=60),
-)
-def get_mtbls_terms_mapping() -> dict[str, dict[str, CvTerm]]:
-    """loads MTBLS term 2 MS ontology term mappings file
+@cached(cache=TTLCache(maxsize=1, ttl=60))
+def get_cv_terms_mapping() -> dict[str, dict[str, CvTerm]]:
+    """loads MW term 2 MS ontology term mappings file
 
     Returns:
-        dict[str, dict[str, CvTerm]]: dictionary of MTBLS term name (lowercase)
+        dict[str, dict[str, CvTerm]]: dictionary of MW term name (lowercase)
         to a CvTerm object grouped by MHD common parameter definition
     """
-    global _mtbls_term_mappings
-    if _mtbls_term_mappings:
-        return _mtbls_term_mappings
+    global _term_mappings
+    if _term_mappings:
+        return _term_mappings
     with (
         resources.files(mtbls2mhd.__name__)
         .joinpath("cv_mapping_table.csv")
         .open("r", encoding="utf-8") as f
     ):
         # MAP TO MHD common parameter/characteristic definition
-        definition_mappings = {
-            "mass spectrometry instrument": "mass spectrometry instrument",
+        custom_definition_mappings = {
             "liquid chromatography instrument": "chromatography instrument",
             "gas chromatography instrument": "chromatography instrument",
-            "ionization type": "ionization type",
-            "chromatography separation": "chromatography separation",
-            "inlet type": "inlet type",
-            "acquisition polarity": "acquisition polarity",
-            # TODO: Define mappings for the following parameters.
-            # "Ionization polarity": "ionization polarity",
-            # "Instrument class": "instrument class",
-            # "Chromatography column": "chromatography column?",
-            "organism": "organism",
-            "organism part": "organism part",
-            "cell type": "cell type",
-            "disease": "disease",
+            "mass spectrometry instrument": "mass spectrometer",
         }
         # Column names and their index in the cv_mappings.csv file.
         HEADERS = {
-            "REF_ACCESSION": 0,
-            "REF_TERM": 1,
-            "MTBLS_CV_NAMES": 1,
-            "MTBLS_CV_NAMES2": 2,
-            "MTBLS_CV_NAMES3": 3,
-            "INSTANCE": 5,
+            "GROUP": 0,
+            "REF_SOURCE": 1,
+            "REF_ACCESSION": 2,
+            "REF_TERM": 3,
+            "ALTERNATIVE_NAMES": 4,
         }
 
         reader = csv.reader(f)
-        mtbls_term_mappings = {}
+        term_mappings = {}
         for idx, row in enumerate(reader):
             if idx == 0:
                 continue
-            accession = row[HEADERS["REF_ACCESSION"]].replace("_", ":")
-            source = accession.split(":")[0]
+            accession = row[HEADERS["REF_ACCESSION"]]
+            source = row[HEADERS["REF_SOURCE"]]
             term = row[HEADERS["REF_TERM"]]
-            mtbls_cv_names_set: set[str] = set()
-            for x in ["MTBLS_CV_NAMES", "MTBLS_CV_NAMES2", "MTBLS_CV_NAMES3"]:
-                mtbls_cv_names_set.update(
+            cv_names_set: set[str] = set()
+            for x in ["ALTERNATIVE_NAMES", "REF_TERM"]:
+                cv_names_set.update(
                     {
-                        name.strip().lower().split(":")[1]
-                        if ":" in name
-                        else name.strip().lower()
+                        name.strip().lower()
                         for name in row[HEADERS[x]].split(";")
                         if name and name.strip()
                     }
                 )
-            # mtbls_cv_names = list(mtbls_cv_names_set)
-            instance = row[HEADERS["INSTANCE"]]
-            if not mtbls_cv_names_set or not term or not accession:
+            instance = row[HEADERS["GROUP"]]
+            if not cv_names_set or not term or not accession:
                 continue
             if not instance:
                 logger.warning(
-                    "MTBLS term mapping file row %s with accession %s and term '%s' "
+                    "Term mapping file row %s with accession %s and term '%s' "
                     "does not have an instance value. Row will be ignored.",
                     idx + 1,
                     accession,
                     term,
                 )
                 continue
-            definition = definition_mappings.get(instance.lower())
-            if definition not in mtbls_term_mappings:
-                mtbls_term_mappings[definition] = {}
-            for mtbls_cv_name in mtbls_cv_names_set:
-                mtbls_term_mappings[definition][mtbls_cv_name.lower()] = CvTerm(
+            definition = custom_definition_mappings.get(instance.lower()) or instance
+            if definition not in term_mappings:
+                term_mappings[definition] = {}
+            for cv_name in cv_names_set:
+                term_mappings[definition][cv_name.lower()] = CvTerm(
                     source=source,
                     accession=accession,
                     name=term,
                 )
-    _mtbls_term_mappings = mtbls_term_mappings
-    return _mtbls_term_mappings
+    _term_mappings = term_mappings
+    return _term_mappings
 
 
 MTBLS_CV_TERM_MAPPINGS: dict[str, CvTerm] = {}
-for map_val in get_mtbls_terms_mapping().values():
+for map_val in get_cv_terms_mapping().values():
     MTBLS_CV_TERM_MAPPINGS.update({x.accession.lower(): x for x in map_val.values()})
 
 MTBLS_PROTOCOL_PARAMETERS_MAPPINGS: dict[str, CvTerm] = {}
