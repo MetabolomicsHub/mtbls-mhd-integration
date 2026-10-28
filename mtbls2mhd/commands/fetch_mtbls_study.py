@@ -13,9 +13,15 @@ logger = logging.getLogger(__name__)
 
 @click.command(name="download", no_args_is_help=True)
 @click.option(
+    "--mtbls-study-id",
+    required=True,
+    help="MTBLS study id",
+)
+@click.option(
     "--output-dir",
     default="outputs",
     show_default=True,
+    required=True,
     help="Output directory for MetaboLights model file",
 )
 @click.option(
@@ -30,8 +36,7 @@ logger = logging.getLogger(__name__)
     show_default=True,
     help="MetaboLights Webservice Endpoint URL",
 )
-@click.argument("mtbls_study_id")
-def fetch_mtbls_study(
+def download_mtbls_study(
     mtbls_study_id: str, output_dir: str, output_filename: str, mtbls_ws_url: str
 ):
     """Download a MetaboLights metadata (ISA-TAB + DB) as json file."""
@@ -71,4 +76,4 @@ def fetch_mtbls_data(
 
 
 if __name__ == "__main__":
-    fetch_mtbls_study(["MTBLS2"])
+    download_mtbls_study(["--mtbls-study-id", "MTBLS2", "--output-dir", "outputs"])

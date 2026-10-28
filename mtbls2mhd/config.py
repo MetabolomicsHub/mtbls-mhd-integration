@@ -82,12 +82,17 @@ class KeycloakConfigiguration(BaseModel):
     client_secret: str
 
 
+class OntologyConfiguration(BaseModel):
+    local_db_path: str
+
+
 class ConfigurationFile(BaseModel):
     db: None | DatabaseConfiguration = None
     urls: UrlConfiguration = UrlConfiguration()
     license: LicenseConfiguration = LicenseConfiguration()
     folders: None | FoldersConfiguration = None
     auth: None | KeycloakConfigiguration = None
+    ontology: None | OntologyConfiguration = None
 
 
 def get_default_config() -> Mtbls2MhdConfiguration:
