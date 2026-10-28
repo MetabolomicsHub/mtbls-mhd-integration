@@ -7,8 +7,8 @@ from types import SimpleNamespace
 import pytest
 from click.testing import CliRunner
 from mhd_model.model.definitions import (
-    MHD_MODEL_V0_1_DEFAULT_SCHEMA_NAME,
-    MHD_MODEL_V0_1_LEGACY_PROFILE_NAME,
+    MHD_MODEL_V1_0_DEFAULT_SCHEMA_NAME,
+    MHD_MODEL_V1_0_LEGACY_PROFILE_NAME,
 )
 
 from mtbls2mhd.commands.cli import cli
@@ -149,8 +149,8 @@ def test_create_mhd_files_01(study_id: str, output_dir: Path):
             study_id,
             f"--output-dir={output_dir}",
             "--output-filename=" + mhd_file_path.name,
-            "--profile-uri=" + MHD_MODEL_V0_1_LEGACY_PROFILE_NAME,
-            "--schema-uri=" + MHD_MODEL_V0_1_DEFAULT_SCHEMA_NAME,
+            "--profile-uri=" + MHD_MODEL_V1_0_LEGACY_PROFILE_NAME,
+            "--schema-uri=" + MHD_MODEL_V1_0_DEFAULT_SCHEMA_NAME,
             "--mtbls-ws-url=" + mtbls_ws_url,
         ],
     )

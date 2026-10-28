@@ -22,7 +22,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 
 from mtbls2mhd.config import Mtbls2MhdConfiguration
-from mtbls2mhd.v0_1.legacy.mtbls_study_schema import Study
+from mtbls2mhd.utils.mtbls_study_schema import Study
 
 logger = getLogger(__name__)
 
@@ -233,14 +233,9 @@ class DbMetadataCollector(AbstractDbMetadataCollector):
             raise ex
 
     LICENSE_URLS = {
-        (
-            "CC0 1.0 UNIVERSAL",
-            "1.0",
-        ): "https://creativecommons.org/publicdomain/zero/1.0/",
-        (
-            "EMBL-EBI TERMS OF USE",
-            "5TH FEBRUARY 2024",
-        ): "https://www.ebi.ac.uk/about/terms-of-use/",
+        "CC0 1.0 UNIVERSAL": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "CC BY 4.0": "https://creativecommons.org/licenses/by/4.0/",
+        "EMBL-EBI TERMS OF USE": "https://www.ebi.ac.uk/about/terms-of-use/",
     }
 
     def _create_study_db_metadata(
@@ -292,14 +287,14 @@ class DbMetadataCollector(AbstractDbMetadataCollector):
             study["dataset_license_version"] or ""
         )
         study_db_metadata.dataset_license_url = self.LICENSE_URLS.get(
-            (
-                study_db_metadata.dataset_license.upper(),
-                study_db_metadata.dataset_license_version.upper(),
-            ),
+            study_db_metadata.dataset_license.upper()
         )
         if not study_db_metadata.dataset_license_url:
             study_db_metadata.dataset_license_url = (
                 "https://www.ebi.ac.uk/about/terms-of-use/"
+            )
+            logger.warning(
+                "%s dataset license is not found in db", study_db_metadata.study_id
             )
 
         study_db_metadata.study_category = StudyCategory(study["study_category"])

@@ -13,3 +13,10 @@ license:
   url: "https://creativecommons.org/publicdomain/zero/1.0/"
 folders:
   mtbls_studies_root_path: ""
+ontology:
+  local_db_path: .db/ontology_lookup.db
+auth:
+  server_url: https://www.ebi.ac.uk/metabolights/iam/
+  realm_name: ""
+  client_id: ""
+  client_secret: ""

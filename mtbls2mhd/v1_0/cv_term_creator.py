@@ -1,10 +1,9 @@
 import logging
 
-from mhd_model.model.v0_1.dataset.profiles.base import graph_nodes as mhd_domain
-from mhd_model.shared.model import CvTerm, UnitCvTerm
-from mhd_model.shared.validation.cv_term_helper import (
-    CvTermHelper,
-)
+from cachetools import cached
+from mhd_model.model.v1_0.dataset.profiles.base import graph_nodes as mhd_domain
+from mhd_model.shared.base import CvTerm, UnitCvTerm
+from mhd_model.shared.validation.cv_term_helper import CvTermHelper, TTLCache
 
 logger = logging.getLogger(__name__)
 
@@ -39,6 +38,11 @@ class OntologyTermCreator:
         source: str,
         name: str,
     ) -> mhd_domain.CvTermObject:
+        if not name and (not source or not accession):
+            source = ""
+            accession = ""
+        if not name and not source and not accession:
+            return None
         return create_cv_term_node(
             cv_term_helper=self.cv_term_helper,
             type_=type_,
@@ -57,7 +61,19 @@ class OntologyTermCreator:
         name: str = "",
         value: None | str = None,
         unit: None | UnitCvTerm = None,
-    ) -> mhd_domain.CvTermValueObject:
+    ) -> None | mhd_domain.CvTermValueObject:
+        if not name and (not source or not accession):
+            source = ""
+            accession = ""
+        if not name and not source and not accession and not value:
+            return None
+        if unit:
+            if not unit.name and (not unit.source or not unit.accession):
+                unit.source = ""
+                unit.accession = ""
+            if not unit.name and not unit.source and not unit.accession:
+                unit = None
+        name = name or ""
         return create_cv_term_value_node(
             cv_term_helper=self.cv_term_helper,
             type_=type_,
@@ -141,7 +157,7 @@ def create_cv_term_value_node(
     unit: None | UnitCvTerm = None,
     cache_service: None | OntologyCacheService = None,
     default_terms: None | dict[str, CvTerm] = None,
-) -> mhd_domain.CvTermValueObject:
+) -> mhd_domain.CvTermValueObject | None:
     # Remove accession and source if they start with MTBLS.
     # they are placeholders and do not have meaning outside of MTBLS context.
 
@@ -256,6 +272,16 @@ def create_cv_term_value_node(
     )
 
 
+@cached(
+    key=lambda cv_term_helper, type_, name, source, accession, allow_synonym_search: (
+        type_,
+        name,
+        source,
+        accession,
+        allow_synonym_search,
+    ),
+    cache=TTLCache(maxsize=2048, ttl=60),
+)
 def find_cv_term_by_name_or_accession(
     cv_term_helper: CvTermHelper,
     type_: str,
@@ -265,16 +291,14 @@ def find_cv_term_by_name_or_accession(
     allow_synonym_search: bool = False,
 ) -> mhd_domain.CvTermObject | None:
     if not source or not accession:
-        return mhd_domain.CvTermObject(
-            type_=type_,
-            name=name,
-        )
+        return mhd_domain.CvTermObject(type_=type_, name=name)
+
     s_term = cv_term_helper.find_cv_term(source, accession)
     if s_term and s_term.name.lower() == name.lower():
         return mhd_domain.CvTermObject(
             type_=type_,
             accession=s_term.accession,
-            source=s_term.source,
+            source=s_term.source.upper(),
             name=s_term.name,
         )
     s_term_with_name = cv_term_helper.find_cv_term(
@@ -288,19 +312,28 @@ def find_cv_term_by_name_or_accession(
             name=s_term_with_name.name,
         )
     else:
-        logger.warning(
+        logger.debug(
             "CV term '%s' with source '%s' and accession '%s' does not match OLS results. "
             "CV term will be created without source and accession.",
             name,
             source,
             accession,
         )
-        return mhd_domain.CvTermObject(
-            type_=type_,
-            name=name,
-        )
+        return mhd_domain.CvTermObject(type_=type_, name=name)
 
 
+@cached(
+    key=lambda cv_term_helper, type_, name, source, accession, value, unit_cv, allow_synonym_search: (
+        type_,
+        name,
+        source,
+        accession,
+        str(value),
+        str(unit_cv),
+        allow_synonym_search,
+    ),
+    cache=TTLCache(maxsize=2048, ttl=60),
+)
 def find_cv_term_value_by_name_or_accession(
     cv_term_helper: CvTermHelper,
     type_: str,
@@ -312,16 +345,14 @@ def find_cv_term_value_by_name_or_accession(
     allow_synonym_search: bool = False,
 ) -> mhd_domain.CvTermValueObject | None:
     if not source or not accession:
-        return mhd_domain.CvTermValueObject(
-            type_=type_,
-            name=name,
-        )
+        return mhd_domain.CvTermValueObject(type_=type_, name=name)
+
     s_term = cv_term_helper.find_cv_term(source, accession)
     if s_term and s_term.name.lower() == name.lower():
         return mhd_domain.CvTermValueObject(
             type_=type_,
             accession=s_term.accession,
-            source=s_term.source,
+            source=s_term.source.upper(),
             name=s_term.name,
             value=value,
             unit=unit_cv,
@@ -347,15 +378,6 @@ def find_cv_term_value_by_name_or_accession(
                 source,
                 accession,
             )
-    else:
-        logger.warning(
-            "CV term '%s' with source '%s' and accession '%s' OLS result is skipped. "
-            "CV term will be created without source and accession.",
-            name or "",
-            source or "",
-            accession or "",
-        )
-    return mhd_domain.CvTermValueObject(
-        type_=type_,
-        name=name,
-    )
+    if not name:
+        return None
+    return mhd_domain.CvTermValueObject(type_=type_, name=name)

@@ -36,8 +36,9 @@ class Mtbls2MhdConfiguration(BaseModel):
     default_dataset_licence_url: str = (
         "https://creativecommons.org/publicdomain/zero/1.0"
     )
-    default_mhd_model_version: str = "0.1"
+    default_mhd_model_version: str = "1.0"
     mtbls_studies_root_path: None | str = None
+    ontology_lookup_db_path: None | str = None
 
     use_label_for_invalid_cv_term: bool = False
     build_type: BuildType = BuildType.FULL_AND_CUSTOM_NODES
@@ -81,12 +82,17 @@ class KeycloakConfigiguration(BaseModel):
     client_secret: str
 
 
+class OntologyConfiguration(BaseModel):
+    local_db_path: str
+
+
 class ConfigurationFile(BaseModel):
     db: None | DatabaseConfiguration = None
     urls: UrlConfiguration = UrlConfiguration()
     license: LicenseConfiguration = LicenseConfiguration()
     folders: None | FoldersConfiguration = None
     auth: None | KeycloakConfigiguration = None
+    ontology: None | OntologyConfiguration = None
 
 
 def get_default_config() -> Mtbls2MhdConfiguration:
