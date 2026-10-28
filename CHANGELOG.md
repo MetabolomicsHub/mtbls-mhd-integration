@@ -1,3 +1,20 @@
+## v1.0.0 (2026-10-28)
+
+### BREAKING CHANGE
+
+- MHD model v0.1 support is deprecated.
+- v1.0 update
+
+### Fix
+
+- builder updates to create valid sdrf files
+- convertor is not aligned with the updated mhd-model
+- funder length limit check
+
+### Refactor
+
+- **MHD-convertor-for-v1.0**: mhd model v1.0 support is implemented
+
 ## v0.0.52 (2026-10-06)
 
 ### Fix
