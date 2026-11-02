@@ -1,3 +1,10 @@
+## v1.0.2 (2026-11-02)
+
+### Fix
+
+- mhd model dependency update
+- lookup match error for single column values
+
 ## v1.0.1 (2026-10-28)
 
 ### Fix
