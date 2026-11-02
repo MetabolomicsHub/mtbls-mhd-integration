@@ -20,6 +20,7 @@ from metabolights_utils.models.metabolights.model import (
 from metabolights_utils.provider.study_provider import (
     MetabolightsStudyProvider,
 )
+from mhd_model.cv_mapping.cv_term_suggestion import CvTermSuggestion
 from mhd_model.domain_utils import get_urn as default_get_urn
 from mhd_model.model.v1_0.dataset.profiles.base import graph_nodes as mhd_domain
 from mhd_model.model.v1_0.dataset.profiles.base.profile import (
@@ -211,6 +212,23 @@ class DatasetBuildContext(BaseModel):
     mhd_builder: None | MhDatasetBuilder = None
 
 
+LEGACY_DEFAULT_GROUP_CV_MAPPING: dict[str, list[str]] = {
+    "organism part": ["BTO", "UBERON", "CHEBI", "EFO", "NCIT", "ENVO", "PO"],
+    "organism": ["NCBITAXON", "ENVO", "CHEBI", "EFO", "NCIT", "MSIO"],
+    "cell type": ["CL", "CLO"],
+    "disease": ["MONDO", "MP", "SNOMED"],
+    "mass spectrometer": ["MS"],
+    "chromatography instrument": ["MS"],
+    "ionization type": ["MS"],
+    "chromatography separation": ["MS"],
+    "inlet type": ["MS"],
+    "acquisition polarity": ["MS"],
+    "instrument class": ["MS"],
+    "omics type": ["EDAM"],
+    "sample type": ["CHMO", "MSIO", "NCBITAXON"],
+}
+
+
 class MhdDatasetBuilder_v1_0:
     def __init__(
         self,
@@ -218,6 +236,7 @@ class MhdDatasetBuilder_v1_0:
         ontology_cache_service: None | OntologyCacheService = None,
         cv_term_helper: None | BaseCvTermHelper = None,
         min_affiliation_length: int = 2,
+        group_cv_mapping: None | dict[str, list[str]] = None,
         **kwargs,
     ):
         self.config = config
@@ -228,7 +247,10 @@ class MhdDatasetBuilder_v1_0:
             self.cv_term_helper = select_cv_term_helper(
                 db_path=self.config.ontology_lookup_db_path
             )
-
+        self.cv_term_suggestion = CvTermSuggestion(
+            ontology_lookup_file_path=config.ontology_lookup_db_path,
+            group_cv_maps=group_cv_mapping,
+        )
         self.otc = OntologyTermCreator(
             self.ontology_cache_service,
             cv_term_helper=self.cv_term_helper,
@@ -1400,7 +1422,6 @@ class MhdDatasetBuilder_v1_0:
         name_prefix: str,
         definition_type_property: str,
     ):
-        mtbls_cv_terms_mappings = mtbls_definitions.get_cv_terms_mapping()
         data = sample_file.table.data
         values = []
         columns = sample_file.table.columns
@@ -1425,9 +1446,22 @@ class MhdDatasetBuilder_v1_0:
 
             values_map[key] = {}
             index = columns.index(column_name)
+            source_val = ""
+            accession_val = ""
+            cv_term = None
+
+            if name and len(columns) > index + 2:
+                next_column = columns[index + 1]
+                if "term source ref" in next_column.lower():
+                    source_val = data[next_column][idx]
+                next_column = columns[index + 2]
+                if "term accession number" in next_column.lower():
+                    accession_val = data[next_column][idx]
+                cv_term = CvTerm(name=name, source=source_val, accession=accession_val)
+            item = []
 
             if name not in values_map[key]:
-                item = mtbls_cv_terms_mappings.get(key, {}).get(name.lower(), None)
+                item = self.cv_term_suggestion.match_cv_term(cv_term=cv_term, group=key)
                 if item:
                     sources = item.source.split(";")
                     accessions = item.accession.split(";")
@@ -1499,21 +1533,33 @@ class MhdDatasetBuilder_v1_0:
                     units = unit.split()
                     item = []
                     for i, val in enumerate(names):
+                        if not val:
+                            continue
                         source_ref = sources[i] if len(sources) > i else ""
                         iri = (
                             self.convert_to_curie(source_ref, accessions[i])
                             if len(accessions) > i
                             else ""
                         )
-                        self.append_cv_term_value_object(
-                            item_list=item,
-                            type_=object_name,
-                            value=val,
-                            unit=UnitCvTerm(
+                        suggested_unit_cv_term = self.cv_term_suggestion.match_cv_term(
+                            cv_term=CvTerm(
                                 source=source_ref,
                                 accession=iri,
                                 name=units[i] if len(units) > i else "",
                             ),
+                            group="unit",
+                        )
+                        if suggested_unit_cv_term:
+                            unit = suggested_unit_cv_term
+                        else:
+                            unit = UnitCvTerm(name=units[i] if len(units) > i else "")
+                            if not unit.name:
+                                unit = None
+                        self.append_cv_term_value_object(
+                            item_list=item,
+                            type_=object_name,
+                            value=val,
+                            unit=unit,
                         )
                 else:
                     item = self.otc.create_cv_term_object(
@@ -1557,7 +1603,7 @@ class MhdDatasetBuilder_v1_0:
         mhd_builder = context.mhd_builder
         if not assay_table.data.get("Sample Name"):
             return
-        mtbls_cv_terms_mappings = mtbls_definitions.get_cv_terms_mapping()
+
         index_number_node = self.otc.create_cv_term_object(
             type_="descriptor",
             source="NCIT",
@@ -1776,13 +1822,28 @@ class MhdDatasetBuilder_v1_0:
                         term = mtbls_definitions.ALL_COMMON_PROTOCOL_PARAMETERS.get(
                             parameter.lower(), None
                         )
-                        if (
-                            values
-                            and term
-                            and term.name.lower() in mtbls_cv_terms_mappings
-                        ):
-                            mapping = mtbls_cv_terms_mappings[term.name.lower()]
-                            mapped_value = mapping.get(values[0].lower())
+
+                        if values and term:
+                            cv_term = None
+                            if len(values) == 1:
+                                cv_term = CvTerm(name=values[0])
+                            if len(values) == 3:
+                                cv_term = CvTerm(
+                                    name=values[0],
+                                    source=values[1],
+                                    accession=values[2],
+                                )
+                            elif len(values) == 4:
+                                cv_term = CvTerm(
+                                    name=values[1],
+                                    source=values[2],
+                                    accession=values[3],
+                                )
+                            mapped_value = None
+                            if cv_term:
+                                mapped_value = self.cv_term_suggestion.match_cv_term(
+                                    cv_term=cv_term, group=term.name.lower()
+                                )
                             # CONVERT TO REFERENCE TERM
                             if mapped_value:
                                 if len(values) <= 3:

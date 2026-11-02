@@ -411,7 +411,7 @@ def find_missing_mhd_files(working_dir: str = ".outputs"):
 
 def create_mhd_files(force_recreate: bool = False, working_dir: str = ".outputs"):
 
-    # study_ids = get_all_legacy_study_ids(reverse=False)
+    study_ids = get_all_legacy_study_ids(reverse=False)
     study_ids = [
         "MTBLS12625",
         "MTBLS13105",

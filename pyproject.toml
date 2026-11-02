@@ -22,6 +22,8 @@ dependencies = [
     "mhd-model>=1.0.1",
 ]
 
+[project.urls]
+'Repository' = 'https://github.com/MetabolomicsHub/mtbls-mhd-integration'
 
 [dependency-groups]
 dev = [

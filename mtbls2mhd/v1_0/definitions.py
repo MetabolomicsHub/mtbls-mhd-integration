@@ -1,8 +1,6 @@
-import csv
 import logging
-from importlib import resources
 
-from cachetools import TTLCache, cached
+from mhd_model.cv_mapping.cv_term_suggestion import get_cv_terms_mapping
 from mhd_model.model.v1_0.rules.managed_cv_terms import (
     COMMON_ASSAY_TYPES,
     COMMON_CHARACTERISTIC_DEFINITIONS,
@@ -16,8 +14,6 @@ from mhd_model.model.v1_0.rules.managed_cv_terms import (
 )
 from mhd_model.shared.base import CvTerm
 
-import mtbls2mhd
-
 logger = logging.getLogger(__name__)
 
 REPOSITORY_NAME = "MetaboLights"
@@ -28,8 +24,10 @@ RAW_FILE_EXCEPTIONS = {
     ".mzxml",
     ".cdf",
     ".wiff",
+    ".wiff2",
     ".scan",
     ".wiff.scan",
+    ".wiff2.scan",
 }
 
 ## MTBLS RELATED CONFIGURATION ###
@@ -222,6 +220,12 @@ FILE_EXTENSIONS: dict[tuple[str, bool], CvTerm] = {
     (".wiff.scan", False): CvTerm(
         source="MS", accession="MS:1000562", name="ABI WIFF format"
     ),
+    (".wiff2", False): CvTerm(
+        source="MS", accession="MS:1000562", name="ABI WIFF format"
+    ),
+    (".wiff2.scan", False): CvTerm(
+        source="MS", accession="MS:1000562", name="ABI WIFF format"
+    ),
     # --- Derived file formats ---
     # cdf, cef, cnx, dx, imzml, mgf, msp, mzml, mzPeak, mzxml, peakml, xlsx, xy
     (".cdf", False): CvTerm(source="MS", accession="MS:1002441", name="Andi-MS format"),
@@ -257,85 +261,11 @@ FILE_EXTENSIONS: dict[tuple[str, bool], CvTerm] = {
 # )
 
 
-_term_mappings: dict[str, dict[str, CvTerm]] | None = None
-
-
-@cached(cache=TTLCache(maxsize=1, ttl=60))
-def get_cv_terms_mapping() -> dict[str, dict[str, CvTerm]]:
-    """loads MW term 2 MS ontology term mappings file
-
-    Returns:
-        dict[str, dict[str, CvTerm]]: dictionary of MW term name (lowercase)
-        to a CvTerm object grouped by MHD common parameter definition
-    """
-    global _term_mappings
-    if _term_mappings:
-        return _term_mappings
-    with (
-        resources.files(mtbls2mhd.__name__)
-        .joinpath("cv_mapping_table.csv")
-        .open("r", encoding="utf-8") as f
-    ):
-        # MAP TO MHD common parameter/characteristic definition
-        custom_definition_mappings = {
-            "liquid chromatography instrument": "chromatography instrument",
-            "gas chromatography instrument": "chromatography instrument",
-            "mass spectrometry instrument": "mass spectrometer",
-        }
-        # Column names and their index in the cv_mappings.csv file.
-        HEADERS = {
-            "GROUP": 0,
-            "REF_SOURCE": 1,
-            "REF_ACCESSION": 2,
-            "REF_TERM": 3,
-            "ALTERNATIVE_NAMES": 4,
-        }
-
-        reader = csv.reader(f)
-        term_mappings = {}
-        for idx, row in enumerate(reader):
-            if idx == 0:
-                continue
-            accession = row[HEADERS["REF_ACCESSION"]]
-            source = row[HEADERS["REF_SOURCE"]]
-            term = row[HEADERS["REF_TERM"]]
-            cv_names_set: set[str] = set()
-            for x in ["ALTERNATIVE_NAMES", "REF_TERM"]:
-                cv_names_set.update(
-                    {
-                        name.strip().lower()
-                        for name in row[HEADERS[x]].split(";")
-                        if name and name.strip()
-                    }
-                )
-            instance = row[HEADERS["GROUP"]]
-            if not cv_names_set or not term or not accession:
-                continue
-            if not instance:
-                logger.warning(
-                    "Term mapping file row %s with accession %s and term '%s' "
-                    "does not have an instance value. Row will be ignored.",
-                    idx + 1,
-                    accession,
-                    term,
-                )
-                continue
-            definition = custom_definition_mappings.get(instance.lower()) or instance
-            if definition not in term_mappings:
-                term_mappings[definition] = {}
-            for cv_name in cv_names_set:
-                term_mappings[definition][cv_name.lower()] = CvTerm(
-                    source=source,
-                    accession=accession,
-                    name=term,
-                )
-    _term_mappings = term_mappings
-    return _term_mappings
-
-
 MTBLS_CV_TERM_MAPPINGS: dict[str, CvTerm] = {}
-for map_val in get_cv_terms_mapping().values():
-    MTBLS_CV_TERM_MAPPINGS.update({x.accession.lower(): x for x in map_val.values()})
+(mapping, _, _) = get_cv_terms_mapping()
+for map_values in mapping.values():
+    for values in map_values.values() or []:
+        MTBLS_CV_TERM_MAPPINGS.update({x.accession.lower(): x for x in values})
 
 MTBLS_PROTOCOL_PARAMETERS_MAPPINGS: dict[str, CvTerm] = {}
 for map_val in MTBLS_PROTOCOL_PARAMETER_DEFINITION_MAP.values():

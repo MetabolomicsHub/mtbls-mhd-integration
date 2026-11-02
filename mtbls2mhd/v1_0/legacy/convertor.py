@@ -8,7 +8,10 @@ from mhd_model.shared.base import Revision
 from mhd_model.shared.validation.cv_term_helper import BaseCvTermHelper
 
 from mtbls2mhd.config import Mtbls2MhdConfiguration, get_default_config
-from mtbls2mhd.v1_0.builder import MhdDatasetBuilder_v1_0
+from mtbls2mhd.v1_0.builder import (
+    LEGACY_DEFAULT_GROUP_CV_MAPPING,
+    MhdDatasetBuilder_v1_0,
+)
 from mtbls2mhd.v1_0.cv_term_creator import OntologyCacheService
 
 
@@ -40,6 +43,7 @@ class LegacyProfileV10Convertor(BaseMhdConvertor):
             ontology_cache_service=ontology_cache_service,
             min_affiliation_length=2,
             cv_term_helper=cv_term_helper,
+            group_cv_mapping=LEGACY_DEFAULT_GROUP_CV_MAPPING,
             **kwargs,
         )
         mtbls_study_repository_website_url = (
