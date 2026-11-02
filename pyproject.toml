@@ -1,6 +1,6 @@
 [project]
 name = "mtbls-mhd-integration"
-version = "1.0.0"
+version = "1.0.1"
 description = "MetaboLights - MetabolomicsHub Integration"
 authors = [{"name" = "MetaboLights Team", "email" = "metabolights-help@ebi.ac.uk"}]
 license = "Apache-2.0"

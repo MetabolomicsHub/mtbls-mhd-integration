@@ -1,3 +1,9 @@
+## v1.0.1 (2026-10-28)
+
+### Fix
+
+- announcement file creation update
+
 ## v1.0.0 (2026-10-28)
 
 ### BREAKING CHANGE
