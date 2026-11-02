@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = ">=3.12, <4.0"
 
 [[package]]
@@ -749,15 +749,15 @@ wheels = [
 
 [[package]]
 name = "curies"
-version = "0.15.6"
+version = "0.15.7"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pydantic" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/a3/9e/7b3d28c548528bc21931eaf589eb3ef2e8324e8f4c5f0c5f861996c98a00/curies-0.15.6.tar.gz", hash = "sha256:f42375ccc4d00493eba09630516324a6a9f96909d8911cd3c3f0541f5c1b4b37", size = 80383, upload-time = "2026-10-29T23:11:12.922Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/d7/aa/a0fe345288afd790bcfd87284678200cd776ba0102d4ce4afe3f556b9304/curies-0.15.7.tar.gz", hash = "sha256:f7ed98cfcac05e37a0295e09dc7ed622ef9b0e0b98c88c48613fc00f9939b6a7", size = 82175, upload-time = "2026-11-02T10:18:27.545Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/cb/ba/fa6eee376374ec59168e0e6dcd20842cea74e8cf467a23b7bec488532552/curies-0.15.6-py3-none-any.whl", hash = "sha256:3ca1ad92e1c3f7b2b9741f33ecbf57479c2b9e1998375c085120571d859ac07a", size = 83988, upload-time = "2026-10-29T23:11:11.308Z" },
+    { url = "https://files.pythonhosted.org/packages/65/e2/3e89f198765f5d4627057ca69587699b1061fcb1540dd1d40b58e0d5e7d0/curies-0.15.7-py3-none-any.whl", hash = "sha256:1e184356ee5dce6d28c74f078f3ce8276826d593a67c15f15142df5563edb739", size = 86100, upload-time = "2026-11-02T10:18:26.252Z" },
 ]
 
 [[package]]
@@ -1559,7 +1559,7 @@ wheels = [
 
 [[package]]
 name = "mhd-model"
-version = "1.0.11"
+version = "1.0.12"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "bioregistry" },
@@ -1579,9 +1579,9 @@ dependencies = [
     { name = "pyyaml" },
     { name = "reachable" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/35/71/d90ccce00531aa6cb0a8bc5643eacda024c8f181a0db6d8cf1dcd967e919/mhd_model-1.0.11.tar.gz", hash = "sha256:f8138786e03fb1d6a3edb81927915648b86101450cd4ffb4c3aec371da8ac78e", size = 201776, upload-time = "2026-10-30T09:33:24.917Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/52/6a/3f8812581ba5ffd5d624c0d82c95d2ed98ab38c3ac0981e26de6ead0acdd/mhd_model-1.0.12.tar.gz", hash = "sha256:92d827626752d2f28c404ccbce15dfebf93df9161720e3374532c1e6d82ed520", size = 201900, upload-time = "2026-11-02T10:57:25.182Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/df/da/bf3b5e6229806d8b6303be6ecf895d0267cf70430b98451007fef30ec4c8/mhd_model-1.0.11-py3-none-any.whl", hash = "sha256:962b4b246ef695227db5f08112d0c5a829084cec30fc45629f38bd2cac7ba24a", size = 246241, upload-time = "2026-10-30T09:33:23.561Z" },
+    { url = "https://files.pythonhosted.org/packages/68/da/75809bdbc090f481d874c34a72ec22e421b51c6b7d488640964efc17a45a/mhd_model-1.0.12-py3-none-any.whl", hash = "sha256:d1fd73a5902e54fb59269bc7359758005b6007e054ff5490558ccb277fd5b591", size = 246268, upload-time = "2026-11-02T10:57:23.817Z" },
 ]
 
 [[package]]
@@ -1669,6 +1669,7 @@ wheels = [
 name = "mtbls-mhd-integration"
 version = "1.0.0"
 source = { editable = "." }
+default-groups = []
 dependencies = [
     { name = "asyncpg" },
     { name = "greenlet" },
@@ -1705,7 +1706,7 @@ requires-dist = [
     { name = "greenlet", specifier = ">=3.5.6" },
     { name = "httpx2", specifier = ">=2.16.0" },
     { name = "metabolights-utils", specifier = ">=1.4.36" },
-    { name = "mhd-model", specifier = ">=1.0.1" },
+    { name = "mhd-model", specifier = ">=1.0.12" },
     { name = "psycopg", extras = ["binary", "pool"], specifier = ">=3.3.6" },
     { name = "pydantic", specifier = ">=2.14.1" },
     { name = "pydantic-settings", specifier = ">=2.16.1" },
