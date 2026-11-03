@@ -253,20 +253,9 @@ class MhdDatasetBuilder_v1_0:
         )
         self.otc = OntologyTermCreator(
             self.ontology_cache_service,
-            cv_term_helper=self.cv_term_helper,
-            default_terms=mtbls_definitions.DEFAULT_TERMS,
+            cv_term_suggestion=self.cv_term_suggestion,
         )
         self.min_affiliation_length = min_affiliation_length
-
-    def find_cv_term_by_label(
-        self, group: str, label: str, allow_synonyms: bool = False
-    ):
-        mapping = mtbls_definitions.get_cv_terms_mapping()
-        item = mapping.get(group, {}).get(label.lower(), None)
-        if item:
-            return item
-        self.cv_term_helper.find_cv_term()
-        return None
 
     def convert_to_curie(self, source_ref: str, uri: str) -> str:
         if not uri:
@@ -686,6 +675,7 @@ class MhdDatasetBuilder_v1_0:
             source="OBI",
             accession="OBI:0001629",
             name="grant identifier",
+            group="index",
         )
         grant_id_node_is_used = False
         for idx, funder in enumerate(funders or []):
@@ -759,6 +749,7 @@ class MhdDatasetBuilder_v1_0:
                     accession="NCIT:C42743",
                     name="Uniform Resource Locator",
                     source="NCIT",
+                    group="index",
                 )
                 mhd_builder.add_node(url)
             mhd_study.related_dataset_list.append(
@@ -826,6 +817,7 @@ class MhdDatasetBuilder_v1_0:
                     accession=no_publication_cv_term.accession,
                     source=no_publication_cv_term.source,
                     name=no_publication_cv_term.name,
+                    group="publication-status",
                 )
                 mhd_builder.add(
                     no_publication,
@@ -843,6 +835,7 @@ class MhdDatasetBuilder_v1_0:
                     accession=pending_publication_cv_term.accession,
                     source=pending_publication_cv_term.source,
                     name=pending_publication_cv_term.name,
+                    group="publication-status",
                 )
                 mhd_builder.add(
                     pending_publication,
@@ -895,24 +888,28 @@ class MhdDatasetBuilder_v1_0:
                 accession="EDAM:format_4066",
                 source="EDAM",
                 name="ISA-Tab Investigation file",
+                group="file-format",
             ),
             "EDAM:format_4067": self.otc.create_cv_term_object(
                 type_="descriptor",
                 accession="EDAM:format_4067",
                 source="EDAM",
                 name="ISA-Tab Study file",
+                group="file-format",
             ),
             "EDAM:format_4068": self.otc.create_cv_term_object(
                 type_="descriptor",
                 accession="EDAM:format_4068",
                 source="EDAM",
                 name="ISA-Tab Assay file",
+                group="file-format",
             ),
             "EDAM:format_3687": self.otc.create_cv_term_object(
                 type_="descriptor",
                 accession="EDAM:format_3687",
                 source="EDAM",
                 name="ISA-Tab",
+                group="file-format",
             ),
         }
 
@@ -975,6 +972,7 @@ class MhdDatasetBuilder_v1_0:
             accession="EDAM:format_4073",
             source="EDAM",
             name="MetaboLights MAF",
+            group="file-format",
         )
         for assignment_file in context.study.assignment_files:
             maf_idx = assignment_file.index
@@ -1020,6 +1018,7 @@ class MhdDatasetBuilder_v1_0:
                     name=cv_term.name,
                     source=cv_term.source,
                     accession=cv_term.accession,
+                    group="factor-type",
                 )
             else:
                 if factor_name in mtbls_definitions.MTBLS_STUDY_FACTOR_MAP:
@@ -1032,6 +1031,7 @@ class MhdDatasetBuilder_v1_0:
                     name=cv_term.name,
                     source=cv_term.source,
                     accession=cv_term.accession,
+                    group="factor-type",
                 )
             mhd_builder.add(
                 factor_type,
@@ -1085,6 +1085,7 @@ class MhdDatasetBuilder_v1_0:
                         name=cv_term.name,
                         accession=cv_term.accession,
                         source=cv_term.source,
+                        group="characteristic-type",
                     )
                 else:
                     if name in mtbls_definitions.MTBLS_CHARACTERISTICS_MAP:
@@ -1096,6 +1097,7 @@ class MhdDatasetBuilder_v1_0:
                         name=cv_term.name,
                         accession=cv_term.accession,
                         source=cv_term.source,
+                        group="characteristic-type",
                     )
                 created_characteristics[name] = characteristic_type
                 key = characteristic_type.accession or characteristic_type.name
@@ -1139,6 +1141,7 @@ class MhdDatasetBuilder_v1_0:
                     name=term.name,
                     accession=term.accession,
                     source=term.source,
+                    group="characteristic-type",
                 )
                 characteristics_map[term.accession or term.name] = characteristic_type
                 mhd_builder.add(
@@ -1394,6 +1397,8 @@ class MhdDatasetBuilder_v1_0:
         name: None | str = "",
         value: None | str = None,
         unit: None | UnitCvTerm = None,
+        group: None | str = None,
+        unit_group: None | str = None,
     ):
         item = self.otc.create_cv_term_value_object(
             type_=type_,
@@ -1402,6 +1407,8 @@ class MhdDatasetBuilder_v1_0:
             name=name,
             value=value,
             unit=unit,
+            group=group,
+            unit_group=unit_group,
         )
         if item:
             item_list.append(item)
@@ -1481,6 +1488,7 @@ class MhdDatasetBuilder_v1_0:
                                 source=source_ref,
                                 accession=iri,
                                 name=val,
+                                group=name_prefix,
                             )
                         )
                 elif index + 1 < len(columns) and columns[index + 1].startswith(
@@ -1509,6 +1517,8 @@ class MhdDatasetBuilder_v1_0:
                             source=source_ref,
                             accession=iri,
                             name=val,
+                            group=name_prefix,
+                            unit_group="unit",
                         )
 
                 elif index + 1 < len(columns) and columns[index + 1].startswith("Unit"):
@@ -1530,7 +1540,7 @@ class MhdDatasetBuilder_v1_0:
                     sources = source.split(";")
                     accessions = accession.split(";")
                     names = name.split(";")
-                    units = unit.split()
+                    units = unit.split(";")
                     item = []
                     for i, val in enumerate(names):
                         if not val:
@@ -1541,29 +1551,41 @@ class MhdDatasetBuilder_v1_0:
                             if len(accessions) > i
                             else ""
                         )
-                        suggested_unit_cv_term = self.cv_term_suggestion.match_cv_term(
-                            cv_term=CvTerm(
-                                source=source_ref,
-                                accession=iri,
-                                name=units[i] if len(units) > i else "",
-                            ),
-                            group="unit",
-                        )
-                        if suggested_unit_cv_term:
-                            unit = suggested_unit_cv_term
-                        else:
-                            unit = UnitCvTerm(name=units[i] if len(units) > i else "")
-                            if not unit.name:
+                        suggested = None
+                        if source_ref and iri:
+                            suggested = self.cv_term_suggestion.match_cv_term(
+                                cv_term=CvTerm(
+                                    source=source_ref,
+                                    accession=iri,
+                                    name=units[i] if len(units) > i else "",
+                                ),
+                            )
+                            if suggested:
+                                unit = UnitCvTerm.model_validate(
+                                    suggested.model_dump(by_alias=True)
+                                )
+
+                        if not suggested:
+                            name = units[i] if len(units) > i else ""
+                            if name:
+                                unit = UnitCvTerm(name=name)
+                            else:
                                 unit = None
                         self.append_cv_term_value_object(
                             item_list=item,
                             type_=object_name,
                             value=val,
                             unit=unit,
+                            group=name_prefix,
+                            unit_group="unit",
                         )
                 else:
                     item = self.otc.create_cv_term_object(
-                        type_=object_name, name=name, accession="", source=""
+                        type_=object_name,
+                        name=name,
+                        accession="",
+                        source="",
+                        group="not-defined",
                     )
                 if item:
                     if not isinstance(item, list):
@@ -1609,6 +1631,7 @@ class MhdDatasetBuilder_v1_0:
             source="NCIT",
             accession="NCIT:C25390",
             name="Index",
+            group="index",
         )
         if index_number_node.id_ not in mhd_builder.objects:
             mhd_builder.add(index_number_node)
@@ -2000,6 +2023,7 @@ class MhdDatasetBuilder_v1_0:
                                 name=x.term.lower(),
                                 accession=x.term_accession_number or "",
                                 source=x.term_source_ref or "",
+                                group="parameter-type",
                             )
                         else:
                             definition_type = self.otc.create_cv_term_object(
@@ -2007,6 +2031,7 @@ class MhdDatasetBuilder_v1_0:
                                 name=param_cv.name,
                                 accession=param_cv.accession,
                                 source=param_cv.source,
+                                group="parameter-type",
                             )
 
                         mhd_builder.add(
@@ -2089,6 +2114,7 @@ class MhdDatasetBuilder_v1_0:
                     )
                     or "",
                     name=protocol_type.name or "",
+                    group="protocol-type",
                 )
                 mhd_builder.add(
                     protocol_type_obj,
@@ -2145,6 +2171,7 @@ class MhdDatasetBuilder_v1_0:
                 )
                 or "",
                 name=item.term or "",
+                group="keyword",
             )
             if not keyword:
                 continue
@@ -2229,6 +2256,7 @@ class MhdDatasetBuilder_v1_0:
                         )
                         or "",
                         name=term or "",
+                        group="assay-descriptor",
                     )
                     if not keyword:
                         continue
@@ -2270,6 +2298,7 @@ class MhdDatasetBuilder_v1_0:
                 source="EDAM",
                 accession="EDAM:format_3987",
                 name="ZIP Format",
+                group="file-format",
             )
 
         folder = False
@@ -2298,6 +2327,7 @@ class MhdDatasetBuilder_v1_0:
                         accession=data_format.accession,
                         source=data_format.source,
                         name=data_format.name,
+                        group="file-format",
                     )
                     if data_format_node:
                         cv_nodes[data_format_node.accession] = data_format_node
@@ -2511,6 +2541,7 @@ class MhdDatasetBuilder_v1_0:
             source="NCIT",
             accession="NCIT:C127787",
             name="Total Number",
+            group="index",
         )
         mhd_builder.add(total_number_node)
 
@@ -2719,6 +2750,7 @@ class MhdDatasetBuilder_v1_0:
                     source=technology_type_cv.source,
                     accession=technology_type_cv.accession,
                     name=technology_type_cv.name,
+                    group="technology-type",
                 )
             else:
                 technology_type = self.otc.create_cv_term_object(
@@ -2729,6 +2761,7 @@ class MhdDatasetBuilder_v1_0:
                         assay_summary.isa_assay.technology_type.term_accession_number,
                     ),
                     name=assay_summary.isa_assay.technology_type.term,
+                    group="technology-type",
                 )
 
             mhd_builder.add(
@@ -2748,6 +2781,7 @@ class MhdDatasetBuilder_v1_0:
                     source=assay_type_cv.source,
                     accession=assay_type_cv.accession,
                     name=assay_type_cv.name,
+                    group="assay-type",
                 )
                 mhd_builder.add(
                     assay_type,
@@ -2786,6 +2820,7 @@ class MhdDatasetBuilder_v1_0:
                             source=v.source,
                             accession=v.accession,
                             name=v.name,
+                            group="omics-type",
                         )
                     break
             design_types = inv_study.study_design_descriptors.design_types
@@ -2821,6 +2856,7 @@ class MhdDatasetBuilder_v1_0:
                 source=selected_measurement_type.source,
                 accession=selected_measurement_type.accession,
                 name=selected_measurement_type.name,
+                group="measurement-type",
             )
             mhd_builder.add(
                 measurement_type,
@@ -2839,6 +2875,7 @@ class MhdDatasetBuilder_v1_0:
                 source=selected_omics_type.source,
                 accession=selected_omics_type.accession,
                 name=selected_omics_type.name,
+                group="omics-type",
             )
             mhd_builder.add(
                 omics_type,
