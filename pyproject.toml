@@ -19,7 +19,7 @@ dependencies = [
     "urllib3>=2.8.0",
     "soupsieve>=3.0.4",
     "greenlet>=3.5.6",
-    "mhd-model>=1.0.12",
+    "mhd-model>=1.0.19",
 ]
 
 [project.urls]

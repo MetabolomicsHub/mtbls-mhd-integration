@@ -12,7 +12,7 @@ from mhd_model.model.definitions import (
     MHD_MODEL_V1_0_DEFAULT_SCHEMA_NAME,
     MHD_MODEL_V1_0_LEGACY_PROFILE_NAME,
 )
-from mhd_model.validation import select_cv_term_helper
+from mhd_model.shared.validation.utils import select_cv_term_helper
 
 from mtbls2mhd.commands.fetch_mtbls_study import fetch_mtbls_data
 from mtbls2mhd.config import ConfigurationFile, Mtbls2MhdConfiguration
@@ -76,6 +76,13 @@ logger = logging.getLogger(__name__)
     help="Path to the ontology lookup SQLite database (defaults to the configured database). "
     "If it is not provided, default ontology search service (OLS) will be used.",
 )
+@click.option(
+    "--ontology-lookup-service-url",
+    default=None,
+    show_default=True,
+    help="Ontology lookup service URL "
+    "If it is not provided, default ontology search service (OLS) will be used.",
+)
 def create_mhd_legacy_file_task(
     mtbls_study_id: str,
     output_dir: str,
@@ -84,6 +91,7 @@ def create_mhd_legacy_file_task(
     mtbls_ws_url: str,
     mtbls_model_file_path: None | str = None,
     ontology_lookup_db_path: None | str = None,
+    ontology_lookup_service_url: None | str = None,
 ):
     """Convert a MetaboLights study to an MHD file using the Legacy profile.
 
@@ -110,7 +118,13 @@ def create_mhd_legacy_file_task(
             click.echo("config file is not defined")
             sys.exit(1)
     ontology_lookup_db_path = ontology_lookup_db_path or config.ontology.local_db_path
-    cv_term_helper = select_cv_term_helper(db_path=ontology_lookup_db_path)
+    ontology_lookup_service_url = (
+        ontology_lookup_service_url or config.ontology.ontology_lookup_service_url
+    )
+    cv_term_helper = select_cv_term_helper(
+        db_path=ontology_lookup_db_path,
+        ontology_lookup_service_url=ontology_lookup_service_url,
+    )
 
     factory = Mtbls2MhdConvertorFactory()
     mtbls2mhd_config = Mtbls2MhdConfiguration(
@@ -130,6 +144,7 @@ def create_mhd_legacy_file_task(
         mtbls_auth_client_id=config.auth.client_id,
         mtbls_auth_client_secret=config.auth.client_secret,
         ontology_lookup_db_path=ontology_lookup_db_path,
+        ontology_lookup_service_url=ontology_lookup_service_url,
     )
     convertor = factory.get_convertor(
         target_mhd_model_schema_uri=schema_uri,

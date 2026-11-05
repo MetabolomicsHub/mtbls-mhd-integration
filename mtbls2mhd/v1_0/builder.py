@@ -39,7 +39,7 @@ from mhd_model.shared.dataset_builder import BaseMhDatasetProfile, MhDatasetBuil
 from mhd_model.shared.fields import DOI
 from mhd_model.shared.model import BaseMhdDataset, IdentifiableMhdModel
 from mhd_model.shared.validation.cv_term_helper import BaseCvTermHelper
-from mhd_model.validation import select_cv_term_helper
+from mhd_model.shared.validation.utils import select_cv_term_helper
 from pydantic import BaseModel, HttpUrl, InstanceOf, ValidationError
 
 from mtbls2mhd.commands.output_paths import resolve_output_file_path
@@ -245,7 +245,8 @@ class MhdDatasetBuilder_v1_0:
         self.cv_term_helper = cv_term_helper
         if not self.cv_term_helper:
             self.cv_term_helper = select_cv_term_helper(
-                db_path=self.config.ontology_lookup_db_path
+                db_path=self.config.ontology_lookup_db_path,
+                ontology_lookup_service_url=config.ontology_lookup_service_url,
             )
         self.cv_term_suggestion = CvTermSuggestion(
             ontology_lookup_file_path=config.ontology_lookup_db_path,

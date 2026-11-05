@@ -39,6 +39,7 @@ class Mtbls2MhdConfiguration(BaseModel):
     default_mhd_model_version: str = "1.0"
     mtbls_studies_root_path: None | str = None
     ontology_lookup_db_path: None | str = None
+    ontology_lookup_service_url: None | str = None
 
     use_label_for_invalid_cv_term: bool = False
     build_type: BuildType = BuildType.FULL_AND_CUSTOM_NODES
@@ -83,7 +84,8 @@ class KeycloakConfigiguration(BaseModel):
 
 
 class OntologyConfiguration(BaseModel):
-    local_db_path: str
+    local_db_path: None | str = None
+    ontology_lookup_service_url: None | str = None
 
 
 class ConfigurationFile(BaseModel):
