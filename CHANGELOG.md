@@ -1,3 +1,9 @@
+## v1.0.4 (2026-11-05)
+
+### Fix
+
+- ontology lookup service integration error
+
 ## v1.0.3 (2026-11-03)
 
 ### Fix
